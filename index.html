@@ -730,8 +730,15 @@ const splash     = document.getElementById('splash');
 const splashLogo = document.getElementById('splash-logo');
 const appEl      = document.getElementById('app');
 
+// Apparition douce du logo (opacity 0 → 1)
+requestAnimationFrame(() => {
+  splashLogo.style.opacity   = '1';
+  splashLogo.style.transform = 'translateY(0)';
+});
+
+// Fondu sortant après 5s
 setTimeout(() => {
-  splash.style.opacity = '0';
+  splash.style.opacity    = '0';
   splash.style.transition = 'opacity 1.2s ease';
   setTimeout(() => {
     splash.style.display = 'none';

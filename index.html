@@ -1079,6 +1079,7 @@ async function handleLoggedIn(user) {
     const firstName = profile?.full_name?.split(' ')[0] || '';
     document.getElementById('header-username').textContent =
       profile?.full_name?.toUpperCase() || '';
+    _currentUserName = profile?.full_name || user.email || 'Collaborateur';
     document.getElementById('dash-welcome-name').textContent =
       'Bonjour, ' + firstName + '.';
     showScreen('dashboard');
@@ -1286,6 +1287,7 @@ Génère un JSON sans balises markdown avec cette structure exacte :
 // ══════════════════════════════════════════════════════════════════
 //  DOCUMENTS — Upload & Tracabilité (Supabase Storage + DB)
 // ══════════════════════════════════════════════════════════════════
+let _currentUserName = '';
 const DOCS_BUCKET = 'uploads-collab';
 const DOCS_TABLE  = 'documents';
 

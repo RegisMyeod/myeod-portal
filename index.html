@@ -445,9 +445,12 @@
 
     /* Dashboard content */
     .dash-body {
-      padding: 3rem 2.5rem;
+      padding: 2rem 2.5rem;
       max-width: 1100px;
       margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 80px);
     }
     .dash-greeting {
       font-size: 0.7rem;
@@ -469,9 +472,11 @@
     .themes-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 1fr;
       gap: 1px;
       background: var(--gray-200);
       border: 1px solid var(--gray-200);
+      flex: 1;
     }
     @media (max-width: 640px) {
       .themes-grid { grid-template-columns: 1fr; }
@@ -611,11 +616,12 @@
       <div class="client-icon">🔐</div>
       <h2 class="client-title">Espace Client</h2>
       <p class="client-body">
-        L'espace client MyEOD est en cours de déploiement.<br>
-        Il vous donnera accès à vos rapports RSiP, tableaux de bord<br>
-        Visual Intelligence et livrables de mission.
+        Accédez à vos livrables, rapports RSiP et tableaux de bord<br>
+        Visual Intelligence avec vos identifiants MyEOD.
       </p>
-      <span class="client-coming">Prochainement disponible</span>
+      <a href="client-login.html" style="display:inline-block;font-family:var(--font);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:10px 24px;background:#1a1a1a;color:#fff;text-decoration:none;transition:background .15s;margin-bottom:1rem;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='#1a1a1a'">→ Se connecter</a>
+      <br>
+      <span class="client-coming" style="margin-top:0.5rem">Espace en cours de déploiement</span>
     </div>
   </div>
 
@@ -839,9 +845,11 @@ document.getElementById('btn-change-pwd')?.addEventListener('click', async () =>
 document.getElementById('btn-logout').addEventListener('click', async () => {
   await sb.auth.signOut();
   sessionStorage.clear();
-  showScreen('landing-screen');
+  // Remettre le login vide mais rester sur la landing sans splash
   document.getElementById('login-email').value = '';
   document.getElementById('login-password').value = '';
+  document.getElementById('login-error').textContent = '';
+  showScreen('landing-screen');
 });
 
 // ══════════════════════════════════════════════════════════════

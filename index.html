@@ -22,7 +22,8 @@
       --font: 'Arial Narrow', Arial, sans-serif;
     }
 
-    html, body {
+    html, html, body { width: 100%; }
+    body {
       height: 100%;
       font-family: var(--font);
       background: var(--white);
@@ -58,6 +59,7 @@
     /* ── MAIN APP ─────────────────────────────────────────────────── */
     #app {
       display: none;
+      width: 100%;
       height: 100vh;
       overflow-y: auto;
     }
@@ -66,6 +68,7 @@
 
     /* ── LANDING SCREEN ──────────────────────────────────────────────── */
     #landing-screen {
+      width: 100%;
       position: fixed; inset: 0;
       background: #fff;
       display: flex; flex-direction: column;
@@ -272,6 +275,7 @@
     /* ── LOGIN SCREEN ─────────────────────────────────────────────── */
     #login-screen {
       min-height: 100vh;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -368,6 +372,7 @@
 
     /* ── CHANGE PASSWORD SCREEN ───────────────────────────────────── */
     #change-pwd-screen {
+      width: 100%;
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -389,6 +394,7 @@
     /* ── DASHBOARD ────────────────────────────────────────────────── */
     #dashboard {
       min-height: 100vh;
+      width: 100%;
       background: var(--white);
     }
     #dashboard.hidden { display: none; }
@@ -559,8 +565,8 @@
         <!-- Card 1 — Qui sommes-nous -->
         <div class="landing-card" onclick="openModal('qui')">
           <p class="landing-card-num">01 —</p>
-          <h2 class="landing-card-title">Qui sommes-nous&nbsp;?</h2>
-          <p class="landing-card-desc">Notre mission, nos offres RSiP, Visual Intelligence et Staffing Augmenté.</p>
+          <h2 class="landing-card-title">Services</h2>
+          <p class="landing-card-desc">RSiP, Visual Intelligence, Staffing Augmenté, Marque Blanche &amp; Communication industrielle.</p>
           <span class="landing-card-arrow">→</span>
         </div>
 
@@ -869,7 +875,7 @@ async function loadQuiContent() {
   document.getElementById('qui-title').textContent = 'MyEOD — Expert on Demand';
 
   const prompt = `Génère un JSON sans balises markdown:
-{"tagline":"tagline 8-12 mots","intro":"3-4 phrases","mission":"2-3 phrases","offers":[{"title":"RSiP","desc":"2 phrases"},{"title":"Visual Intelligence","desc":"2 phrases"},{"title":"Staffing Augmenté","desc":"2 phrases"},{"title":"Marque Blanche","desc":"2 phrases"}],"refs":["MozLNG · TotalEnergies","Karish FPSO · TechnipEnergies","Arctic LNG 2","Ynception","SwissRenov","TPC2 Taiwan"]}
+{"tagline":"tagline 8-12 mots","intro":"3-4 phrases","mission":"2-3 phrases","offers":[{"title":"RSiP","desc":"2 phrases"},{"title":"Visual Intelligence","desc":"2 phrases"},{"title":"Staffing Augmenté","desc":"2 phrases"},{"title":"Marque Blanche","desc":"2 phrases"},{"title":"Communication industrielle","desc":"2 phrases"}],"refs":["MozLNG · TotalEnergies","Karish FPSO · TechnipEnergies","Arctic LNG 2","Ynception","SwissRenov","TPC2 Taiwan"]}
 
 MyEOD: intelligence offshore & industrielle, portée par IC (SAS Frontignan). Equipe: RMO, JMA, PPI, CHC.`;
 
@@ -897,7 +903,7 @@ MyEOD: intelligence offshore & industrielle, portée par IC (SAS Frontignan). Eq
   } catch(e) {
     document.getElementById('qui-content').innerHTML = `
       <p class="qui-body">MyEOD — intelligence offshore & industrielle, portée par Ingénieurs Créatifs (IC).</p>
-      <p class="qui-body">Offres : RSiP, Visual Intelligence, Staffing Augmenté, Marque Blanche.</p>
+      <p class="qui-body">Offres : RSiP, Visual Intelligence, Staffing Augmenté, Marque Blanche &amp; Communication industrielle et institutionnelle.</p>
       <p class="qui-body">Références : MozLNG (TotalEnergies), Karish FPSO, Arctic LNG 2, SwissRenov, TPC2 Taiwan.</p>`;
   }
 }

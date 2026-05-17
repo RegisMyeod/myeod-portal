@@ -76,17 +76,8 @@
     #landing-screen.fade-out { opacity: 0; pointer-events: none; }
     #landing-screen.hidden   { display: none; }
 
-    /* Watermark logo */
-    .landing-watermark {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      pointer-events: none; z-index: 0;
-    }
-    .landing-watermark img {
-      width: 70vw; max-width: 800px;
-      opacity: 0.04; filter: grayscale(1);
-      user-select: none;
-    }
+    /* Watermark logo — désactivé */
+    .landing-watermark { display: none !important; }
 
     /* Content on top of watermark */
     .landing-content {
@@ -98,8 +89,8 @@
 
     /* Small logo above tagline */
     .landing-logo {
-      height: 72px;
-      filter: brightness(0) saturate(100%);
+      width: 450px;
+      max-width: 90vw;
     }
 
     .landing-tagline {
@@ -201,7 +192,7 @@
 
     /* Qui sommes-nous content */
     .qui-wrap { max-width: 760px; width: 100%; }
-    .qui-logo  { height: 48px; margin-bottom: 2.5rem; filter: brightness(0); }
+    .qui-logo  { height: 48px; margin-bottom: 2.5rem; }
     .qui-section-tag {
       font-family: var(--font); font-size: 0.6rem;
       font-weight: 700; letter-spacing: 0.2em;

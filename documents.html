@@ -4,24 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MyEOD — Documents</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
 function closePage() {
-  // Si ouvert depuis un autre onglet, fermer. Sinon retourner au dashboard.
+  // Si la page a ete ouverte par script, tenter de fermer l'onglet.
+  try {
+    if (window.opener && !window.opener.closed) {
+      window.close();
+      return;
+    }
+  } catch (e) {
+    console.warn('Fermeture onglet non autorisee:', e);
+  }
+
+  // Sinon, revenir proprement au portail.
   if (window.history.length > 1 && document.referrer) {
-    window.close();
-    setTimeout(() => window.location.href = 'index.html', 300);
+    window.history.back();
   } else {
     window.location.href = 'index.html';
   }
 }
-
 </script>
 <script src="upload-widget.js" defer></script>
 <style>
 :root {
   --font: 'Arial Narrow', Arial, sans-serif;
   --mono: 'JetBrains Mono', monospace;
-  --gray-50: #f8f8f8; --gray-100: #f0f0f0; --gray-200: #e0e0e0;
+  --gray-50: #f8f8f8; --gray-100: #f0f0f0; --gray-200: #e0e0e0; --gray-300: #c8c8c8;
   --gray-400: #9a9a9a; --gray-600: #555;
   --gold: #b08a2a; --gold-dim: #8a6a1a;
   --green: #1e7a3a; --orange: #d4880a; --blue: #2a6099; --red: #c0392b;
@@ -193,7 +202,6 @@ body { background: #fff; color: #1a1a1a; font-family: var(--mono); font-size: 12
     <button class="btn-close" onclick="closePage()">✕ Fermer</button>
   </div>
 </header>
-</div>
 
 <!-- CONTENT -->
 <div class="content">
@@ -453,7 +461,9 @@ async function doLogout() {
 // Boot
 document.addEventListener('DOMContentLoaded', async function() {
   await loadDocs();
-  initUploadWidget();
+  if (typeof initUploadWidget === 'function') {
+    initUploadWidget();
+  }
 });
 </script>
 </body>

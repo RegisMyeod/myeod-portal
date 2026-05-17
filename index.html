@@ -521,7 +521,224 @@
       border-top: 1px solid var(--gray-100);
       margin-top: 4rem;
     }
-  </style>
+  
+    /* ══ DOCUMENTS SECTION ═══════════════════════════════════════ */
+    .docs-section {
+      max-width: 960px;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem 4rem;
+    }
+    .docs-section-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #1a1a1a;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .docs-section-title {
+      font-family: var(--font);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #1a1a1a;
+    }
+    .docs-section-sub {
+      font-size: 0.6rem;
+      color: var(--gray-400);
+      letter-spacing: 0.1em;
+    }
+
+    /* Drop zone */
+    .drop-zone {
+      border: 2px dashed var(--gray-200);
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: #1a1a1a;
+      background: var(--gray-50);
+    }
+    .drop-zone input[type=file] {
+      position: absolute; inset: 0;
+      opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .drop-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .drop-label {
+      font-family: var(--font);
+      font-size: 0.72rem; font-weight: 700;
+      color: #1a1a1a; letter-spacing: 0.06em;
+      margin-bottom: 0.3rem;
+    }
+    .drop-hint {
+      font-size: 0.62rem;
+      color: var(--gray-400);
+      letter-spacing: 0.08em;
+    }
+
+    /* Upload form */
+    .upload-form {
+      display: none;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .upload-form.show { display: flex; }
+    .upload-field { display: flex; flex-direction: column; gap: 4px; }
+    .upload-field label {
+      font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gray-400);
+    }
+    .upload-field select, .upload-field input, .upload-field textarea {
+      font-family: inherit; font-size: 0.72rem;
+      border: 1px solid var(--gray-200);
+      padding: 5px 9px;
+      background: #fff; color: #1a1a1a;
+      outline: none; min-width: 140px;
+    }
+    .upload-field select:focus, .upload-field input:focus {
+      border-color: #1a1a1a;
+    }
+    .upload-file-info {
+      font-size: 0.68rem; color: var(--gray-600);
+      font-weight: 700; display: flex; align-items: center; gap: 6px;
+    }
+    .upload-file-badge {
+      font-size: 0.6rem; padding: 2px 7px;
+      background: var(--gray-100); border: 1px solid var(--gray-200);
+      color: var(--gray-600);
+    }
+    .btn-upload-submit {
+      font-family: var(--font); font-size: 0.65rem;
+      font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 7px 18px;
+      background: #1a1a1a; color: #fff; border: none;
+      cursor: pointer; transition: background .15s;
+      white-space: nowrap;
+    }
+    .btn-upload-submit:hover { background: #333; }
+    .btn-upload-submit:disabled { background: var(--gray-300); cursor: not-allowed; }
+    .btn-upload-cancel {
+      font-family: var(--font); font-size: 0.65rem;
+      font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 7px 14px;
+      background: transparent; color: var(--gray-600);
+      border: 1px solid var(--gray-200); cursor: pointer;
+    }
+
+    /* Progress bar */
+    .upload-progress {
+      display: none; margin-bottom: 1rem;
+    }
+    .upload-progress.show { display: block; }
+    .upload-progress-bar {
+      height: 3px; background: var(--gray-100);
+    }
+    .upload-progress-fill {
+      height: 100%; background: #1a1a1a;
+      transition: width .3s ease; width: 0%;
+    }
+    .upload-progress-label {
+      font-size: 0.6rem; color: var(--gray-400);
+      letter-spacing: 0.08em; margin-top: 4px;
+    }
+
+    /* Filters */
+    .docs-filters {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+      margin-bottom: 1rem; align-items: center;
+    }
+    .docs-filters select, .docs-filters input {
+      font-family: inherit; font-size: 0.68rem;
+      border: 1px solid var(--gray-200);
+      padding: 4px 8px; background: #fff;
+      color: #1a1a1a; outline: none;
+    }
+    .docs-count {
+      font-size: 0.6rem; color: var(--gray-400);
+      letter-spacing: 0.1em; margin-left: auto;
+    }
+
+    /* Document list */
+    .docs-list { display: flex; flex-direction: column; gap: 6px; }
+    .doc-item {
+      display: grid;
+      grid-template-columns: 32px 1fr auto auto auto auto;
+      gap: 0 12px;
+      align-items: center;
+      padding: 10px 14px;
+      border: 1px solid var(--gray-200);
+      background: #fff;
+      transition: border-color .15s;
+    }
+    .doc-item:hover { border-color: var(--gray-400); }
+    .doc-item-icon { font-size: 1.2rem; text-align: center; }
+    .doc-item-info { min-width: 0; }
+    .doc-item-name {
+      font-size: 0.72rem; font-weight: 700; color: #1a1a1a;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .doc-item-meta {
+      font-size: 0.6rem; color: var(--gray-400);
+      margin-top: 2px; letter-spacing: 0.04em;
+    }
+    .doc-dept-badge {
+      font-size: 0.58rem; font-weight: 700;
+      padding: 2px 7px; letter-spacing: 0.1em; text-transform: uppercase;
+      border: 1px solid var(--gray-200); color: var(--gray-600);
+      white-space: nowrap;
+    }
+    .dept-Admin    { border-color: #2a6099; color: #2a6099; background: rgba(42,96,153,.06); }
+    .dept-BizDev   { border-color: #b08a2a; color: #8a6a1a; background: rgba(176,138,42,.06); }
+    .dept-Operations { border-color: #1e7a3a; color: #1e7a3a; background: rgba(30,122,58,.06); }
+    .dept-IT       { border-color: #7d3c98; color: #7d3c98; background: rgba(125,60,152,.06); }
+
+    .doc-status-sel {
+      font-family: inherit; font-size: 0.6rem;
+      font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      border: 1px solid var(--gray-200); padding: 2px 6px;
+      background: #fff; cursor: pointer; color: var(--gray-600);
+      outline: none;
+    }
+    .status-a_completer { border-color: var(--gray-300); color: var(--gray-500); }
+    .status-a_revoir    { border-color: #d4880a; color: #d4880a; background: rgba(212,136,10,.06); }
+    .status-a_approuver { border-color: #2a6099; color: #2a6099; background: rgba(42,96,153,.06); }
+    .status-approuve    { border-color: #1e7a3a; color: #1e7a3a; background: rgba(30,122,58,.06); }
+
+    .doc-dl-link {
+      font-size: 0.65rem; color: var(--gray-600);
+      text-decoration: none; padding: 3px 8px;
+      border: 1px solid var(--gray-200);
+      transition: border-color .15s, color .15s;
+      white-space: nowrap;
+    }
+    .doc-dl-link:hover { border-color: #1a1a1a; color: #1a1a1a; }
+
+    .docs-empty {
+      text-align: center; padding: 3rem;
+      font-size: 0.72rem; color: var(--gray-400);
+      letter-spacing: 0.1em; border: 1px dashed var(--gray-200);
+    }
+    .docs-loading {
+      text-align: center; padding: 2rem;
+      font-size: 0.65rem; color: var(--gray-400); letter-spacing: 0.12em;
+    }
+    @media (max-width: 640px) {
+      .doc-item { grid-template-columns: 28px 1fr auto; }
+      .doc-dept-badge, .doc-dl-link { display: none; }
+    }
+
+    </style>
 </head>
 <body>
 
@@ -694,6 +911,99 @@
         </div>
       </div>
     </div>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           DOCUMENTS — Zone upload collaborateurs
+      ═══════════════════════════════════════════════════════════ -->
+      <section class="docs-section" id="docs-section">
+
+        <div class="docs-section-hdr">
+          <div>
+            <p class="docs-section-title">Documents partagés</p>
+            <p class="docs-section-sub">Upload · Traçabilité · Validation</p>
+          </div>
+          <span class="docs-count" id="docs-count"></span>
+        </div>
+
+        <!-- Drop zone -->
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="file-input" accept=".docx,.xlsx,.pptx,.pdf,.jpg,.jpeg,.png" multiple>
+          <div class="drop-icon">📂</div>
+          <p class="drop-label">Glissez vos fichiers ici ou cliquez pour sélectionner</p>
+          <p class="drop-hint">DOCX · XLSX · PPTX · PDF · JPG · PNG — max 50 Mo par fichier</p>
+        </div>
+
+        <!-- Upload form (appears after file selection) -->
+        <div class="upload-form" id="upload-form">
+          <div class="upload-field">
+            <label>Fichier sélectionné</label>
+            <div class="upload-file-info">
+              <span id="upload-file-name">—</span>
+              <span class="upload-file-badge" id="upload-file-size">—</span>
+            </div>
+          </div>
+          <div class="upload-field">
+            <label>Département *</label>
+            <select id="upload-dept">
+              <option value="">— Choisir —</option>
+              <option value="Admin">Admin</option>
+              <option value="BizDev">BizDev</option>
+              <option value="Operations">Operations</option>
+              <option value="IT">IT</option>
+            </select>
+          </div>
+          <div class="upload-field">
+            <label>Statut initial *</label>
+            <select id="upload-status">
+              <option value="a_completer">À compléter</option>
+              <option value="a_revoir">À revoir</option>
+              <option value="a_approuver">À approuver</option>
+              <option value="approuve">Approuvé</option>
+            </select>
+          </div>
+          <div class="upload-field">
+            <label>Note (optionnel)</label>
+            <input type="text" id="upload-notes" placeholder="Contexte, version…" style="min-width:200px">
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-end">
+            <button class="btn-upload-submit" id="btn-upload-submit">⬆ Envoyer</button>
+            <button class="btn-upload-cancel" onclick="cancelUpload()">Annuler</button>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="upload-progress" id="upload-progress">
+          <div class="upload-progress-bar">
+            <div class="upload-progress-fill" id="upload-progress-fill"></div>
+          </div>
+          <p class="upload-progress-label" id="upload-progress-label">Envoi en cours…</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="docs-filters">
+          <select id="docs-filter-dept" onchange="renderDocs()">
+            <option value="">Tous les départements</option>
+            <option value="Admin">Admin</option>
+            <option value="BizDev">BizDev</option>
+            <option value="Operations">Operations</option>
+            <option value="IT">IT</option>
+          </select>
+          <select id="docs-filter-status" onchange="renderDocs()">
+            <option value="">Tous les statuts</option>
+            <option value="a_completer">À compléter</option>
+            <option value="a_revoir">À revoir</option>
+            <option value="a_approuver">À approuver</option>
+            <option value="approuve">Approuvé</option>
+          </select>
+          <input type="search" id="docs-filter-search" placeholder="Recherche…" oninput="renderDocs()" style="min-width:160px">
+        </div>
+
+        <!-- Document list -->
+        <div id="docs-list" class="docs-list">
+          <div class="docs-loading">⟳ Chargement…</div>
+        </div>
+
+      </section>
     <footer class="dash-footer">
       MyEOD · Expert on Demand · A brand represented by Ingénieurs Créatifs
     </footer>
@@ -772,6 +1082,7 @@ async function handleLoggedIn(user) {
     document.getElementById('dash-welcome-name').textContent =
       'Bonjour, ' + firstName + '.';
     showScreen('dashboard');
+    initDocsSection();
   }
 }
 
@@ -970,6 +1281,271 @@ Génère un JSON sans balises markdown avec cette structure exacte :
       <p class="qui-body">Références : MozLNG (TotalEnergies), Karish FPSO (TechnipEnergies), Arctic LNG 2, SwissRenov, TPC2 Taiwan.</p>`;
   }
 }
+
+
+// ══════════════════════════════════════════════════════════════════
+//  DOCUMENTS — Upload & Tracabilité (Supabase Storage + DB)
+// ══════════════════════════════════════════════════════════════════
+const DOCS_BUCKET = 'uploads-collab';
+const DOCS_TABLE  = 'documents';
+
+let _allDocs   = [];
+let _pendingFile = null;
+
+// ── File type helpers ──────────────────────────────────────────
+const FILE_ICONS = {
+  'pdf':'📄','docx':'📝','doc':'📝','xlsx':'📊','xls':'📊',
+  'pptx':'📊','ppt':'📊','jpg':'🖼','jpeg':'🖼','png':'🖼','gif':'🖼',
+};
+function fileIcon(name) {
+  const ext = name.split('.').pop().toLowerCase();
+  return FILE_ICONS[ext] || '📎';
+}
+function fmtSize(bytes) {
+  if (bytes < 1024) return bytes + ' o';
+  if (bytes < 1024*1024) return (bytes/1024).toFixed(0) + ' Ko';
+  return (bytes/1024/1024).toFixed(1) + ' Mo';
+}
+function fmtDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('fr-FR') + ' ' +
+         d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+}
+function statusLabel(s) {
+  return {a_completer:'À compléter', a_revoir:'À revoir',
+          a_approuver:'À approuver', approuve:'Approuvé'}[s] || s;
+}
+
+// ── Drop zone setup ────────────────────────────────────────────
+function initDropZone() {
+  const zone  = document.getElementById('drop-zone');
+  const input = document.getElementById('file-input');
+  if (!zone || !input) return;
+
+  input.addEventListener('change', () => {
+    if (input.files.length) handleFileSelected(input.files[0]);
+  });
+  zone.addEventListener('dragover', e => {
+    e.preventDefault(); zone.classList.add('drag-over');
+  });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault(); zone.classList.remove('drag-over');
+    if (e.dataTransfer.files.length) handleFileSelected(e.dataTransfer.files[0]);
+  });
+
+  document.getElementById('btn-upload-submit').addEventListener('click', doUpload);
+}
+
+function handleFileSelected(file) {
+  const MAX = 50 * 1024 * 1024;
+  if (file.size > MAX) {
+    alert('Fichier trop volumineux — maximum 50 Mo.'); return;
+  }
+  _pendingFile = file;
+  document.getElementById('upload-file-name').textContent = file.name;
+  document.getElementById('upload-file-size').textContent = fmtSize(file.size);
+  document.getElementById('upload-form').classList.add('show');
+  document.getElementById('upload-dept').value   = '';
+  document.getElementById('upload-status').value = 'a_completer';
+  document.getElementById('upload-notes').value  = '';
+}
+
+function cancelUpload() {
+  _pendingFile = null;
+  document.getElementById('upload-form').classList.remove('show');
+  document.getElementById('file-input').value = '';
+}
+
+// ── Upload to Supabase Storage + insert row in documents ───────
+async function doUpload() {
+  if (!_pendingFile) return;
+  const dept   = document.getElementById('upload-dept').value;
+  const status = document.getElementById('upload-status').value;
+  const notes  = document.getElementById('upload-notes').value.trim();
+
+  if (!dept) { alert('Veuillez sélectionner un département.'); return; }
+
+  const btn = document.getElementById('btn-upload-submit');
+  btn.disabled = true; btn.textContent = '⟳ Envoi…';
+
+  showUploadProgress(0, 'Préparation…');
+
+  try {
+    // Build storage path: dept/timestamp_filename
+    const ts   = Date.now();
+    const safe = _pendingFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const path = `${dept}/${ts}_${safe}`;
+
+    showUploadProgress(20, 'Envoi vers Supabase Storage…');
+
+    // Upload to Storage
+    const { data: storageData, error: storageErr } = await sb.storage
+      .from(DOCS_BUCKET)
+      .upload(path, _pendingFile, {
+        contentType: _pendingFile.type,
+        upsert: false,
+      });
+
+    if (storageErr) throw storageErr;
+
+    showUploadProgress(70, 'Enregistrement…');
+
+    // Get current user info
+    const { data: { session } } = await sb.auth.getSession();
+    const user = session?.user;
+
+    // Insert metadata row
+    const { error: dbErr } = await sb.from(DOCS_TABLE).insert({
+      filename:       _pendingFile.name,
+      storage_path:   path,
+      mime_type:      _pendingFile.type,
+      size_bytes:     _pendingFile.size,
+      department:     dept,
+      status:         status,
+      notes:          notes,
+      uploaded_by:    user?.id || null,
+      uploader_name:  _currentUserName || user?.email || 'Inconnu',
+      uploader_email: user?.email || '',
+    });
+
+    if (dbErr) throw dbErr;
+
+    showUploadProgress(100, '✓ Document envoyé');
+
+    setTimeout(() => {
+      hideUploadProgress();
+      cancelUpload();
+      loadDocs();
+    }, 1200);
+
+  } catch(e) {
+    console.error('Upload error:', e);
+    hideUploadProgress();
+    alert('Erreur lors de l\u2019envoi : ' + e.message);
+    btn.disabled = false; btn.textContent = '⬆ Envoyer';
+  }
+}
+
+function showUploadProgress(pct, label) {
+  const wrap = document.getElementById('upload-progress');
+  wrap.classList.add('show');
+  document.getElementById('upload-progress-fill').style.width = pct + '%';
+  document.getElementById('upload-progress-label').textContent = label;
+}
+function hideUploadProgress() {
+  document.getElementById('upload-progress').classList.remove('show');
+}
+
+// ── Load documents from Supabase ───────────────────────────────
+async function loadDocs() {
+  try {
+    const { data, error } = await sb
+      .from(DOCS_TABLE)
+      .select('*')
+      .order('uploaded_at', { ascending: false });
+
+    if (error) throw error;
+    _allDocs = data || [];
+  } catch(e) {
+    console.warn('loadDocs error:', e.message);
+    _allDocs = [];
+  }
+  renderDocs();
+}
+
+// ── Change document status ─────────────────────────────────────
+async function changeDocStatus(id, newStatus) {
+  const { error } = await sb
+    .from(DOCS_TABLE)
+    .update({ status: newStatus })
+    .eq('id', id);
+  if (error) { console.error(error); return; }
+  const doc = _allDocs.find(d => d.id === id);
+  if (doc) doc.status = newStatus;
+  renderDocs();
+}
+
+// ── Get signed download URL ────────────────────────────────────
+async function downloadDoc(path, filename) {
+  const { data, error } = await sb.storage
+    .from(DOCS_BUCKET)
+    .createSignedUrl(path, 60);  // 60 seconds
+  if (error) { alert('Erreur lien : ' + error.message); return; }
+  const a = document.createElement('a');
+  a.href = data.signedUrl; a.download = filename;
+  a.click();
+}
+
+// ── Render document list ───────────────────────────────────────
+function renderDocs() {
+  const container = document.getElementById('docs-list');
+  const filterDept   = document.getElementById('docs-filter-dept')?.value  || '';
+  const filterStatus = document.getElementById('docs-filter-status')?.value || '';
+  const filterSearch = (document.getElementById('docs-filter-search')?.value || '').toLowerCase();
+
+  let docs = _allDocs.filter(d => {
+    if (filterDept   && d.department !== filterDept)   return false;
+    if (filterStatus && d.status     !== filterStatus) return false;
+    if (filterSearch && !d.filename.toLowerCase().includes(filterSearch)
+                     && !(d.uploader_name||'').toLowerCase().includes(filterSearch)
+                     && !(d.notes||'').toLowerCase().includes(filterSearch)) return false;
+    return true;
+  });
+
+  document.getElementById('docs-count').textContent =
+    docs.length + ' document' + (docs.length !== 1 ? 's' : '');
+
+  if (!docs.length) {
+    container.innerHTML = '<div class="docs-empty">Aucun document' +
+      (filterDept||filterStatus||filterSearch ? ' pour ces filtres' : ' — uploadez le premier ci-dessus') +
+      '</div>';
+    return;
+  }
+
+  const STATUS_OPTS = [
+    {v:'a_completer', l:'À compléter'},
+    {v:'a_revoir',    l:'À revoir'},
+    {v:'a_approuver', l:'À approuver'},
+    {v:'approuve',    l:'Approuvé'},
+  ];
+
+  container.innerHTML = docs.map(d => {
+    const opts = STATUS_OPTS.map(o =>
+      `<option value="${o.v}" ${d.status===o.v?'selected':''}>${o.l}</option>`
+    ).join('');
+    return `<div class="doc-item">
+      <div class="doc-item-icon">${fileIcon(d.filename)}</div>
+      <div class="doc-item-info">
+        <div class="doc-item-name" title="${d.filename}">${d.filename}</div>
+        <div class="doc-item-meta">
+          ${d.uploader_name||d.uploader_email||'?'} &nbsp;·&nbsp;
+          ${fmtDate(d.uploaded_at)} &nbsp;·&nbsp;
+          ${fmtSize(d.size_bytes||0)}
+          ${d.notes ? ' &nbsp;·&nbsp; 💬 ' + d.notes : ''}
+        </div>
+      </div>
+      <span class="doc-dept-badge dept-${d.department}">${d.department}</span>
+      <select class="doc-status-sel status-${d.status}"
+              onchange="changeDocStatus('${d.id}', this.value);
+                        this.className='doc-status-sel status-'+this.value"
+              title="Changer le statut">
+        ${opts}
+      </select>
+      <a class="doc-dl-link" href="#"
+         onclick="event.preventDefault();downloadDoc('${d.storage_path}','${d.filename}')">
+        ⬇ Télécharger
+      </a>
+    </div>`;
+  }).join('');
+}
+
+// ── Init docs section when dashboard shows ─────────────────────
+function initDocsSection() {
+  initDropZone();
+  loadDocs();
+}
+
 </script>
 </body>
 </html>

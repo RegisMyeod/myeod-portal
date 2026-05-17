@@ -696,6 +696,13 @@
           </div>
           <span class="theme-arrow">→</span>
         </div>
+        <div class="theme-card" onclick="openTheme('documents')">
+          <div>
+            <p class="theme-tag">05 —</p>
+            <h2 class="theme-title">Documents</h2>
+          </div>
+          <span class="theme-arrow">→</span>
+        </div>
       </div>
     </div>
       <footer class="dash-footer">
@@ -904,6 +911,7 @@ function openTheme(name) {
     bizdev:     'bizdev.html',
     it:         'it.html',
     operations: 'operations.html',
+    documents:  'documents.html',
   };
   const url = pages[name];
   if (url) { window.open(url, '_blank'); }

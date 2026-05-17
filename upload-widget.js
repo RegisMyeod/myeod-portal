@@ -29,17 +29,31 @@ const MIME_MAP = {
 let _sb = null;
 function getSb() {
   if (_sb) return _sb;
-  if (window.supabase && window._sbClient) return (_sb = window._sbClient);
+  // Réutiliser le client de la page principale si disponible
+  if (window._sbClient) return (_sb = window._sbClient);
+  // Créer un nouveau client si Supabase CDN est chargé
   if (window.supabase) {
     _sb = window.supabase.createClient(SB_URL, SB_ANON);
-    // Restaurer la session depuis sessionStorage si disponible
-    const t = sessionStorage.getItem('myeod_access_token');
-    const r = sessionStorage.getItem('myeod_refresh_token');
-    if (t) _sb.auth.setSession({ access_token: t, refresh_token: r || '' });
     return _sb;
   }
-  console.warn('Upload widget: Supabase non disponible');
+  console.warn('Upload widget: Supabase CDN non chargé');
   return null;
+}
+
+async function getSbWithSession() {
+  const sb = getSb();
+  if (!sb) return null;
+  // Restaurer la session depuis sessionStorage
+  const t = sessionStorage.getItem('myeod_access_token');
+  const r = sessionStorage.getItem('myeod_refresh_token');
+  if (t) {
+    try {
+      await sb.auth.setSession({ access_token: t, refresh_token: r || '' });
+    } catch(e) {
+      console.warn('Session restore failed:', e.message);
+    }
+  }
+  return sb;
 }
 
 // ── CSS ─────────────────────────────────────────────────────────
@@ -346,8 +360,8 @@ async function startUpload() {
   updateSendBtn();
   $('uw-prog').style.width = '0%';
 
-  const sb = getSb();
-  if (!sb) { alert('Connexion Supabase indisponible.'); _uploading = false; return; }
+  const sb = await getSbWithSession();
+  if (!sb) { alert('Supabase non disponible — vérifiez votre connexion.'); _uploading = false; return; }
 
   // Get user info
   let uploaderName  = sessionStorage.getItem('myeod_user_name')  || '';

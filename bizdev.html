@@ -142,6 +142,7 @@ input[type=search]{width:130px;color:var(--text);}
 #sync-st.err{background:rgba(192,57,43,.12);border:1px solid var(--red);color:#e74c3c;opacity:1;}
 #sync-st.hidden{opacity:0;}
 </style>
+  <script src="upload-widget.js" defer></script>
 </head>
 <body>
 <div id="hdr">
@@ -797,6 +798,14 @@ const _tlBtn=document.querySelector('.tlt-btn');if(_tlBtn)setTlType(_tlBtn,'meet
 else{document.getElementById('tl-fz').style.display='none';document.getElementById('tl-lz').style.display='block';}
 // ── Boot ──
 load();
+</script>
+
+<script>
+// Restore session
+document.addEventListener('DOMContentLoaded', function() {
+  const _t = sessionStorage.getItem('myeod_access_token');
+  initUploadWidget();
+});
 </script>
 </body>
 </html>

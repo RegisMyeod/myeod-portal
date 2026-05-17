@@ -177,6 +177,7 @@ input.tf{width:160px;color:#1a1a1a;}
 }
 
 </style>
+  <script src="upload-widget.js" defer></script>
 </head>
 <body>
 <!-- HEADER -->
@@ -911,6 +912,14 @@ function resetDocs(){
   render();
 }
 load();
+</script>
+
+<script>
+// Restore session
+document.addEventListener('DOMContentLoaded', function() {
+  const _t = sessionStorage.getItem('myeod_access_token');
+  initUploadWidget();
+});
 </script>
 </body>
 </html>

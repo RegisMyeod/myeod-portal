@@ -4,32 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MyEOD - Operations - Projets</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="upload-widget.js" defer></script>
 <script>
-const STORAGE_KEY = 'myeod_operations_projects_v2';
-const SB_URL = 'https://kewhxzitwdrnpsnzlihn.supabase.co';
-const SB_ANON = 'sb_publishable_owbl6MuPlOfMYAOPMxQ8Hg_deQuxLWi';
-const BUCKET = 'uploads-collab';
+const STORAGE_KEY = 'myeod_operations_projects_v1';
 
-const SECTION_DEFS = [
-  { key: 'documentation', label: 'Documentation', hint: 'Notes de cadrage, comptes-rendus, pieces client et documents de reference.' },
-  { key: 'planning', label: 'Planning', hint: 'Jalons, echeances, comites, points de synchronisation et dependances.' },
-  { key: 'ressources', label: 'Ressources', hint: 'Equipe MyEOD, interlocuteurs client, partenaires, experts et disponibilites.' },
-  { key: 'livrables', label: 'Livrables', hint: 'Versions, validations, responsables, dates de remise et commentaires.' },
-  { key: 'autres', label: 'Autres', hint: 'Risques, arbitrages, points ouverts et informations complementaires.' }
-];
-
-function makeSections() {
-  return SECTION_DEFS.reduce(function(acc, section) {
-    acc[section.key] = { notes: [], documents: [] };
-    return acc;
-  }, {});
-}
-
-const initialProjects = [
+const baseProjects = [
+  {
+    id: 'ops-template-000',
+    kind: 'template',
+    number: 'Projet 0',
+    status: 'Template',
+    client: '[Nom du client]',
+    country: '[Pays]',
+    projectNo: 'MYEOD-OPS-000',
+    phase: 'Modele a dupliquer',
+    desc1: '[Ligne 1 : contexte, besoin client et objectif operationnel.]',
+    desc2: '[Ligne 2 : livrables attendus, echeance ou point de vigilance.]',
+    contacts: [
+      { name: '[Nom contact]', role: '[Fonction]', email: '[email@client.com]', phone: '[+XX ...]' }
+    ],
+    sections: {
+      documentation: 'Dossier de cadrage, notes de reunion et pieces client a centraliser.',
+      planning: 'Jalons projet, echeances, comites et decisions attendues.',
+      ressources: 'Equipe MyEOD, interlocuteurs client, partenaires et experts mobilises.',
+      livrables: 'Livrables attendus, versions, validations et dates de remise.',
+      autres: 'Risques, points ouverts, arbitrages et commentaires libres.'
+    }
+  },
   {
     id: 'ops-001',
+    kind: 'virtual',
     number: 'Projet 1',
     status: 'Virtuel',
     client: 'Alpha Retail',
@@ -37,15 +40,22 @@ const initialProjects = [
     projectNo: 'MYEOD-OPS-001',
     phase: 'Cadrage',
     desc1: 'Diagnostic des flux magasins et siege pour reduire les temps de traitement.',
-    desc2: "Priorisation des irritants terrain et cadrage d'un plan d'amelioration court terme.",
+    desc2: 'Priorisation des irritants terrain et cadrage d\'un plan d\'amelioration court terme.',
     contacts: [
       { name: 'Claire Martin', role: 'Directrice operations', email: 'claire.martin@alpharetail.example', phone: '+33 6 12 34 56 78' },
       { name: 'Julien Moreau', role: 'Responsable transformation', email: 'julien.moreau@alpharetail.example', phone: '+33 6 98 76 54 32' }
     ],
-    sections: makeSections()
+    sections: {
+      documentation: 'Diagnostic initial, cartographie des flux, compte-rendus des ateliers terrain.',
+      planning: 'Cadrage S1-S2, ateliers metiers S3, restitution et feuille de route S4.',
+      ressources: 'Chef de projet MyEOD, expert operations retail, sponsor client et relais magasins.',
+      livrables: 'Cartographie des irritants, matrice de priorisation, plan d\'action 30/60/90 jours.',
+      autres: 'Point de vigilance : disponibilite des equipes magasins pendant les periodes commerciales fortes.'
+    }
   },
   {
     id: 'ops-002',
+    kind: 'virtual',
     number: 'Projet 2',
     status: 'Virtuel',
     client: 'Atlas Energy',
@@ -53,17 +63,22 @@ const initialProjects = [
     projectNo: 'MYEOD-OPS-002',
     phase: 'Organisation',
     desc1: 'Structuration du suivi fournisseurs et harmonisation des routines operations.',
-    desc2: "Mise en place d'indicateurs simples pour piloter delais, risques et arbitrages.",
+    desc2: 'Mise en place d\'indicateurs simples pour piloter delais, risques et arbitrages.',
     contacts: [
       { name: 'Youssef Benali', role: 'COO', email: 'youssef.benali@atlasenergy.example', phone: '+212 6 11 22 33 44' }
     ],
-    sections: makeSections()
+    sections: {
+      documentation: 'Contrats fournisseurs, tableau de bord existant, regles de validation et historiques incidents.',
+      planning: 'Analyse existant, definition des indicateurs, pilote de reporting puis ajustements.',
+      ressources: 'Expert supply chain, chef de projet operations, referent achats et controle de gestion.',
+      livrables: 'Modele de suivi fournisseurs, tableau KPI, rituel hebdomadaire et registre des risques.',
+      autres: 'Point ouvert : confirmer la source de donnees unique pour les delais fournisseurs.'
+    }
   }
 ];
 
-let projects = [];
+let customProjects = [];
 let activeProjectId = null;
-let sb = null;
 
 function closePage() {
   window.close();
@@ -73,95 +88,38 @@ function closePage() {
   }, 250);
 }
 
+function getAllProjects() {
+  return baseProjects.concat(customProjects);
+}
+
+function loadCustomProjects() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    customProjects = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(customProjects)) customProjects = [];
+  } catch (e) {
+    customProjects = [];
+  }
+}
+
+function saveCustomProjects() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(customProjects));
+}
+
 function escapeHtml(value) {
   return String(value || '').replace(/[&<>"']/g, function(ch) {
     return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
   });
 }
 
-function normalizeProject(project) {
-  const normalized = Object.assign({}, project);
-  normalized.contacts = Array.isArray(project.contacts) ? project.contacts : [];
-  normalized.sections = project.sections && typeof project.sections === 'object' ? project.sections : {};
-  SECTION_DEFS.forEach(function(section) {
-    const current = normalized.sections[section.key];
-    if (!current || typeof current === 'string') {
-      normalized.sections[section.key] = {
-        notes: current ? [{ id: 'legacy-' + section.key, text: String(current), createdAt: new Date().toISOString(), author: 'Import' }] : [],
-        documents: []
-      };
-    } else {
-      current.notes = Array.isArray(current.notes) ? current.notes : [];
-      current.documents = Array.isArray(current.documents) ? current.documents : [];
-    }
-  });
-  return normalized;
-}
-
-function loadProjects() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    const parsed = raw ? JSON.parse(raw) : null;
-    projects = Array.isArray(parsed) && parsed.length ? parsed.map(normalizeProject) : initialProjects.map(normalizeProject);
-  } catch (e) {
-    projects = initialProjects.map(normalizeProject);
-  }
-}
-
-function saveProjects() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
-}
-
-function findProject(id) {
-  return projects.find(function(project) { return project.id === id; });
-}
-
-function formatSize(bytes) {
-  const b = Number(bytes || 0);
-  if (!b) return '0 o';
-  if (b < 1024) return b + ' o';
-  if (b < 1048576) return Math.round(b / 1024) + ' Ko';
-  return (b / 1048576).toFixed(1) + ' Mo';
-}
-
-function formatDate(iso) {
-  if (!iso) return '-';
-  const d = new Date(iso);
-  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' +
-         d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-}
-
-function safePathPart(value) {
-  return String(value || 'sans-nom')
-    .normalize('NFD').replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-zA-Z0-9._-]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .toLowerCase() || 'sans-nom';
-}
-
-function currentAuthor() {
-  return sessionStorage.getItem('myeod_user_email') || 'Collaborateur MyEOD';
-}
-
-async function ensureSupabase() {
-  if (sb) return sb;
-  if (!window.supabase || !SB_URL || !SB_ANON) return null;
-  sb = window.supabase.createClient(SB_URL, SB_ANON);
-  const t = sessionStorage.getItem('myeod_access_token');
-  const r = sessionStorage.getItem('myeod_refresh_token');
-  if (t) {
-    try { await sb.auth.setSession({ access_token: t, refresh_token: r || '' }); }
-    catch(e) { console.warn('Session restore:', e.message); }
-  }
-  return sb;
-}
-
 function renderProjects() {
   const grid = document.getElementById('projects-grid');
   if (!grid) return;
+  const projects = getAllProjects();
   grid.innerHTML = projects.map(function(project) {
+    const cardClass = project.kind === 'template' ? 'template' : 'live';
     return [
-      '<article class="project-card live" tabindex="0" role="button" data-project-id="' + escapeHtml(project.id) + '">',
+      '<article class="project-card ' + cardClass + '" tabindex="0" role="button" data-project-id="' + escapeHtml(project.id) + '">',
       '<div class="project-topline">',
       '<p class="project-number">' + escapeHtml(project.number) + '</p>',
       '<span class="project-status">' + escapeHtml(project.status) + '</span>',
@@ -190,15 +148,44 @@ function renderProjects() {
 
 function updateCount() {
   const el = document.getElementById('ops-count');
+  const virtualCount = getAllProjects().filter(function(p) { return p.kind !== 'template'; }).length;
+  if (el) el.textContent = (virtualCount + 1) + ' projets - 1 template - ' + virtualCount + ' projets virtuels';
+}
+
+function copyTemplate() {
+  const template = [
+    'Projet 0 - TEMPLATE',
+    'Client: [Nom du client]',
+    'Pays: [Pays]',
+    'Numero de projet: MYEOD-OPS-000',
+    'Description ligne 1: [Contexte et objectif operationnel]',
+    'Description ligne 2: [Livrables, echeance ou point de vigilance]',
+    'Contacts: [Nom, fonction, email, telephone]'
+  ].join('\n');
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(template).then(function() {
+      showStatus('Template copie dans le presse-papiers.');
+    }).catch(function() {
+      showStatus('Copie impossible automatiquement. Template disponible dans Projet 0.');
+    });
+  } else {
+    showStatus('Template disponible dans Projet 0.');
+  }
+}
+
+function showStatus(message) {
+  const el = document.getElementById('copy-status');
   if (!el) return;
-  el.textContent = projects.length + ' projet' + (projects.length > 1 ? 's' : '') + ' operations';
+  el.textContent = message;
+  el.classList.add('visible');
+  setTimeout(function() { el.classList.remove('visible'); }, 2800);
 }
 
 function openNewProjectPopup() {
   const overlay = document.getElementById('project-popup');
   const form = document.getElementById('new-project-form');
   if (form) form.reset();
-  setFormStatus('');
   resetContacts();
   if (overlay) overlay.classList.add('open');
 }
@@ -274,10 +261,12 @@ function createProject(event) {
     setFormStatus('Merci de renseigner client, pays, numero de projet et les deux lignes de description.');
     return;
   }
-  const id = 'ops-' + Date.now();
+  const seq = customProjects.length + baseProjects.length;
+  const id = 'ops-custom-' + Date.now();
   const project = {
     id: id,
-    number: 'Projet ' + (projects.length + 1),
+    kind: 'virtual',
+    number: 'Projet ' + seq,
     status: 'Nouveau',
     client: client,
     country: country,
@@ -286,10 +275,16 @@ function createProject(event) {
     desc1: desc1,
     desc2: desc2,
     contacts: collectContacts(),
-    sections: makeSections()
+    sections: {
+      documentation: String(fd.get('documentation') || '').trim() || 'Documents de cadrage, notes, references et pieces client a ajouter.',
+      planning: String(fd.get('planning') || '').trim() || 'Planning projet a formaliser : jalons, comites, echeances et dependances.',
+      ressources: String(fd.get('ressources') || '').trim() || 'Ressources MyEOD, client et partenaires a confirmer.',
+      livrables: String(fd.get('livrables') || '').trim() || 'Livrables attendus, versions et validations a definir.',
+      autres: String(fd.get('autres') || '').trim() || 'Commentaires, risques, points ouverts et arbitrages.'
+    }
   };
-  projects.push(project);
-  saveProjects();
+  customProjects.push(project);
+  saveCustomProjects();
   renderProjects();
   closeNewProjectPopup();
   openProjectDetail(id);
@@ -301,7 +296,7 @@ function setFormStatus(message) {
 }
 
 function openProjectDetail(id) {
-  const project = findProject(id);
+  const project = getAllProjects().find(function(p) { return p.id === id; });
   if (!project) return;
   activeProjectId = id;
   const listView = document.getElementById('projects-list-view');
@@ -325,15 +320,21 @@ function closeProjectDetail() {
 function renderProjectDetail(project) {
   const target = document.getElementById('project-detail-content');
   if (!target) return;
-  const contacts = project.contacts && project.contacts.length ? project.contacts : [{ name: 'Aucun contact renseigne', role: '-', email: '-', phone: '-' }];
-  const sectionsHtml = SECTION_DEFS.map(function(section) {
-    return renderProjectSection(project, section);
+  const contacts = (project.contacts && project.contacts.length ? project.contacts : [{ name: 'Aucun contact renseigne', role: '-', email: '-', phone: '-' }]);
+  const sectionCards = [
+    ['Documentation', project.sections.documentation],
+    ['Planning', project.sections.planning],
+    ['Ressources', project.sections.ressources],
+    ['Livrables', project.sections.livrables],
+    ['Autres', project.sections.autres]
+  ].map(function(pair) {
+    return '<article class="section-card"><p class="section-title">' + escapeHtml(pair[0]) + '</p><p class="section-body">' + escapeHtml(pair[1]) + '</p></article>';
   }).join('');
 
   target.innerHTML =
     '<div class="detail-head">' +
       '<div><p class="page-kicker">Fiche identite projet</p><h1 class="page-title">' + escapeHtml(project.client) + '</h1></div>' +
-      '<button class="btn-ghost" onclick="closeProjectDetail()">&larr; Retour aux projets</button>' +
+      '<button class="btn-ghost" onclick="closeProjectDetail()">← Retour aux projets</button>' +
     '</div>' +
     '<div class="identity-grid">' +
       '<div class="identity-box"><span>Pays</span><strong>' + escapeHtml(project.country) + '</strong></div>' +
@@ -347,118 +348,7 @@ function renderProjectDetail(project) {
         return '<div class="contact-card"><strong>' + escapeHtml(c.name) + '</strong><span>' + escapeHtml(c.role) + '</span><span>' + escapeHtml(c.email) + '</span><span>' + escapeHtml(c.phone) + '</span></div>';
       }).join('') + '</div>' +
     '</section>' +
-    '<section class="rubrics-list">' + sectionsHtml + '</section>';
-}
-
-function renderProjectSection(project, section) {
-  const data = project.sections[section.key] || { notes: [], documents: [] };
-  const notesHtml = data.notes.length ? data.notes.map(function(note) {
-    return '<li><div><p>' + escapeHtml(note.text) + '</p><span>' + escapeHtml(note.author || '') + ' - ' + escapeHtml(formatDate(note.createdAt)) + '</span></div><button class="btn-link" onclick="deleteNote('' + escapeHtml(project.id) + '','' + escapeHtml(section.key) + '','' + escapeHtml(note.id) + '')">Supprimer</button></li>';
-  }).join('') : '<li class="empty-line">Aucune note pour le moment.</li>';
-
-  const docsHtml = data.documents.length ? data.documents.map(function(doc) {
-    const status = doc.status === 'uploaded' ? 'Upload Supabase' : 'Local';
-    const download = doc.storagePath ? '<button class="btn-link" onclick="downloadSectionDoc('' + escapeHtml(project.id) + '','' + escapeHtml(section.key) + '','' + escapeHtml(doc.id) + '')">Telecharger</button>' : '';
-    return '<li><div><p>' + escapeHtml(doc.name) + '</p><span>' + escapeHtml(formatSize(doc.size)) + ' - ' + status + ' - ' + escapeHtml(formatDate(doc.uploadedAt)) + (doc.error ? ' - ' + escapeHtml(doc.error) : '') + '</span></div><div class="doc-actions">' + download + '<button class="btn-link" onclick="deleteSectionDoc('' + escapeHtml(project.id) + '','' + escapeHtml(section.key) + '','' + escapeHtml(doc.id) + '')">Retirer</button></div></li>';
-  }).join('') : '<li class="empty-line">Aucun document attache a cette rubrique.</li>';
-
-  return '<article class="rubric-card" data-section="' + escapeHtml(section.key) + '">' +
-    '<div class="rubric-head"><div><p class="rubric-title">' + escapeHtml(section.label) + '</p><p class="rubric-hint">' + escapeHtml(section.hint) + '</p></div><span>' + data.notes.length + ' note' + (data.notes.length > 1 ? 's' : '') + ' - ' + data.documents.length + ' document' + (data.documents.length > 1 ? 's' : '') + '</span></div>' +
-    '<div class="rubric-columns">' +
-      '<div class="rubric-panel"><p class="rubric-subtitle">Notes</p><ul class="item-list">' + notesHtml + '</ul><textarea id="note-' + escapeHtml(section.key) + '" placeholder="Ajouter une note pour ' + escapeHtml(section.label.toLowerCase()) + '..."></textarea><button class="btn-secondary" onclick="addNote('' + escapeHtml(project.id) + '','' + escapeHtml(section.key) + '')">Enregistrer la note</button></div>' +
-      '<div class="rubric-panel"><p class="rubric-subtitle">Documents</p><ul class="item-list">' + docsHtml + '</ul><label class="upload-drop">Charger un ou plusieurs documents<input type="file" multiple onchange="attachFilesToSection('' + escapeHtml(project.id) + '','' + escapeHtml(section.key) + '', this)"></label><p class="upload-help">Les fichiers sont rattaches uniquement a la rubrique ' + escapeHtml(section.label) + ' de ce projet.</p></div>' +
-    '</div>' +
-  '</article>';
-}
-
-function addNote(projectId, sectionKey) {
-  const project = findProject(projectId);
-  const textarea = document.getElementById('note-' + sectionKey);
-  const text = textarea ? textarea.value.trim() : '';
-  if (!project || !text) return;
-  project.sections[sectionKey].notes.unshift({
-    id: 'note-' + Date.now(),
-    text: text,
-    author: currentAuthor(),
-    createdAt: new Date().toISOString()
-  });
-  saveProjects();
-  if (textarea) textarea.value = '';
-  renderProjectDetail(project);
-}
-
-function deleteNote(projectId, sectionKey, noteId) {
-  const project = findProject(projectId);
-  if (!project) return;
-  project.sections[sectionKey].notes = project.sections[sectionKey].notes.filter(function(note) { return note.id !== noteId; });
-  saveProjects();
-  renderProjectDetail(project);
-}
-
-async function attachFilesToSection(projectId, sectionKey, input) {
-  const project = findProject(projectId);
-  if (!project || !input || !input.files || !input.files.length) return;
-  const files = Array.from(input.files);
-  const client = await ensureSupabase();
-  for (const file of files) {
-    const doc = {
-      id: 'doc-' + Date.now() + '-' + Math.random().toString(16).slice(2),
-      name: file.name,
-      size: file.size,
-      type: file.type || 'application/octet-stream',
-      uploadedAt: new Date().toISOString(),
-      author: currentAuthor(),
-      status: 'local',
-      storagePath: null,
-      sectionKey: sectionKey,
-      projectId: projectId
-    };
-    if (client) {
-      const path = [
-        'operations',
-        safePathPart(project.projectNo),
-        safePathPart(sectionKey),
-        Date.now() + '-' + safePathPart(file.name)
-      ].join('/');
-      try {
-        const result = await client.storage.from(BUCKET).upload(path, file, { upsert: false, contentType: file.type || undefined });
-        if (result.error) throw result.error;
-        doc.status = 'uploaded';
-        doc.storagePath = path;
-      } catch (e) {
-        doc.error = e && e.message ? e.message : 'Upload Supabase indisponible';
-      }
-    } else {
-      doc.error = 'Upload Supabase indisponible sur cette page';
-    }
-    project.sections[sectionKey].documents.unshift(doc);
-  }
-  saveProjects();
-  input.value = '';
-  renderProjectDetail(project);
-}
-
-async function downloadSectionDoc(projectId, sectionKey, docId) {
-  const project = findProject(projectId);
-  if (!project) return;
-  const doc = (project.sections[sectionKey].documents || []).find(function(item) { return item.id === docId; });
-  if (!doc || !doc.storagePath) return;
-  const client = await ensureSupabase();
-  if (!client) return alert('Supabase indisponible.');
-  const result = await client.storage.from(BUCKET).createSignedUrl(doc.storagePath, 120);
-  if (result.error) return alert('Erreur lien : ' + result.error.message);
-  const a = document.createElement('a');
-  a.href = result.data.signedUrl;
-  a.download = doc.name;
-  a.click();
-}
-
-function deleteSectionDoc(projectId, sectionKey, docId) {
-  const project = findProject(projectId);
-  if (!project) return;
-  project.sections[sectionKey].documents = project.sections[sectionKey].documents.filter(function(doc) { return doc.id !== docId; });
-  saveProjects();
-  renderProjectDetail(project);
+    '<section class="sections-grid">' + sectionCards + '</section>';
 }
 
 function initHashRoute() {
@@ -466,16 +356,12 @@ function initHashRoute() {
   if (id) openProjectDetail(id);
 }
 
-document.addEventListener('DOMContentLoaded', async function() {
-  loadProjects();
+document.addEventListener('DOMContentLoaded', function() {
+  loadCustomProjects();
   renderProjects();
   resetContacts();
   const form = document.getElementById('new-project-form');
   if (form) form.addEventListener('submit', createProject);
-  await ensureSupabase();
-  if (typeof window.initUploadWidget === 'function') {
-    try { window.initUploadWidget(); } catch(e) { console.warn('Upload widget:', e.message); }
-  }
   initHashRoute();
 });
 </script>
@@ -492,7 +378,11 @@ document.addEventListener('DOMContentLoaded', async function() {
   --gray-400: #9a9a9a;
   --gray-500: #777777;
   --gray-600: #555555;
+  --gold: #b08a2a;
+  --gold-dim: #8a6a1a;
   --green: #1e7a3a;
+  --blue: #2a6099;
+  --orange: #d4880a;
   --radius: 2px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -541,6 +431,8 @@ body {
 .btn-close:hover, .btn-secondary:hover, .btn-ghost:hover { border-color: #1a1a1a; color: #1a1a1a; }
 .btn-copy { border-color: #1a1a1a; background: #1a1a1a; color: #fff; }
 .btn-copy:hover { background: #333; border-color: #333; }
+.btn-secondary { background: #fff; }
+.btn-ghost { background: #fff; }
 .close-status { font-family: var(--font); font-size: 0.62rem; color: var(--gray-400); }
 .content { max-width: 1120px; margin: 0 auto; padding: 2rem 2.5rem 4rem; }
 .page-hdr {
@@ -568,17 +460,22 @@ body {
   letter-spacing: 0.03em;
   text-transform: uppercase;
 }
-.page-subtitle { max-width: 500px; color: var(--gray-500); font-size: 0.7rem; text-align: right; }
+.page-subtitle { max-width: 440px; color: var(--gray-500); font-size: 0.7rem; text-align: right; }
 .ops-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
 .ops-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: flex-end; }
 .ops-count { font-family: var(--font); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-400); }
+.copy-status { min-height: 1.3em; font-family: var(--font); font-size: 0.66rem; letter-spacing: 0.08em; color: var(--green); opacity: 0; transition: opacity .2s; }
+.copy-status.visible { opacity: 1; }
 .projects-grid { display: grid; grid-template-columns: repeat(2, minmax(260px, 1fr)); gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200); }
 .project-card { background: var(--white); min-height: 218px; padding: 1.55rem; display: flex; flex-direction: column; position: relative; overflow: hidden; transition: background .18s; cursor: pointer; }
 .project-card:hover, .project-card:focus { background: var(--gray-50); outline: none; }
-.project-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #1a1a1a; }
+.project-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--gray-200); }
+.project-card.template::before { background: var(--gold); }
+.project-card.live::before { background: #1a1a1a; }
 .project-topline { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.1rem; }
 .project-number { font-family: var(--font); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray-400); }
 .project-status { font-family: var(--font); font-size: 0.56rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-500); border: 1px solid var(--gray-200); padding: 2px 7px; white-space: nowrap; }
+.project-card.template .project-status { border-color: rgba(176,138,42,.35); color: var(--gold-dim); background: rgba(176,138,42,.06); }
 .project-client { font-family: var(--font); font-size: 1.15rem; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 0.75rem; }
 .project-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 1.05rem; }
 .meta-box { border: 1px solid var(--gray-100); padding: 0.55rem 0.65rem; background: rgba(248,248,248,.45); }
@@ -625,38 +522,21 @@ body {
 .contact-card { background: #fff; padding: 1rem; display: grid; gap: .2rem; }
 .contact-card strong { font-family: var(--font); font-size: .85rem; }
 .contact-card span { color: var(--gray-500); font-size: .68rem; }
-.rubrics-list { display: grid; gap: 1rem; margin-top: 1.2rem; }
-.rubric-card { border: 1px solid var(--gray-200); background: #fff; }
-.rubric-head { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem; border-bottom: 1px solid var(--gray-100); }
-.rubric-head > span { font-family: var(--font); font-size: .58rem; color: var(--gray-400); text-transform: uppercase; letter-spacing: .12em; white-space: nowrap; }
-.rubric-title { font-family: var(--font); font-size: .78rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
-.rubric-hint { color: var(--gray-500); font-size: .68rem; margin-top: .25rem; }
-.rubric-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--gray-200); }
-.rubric-panel { background: #fff; padding: 1rem; }
-.rubric-subtitle { font-family: var(--font); font-size: .64rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gray-500); margin-bottom: .6rem; }
-.item-list { list-style: none; display: grid; gap: .5rem; margin-bottom: .7rem; }
-.item-list li { border: 1px solid var(--gray-100); padding: .7rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
-.item-list li p { color: #1a1a1a; font-size: .7rem; line-height: 1.55; }
-.item-list li span { display: block; color: var(--gray-400); font-size: .58rem; margin-top: .2rem; }
-.item-list .empty-line { color: var(--gray-400); font-family: var(--font); font-size: .68rem; display: block; }
-.rubric-panel textarea { width: 100%; min-height: 92px; border: 1px solid var(--gray-200); resize: vertical; padding: .75rem; font-family: var(--font); font-size: .78rem; outline: none; line-height: 1.55; margin-bottom: .6rem; }
-.rubric-panel textarea:focus { border-color: #1a1a1a; }
-.upload-drop { display: block; border: 1px dashed var(--gray-300); padding: 1rem; text-align: center; font-family: var(--font); font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; color: var(--gray-500); }
-.upload-drop:hover { border-color: #1a1a1a; color: #1a1a1a; }
-.upload-drop input { display: none; }
-.upload-help { color: var(--gray-400); font-size: .62rem; margin-top: .5rem; }
-.doc-actions { display: flex; gap: .6rem; flex-wrap: wrap; justify-content: flex-end; }
+.sections-grid { display: grid; grid-template-columns: repeat(2, minmax(260px, 1fr)); gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200); margin-top: 1rem; }
+.section-card { background: #fff; padding: 1.15rem; min-height: 130px; }
+.section-title { font-family: var(--font); font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-bottom: .6rem; }
+.section-body { color: var(--gray-600); font-size: .7rem; line-height: 1.65; }
 @media (max-width: 760px) {
   .myeod-header { padding: .9rem 1rem; }
   .myeod-header-logo { height: 54px; }
   .myeod-header-label { display: none; }
   .content { padding: 1.3rem 1rem 3rem; }
-  .page-hdr, .detail-head, .rubric-head { display: block; }
+  .page-hdr, .detail-head { display: block; }
   .page-subtitle { text-align: left; margin-top: .85rem; }
   .ops-toolbar, .form-footer { align-items: stretch; flex-direction: column; }
   .ops-actions { justify-content: stretch; }
   .ops-actions button, .form-footer button { width: 100%; }
-  .projects-grid, .contacts-table, .form-grid, .contact-grid, .identity-grid, .rubric-columns { grid-template-columns: 1fr; }
+  .projects-grid, .sections-grid, .contacts-table, .form-grid, .contact-grid, .identity-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -677,19 +557,23 @@ body {
         <p class="page-kicker">Portail collaborateurs</p>
         <h1 class="page-title" id="ops-title">Operations</h1>
       </div>
-      <p class="page-subtitle">Espace de pilotage des projets operations. Chaque projet ouvre une fiche dediee avec notes et documents attaches par rubrique.</p>
+      <p class="page-subtitle">Espace de pilotage des projets operations. Le projet 0 sert de template, puis deux projets virtuels structurent la premiere landing.</p>
     </section>
 
     <div class="ops-toolbar">
-      <p class="ops-count" id="ops-count">2 projets operations</p>
+      <div>
+        <p class="ops-count" id="ops-count">3 projets - 1 template - 2 projets virtuels</p>
+        <p class="copy-status" id="copy-status" aria-live="polite"></p>
+      </div>
       <div class="ops-actions">
-        <button class="btn-copy" onclick="openNewProjectPopup()">Nouveau projet</button>
+        <button class="btn-secondary" onclick="openNewProjectPopup()">Nouveau projet</button>
+        <button class="btn-copy" onclick="copyTemplate()">Copier le template projet 0</button>
       </div>
     </div>
 
     <section class="projects-grid" id="projects-grid" aria-label="Liste des projets operations"></section>
 
-    <p class="note"><strong>Note :</strong> les rubriques Documentation, Planning, Ressources, Livrables et Autres apparaissent dans chaque fiche projet. Les notes et documents ajoutes sont rattaches a la rubrique selectionnee.</p>
+    <p class="note"><strong>Note :</strong> ces projets sont des placeholders. Le <strong>Projet 0</strong> sert de structure de reference pour creer rapidement de nouveaux projets operations avec les champs client, pays, numero de projet, contacts et rubriques projet.</p>
   </section>
 
   <section id="project-detail-view" class="hidden" aria-live="polite">
@@ -721,6 +605,14 @@ body {
         <button class="btn-secondary" type="button" onclick="addContactRow()">Ajouter contact</button>
       </div>
       <div id="contacts-list"></div>
+
+      <div class="form-grid">
+        <div class="field full"><label for="project-doc">Documentation</label><textarea id="project-doc" name="documentation" placeholder="Documents de cadrage, notes, pieces client..."></textarea></div>
+        <div class="field full"><label for="project-plan">Planning</label><textarea id="project-plan" name="planning" placeholder="Jalons, echeances, comites..."></textarea></div>
+        <div class="field full"><label for="project-res">Ressources</label><textarea id="project-res" name="ressources" placeholder="Equipe MyEOD, client, partenaires..."></textarea></div>
+        <div class="field full"><label for="project-deliv">Livrables</label><textarea id="project-deliv" name="livrables" placeholder="Livrables attendus, versions, validations..."></textarea></div>
+        <div class="field full"><label for="project-other">Autres</label><textarea id="project-other" name="autres" placeholder="Risques, points ouverts, commentaires..."></textarea></div>
+      </div>
 
       <div class="form-footer">
         <p class="form-status" id="project-form-status" aria-live="polite"></p>

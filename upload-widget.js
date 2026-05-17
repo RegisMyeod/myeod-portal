@@ -477,7 +477,7 @@ window.initUploadWidget = function(opts) {
 
   // Create trigger button and inject into header
   const targetEl = opts.headerEl || document.querySelector(
-    '#hdr, .hdr, .doc-header, .dash-header'
+    '.myeod-header, #hdr, .hdr, .doc-header, .dash-header'
   );
   if (targetEl && !document.getElementById('uw-trigger')) {
     const btn = document.createElement('button');

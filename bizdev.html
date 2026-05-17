@@ -379,8 +379,37 @@ const D=[{"id":1,"cat":"Projet actif","societe":"TPC2 / Taiwan","contact":"PPI �
 // ── STATE ──────────────────────────────────────────
 let prospects = [];
 let selId = null;
+let panelPrio = 3;
+let newPrio = 3;
+let tlType = 'meeting';
+let pFile = null;
+let delId = null;
+
+const FICHE_LABELS = {
+  'briefing_cadeler-260505-120213.html': 'Cadeler',
+  'myeod_visual_intelligence-260505-120213.html': 'Visual Intelligence',
+  'projet_mozlng-260505-120213.html': 'Mozambique LNG',
+  'projet_swissrenov-260505-120213.html': 'SwissRenov',
+  'projet_trion-260505-120213.html': 'Trion GoM'
+};
 
 // ── LOAD: show D immediately, sync Supabase in background ──
+
+// ── FICHE HELPERS ──────────────────────────────────────
+function updateFichePreview(){
+  const sel=document.getElementById('p-fi');
+  const prev=document.getElementById('p-fi-preview');
+  if(!sel||!prev)return;
+  const val=sel.value;
+  prev.innerHTML=val?`<span style="color:var(--teal)">✓ </span><span>${FICHE_LABELS[val]||val}</span>
+    <a href="${val}" target="_blank" style="color:var(--blue);margin-left:8px;font-size:9px;text-decoration:none">↗ Prévisualiser</a>`:'';
+}
+
+function openFicheFromPanel(){
+  const sel=document.getElementById('p-fi');
+  if(sel&&sel.value)window.open(sel.value,'_blank');
+}
+
 function load() {
   // Load from localStorage if available, else from default data D
   try {

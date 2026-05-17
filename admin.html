@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MyEOD — Admin Documents</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600&family=JetBrains+Mono:wght@300;400;500&display=swap');
@@ -421,11 +420,7 @@ input.tf{width:160px;color:#1a1a1a;}
 </div>
 <div id="sync-status" class="hidden"></div>
 <script>
-const SUPABASE_URL  = 'https://kewhxzitwdrnpsnzlihn.supabase.co';
-const SUPABASE_ANON = 'sb_publishable_owbl6MuPlOfMYAOPMxQ8Hg_deQuxLWi';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-const TABLE = 'admin_docs';
-(async()=>{const t=sessionStorage.getItem('myeod_access_token');const r=sessionStorage.getItem('myeod_refresh_token');if(t)await sb.auth.setSession({access_token:t,refresh_token:r||''});})();
+
 
 let _st;
 function showSync(state,msg){const el=document.getElementById('sync-status');el.className=state;el.textContent=msg;clearTimeout(_st);if(state==='ok')_st=setTimeout(()=>el.className='hidden',2500);}
@@ -448,7 +443,7 @@ const DEFAULT_DOCS = [
   owner:"CHC",statusFr:"done",statusEn:"done",refFr:"myeod_nda_interne_fr-260510-054921.docx",refEn:"myeod_nda_interne_en-260510-094939.docx",notes:"Template IC existant à adapter MyEOD"},
 {id:6,cat:"commercial",prio:1,name:"Master Service Agreement (MSA)",nameEn:"Master Service Agreement",icon:"📋",
   desc:"Contrat cadre de prestations MyEOD. Définit les conditions générales applicables à tous les SOW. Inclut : IP, confidentialité, responsabilités, résiliation.",
-  owner:"CHC",statusFr:"done",statusEn:"done",refFr:"myeod_msa_client_fr.docx"",refEn:"myeod_msa_client_en.docx"",notes:"À faire valider juridiquement"},
+  owner:"CHC",statusFr:"done",statusEn:"done",refFr:"myeod_msa_client_fr.docx",refEn:"myeod_msa_client_en.docx",notes:"À faire valider juridiquement"},
 {id:7,cat:"commercial",prio:1,name:"Statement of Work (SOW) Template",nameEn:"Statement of Work Template",icon:"📋",
   desc:"Template SOW spécifique à chaque mission. S'appuie sur le MSA. Définit : scope, livrables, jalons, ressources, durée, prix.",
   owner:"RMO + CHC",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:""},
@@ -586,43 +581,15 @@ const DEFAULT_DOCS = [
   owner:"CHC",statusFr:"done",statusEn:"na",refFr:"",refEn:"",notes:"EN N/A — document légal FR uniquement"}
 ]
 
-let docs=[],editId=null;
-
-async function load(){
-  showSync('syncing','⟳ Chargement…');
-  try{
-    const{data,error}=await sb.from(TABLE).select('*').order('doc_id');
-    if(error)throw error;
-    if(data&&data.length>0){docs=data.map(r=>JSON.parse(r.payload));showSync('ok','✓ Synchronisé');}
-    else{docs=JSON.parse(JSON.stringify(DEFAULT_DOCS));await seedSupabase();}
-  }catch(e){console.warn('Supabase:',e.message);docs=JSON.parse(JSON.stringify(DEFAULT_DOCS));showSync('err','✗ Hors ligne');}
-  render();
-}
-async function seedSupabase(){
-  showSync('syncing','⟳ Initialisation…');
-  const rows=DEFAULT_DOCS.map(d=>({doc_id:d.id,payload:JSON.stringify(d)}));
-  for(let i=0;i<rows.length;i+=20)await sb.from(TABLE).upsert(rows.slice(i,i+20),{onConflict:'doc_id'});
-  showSync('ok','✓ Base initialisée');
-}
-async function persistDoc(d){
-  showSync('syncing','⟳ Sauvegarde…');
-  const{error}=await sb.from(TABLE).upsert({doc_id:d.id,payload:JSON.stringify(d)},{onConflict:'doc_id'});
-  if(error){showSync('err','✗ '+error.message);return false;}
-  showSync('ok','✓ Sauvegardé');return true;
-}
-async function removeDoc(id){
-  showSync('syncing','⟳ Suppression…');
-  const{error}=await sb.from(TABLE).delete().eq('doc_id',id);
-  if(error){showSync('err','✗ '+error.message);return false;}
-  showSync('ok','✓ Supprimé');return true;
-}
+const SK_DOCS = 'myeod_docs_v3';
 
 const CAT_CONFIG = {
-  commercial: {label:'Documents Commerciaux',        icon:'🤝', color:'var(--teal)',   desc:'Proposals · NDA · MSA · SOW · Fiches services · Case studies'},
-  admin:      {label:'Documents Administratifs',     icon:'🏢', color:'var(--orange)', desc:'Contrats équipe · Convention IC · Procédures · Charte · HSE · Juridique'},
-  financier:  {label:'Documents Financiers',         icon:'💰', color:'var(--gold)',   desc:'Devis · Factures · CGV · Trésorerie · Grille tarifaire · Dépenses'},
-  rh:         {label:'RH & Consultants Externes',   icon:'👤', color:'var(--purple)', desc:'Dossiers consultants · HSE/BOSIET · Médical · Assurances · Suivi validités'},
+  commercial: {label:'Documents Commerciaux',    icon:'🤝', color:'var(--teal)',   desc:'Proposals · NDA · MSA · SOW · Fiches services · Case studies'},
+  admin:      {label:'Documents Administratifs', icon:'🏢', color:'var(--orange)', desc:'Contrats équipe · Convention IC · Procédures · Charte · HSE · Juridique'},
+  financier:  {label:'Documents Financiers',     icon:'💰', color:'var(--gold)',   desc:'Devis · Factures · CGV · Trésorerie · Grille tarifaire · Dépenses'},
+  rh:         {label:'RH & Consultants Externes',icon:'👤', color:'var(--purple)', desc:'Dossiers consultants · HSE/BOSIET · Médical · Assurances · Suivi validités'},
 };
+
 const PRIO_COLORS = {1:'var(--p1)',2:'var(--p2)',3:'var(--p3)'};
 
 const SL = {
@@ -632,6 +599,7 @@ const SL = {
   todo:     {label:'À créer',      cls:'ls-todo'},
   na:       {label:'N/A',          cls:'ls-na'},
 };
+
 const SL_EN = {
   done:     {label:'Existing ✓',   cls:'ls-done'},
   template: {label:'Template ✓',   cls:'ls-template'},
@@ -640,10 +608,44 @@ const SL_EN = {
   na:       {label:'N/A',          cls:'ls-na'},
 };
 
-// ── Completion helper ──
+let editId = null;
+
+
+let docs=[];
+
+function load(){
+  // Load from localStorage if available, else use DEFAULT_DOCS
+  try{
+    const saved = localStorage.getItem('myeod_admin_v1');
+    if(saved){docs=JSON.parse(saved);}
+    else{docs=JSON.parse(JSON.stringify(DEFAULT_DOCS));}
+  }catch(e){
+    docs=JSON.parse(JSON.stringify(DEFAULT_DOCS));
+  }
+  render();
+}
+
+function persistDoc(d){
+  // Update in docs array then save to localStorage
+  const i=docs.findIndex(x=>x.id===d.id);
+  if(i>=0)docs[i]=d; else docs.push(d);
+  try{localStorage.setItem('myeod_admin_v1',JSON.stringify(docs));}
+  catch(e){console.warn('localStorage:',e);}
+}
+
+function removeDoc(id){
+  docs=docs.filter(d=>d.id!==id);
+  try{localStorage.setItem('myeod_admin_v1',JSON.stringify(docs));}
+  catch(e){console.warn('localStorage:',e);}
+}
+
+function showSync(state,msg){ /* local mode */ }
+
+
 function isComplete(d){ return d.statusFr==='done'||d.statusFr==='template'||d.statusFr==='na'; }
 function isCompleteEn(d){ return d.statusEn==='done'||d.statusEn==='template'||d.statusEn==='na'; }
 function isFullyDone(d){ return isComplete(d) && isCompleteEn(d); }
+
 
 function filteredDocs(){
   const fs  = document.getElementById('f-search').value.toLowerCase();
@@ -845,7 +847,7 @@ function openAdd(){
   document.getElementById('modal-ov').classList.add('open');
 }
 function closeModal(){document.getElementById('modal-ov').classList.remove('open');}
-async function saveDoc(){
+function saveDoc(){
   const name=document.getElementById('doc-name').value.trim();
   if(!name){alert('Nom FR requis');return;}
   const d={
@@ -863,18 +865,17 @@ async function saveDoc(){
     icon:'📄',
   };
   if(editId){const i=docs.findIndex(x=>x.id===editId);if(i>=0)docs[i]=d;}else docs.push(d);
-  await persistDoc(d);closeModal();render();
+  persistDoc(d);closeModal();render();
 }
-async function deleteDoc(){
+function deleteDoc(){
   if(!editId||!confirm('Supprimer ce document ?'))return;
-  await removeDoc(editId);docs=docs.filter(d=>d.id!==editId);closeModal();render();
+  removeDoc(editId);docs=docs.filter(d=>d.id!==editId);closeModal();render();
 }
-async function resetDocs(){
-  if(!confirm('Réinitialiser tous les documents ?\nLes modifications Supabase seront écrasées.'))return;
-  showSync('syncing','⟳ Réinitialisation…');
-  await sb.from(TABLE).delete().gte('doc_id',0);
+function resetDocs(){
+  if(!confirm('Réinitialiser tous les documents ? Les modifications seront perdues.'))return;
   docs=JSON.parse(JSON.stringify(DEFAULT_DOCS));
-  await seedSupabase();render();
+  try{localStorage.setItem('myeod_admin_v1',JSON.stringify(docs));}catch(e){}
+  render();
 }
 load();
 </script>

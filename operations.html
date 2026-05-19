@@ -407,7 +407,7 @@ body {
 .myeod-header {
   background: var(--white);
   border-bottom: 1px solid var(--gray-200);
-  padding: 1.2rem 2.5rem;
+  padding:1rem 2.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -415,7 +415,7 @@ body {
   top: 0;
   z-index: 100;
 }
-.myeod-header-logo { height: 96px; }
+.myeod-header-logo { height:72px; }
 .myeod-header-right { display: flex; align-items: center; gap: 1rem; }
 .myeod-header-label {
   font-family: var(--font);
@@ -626,6 +626,70 @@ body {
 @media (max-width:600px) {
   .myeod-header { padding:0.9rem 1rem !important; }
   .myeod-header-logo { height:54px !important; }
+}
+
+
+/* Header dimensions lock — aligned with Admin / IT / BizDev */
+header.myeod-header.services-header {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  box-sizing:border-box !important;
+  width:100% !important;
+  height:105px !important;
+  min-height:105px !important;
+  max-height:105px !important;
+  padding:16px 40px !important;
+  border-bottom:1px solid var(--gray-200) !important;
+  background:var(--white) !important;
+  position:sticky !important;
+  top:0 !important;
+  z-index:100 !important;
+  flex-shrink:0 !important;
+  overflow:hidden !important;
+}
+header.myeod-header.services-header .myeod-header-logo {
+  display:block !important;
+  height:72px !important;
+  max-height:72px !important;
+  width:auto !important;
+  max-width:none !important;
+  object-fit:contain !important;
+}
+header.myeod-header.services-header .myeod-header-right {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:0.65rem !important;
+  margin-left:auto !important;
+  height:34px !important;
+}
+header.myeod-header.services-header .btn-nav-back {
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:34px !important;
+  min-width:34px !important;
+  height:34px !important;
+  min-height:34px !important;
+  max-height:34px !important;
+  padding:0 !important;
+  box-sizing:border-box !important;
+  line-height:1 !important;
+  font-size:0.9rem !important;
+}
+
+@media (max-width:600px) {
+  header.myeod-header.services-header {
+    height:83px !important;
+    min-height:83px !important;
+    max-height:83px !important;
+    padding:14px 16px !important;
+  }
+  header.myeod-header.services-header .myeod-header-logo {
+    height:54px !important;
+    max-height:54px !important;
+  }
 }
 
 </style>

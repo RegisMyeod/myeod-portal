@@ -10,7 +10,7 @@ function goBackToCollaborators() {
     sessionStorage.setItem('myeod_skip_intro', '1');
     sessionStorage.setItem('myeod_force_collaborators', '1');
   } catch (e) {}
-  window.location.href = 'index.html#collaborateurs';
+  window.location.href = 'acces-collaborateurs.html';
 }
 
 function goBackToAccessMenu() {
@@ -18,7 +18,7 @@ function goBackToAccessMenu() {
     sessionStorage.setItem('myeod_skip_intro', '1');
     sessionStorage.setItem('myeod_force_access_menu', '1');
   } catch (e) {}
-  window.location.href = 'index.html#access-menu';
+  window.location.href = 'index.html';
 }
 
 </script>
@@ -312,7 +312,7 @@ body{ background:#fff; color:#1a1a1a; font-family:var(--mono); font-size:12px; l
 
 <script>
 function goBackToPreviousPage() {
-  const fallback = 'index.html#collaborateurs';
+  const fallback = 'acces-collaborateurs.html';
 
   try {
     if (window.history.length > 1) {

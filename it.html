@@ -4,45 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MyEOD — IT · Gestion des accès</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-function goBackToCollaborators() {
-  try {
-    sessionStorage.setItem('myeod_skip_intro', '1');
-    sessionStorage.setItem('myeod_force_collaborators', '1');
-  } catch (e) {}
-  window.location.href = 'acces-collaborateurs.html';
-}
-
-function goBackToAccessMenu() {
-  try {
-    sessionStorage.setItem('myeod_skip_intro', '1');
-    sessionStorage.setItem('myeod_force_access_menu', '1');
-  } catch (e) {}
-  window.location.href = 'index.html';
-}
-
-</script>
-<script>
-function closePage() {
-  // Fermer l'onglet courant. Les navigateurs peuvent bloquer window.close()
-  // si l'onglet n'a pas été ouvert par JavaScript.
-  try {
-    window.open('', '_self');
-    window.close();
-  } catch (e) {
-    console.warn('Fermeture de l\'onglet bloquée par le navigateur:', e);
-  }
-
-  // Fallback : si l'onglet reste ouvert, afficher une page neutre au lieu
-  // de revenir automatiquement vers le portail.
-  setTimeout(function() {
-    if (!window.closed) {
-      document.body.innerHTML = '<main style="min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:Arial Narrow,Arial,sans-serif;color:#777;letter-spacing:.12em;text-transform:uppercase;font-size:.72rem;text-align:center;">Vous pouvez maintenant fermer cet onglet.</main>';
-    }
-  }, 300);
-}
-</script>
-<script src="upload-widget.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
   --font:'Arial Narrow',Arial,sans-serif;
@@ -260,76 +222,102 @@ body{ background:#fff; color:#1a1a1a; font-family:var(--mono); font-size:12px; l
   .myeod-header-right { gap:0.6rem; }
   .myeod-header-label { display:none; }
 }
-
-/* Approved shared header navigation */
+/* Header approuve — modele Admin */
+:root {
+  --font:'Arial Narrow',Arial,sans-serif;
+  --gray-200:#e0e0e0;
+  --gray-600:#555;
+  --white:#ffffff;
+  --black:#0a0a0a;
+}
+.myeod-header {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  padding:1rem 2.5rem !important;
+  border-bottom:1px solid var(--gray-200) !important;
+  background:var(--white) !important;
+  position:sticky !important;
+  top:0 !important;
+  z-index:100 !important;
+  width:100% !important;
+  flex-shrink:0 !important;
+}
+.services-header {
+  position:sticky !important;
+  top:0 !important;
+  z-index:100 !important;
+  width:100% !important;
+  flex-shrink:0 !important;
+}
+.myeod-header-logo { height:72px !important; }
 .myeod-header-right {
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.65rem !important;
-  margin-left: auto !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:0.65rem !important;
+  margin-left:auto !important;
 }
 .btn-close,
 .btn-nav-back {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  height: 34px !important;
-  min-height: 34px !important;
-  box-sizing: border-box !important;
-  font-family: var(--font) !important;
-  font-size: 0.68rem !important;
-  font-weight: 700 !important;
-  line-height: 1 !important;
-  letter-spacing: 0.12em !important;
-  text-transform: uppercase !important;
-  color: var(--gray-600) !important;
-  background: none !important;
-  border: 1px solid var(--gray-200) !important;
-  border-radius: 2px !important;
-  gap: 5px !important;
-  padding: 0 0.9rem !important;
-  cursor: pointer !important;
-  text-decoration: none !important;
-  transition: border-color 0.2s, color 0.2s, background 0.2s !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  height:34px !important;
+  min-height:34px !important;
+  box-sizing:border-box !important;
+  font-family:var(--font) !important;
+  font-size:0.68rem !important;
+  font-weight:700 !important;
+  line-height:1 !important;
+  letter-spacing:0.12em !important;
+  text-transform:uppercase !important;
+  color:var(--gray-600) !important;
+  background:none !important;
+  border:1px solid var(--gray-200) !important;
+  border-radius:2px !important;
+  gap:5px !important;
+  padding:0 0.9rem !important;
+  cursor:pointer !important;
+  text-decoration:none !important;
+  transition:border-color 0.2s,color 0.2s,background 0.2s !important;
 }
 .btn-nav-back {
-  width: 34px !important;
-  min-width: 34px !important;
-  padding: 0 !important;
-  font-size: 0.9rem !important;
-  letter-spacing: 0 !important;
+  width:34px !important;
+  min-width:34px !important;
+  padding:0 !important;
+  font-size:0.9rem !important;
+  letter-spacing:0 !important;
 }
 .btn-close:hover,
 .btn-close:focus-visible,
 .btn-nav-back:hover,
 .btn-nav-back:focus-visible {
-  border-color: var(--black) !important;
-  color: var(--black) !important;
-  outline: none !important;
+  border-color:var(--black) !important;
+  color:var(--black) !important;
+  outline:none !important;
 }
-
+@media (max-width:600px) {
+  .myeod-header { padding:0.9rem 1rem !important; }
+  .myeod-header-logo { height:54px !important; }
+}
 </style>
-
 <script>
 function goBackToPreviousPage() {
   const fallback = 'acces-collaborateurs.html';
-
   try {
     if (window.history.length > 1) {
       window.history.back();
-
-      // Fallback if the browser refuses to navigate back
-      // or if the page was opened without a usable previous entry.
       window.setTimeout(function() {
-        window.location.href = fallback;
+        if (!document.hidden) window.location.href = fallback;
       }, 450);
       return;
     }
-  } catch (e) {
-    console.warn('Retour navigateur indisponible:', e);
-  }
-
+  } catch (e) {}
   window.location.href = fallback;
+}
+
+function goBackToAccessMenu() {
+  window.location.href = 'index.html';
 }
 </script>
 </head>
@@ -621,7 +609,6 @@ async function doLogout() {
 document.addEventListener('DOMContentLoaded', async () => {
   await restoreSession();
   loadAll();
-  if (typeof initUploadWidget === 'function') initUploadWidget();
 });
 </script>
 </body>

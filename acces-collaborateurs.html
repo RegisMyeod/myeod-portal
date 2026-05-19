@@ -957,10 +957,10 @@
 </div>
 <span class="theme-arrow">→</span>
 </div>
-<div class="theme-card" onclick="openTheme('agenda')">
+<div class="theme-card" onclick="openTheme('planning')">
 <div>
 <p class="theme-tag">06 —</p>
-<h2 class="theme-title">Agenda</h2>
+<h2 class="theme-title">Planning</h2>
 </div>
 <span class="theme-arrow">→</span>
 </div>
@@ -1026,7 +1026,8 @@ function openTheme(name) {
     bizdev:     'bizdev.html',
     it:         'it.html',
     operations: 'operations.html',
-    documents:  'documents.html'
+    documents:  'documents.html',
+    planning:   'planning.html'
   };
   const url = pages[name];
   if (url) window.location.href = url;

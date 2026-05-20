@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyEOD — Visual Intelligence</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--font:'Arial Narrow',Arial,sans-serif;--black:#1a1a1a;--white:#fff;--gray-100:#f0f0f0;--gray-200:#e0e0e0;--gray-400:#9a9a9a;--gray-600:#555;--gold:#c8a84b}
+body{font-family:var(--font);background:var(--white);color:var(--black);min-height:100vh}
+.myeod-header{background:#fff;border-bottom:1px solid var(--gray-200);padding:1.2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.myeod-header-logo{height:96px}
+.header-actions{display:flex;align-items:center;gap:.65rem;margin-left:auto}
+.btn-retour{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--font);font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--gray-200);background:transparent;color:var(--gray-600);cursor:pointer;text-decoration:none;transition:border-color .15s,color .15s}
+.btn-retour:hover{border-color:var(--black);color:var(--black)}
+main{min-height:calc(100vh - 140px);display:flex;align-items:center;justify-content:center;padding:3rem 2rem;text-align:center}
+.card{width:min(680px,100%);border:1px solid var(--gray-200);background:#fff;padding:3rem 2.4rem}
+.kicker{font-size:.62rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gray-400);margin-bottom:.8rem}
+h1{font-size:clamp(2rem,4vw,3rem);line-height:1;font-weight:800;letter-spacing:-.03em;margin-bottom:1rem}
+p{font-size:.82rem;line-height:1.8;color:var(--gray-600);max-width:520px;margin:0 auto 1.5rem}
+.badge{display:inline-flex;border:1px solid var(--gray-200);padding:.45rem 1rem;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+</style>
+</head>
+<body>
+<header class="myeod-header">
+  <div style="height:96px;display:flex;align-items:center;font-weight:800;letter-spacing:-.04em;font-size:2.2rem">MyEOD</div>
+  <div class="header-actions"><button class="btn-retour" onclick="goBackToPreviousPage()">← Retour</button></div>
+</header>
+<main>
+  <section class="card">
+    <div class="kicker">Fiche projet</div>
+    <h1>Visual Intelligence</h1>
+    <p>Cette page simplifiée évite les liens cassés depuis BizDev et Planning. Le contenu métier détaillé pourra être intégré dans une prochaine itération.</p>
+    <span class="badge">À compléter</span>
+  </section>
+</main>
+<script>
+function goBackToPreviousPage(){
+  const fallback='acces-collaborateurs.html';
+  try{if(window.history.length>1){window.history.back();setTimeout(function(){if(!document.hidden)window.location.href=fallback;},450);return;}}catch(e){}
+  window.location.href=fallback;
+}
+</script>
+</body>
+</html>

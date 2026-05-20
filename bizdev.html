@@ -388,11 +388,11 @@ function goBackToAccessMenu() {
         <div style="display:flex;gap:7px;align-items:center;margin-bottom:8px">
           <select class="pfs" id="p-fi" style="flex:1;margin-bottom:0" onchange="updateFichePreview()">
         <option value="">— Aucune fiche —</option>
-        <option value="briefing_cadeler-260505-120213.html">Cadeler</option>
-        <option value="myeod_visual_intelligence-260505-120213.html">Visual Intelligence</option>
-        <option value="projet_mozlng-260505-120213.html">Mozambique LNG</option>
-        <option value="projet_swissrenov-260505-120213.html">SwissRenov</option>
-        <option value="projet_trion-260505-120213.html">Trion GoM</option>
+        <option value="briefing_cadeler.html">Cadeler</option>
+        <option value="myeod_visual_intelligence.html">Visual Intelligence</option>
+        <option value="projet_mozlng.html">Mozambique LNG</option>
+        <option value="projet_swissrenov.html">SwissRenov</option>
+        <option value="projet_trion.html">Trion GoM</option>
           </select>
           <button class="btn btn-ghost" onclick="openFicheFromPanel()" style="padding:5px 10px;font-size:10px;white-space:nowrap" title="Ouvrir dans un nouvel onglet">↗ Ouvrir</button>
         </div>
@@ -432,7 +432,7 @@ function goBackToAccessMenu() {
           <span class="pfl">Nom du projet</span><input class="pfi" id="pj-n">
           <div class="igrid2"><div><span class="pfl">Horizon</span>
             <select class="pfs" id="pj-h"><option>🟢 En cours</option><option>🔴 Immédiat</option><option>🟠 3-6 mois</option><option>🟡 6-12 mois</option><option>🔵 12 mois+</option></select>
-          </div><div><span class="pfl">Lien fiche</span><input class="pfi" id="pj-l" placeholder="projet_trion-260505-120213.html"></div></div>
+          </div><div><span class="pfl">Lien fiche</span><input class="pfi" id="pj-l" placeholder="projet_trion.html"></div></div>
           <span class="pfl">Description</span><textarea class="pfta" id="pj-d" rows="3"></textarea>
           <button class="btn btn-gold" onclick="addPJ()" style="width:100%;margin-top:7px">Ajouter</button>
         </div>
@@ -551,13 +551,13 @@ let pFile = null;
 let delId = null;
 
 const FICHE_LABELS = {
-  'briefing_cadeler-260505-120213.html': 'Cadeler',
   'briefing_cadeler.html': 'Cadeler',
-  'projet_mozlng-260505-120213.html': 'Mozambique LNG',
+  'briefing_cadeler.html': 'Cadeler',
+  'projet_mozlng.html': 'Mozambique LNG',
   'projet_mozlng.html': 'Mozambique LNG',
   'projet_swissrenov.html': 'SwissRenov',
-  'projet_swissrenov-260505-120213.html': 'SwissRenov',
-  'projet_trion-260505-120213.html': 'Trion GoM',
+  'projet_swissrenov.html': 'SwissRenov',
+  'projet_trion.html': 'Trion GoM',
   'projet_trion.html': 'Trion GoM'
 };
 

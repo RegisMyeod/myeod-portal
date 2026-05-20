@@ -6,23 +6,12 @@
 <title>MyEOD — Administration</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --black:#0a0a0a;
-  --white:#ffffff;
-  --gray-50:#f8f8f8;
-  --gray-100:#f0f0f0;
-  --gray-200:#e0e0e0;
-  --gray-300:#c7c7c7;
-  --gray-400:#9a9a9a;
-  --gray-500:#777777;
-  --gray-600:#555555;
-  --font:'Arial Narrow',Arial,sans-serif;
-  --radius:2px;
-}
+:root{--black:#0a0a0a;--white:#ffffff;--gray-50:#f8f8f8;--gray-100:#f0f0f0;--gray-200:#e0e0e0;--gray-300:#c7c7c7;--gray-400:#9a9a9a;--gray-500:#777777;--gray-600:#555555;--font:'Arial Narrow',Arial,sans-serif;--radius:2px;}
 html,body{width:100%;min-height:100%;}
 body{min-height:100vh;font-family:var(--font);background:var(--white);color:var(--black);overflow:auto;}
 .myeod-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;border-bottom:1px solid var(--gray-200);background:var(--white);position:sticky;top:0;z-index:100;width:100%;flex-shrink:0;}
-.myeod-header-logo{height:72px;display:block;width:auto;object-fit:contain;}
+.myeod-header-logo{height:72px;display:block;width:auto;object-fit:contain;visibility:hidden;}
+.myeod-header-logo.logo-loaded{visibility:visible;}
 .myeod-header-right{display:flex;align-items:center;gap:.65rem;margin-left:auto;}
 .btn-nav-back{display:inline-flex;align-items:center;justify-content:center;width:34px;min-width:34px;height:34px;min-height:34px;box-sizing:border-box;font-family:var(--font);font-size:.9rem;font-weight:700;line-height:1;letter-spacing:0;text-transform:uppercase;color:var(--gray-600);background:none;border:1px solid var(--gray-200);border-radius:var(--radius);padding:0;cursor:pointer;text-decoration:none;transition:border-color .2s,color .2s,background .2s;}
 .btn-nav-back:hover,.btn-nav-back:focus-visible{border-color:var(--black);color:var(--black);outline:none;}
@@ -49,51 +38,34 @@ body{min-height:100vh;font-family:var(--font);background:var(--white);color:var(
 @media(max-width:640px){.myeod-header{padding:.9rem 1rem}.myeod-header-logo{height:54px}.admin-cards{grid-template-columns:1fr;max-width:320px}.admin-page{justify-content:flex-start;padding-top:3rem}}
 </style>
 <script>
-function goBackToPreviousPage(){
-  const fallback='acces-collaborateurs.html';
-  try{
-    if(window.history.length>1){
-      window.history.back();
-      window.setTimeout(function(){if(!document.hidden)window.location.href=fallback;},450);
-      return;
-    }
-  }catch(e){}
-  window.location.href=fallback;
-}
+function goBackToPreviousPage(){const fallback='acces-collaborateurs.html';try{if(window.history.length>1){window.history.back();window.setTimeout(function(){if(!document.hidden)window.location.href=fallback;},450);return;}}catch(e){}window.location.href=fallback;}
 function inactiveTile(label){alert(label+' : page à créer lors de la prochaine étape.');}
+function extractLogoSource(html){
+  var classMatch=html.match(/<img[^>]*class=["'][^"']*myeod-header-logo[^"']*["'][^>]*src=["']([^"']+)["']/i);
+  if(classMatch&&classMatch[1])return classMatch[1];
+  classMatch=html.match(/<img[^>]*src=["']([^"']+)["'][^>]*class=["'][^"']*myeod-header-logo[^"']*["']/i);
+  if(classMatch&&classMatch[1])return classMatch[1];
+  var dataMatch=html.match(/src=["'](data:image\/(?:jpeg|jpg|png|webp);base64,[^"']+)["']/i);
+  return dataMatch&&dataMatch[1]?dataMatch[1]:'';
+}
 function loadOfficialLogo(){
   var img=document.getElementById('admin-official-logo');
   if(!img)return;
-  fetch('acces-collaborateurs.html').then(function(r){return r.text();}).then(function(html){
-    var match=html.match(/<img[^>]*class=["'][^"']*myeod-header-logo[^"']*["'][^>]*src=["']([^"']+)["']/i);
-    if(match&&match[1]){img.src=match[1];}
-  }).catch(function(){});
+  fetch('Formats_de_documents.html',{cache:'force-cache'}).then(function(r){return r.text();}).then(function(html){
+    var src=extractLogoSource(html);
+    if(src){img.onload=function(){img.classList.add('logo-loaded');};img.src=src;}
+  }).catch(function(){
+    fetch('acces-collaborateurs.html',{cache:'force-cache'}).then(function(r){return r.text();}).then(function(html){
+      var src=extractLogoSource(html);
+      if(src){img.onload=function(){img.classList.add('logo-loaded');};img.src=src;}
+    }).catch(function(){});
+  });
 }
 document.addEventListener('DOMContentLoaded',loadOfficialLogo);
 </script>
 </head>
 <body>
-<header class="myeod-header services-header">
-  <img id="admin-official-logo" class="myeod-header-logo" alt="MyEOD">
-  <div class="myeod-header-right">
-    <button class="btn-nav-back" type="button" onclick="goBackToPreviousPage()" aria-label="Retour">←</button>
-  </div>
-</header>
-<main class="admin-page">
-  <section class="admin-head">
-    <div class="admin-kicker">Parcours collaborateur</div>
-    <h1 class="admin-title">Administration</h1>
-    <p class="admin-subtitle">Choisissez l’espace administratif à ouvrir.</p>
-  </section>
-  <section class="admin-cards" aria-label="Navigation administration">
-    <button class="admin-card disabled" type="button" onclick="inactiveTile('Juridique')"><span class="admin-card-num">01</span><span class="admin-card-title">Juridique</span><span class="admin-card-desc">Contrats, statuts, conformité et documents légaux.</span><span class="admin-card-arrow">→</span></button>
-    <button class="admin-card disabled" type="button" onclick="inactiveTile('Finances')"><span class="admin-card-num">02</span><span class="admin-card-title">Finances</span><span class="admin-card-desc">Budget, pilotage financier, facturation et prévisionnel.</span><span class="admin-card-arrow">→</span></button>
-    <button class="admin-card disabled" type="button" onclick="inactiveTile('Ressources Humaines')"><span class="admin-card-num">03</span><span class="admin-card-title">Ressources Humaines</span><span class="admin-card-desc">Collaborateurs, consultants, suivi RH et référentiels internes.</span><span class="admin-card-arrow">→</span></button>
-    <a class="admin-card" href="Formats_de_documents.html"><span class="admin-card-num">04</span><span class="admin-card-title">Formats de Documents</span><span class="admin-card-desc">Bibliothèque des formats, modèles et documents administratifs.</span><span class="admin-card-arrow">→</span></a>
-    <button class="admin-card disabled" type="button" onclick="inactiveTile('Procédures')"><span class="admin-card-num">05</span><span class="admin-card-title">Procédures</span><span class="admin-card-desc">Process internes, modes opératoires et référentiels d’exécution.</span><span class="admin-card-arrow">→</span></button>
-    <button class="admin-card disabled" type="button" onclick="inactiveTile('Archives')"><span class="admin-card-num">06</span><span class="admin-card-title">Archives</span><span class="admin-card-desc">Espace temporaire pour les documents historiques et versions précédentes.</span><span class="admin-card-arrow">→</span></button>
-  </section>
-  <div class="admin-footer">MyEOD Portal · Administration</div>
-</main>
+<header class="myeod-header services-header"><img id="admin-official-logo" class="myeod-header-logo" alt="MyEOD"><div class="myeod-header-right"><button class="btn-nav-back" type="button" onclick="goBackToPreviousPage()" aria-label="Retour">←</button></div></header>
+<main class="admin-page"><section class="admin-head"><div class="admin-kicker">Parcours collaborateur</div><h1 class="admin-title">Administration</h1><p class="admin-subtitle">Choisissez l’espace administratif à ouvrir.</p></section><section class="admin-cards" aria-label="Navigation administration"><button class="admin-card disabled" type="button" onclick="inactiveTile('Juridique')"><span class="admin-card-num">01</span><span class="admin-card-title">Juridique</span><span class="admin-card-desc">Contrats, statuts, conformité et documents légaux.</span><span class="admin-card-arrow">→</span></button><button class="admin-card disabled" type="button" onclick="inactiveTile('Finances')"><span class="admin-card-num">02</span><span class="admin-card-title">Finances</span><span class="admin-card-desc">Budget, pilotage financier, facturation et prévisionnel.</span><span class="admin-card-arrow">→</span></button><button class="admin-card disabled" type="button" onclick="inactiveTile('Ressources Humaines')"><span class="admin-card-num">03</span><span class="admin-card-title">Ressources Humaines</span><span class="admin-card-desc">Collaborateurs, consultants, suivi RH et référentiels internes.</span><span class="admin-card-arrow">→</span></button><a class="admin-card" href="Formats_de_documents.html"><span class="admin-card-num">04</span><span class="admin-card-title">Formats de Documents</span><span class="admin-card-desc">Bibliothèque des formats, modèles et documents administratifs.</span><span class="admin-card-arrow">→</span></a><button class="admin-card disabled" type="button" onclick="inactiveTile('Procédures')"><span class="admin-card-num">05</span><span class="admin-card-title">Procédures</span><span class="admin-card-desc">Process internes, modes opératoires et référentiels d’exécution.</span><span class="admin-card-arrow">→</span></button><button class="admin-card disabled" type="button" onclick="inactiveTile('Archives')"><span class="admin-card-num">06</span><span class="admin-card-title">Archives</span><span class="admin-card-desc">Espace temporaire pour les documents historiques et versions précédentes.</span><span class="admin-card-arrow">→</span></button></section><div class="admin-footer">MyEOD Portal · Administration</div></main>
 </body>
 </html>

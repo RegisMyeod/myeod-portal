@@ -135,11 +135,187 @@
       color: var(--gray-300); text-align: center;
     }
 
+
+
+    .principles {
+      width: 100%; max-width: 960px;
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px; background: var(--gray-200);
+      border: 1px solid var(--gray-200); margin-bottom: 2rem;
+    }
+    .principle {
+      background: var(--white); padding: 1.4rem 1.3rem; min-height: 128px;
+    }
+    .principle-label {
+      font-size: .56rem; font-weight: 800; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gray-400); margin-bottom: .5rem;
+    }
+    .principle-title {
+      font-size: .86rem; font-weight: 800; color: var(--black); margin-bottom: .45rem;
+      line-height: 1.35;
+    }
+    .principle-text {
+      font-size: .68rem; color: var(--gray-500); letter-spacing: .03em; line-height: 1.7;
+    }
+    .process-block {
+      width: 100%; max-width: 960px; margin-top: 2.4rem;
+      border-top: 1px solid var(--gray-200); padding-top: 1.8rem;
+    }
+    .section-title {
+      font-size: .72rem; font-weight: 800; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--black); margin-bottom: 1rem;
+    }
+    .process-grid {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem;
+    }
+    .process-step {
+      border: 1px solid var(--gray-200); padding: 1.2rem; min-height: 150px;
+      display: flex; flex-direction: column; gap: .55rem; background: var(--white);
+    }
+    .process-step-num {
+      font-size: .56rem; font-weight: 800; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gray-300);
+    }
+    .process-step-title { font-size: .82rem; font-weight: 800; color: var(--black); line-height: 1.35; }
+    .process-step-text { font-size: .66rem; color: var(--gray-500); line-height: 1.65; letter-spacing: .03em; }
+    .do-not-store {
+      width: 100%; max-width: 960px; margin-top: 2rem;
+      padding: 1.4rem 1.5rem; border: 1px solid var(--gray-200); background: var(--gray-50);
+    }
+    .tag-list { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .8rem; }
+    .tag {
+      border: 1px solid var(--gray-200); background: var(--white);
+      padding: .32rem .65rem; font-size: .6rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--gray-500);
+    }
+
+
+
+    /* -- RHGrid database embedded in the landing page -- */
+    .db-section {
+      width: 100%; max-width: 1180px; margin-top: 2.6rem;
+      border-top: 1px solid var(--gray-200); padding-top: 1.8rem;
+    }
+    .db-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: 1.2rem; margin-bottom: 1rem;
+    }
+    .db-subtitle {
+      max-width: 760px; color: var(--gray-500); font-size: .7rem;
+      line-height: 1.75; letter-spacing: .03em; margin-top: .35rem;
+    }
+    .db-actions { display: flex; flex-wrap: wrap; gap: .55rem; justify-content: flex-end; }
+    .db-btn {
+      border: 1px solid var(--gray-200); background: var(--white); color: var(--black);
+      font-family: var(--font); font-size: .6rem; font-weight: 800;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: .65rem .85rem; cursor: pointer; border-radius: var(--radius);
+      transition: border-color .2s, background .2s, color .2s;
+    }
+    .db-btn:hover { border-color: var(--black); background: var(--gray-50); }
+    .db-btn.primary { background: var(--black); color: var(--white); border-color: var(--black); }
+    .db-btn.danger { color: #8b1d1d; }
+    .db-stats {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200);
+      margin-bottom: 1rem;
+    }
+    .db-stat { background: var(--white); padding: 1rem 1.1rem; min-height: 82px; }
+    .db-stat-label {
+      font-size: .54rem; font-weight: 800; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--gray-400); margin-bottom: .25rem;
+    }
+    .db-stat-value { font-size: 1.45rem; font-weight: 800; color: var(--black); letter-spacing: -.03em; }
+    .db-filters {
+      display: grid; grid-template-columns: 1.4fr repeat(4, minmax(120px, .8fr)); gap: .65rem;
+      margin-bottom: .85rem;
+    }
+    .db-input, .db-select, .db-textarea {
+      width: 100%; border: 1px solid var(--gray-200); background: var(--white); color: var(--black);
+      font-family: var(--font); font-size: .72rem; padding: .68rem .75rem;
+      outline: none; border-radius: var(--radius);
+    }
+    .db-input:focus, .db-select:focus, .db-textarea:focus { border-color: var(--black); }
+    .db-table-wrap {
+      width: 100%; border: 1px solid var(--gray-200); overflow: auto; background: var(--white);
+      max-height: 470px;
+    }
+    .db-table { width: 100%; min-width: 1440px; border-collapse: collapse; }
+    .db-table th, .db-table td {
+      border-bottom: 1px solid var(--gray-100); padding: .7rem .65rem;
+      text-align: left; vertical-align: top; font-size: .64rem; line-height: 1.45;
+    }
+    .db-table th {
+      position: sticky; top: 0; z-index: 2; background: var(--gray-50);
+      color: var(--gray-500); font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .db-table tr:hover td { background: #fbfbfb; }
+    .db-table .compact { max-width: 170px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .db-ref { font-weight: 800; letter-spacing: .08em; color: var(--black); }
+    .db-chip {
+      display: inline-flex; align-items: center; border: 1px solid var(--gray-200);
+      padding: .18rem .42rem; font-size: .56rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--gray-600); background: var(--white);
+      white-space: nowrap;
+    }
+    .db-chip.published { border-color: var(--black); color: var(--black); }
+    .db-chip.draft { color: var(--gray-500); }
+    .db-progress {
+      width: 86px; height: 5px; background: var(--gray-100); margin-top: .32rem; overflow: hidden;
+    }
+    .db-progress span { display: block; height: 100%; background: var(--black); }
+    .db-row-actions { display: flex; gap: .4rem; }
+    .db-mini-btn {
+      border: 1px solid var(--gray-200); background: var(--white); color: var(--gray-600);
+      font-family: var(--font); font-size: .56rem; font-weight: 800; letter-spacing: .1em;
+      text-transform: uppercase; padding: .38rem .5rem; cursor: pointer;
+    }
+    .db-mini-btn:hover { border-color: var(--black); color: var(--black); }
+    .db-panel {
+      margin-top: 1rem; border: 1px solid var(--gray-200); background: var(--white); display: none;
+    }
+    .db-panel.open { display: block; }
+    .db-panel-head {
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+      padding: 1rem 1.2rem; border-bottom: 1px solid var(--gray-100); background: var(--gray-50);
+    }
+    .db-panel-title { font-size: .82rem; font-weight: 800; color: var(--black); }
+    .db-form {
+      padding: 1.2rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .85rem;
+    }
+    .db-field.full { grid-column: 1 / -1; }
+    .db-label {
+      display: block; font-size: .55rem; font-weight: 800; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--gray-400); margin-bottom: .32rem;
+    }
+    .db-textarea { min-height: 82px; resize: vertical; }
+    .db-warning {
+      grid-column: 1 / -1; display: none; border: 1px solid #f1c7c7; background: #fff8f8;
+      color: #8b1d1d; padding: .8rem 1rem; font-size: .66rem; line-height: 1.6;
+    }
+    .db-warning.visible { display: block; }
+    .db-panel-actions {
+      grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: .55rem; border-top: 1px solid var(--gray-100);
+      padding-top: 1rem;
+    }
+    .db-rules {
+      margin-top: .9rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px;
+      background: var(--gray-200); border: 1px solid var(--gray-200);
+    }
+    .db-rule { background: var(--white); padding: 1rem 1.1rem; }
+    .db-empty { padding: 1.4rem; text-align: center; color: var(--gray-400); font-size: .72rem; }
+
+    @media (max-width: 960px) {
+      .principles { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
     @media (max-width: 720px) {
       .landing-cards { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 480px) {
       .landing-cards { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: 1fr; }
       .myeod-header { padding: .9rem 1rem; }
       .myeod-header-logo { height: 54px; }
     }
@@ -159,59 +335,176 @@
 </header>
 
 <main class="page-body">
-  <p class="page-kicker">Portail administratif</p>
-  <h1 class="page-title">Ressources humaines</h1>
+  <p class="page-kicker">Portail administratif &middot; RH</p>
+  <h1 class="page-title">Int&eacute;gration consultants &amp; RHGrid</h1>
   <p class="page-intro">
-    Landing page de la fiche Ressources Humaines rattach&eacute;e au portail Admin.
-    Elle regroupe les entr&eacute;es RH utiles pour piloter les consultants, les contrats,
-    les validit&eacute;s administratives, les assurances et le suivi op&eacute;rationnel associ&eacute;.
+    Cette landing page organise l&rsquo;int&eacute;gration des nouveaux consultants avec un principe prioritaire :
+    anonymiser le plus t&ocirc;t possible. Chaque consultant re&ccedil;oit une r&eacute;f&eacute;rence MyEOD,
+    puis RHGrid est compl&eacute;t&eacute; uniquement avec les informations utiles au profil professionnel anonymis&eacute;.
   </p>
+
+  <section class="principles" aria-label="Principes d'anonymisation">
+    <article class="principle">
+      <p class="principle-label">Principe 01</p>
+      <h2 class="principle-title">R&eacute;f&eacute;rence avant diffusion</h2>
+      <p class="principle-text">Cr&eacute;er une Ref MyEOD d&egrave;s le premier contact. Cette r&eacute;f&eacute;rence devient l&rsquo;identifiant unique dans RHGrid et dans les profils anonymis&eacute;s.</p>
+    </article>
+    <article class="principle">
+      <p class="principle-label">Principe 02</p>
+      <h2 class="principle-title">Donn&eacute;es sensibles hors RHGrid</h2>
+      <p class="principle-text">Nom, passeport, adresse, email, t&eacute;l&eacute;phone et documents personnels restent dans un coffre priv&eacute; s&eacute;par&eacute;, restreint et non publiable.</p>
+    </article>
+    <article class="principle">
+      <p class="principle-label">Principe 03</p>
+      <h2 class="principle-title">Profil exploitable, non identifiant</h2>
+      <p class="principle-text">RHGrid conserve les comp&eacute;tences, niveaux, disponibilit&eacute;s, certificats et anciens clients n&eacute;cessaires &agrave; la fiche anonymis&eacute;e.</p>
+    </article>
+  </section>
 
   <div class="landing-cards">
 
     <section class="landing-card">
       <p class="landing-card-num">01 &mdash;</p>
-      <h2 class="landing-card-title">Consultants</h2>
-      <p class="landing-card-desc">Fiches consultants, contacts, disponibilit&eacute;s, r&ocirc;les et informations de suivi.</p>
+      <h2 class="landing-card-title">Premier contact</h2>
+      <p class="landing-card-desc">Recevoir les premiers documents dans l&rsquo;espace priv&eacute;, qualifier l&rsquo;int&eacute;r&ecirc;t et g&eacute;n&eacute;rer imm&eacute;diatement la Ref MyEOD.</p>
       <span class="landing-card-arrow">&#8594;</span>
     </section>
 
     <section class="landing-card">
       <p class="landing-card-num">02 &mdash;</p>
-      <h2 class="landing-card-title">Contrats</h2>
-      <p class="landing-card-desc">Contrats experts, bons de commande, avenants, NDA et documents de contractualisation.</p>
+      <h2 class="landing-card-title">Entretien professionnel</h2>
+      <p class="landing-card-desc">Collecter uniquement les informations utiles au profil : r&ocirc;le, comp&eacute;tences, niveau d&rsquo;expertise, &eacute;ducation et disponibilit&eacute;.</p>
       <span class="landing-card-arrow">&#8594;</span>
     </section>
 
     <section class="landing-card">
       <p class="landing-card-num">03 &mdash;</p>
-      <h2 class="landing-card-title">HSE &amp; certifications</h2>
-      <p class="landing-card-desc">Certificats, formations, habilitations, exigences offshore et documents de conformit&eacute;.</p>
+      <h2 class="landing-card-title">Profil anonymis&eacute;</h2>
+      <p class="landing-card-desc">Construire la fiche publique : titre, introduction, comp&eacute;tences, niveau, disponibilit&eacute;, pays travaill&eacute;s, anciens clients et badges.</p>
       <span class="landing-card-arrow">&#8594;</span>
     </section>
 
-    <section class="landing-card">
+    <section class="landing-card" onclick="scrollToDatabase()" role="button" tabindex="0"
+             onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToDatabase();}">
       <p class="landing-card-num">04 &mdash;</p>
-      <h2 class="landing-card-title">Assurances</h2>
-      <p class="landing-card-desc">RCP, attestations, couvertures sp&eacute;cifiques mission et suivi des dates de validit&eacute;.</p>
+      <h2 class="landing-card-title">Base RHGrid anonymis&eacute;e</h2>
+      <p class="landing-card-desc">Consulter, filtrer, cr&eacute;er et mettre &agrave; jour les fiches consultants directement dans la landing page, sans ouvrir de fichier Excel.</p>
       <span class="landing-card-arrow">&#8594;</span>
     </section>
 
     <section class="landing-card">
       <p class="landing-card-num">05 &mdash;</p>
-      <h2 class="landing-card-title">Onboarding</h2>
-      <p class="landing-card-desc">Checklists d&rsquo;arriv&eacute;e, acc&egrave;s, documents requis et parcours d&rsquo;int&eacute;gration.</p>
+      <h2 class="landing-card-title">Documents sensibles</h2>
+      <p class="landing-card-desc">Stocker CV, passeport, certificats, dipl&ocirc;mes, visas et contacts priv&eacute;s dans un espace restreint, li&eacute; uniquement par la Ref MyEOD.</p>
       <span class="landing-card-arrow">&#8594;</span>
     </section>
 
     <section class="landing-card">
       <p class="landing-card-num">06 &mdash;</p>
-      <h2 class="landing-card-title">Notes &amp; suivi</h2>
-      <p class="landing-card-desc">Notes internes, points de vigilance, actions RH et historique des &eacute;changes.</p>
+      <h2 class="landing-card-title">Publication &amp; badges</h2>
+      <p class="landing-card-desc">Contr&ocirc;ler le niveau de compl&eacute;tion, valider la publication du profil anonymis&eacute; et suivre certifications, exp&eacute;rience et disponibilit&eacute;.</p>
       <span class="landing-card-arrow">&#8594;</span>
     </section>
 
   </div>
+
+
+  <section id="rhgrid-database" class="db-section" aria-label="Base de donn&eacute;es RHGrid anonymis&eacute;e">
+    <div class="db-head">
+      <div>
+        <h2 class="section-title">Base de donn&eacute;es RHGrid anonymis&eacute;e</h2>
+        <p class="db-subtitle">
+          La grille est maintenant int&eacute;gr&eacute;e dans la page sous forme de base de donn&eacute;es locale.
+          Elle stocke uniquement les donn&eacute;es professionnelles anonymis&eacute;es et utilise la Ref MyEOD comme identifiant unique.
+        </p>
+      </div>
+      <div class="db-actions">
+        <button class="db-btn primary" type="button" onclick="newRhRecord()">Nouveau consultant</button>
+        <button class="db-btn" type="button" onclick="exportRhgridJson()">Exporter JSON</button>
+        <button class="db-btn" type="button" onclick="resetRhgridDemo()">R&eacute;initialiser</button>
+      </div>
+    </div>
+
+    <div class="db-stats" id="rhgrid-stats"></div>
+
+    <div class="db-filters" aria-label="Filtres RHGrid">
+      <input id="db-search" class="db-input" type="search" placeholder="Rechercher Ref, titre, comp&eacute;tences, clients..." oninput="renderRhgrid()"/>
+      <select id="db-status" class="db-select" onchange="renderRhgrid()"><option value="">Tous statuts</option></select>
+      <select id="db-expertise" class="db-select" onchange="renderRhgrid()"><option value="">Tous niveaux</option></select>
+      <select id="db-availability" class="db-select" onchange="renderRhgrid()"><option value="">Toutes dispos</option></select>
+      <select id="db-publication" class="db-select" onchange="renderRhgrid()"><option value="">Publication</option></select>
+    </div>
+
+    <div class="db-table-wrap">
+      <table class="db-table" aria-label="RHGrid anonymis&eacute;">
+        <thead><tr id="rhgrid-head"></tr></thead>
+        <tbody id="rhgrid-body"></tbody>
+      </table>
+    </div>
+
+    <section id="rhgrid-panel" class="db-panel" aria-label="Edition RHGrid">
+      <div class="db-panel-head">
+        <h3 class="db-panel-title" id="rhgrid-panel-title">Fiche consultant</h3>
+        <button class="db-mini-btn" type="button" onclick="closeRhPanel()">Fermer</button>
+      </div>
+      <form id="rhgrid-form" class="db-form" onsubmit="saveRhRecord(event)">
+        <div id="rhgrid-warning" class="db-warning"></div>
+        <div id="rhgrid-fields" class="db-form-fields" style="display:contents"></div>
+        <div class="db-panel-actions">
+          <button class="db-btn danger" type="button" id="rh-delete-btn" onclick="deleteRhRecord()">Supprimer</button>
+          <button class="db-btn" type="button" onclick="closeRhPanel()">Annuler</button>
+          <button class="db-btn primary" type="submit">Enregistrer</button>
+        </div>
+      </form>
+    </section>
+
+    <div class="db-rules">
+      <article class="db-rule">
+        <p class="principle-label">Donn&eacute;es autoris&eacute;es</p>
+        <p class="principle-text">Titre de profil, mots-cl&eacute;s, comp&eacute;tences, niveaux, exp&eacute;rience par plage, pays travaill&eacute;s, anciens clients, disponibilit&eacute;, certificats et statut NDA.</p>
+      </article>
+      <article class="db-rule">
+        <p class="principle-label">Donn&eacute;es bloqu&eacute;es</p>
+        <p class="principle-text">Nom, pr&eacute;nom, email, t&eacute;l&eacute;phone, adresse, passeport, num&eacute;ro officiel, situation familiale, contacts d&rsquo;urgence et copies de documents.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="process-block">
+    <h2 class="section-title">Parcours minimal recommand&eacute;</h2>
+    <div class="process-grid">
+      <article class="process-step">
+        <p class="process-step-num">Step 1</p>
+        <h3 class="process-step-title">Upload initial priv&eacute;</h3>
+        <p class="process-step-text">CV et pi&egrave;ce d&rsquo;identit&eacute; restent hors RHGrid. RHGrid ne re&ccedil;oit que la Ref MyEOD et le statut d&rsquo;avancement.</p>
+      </article>
+      <article class="process-step">
+        <p class="process-step-num">Step 2</p>
+        <h3 class="process-step-title">Base professionnelle</h3>
+        <p class="process-step-text">Comp&eacute;tences, postes, clients pass&eacute;s, pays travaill&eacute;s, niveau d&rsquo;expertise, niveau d&rsquo;&eacute;ducation et disponibilit&eacute;.</p>
+      </article>
+      <article class="process-step">
+        <p class="process-step-num">Step 3</p>
+        <h3 class="process-step-title">Contr&ocirc;le anonymisation</h3>
+        <p class="process-step-text">V&eacute;rifier qu&rsquo;aucun nom, email, t&eacute;l&eacute;phone, adresse, nationalit&eacute; ou num&eacute;ro de document n&rsquo;appara&icirc;t dans la grille ou le profil.</p>
+      </article>
+      <article class="process-step">
+        <p class="process-step-num">Step 4</p>
+        <h3 class="process-step-title">Profil publiable</h3>
+        <p class="process-step-text">Publier seulement les profils suffisamment compl&eacute;t&eacute;s et valid&eacute;s, avec les badges et statuts utiles aux agents.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="do-not-store">
+    <h2 class="section-title">&Agrave; exclure du RHGrid</h2>
+    <p class="principle-text">Ces informations doivent rester dans un coffre priv&eacute; s&eacute;par&eacute; et ne jamais &ecirc;tre saisies dans la grille anonymis&eacute;e.</p>
+    <div class="tag-list" aria-label="Données exclues">
+      <span class="tag">Nom</span><span class="tag">Pr&eacute;nom</span><span class="tag">Date de naissance</span><span class="tag">Passeport</span>
+      <span class="tag">Adresse</span><span class="tag">Email</span><span class="tag">T&eacute;l&eacute;phone</span><span class="tag">Situation familiale</span>
+      <span class="tag">Contacts d&rsquo;urgence</span><span class="tag">Copies documents</span><span class="tag">Num&eacute;ros officiels</span>
+    </div>
+  </section>
 
   <footer class="page-footer">
     MyEOD &middot; A brand represented by Ing&eacute;nieurs Cr&eacute;atifs
@@ -230,6 +523,290 @@ function goBackToPreviousPage() {
   } catch(e) {}
   window.location.href = fallback;
 }
+
+function scrollToDatabase() {
+  var target = document.getElementById('rhgrid-database');
+  if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+const RHGRID_STORAGE_KEY = 'myeod.rhgrid.anonymized.database.v1';
+const RHGRID_SELECTS = {
+  integrationStatus: ['Référence créée','Upload 1 reçu','Entretien pro','Profil anonymisé prêt','Upload 2 reçu','Actif','Archivé'],
+  publicationStatus: ['Non publié','Brouillon','À relire','Publié','Archivé'],
+  expertiseLevel: ['Trainee','Junior','Senior','Expert'],
+  educationLevel: ['Engineering','BSc','MSc','MBA','PhD','Autre'],
+  experienceRange: ['<2 ans','2-10 ans','10-20 ans','>20 ans'],
+  availability: ['Immédiate','Date future','Inconnue'],
+  certificatesStatus: ['OK','À vérifier','À renouveler','Expiré','Inconnu'],
+  ndaStatus: ['À signer','Envoyé','Signé','Non requis']
+};
+const RHGRID_COLUMNS = [
+  { key:'ref', label:'Ref MyEOD', required:true, locked:true },
+  { key:'integrationStatus', label:'Statut intégration', type:'select', options:RHGRID_SELECTS.integrationStatus },
+  { key:'publicationStatus', label:'Statut publication', type:'select', options:RHGRID_SELECTS.publicationStatus },
+  { key:'profileTitle', label:'Titre profil', required:true },
+  { key:'keywords', label:'Mots-clés', wide:true, required:true },
+  { key:'expertiseLevel', label:'Niveau expertise', type:'select', options:RHGRID_SELECTS.expertiseLevel, required:true },
+  { key:'educationLevel', label:'Niveau éducation', type:'select', options:RHGRID_SELECTS.educationLevel, required:true },
+  { key:'experienceRange', label:'Expérience', type:'select', options:RHGRID_SELECTS.experienceRange, required:true },
+  { key:'mainSkills', label:'Compétences principales', textarea:true, required:true },
+  { key:'additionalSkills', label:'Compétences complémentaires', textarea:true },
+  { key:'interventionArea', label:'Zone intervention', required:true },
+  { key:'workedCountries', label:'Pays travaillés', wide:true, required:true },
+  { key:'formerClients', label:'Anciens clients', wide:true },
+  { key:'missionTypes', label:'Missions recherchées', wide:true, required:true },
+  { key:'availability', label:'Disponibilité', type:'select', options:RHGRID_SELECTS.availability, required:true },
+  { key:'availabilityDate', label:'Date dispo', type:'date' },
+  { key:'certificatesStatus', label:'Certificats', type:'select', options:RHGRID_SELECTS.certificatesStatus },
+  { key:'profileCompletion', label:'Profil complété', readonly:true },
+  { key:'ndaStatus', label:'NDA', type:'select', options:RHGRID_SELECTS.ndaStatus },
+  { key:'missingDocs', label:'Docs manquants', wide:true },
+  { key:'safeNotes', label:'Notes non sensibles', textarea:true },
+  { key:'lastUpdated', label:'Dernière mise à jour', readonly:true }
+];
+const RHGRID_TABLE_KEYS = ['ref','integrationStatus','publicationStatus','profileTitle','expertiseLevel','experienceRange','availability','availabilityDate','certificatesStatus','profileCompletion','missingDocs','lastUpdated'];
+const RHGRID_COMPLETION_KEYS = ['profileTitle','keywords','expertiseLevel','educationLevel','experienceRange','mainSkills','interventionArea','workedCountries','missionTypes','availability','certificatesStatus','ndaStatus'];
+const RHGRID_SEED = [
+  {
+    ref:'MYEOD-0001', integrationStatus:'Upload 1 reçu', publicationStatus:'Brouillon',
+    profileTitle:'Senior Offshore Installation Engineer', keywords:'offshore, subsea, installation, EPCI',
+    expertiseLevel:'Senior', educationLevel:'MSc', experienceRange:'10-20 ans',
+    mainSkills:'Installation offshore; vessel mobilization; HSE; RFO',
+    additionalSkills:'Subsea construction; IRM; ROV/diving', interventionArea:'Worldwide',
+    workedCountries:'France; UK; Norway; Angola', formerClients:'TotalEnergies; TechnipFMC; DeepOcean',
+    missionTypes:'Offshore; Rotation; Long terme', availability:'Date future', availabilityDate:'2025-02-01',
+    certificatesStatus:'À vérifier', ndaStatus:'Signé', missingDocs:'Medical, BOSIET',
+    safeNotes:'Ne pas saisir de nom, email, téléphone ou document personnel ici.', lastUpdated:'2026-05-22'
+  },
+  {
+    ref:'MYEOD-0002', integrationStatus:'Référence créée', publicationStatus:'Non publié',
+    profileTitle:'', keywords:'', expertiseLevel:'Expert', educationLevel:'', experienceRange:'>20 ans',
+    mainSkills:'', additionalSkills:'', interventionArea:'', workedCountries:'', formerClients:'',
+    missionTypes:'', availability:'Inconnue', availabilityDate:'', certificatesStatus:'Inconnu',
+    ndaStatus:'À signer', missingDocs:'', safeNotes:'', lastUpdated:'2026-05-22'
+  },
+  {
+    ref:'MYEOD-0003', integrationStatus:'Entretien pro', publicationStatus:'Brouillon',
+    profileTitle:'', keywords:'', expertiseLevel:'Junior', educationLevel:'', experienceRange:'2-10 ans',
+    mainSkills:'', additionalSkills:'', interventionArea:'', workedCountries:'', formerClients:'',
+    missionTypes:'', availability:'Immédiate', availabilityDate:'', certificatesStatus:'Inconnu',
+    ndaStatus:'Signé', missingDocs:'', safeNotes:'', lastUpdated:'2026-05-22'
+  }
+];
+let rhgridDb = loadRhgrid();
+let activeRhRef = null;
+
+function loadRhgrid() {
+  try {
+    const raw = localStorage.getItem(RHGRID_STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return RHGRID_SEED.map(row => ({...row, profileCompletion: computeCompletion(row)}));
+}
+function persistRhgrid() {
+  localStorage.setItem(RHGRID_STORAGE_KEY, JSON.stringify(rhgridDb));
+}
+function htmlEscape(value) {
+  return String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+}
+function todayIso() { return new Date().toISOString().slice(0,10); }
+function computeCompletion(row) {
+  const filled = RHGRID_COMPLETION_KEYS.filter(k => String(row[k] ?? '').trim() !== '').length;
+  return Math.round((filled / RHGRID_COMPLETION_KEYS.length) * 100);
+}
+function nextRhRef() {
+  const max = rhgridDb.reduce((acc, row) => {
+    const m = String(row.ref || '').match(/MYEOD-(\d+)/i);
+    return m ? Math.max(acc, parseInt(m[1], 10)) : acc;
+  }, 0);
+  return 'MYEOD-' + String(max + 1).padStart(4, '0');
+}
+function setupRhFilters() {
+  const pairs = [
+    ['db-status', RHGRID_SELECTS.integrationStatus],
+    ['db-expertise', RHGRID_SELECTS.expertiseLevel],
+    ['db-availability', RHGRID_SELECTS.availability],
+    ['db-publication', RHGRID_SELECTS.publicationStatus]
+  ];
+  pairs.forEach(([id, values]) => {
+    const el = document.getElementById(id);
+    if (!el || el.dataset.ready) return;
+    values.forEach(value => {
+      const opt = document.createElement('option'); opt.value = value; opt.textContent = value; el.appendChild(opt);
+    });
+    el.dataset.ready = 'true';
+  });
+}
+function filteredRhRows() {
+  const q = (document.getElementById('db-search')?.value || '').toLowerCase().trim();
+  const integration = document.getElementById('db-status')?.value || '';
+  const expertise = document.getElementById('db-expertise')?.value || '';
+  const availability = document.getElementById('db-availability')?.value || '';
+  const publication = document.getElementById('db-publication')?.value || '';
+  return rhgridDb.filter(row => {
+    const haystack = Object.values(row).join(' ').toLowerCase();
+    return (!q || haystack.includes(q))
+      && (!integration || row.integrationStatus === integration)
+      && (!expertise || row.expertiseLevel === expertise)
+      && (!availability || row.availability === availability)
+      && (!publication || row.publicationStatus === publication);
+  });
+}
+function renderRhStats(rows) {
+  const total = rhgridDb.length;
+  const published = rhgridDb.filter(r => r.publicationStatus === 'Publié').length;
+  const immediate = rhgridDb.filter(r => r.availability === 'Immédiate').length;
+  const avg = total ? Math.round(rhgridDb.reduce((s,r) => s + computeCompletion(r), 0) / total) : 0;
+  const stats = [
+    ['Consultants', total], ['Publiés', published], ['Disponibles', immediate], ['Complétion moyenne', avg + '%']
+  ];
+  document.getElementById('rhgrid-stats').innerHTML = stats.map(([label, value]) => `
+    <article class="db-stat"><p class="db-stat-label">${htmlEscape(label)}</p><p class="db-stat-value">${htmlEscape(value)}</p></article>
+  `).join('');
+}
+function renderRhHead() {
+  document.getElementById('rhgrid-head').innerHTML = RHGRID_TABLE_KEYS.map(key => {
+    const col = RHGRID_COLUMNS.find(c => c.key === key);
+    return `<th>${htmlEscape(col?.label || key)}</th>`;
+  }).join('') + '<th>Actions</th>';
+}
+function renderCell(row, key) {
+  if (key === 'profileCompletion') {
+    const pct = computeCompletion(row);
+    return `<td><span class="db-ref">${pct}%</span><div class="db-progress"><span style="width:${pct}%"></span></div></td>`;
+  }
+  if (key === 'publicationStatus') {
+    const cls = row[key] === 'Publié' ? 'published' : 'draft';
+    return `<td><span class="db-chip ${cls}">${htmlEscape(row[key] || 'Non publié')}</span></td>`;
+  }
+  if (key === 'ref') return `<td><span class="db-ref">${htmlEscape(row[key])}</span></td>`;
+  const compact = ['profileTitle','missingDocs'].includes(key) ? ' class="compact"' : '';
+  return `<td${compact}>${htmlEscape(row[key] || '')}</td>`;
+}
+function renderRhgrid() {
+  setupRhFilters();
+  renderRhHead();
+  const rows = filteredRhRows();
+  renderRhStats(rows);
+  const body = document.getElementById('rhgrid-body');
+  if (!rows.length) {
+    body.innerHTML = `<tr><td colspan="${RHGRID_TABLE_KEYS.length + 1}" class="db-empty">Aucune fiche ne correspond aux filtres.</td></tr>`;
+    return;
+  }
+  body.innerHTML = rows.map(row => `
+    <tr>
+      ${RHGRID_TABLE_KEYS.map(key => renderCell(row, key)).join('')}
+      <td><div class="db-row-actions"><button class="db-mini-btn" type="button" onclick="editRhRecord('${htmlEscape(row.ref)}')">Editer</button></div></td>
+    </tr>
+  `).join('');
+}
+function newRhRecord() {
+  activeRhRef = null;
+  const row = {
+    ref: nextRhRef(), integrationStatus:'Référence créée', publicationStatus:'Non publié', profileTitle:'', keywords:'',
+    expertiseLevel:'', educationLevel:'', experienceRange:'', mainSkills:'', additionalSkills:'', interventionArea:'',
+    workedCountries:'', formerClients:'', missionTypes:'', availability:'Inconnue', availabilityDate:'',
+    certificatesStatus:'Inconnu', profileCompletion:0, ndaStatus:'À signer', missingDocs:'', safeNotes:'', lastUpdated:todayIso()
+  };
+  openRhPanel(row, true);
+}
+function editRhRecord(ref) {
+  const row = rhgridDb.find(r => r.ref === ref);
+  if (!row) return;
+  activeRhRef = ref;
+  openRhPanel(row, false);
+}
+function openRhPanel(row, isNew) {
+  document.getElementById('rhgrid-panel-title').textContent = isNew ? 'Nouvelle fiche consultant' : 'Fiche consultant ' + row.ref;
+  document.getElementById('rh-delete-btn').style.display = isNew ? 'none' : 'inline-flex';
+  const fields = document.getElementById('rhgrid-fields');
+  fields.innerHTML = RHGRID_COLUMNS.map(col => fieldMarkup(col, row)).join('');
+  document.getElementById('rhgrid-warning').classList.remove('visible');
+  document.getElementById('rhgrid-panel').classList.add('open');
+  document.getElementById('rhgrid-panel').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+function fieldMarkup(col, row) {
+  const value = row[col.key] ?? '';
+  const full = (col.textarea || col.wide || col.key === 'safeNotes') ? ' full' : '';
+  const disabled = col.locked || col.readonly ? ' disabled' : '';
+  const required = col.required ? ' required' : '';
+  let input = '';
+  if (col.type === 'select') {
+    input = `<select class="db-select" name="${col.key}"${disabled}${required}><option value=""></option>${(col.options || []).map(opt => `<option value="${htmlEscape(opt)}"${opt === value ? ' selected' : ''}>${htmlEscape(opt)}</option>`).join('')}</select>`;
+  } else if (col.textarea) {
+    input = `<textarea class="db-textarea" name="${col.key}"${disabled}${required}>${htmlEscape(value)}</textarea>`;
+  } else {
+    const type = col.type === 'date' ? 'date' : 'text';
+    input = `<input class="db-input" type="${type}" name="${col.key}" value="${htmlEscape(value)}"${disabled}${required}/>`;
+  }
+  return `<label class="db-field${full}"><span class="db-label">${htmlEscape(col.label)}</span>${input}</label>`;
+}
+function closeRhPanel() {
+  document.getElementById('rhgrid-panel').classList.remove('open');
+  activeRhRef = null;
+}
+function collectRhForm(form) {
+  const data = {};
+  RHGRID_COLUMNS.forEach(col => {
+    const el = form.elements[col.key];
+    data[col.key] = el ? el.value.trim() : '';
+  });
+  return data;
+}
+function sensitiveWarnings(row) {
+  const scan = Object.entries(row).filter(([key]) => !['ref','profileCompletion','lastUpdated'].includes(key)).map(([,v]) => String(v || '')).join(' ');
+  const warnings = [];
+  if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(scan)) warnings.push('email détecté');
+  if (/(\+?\d[\d\s().-]{7,}\d)/.test(scan)) warnings.push('numéro de téléphone ou identifiant numérique détecté');
+  if (/\b(passport|passeport|adresse|address|birth|naissance|emergency|urgence)\b/i.test(scan)) warnings.push('mot-clé sensible détecté');
+  return warnings;
+}
+function saveRhRecord(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const row = collectRhForm(form);
+  row.ref = form.elements.ref.value.trim();
+  row.lastUpdated = todayIso();
+  row.profileCompletion = computeCompletion(row);
+  const warnings = sensitiveWarnings(row);
+  const warningBox = document.getElementById('rhgrid-warning');
+  if (warnings.length) {
+    warningBox.innerHTML = '<strong>Saisie bloquée.</strong> Le RHGrid ne doit pas contenir de données sensibles : ' + htmlEscape(warnings.join(', ')) + '.';
+    warningBox.classList.add('visible');
+    return;
+  }
+  const existingIndex = rhgridDb.findIndex(r => r.ref === row.ref);
+  if (activeRhRef && existingIndex >= 0) rhgridDb[existingIndex] = row;
+  else rhgridDb.push(row);
+  persistRhgrid();
+  closeRhPanel();
+  renderRhgrid();
+}
+function deleteRhRecord() {
+  if (!activeRhRef) return;
+  if (!confirm('Supprimer la fiche ' + activeRhRef + ' ?')) return;
+  rhgridDb = rhgridDb.filter(r => r.ref !== activeRhRef);
+  persistRhgrid();
+  closeRhPanel();
+  renderRhgrid();
+}
+function exportRhgridJson() {
+  const blob = new Blob([JSON.stringify(rhgridDb, null, 2)], { type:'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'RHgrid_anonymise_database.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function resetRhgridDemo() {
+  if (!confirm('Réinitialiser la base locale avec les données de départ ?')) return;
+  localStorage.removeItem(RHGRID_STORAGE_KEY);
+  rhgridDb = loadRhgrid();
+  closeRhPanel();
+  renderRhgrid();
+}
+
+document.addEventListener('DOMContentLoaded', renderRhgrid);
 </script>
 </body>
 </html>

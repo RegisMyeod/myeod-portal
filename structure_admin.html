@@ -1495,13 +1495,30 @@ async function doLogin() {
   if (!email || !pwd) { err.textContent = 'Email et mot de passe requis.'; err.style.display = 'block'; return; }
   if (btn) { btn.textContent = 'Connexion…'; btn.disabled = true; }
   const sb = getSB();
-  const { error } = await sb.auth.signInWithPassword({ email, password: pwd });
-  if (btn) { btn.textContent = 'Connexion'; btn.disabled = false; }
-  if (error) {
-    err.textContent = 'Identifiants incorrects.';
+  if (!sb) {
+    err.textContent = 'Supabase non initialisé — rechargez la page.';
     err.style.display = 'block';
-  } else {
-    closeLoginModal();
+    if (btn) { btn.textContent = 'Connexion'; btn.disabled = false; }
+    return;
+  }
+  try {
+    const { data, error } = await sb.auth.signInWithPassword({ email, password: pwd });
+    if (btn) { btn.textContent = 'Connexion'; btn.disabled = false; }
+    if (error) {
+      // Show exact Supabase error for diagnosis
+      const code = error.status || '';
+      const msg  = error.message || JSON.stringify(error);
+      err.textContent = msg + (code ? ' (' + code + ')' : '');
+      err.style.display = 'block';
+      console.error('[Auth error]', error);
+    } else {
+      closeLoginModal();
+    }
+  } catch(e) {
+    if (btn) { btn.textContent = 'Connexion'; btn.disabled = false; }
+    err.textContent = 'Erreur réseau : ' + (e.message || e);
+    err.style.display = 'block';
+    console.error('[Auth exception]', e);
   }
 }
 

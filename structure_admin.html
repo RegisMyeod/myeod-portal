@@ -1554,13 +1554,17 @@ async function uploadToSupabase(file, path, catId) {
   }
   const sb = getSB();
   if (!sb) throw new Error('Supabase non initialisé');
-  await sb.storage.from(SB_BUCKET).remove([path]);
+  // upsert:true handles overwrite natively — no prior remove() needed
   const { data, error } = await sb.storage.from(SB_BUCKET).upload(path, file, {
     cacheControl: '3600', upsert: true,
     contentType: file.type || 'application/octet-stream'
   });
-  if (error) throw error;
-  return path; // return path, not public URL — we resolve later via getFileUrl
+  if (error) {
+    // Surface the exact Supabase error message for diagnosis
+    const msg = error.message || (error.error && error.error.message) || JSON.stringify(error);
+    throw new Error(msg);
+  }
+  return path;
 }
 
 // ── Supabase DB: persist doc_files ────────────────────────────────────────────

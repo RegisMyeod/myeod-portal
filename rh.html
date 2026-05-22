@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyEOD — Ressources Humaines</title>
+  <style>
+    @font-face{font-family:'MazzardM';src:url('MazzardM-Regular.woff2') format('woff2');font-weight:400;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-Medium.woff2') format('woff2');font-weight:500;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-SemiBold.woff2') format('woff2');font-weight:600;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-Bold.woff2') format('woff2');font-weight:700;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-ExtraBold.woff2') format('woff2');font-weight:800;}
+
+    :root {
+      --gold:#b08a2a; --teal:#0e7070;
+      --white:#ffffff; --black:#0a0a0a;
+      --gray-50:#f8f8f8; --gray-100:#f0f0f0; --gray-200:#e0e0e0;
+      --gray-300:#cccccc; --gray-400:#9a9a9a; --gray-500:#666666; --gray-600:#555555;
+      --text:#1a1a1a; --font:'MazzardM',sans-serif; --radius:2px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--white); color: var(--text);
+      font-family: var(--font); font-size: 11px;
+      line-height: 1.6; min-height: 100vh;
+    }
+
+    .myeod-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2.5rem;
+      border-bottom: 1px solid var(--gray-200);
+      background: var(--white);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .myeod-header-logo {
+      font-size: 1.35rem; font-weight: 400; letter-spacing: .04em;
+      color: var(--black); line-height: 1;
+    }
+    .myeod-header-logo span { font-size: .46rem; letter-spacing: .13em; color: var(--gray-500); display:block; margin-top:.18rem; text-align:center; }
+    .myeod-header-right { display: flex; align-items: center; gap: 1rem; }
+    .header-title { text-align: right; }
+    .header-title-main {
+      font-size: .7rem; font-weight: 700; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--black);
+    }
+    .header-title-sub {
+      font-size: .55rem; font-weight: 400; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--gray-400); margin-top: 2px;
+    }
+    .btn-nav-back {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px;
+      font-family: var(--font); font-size: .9rem; font-weight: 700;
+      color: var(--gray-600); background: none;
+      border: 1px solid var(--gray-200); border-radius: var(--radius);
+      cursor: pointer; transition: border-color .2s, color .2s;
+    }
+    .btn-nav-back:hover { border-color: var(--black); color: var(--black); }
+
+    .page-body {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 3rem 2rem 4rem;
+      min-height: calc(100vh - 106px);
+    }
+    .page-kicker {
+      font-size: .6rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gray-400);
+      margin-bottom: .5rem; text-align: center;
+    }
+    .page-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800;
+      letter-spacing: -0.02em; color: var(--black);
+      margin-bottom: .9rem; text-align: center;
+    }
+    .page-intro {
+      max-width: 760px; text-align: center; color: var(--gray-500);
+      font-size: .76rem; letter-spacing: .03em; line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .landing-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+      width: 100%; max-width: 960px;
+    }
+    .landing-card {
+      border: 1px solid var(--gray-200);
+      padding: 2.2rem 1.8rem;
+      display: flex; flex-direction: column;
+      align-items: flex-start; gap: .8rem;
+      transition: border-color .2s, box-shadow .2s, transform .15s, background .2s;
+      background: var(--white);
+      position: relative; overflow: hidden;
+      min-height: 190px;
+    }
+    .landing-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--gray-200); transition: background .2s;
+    }
+    .landing-card:hover {
+      border-color: var(--gray-300);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+      transform: translateY(-2px);
+      background: var(--gray-50);
+    }
+    .landing-card:hover::before { background: #1a1a1a; }
+    .landing-card-num {
+      font-size: .6rem; font-weight: 700; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gray-300);
+    }
+    .landing-card-title {
+      font-size: 1.1rem; font-weight: 700;
+      letter-spacing: .02em; color: var(--black); line-height: 1.3;
+    }
+    .landing-card-desc {
+      font-size: .7rem; color: var(--gray-400);
+      letter-spacing: .04em; line-height: 1.7; flex: 1;
+    }
+    .landing-card-arrow {
+      font-size: .9rem; color: var(--gray-300);
+      margin-top: auto; transition: transform .2s, color .2s;
+    }
+    .landing-card:hover .landing-card-arrow {
+      transform: translateX(4px); color: var(--black);
+    }
+
+    .page-footer {
+      margin-top: 4rem; width: 100%; max-width: 960px;
+      padding-top: 1.5rem; border-top: 1px solid var(--gray-100);
+      font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--gray-300); text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .landing-cards { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .landing-cards { grid-template-columns: 1fr; }
+      .myeod-header { padding: .9rem 1rem; }
+      .myeod-header-logo { font-size: 1.05rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="myeod-header">
+  <div class="myeod-header-logo">&lt; MY/EOD &gt;<span>expert on demand</span></div>
+  <div class="myeod-header-right">
+    <div class="header-title">
+      <div class="header-title-main">Ressources humaines</div>
+      <div class="header-title-sub">Fiche administrative</div>
+    </div>
+    <button type="button" class="btn-nav-back" onclick="goBackToPreviousPage()" title="Retour" aria-label="Retour">&#8592;</button>
+  </div>
+</header>
+
+<main class="page-body">
+  <p class="page-kicker">Portail administratif</p>
+  <h1 class="page-title">Ressources humaines</h1>
+  <p class="page-intro">
+    Landing page de la fiche Ressources Humaines rattach&eacute;e au portail Admin.
+    Elle regroupe les entr&eacute;es RH utiles pour piloter les consultants, les contrats,
+    les validit&eacute;s administratives, les assurances et le suivi op&eacute;rationnel associ&eacute;.
+  </p>
+
+  <div class="landing-cards">
+
+    <section class="landing-card">
+      <p class="landing-card-num">01 &mdash;</p>
+      <h2 class="landing-card-title">Consultants</h2>
+      <p class="landing-card-desc">Fiches consultants, contacts, disponibilit&eacute;s, r&ocirc;les et informations de suivi.</p>
+      <span class="landing-card-arrow">&#8594;</span>
+    </section>
+
+    <section class="landing-card">
+      <p class="landing-card-num">02 &mdash;</p>
+      <h2 class="landing-card-title">Contrats</h2>
+      <p class="landing-card-desc">Contrats experts, bons de commande, avenants, NDA et documents de contractualisation.</p>
+      <span class="landing-card-arrow">&#8594;</span>
+    </section>
+
+    <section class="landing-card">
+      <p class="landing-card-num">03 &mdash;</p>
+      <h2 class="landing-card-title">HSE &amp; certifications</h2>
+      <p class="landing-card-desc">Certificats, formations, habilitations, exigences offshore et documents de conformit&eacute;.</p>
+      <span class="landing-card-arrow">&#8594;</span>
+    </section>
+
+    <section class="landing-card">
+      <p class="landing-card-num">04 &mdash;</p>
+      <h2 class="landing-card-title">Assurances</h2>
+      <p class="landing-card-desc">RCP, attestations, couvertures sp&eacute;cifiques mission et suivi des dates de validit&eacute;.</p>
+      <span class="landing-card-arrow">&#8594;</span>
+    </section>
+
+    <section class="landing-card">
+      <p class="landing-card-num">05 &mdash;</p>
+      <h2 class="landing-card-title">Onboarding</h2>
+      <p class="landing-card-desc">Checklists d&rsquo;arriv&eacute;e, acc&egrave;s, documents requis et parcours d&rsquo;int&eacute;gration.</p>
+      <span class="landing-card-arrow">&#8594;</span>
+    </section>
+
+    <section class="landing-card">
+      <p class="landing-card-num">06 &mdash;</p>
+      <h2 class="landing-card-title">Notes &amp; suivi</h2>
+      <p class="landing-card-desc">Notes internes, points de vigilance, actions RH et historique des &eacute;changes.</p>
+      <span class="landing-card-arrow">&#8594;</span>
+    </section>
+
+  </div>
+
+  <footer class="page-footer">
+    MyEOD &middot; A brand represented by Ing&eacute;nieurs Cr&eacute;atifs
+  </footer>
+</main>
+
+<script>
+function goBackToPreviousPage() {
+  var fallback = 'admin.html';
+  try {
+    if (window.history.length > 1) {
+      window.history.back();
+      window.setTimeout(function() { window.location.href = fallback; }, 450);
+      return;
+    }
+  } catch(e) {}
+  window.location.href = fallback;
+}
+</script>
+</body>
+</html>

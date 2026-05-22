@@ -77,6 +77,7 @@ input.tf{width:160px;color:#1a1a1a;}
 
 /* DOC CARD */
 .doc-card{background:#ffffff;border:1px solid var(--gray-200);border-left:3px solid;padding:13px 15px;cursor:pointer;transition:box-shadow .15s,border-color .15s;position:relative;}
+.doc-card.has-stamp{padding-bottom:72px;}
 .doc-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);border-color:var(--gray-400);}
 .doc-card.done{opacity:.6;}
 .doc-card-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:7px;}
@@ -85,6 +86,30 @@ input.tf{width:160px;color:#1a1a1a;}
 .doc-name-en{font-size:9px;color:var(--gray-400);font-style:italic;margin-top:1px;}
 .doc-desc{font-size:10px;color:var(--gray-600);line-height:1.7;margin-bottom:8px;}
 .doc-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.expert-stamps{
+  position:absolute;
+  bottom:10px;right:10px;
+  display:flex;flex-direction:column;align-items:flex-end;
+  gap:6px;
+  pointer-events:none;
+}
+.stamp{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11.25px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;
+  color:#c0392b;border:2.5px solid #c0392b;
+  padding:4px 11px 4px 8px;
+  border-radius:2px;
+  font-family:var(--font);
+  opacity:.78;
+  transform-origin:center center;
+  background:rgba(192,57,43,.05);
+  white-space:nowrap;
+  box-shadow:1px 1px 0 rgba(192,57,43,.15);
+}
+.stamp::before{content:'⛔';font-size:10px;margin-right:3px;opacity:.65;}
+.stamp:nth-child(1){transform:rotate(-30deg);}
+.stamp:nth-child(2){transform:rotate(-15deg);}
+.stamp:nth-child(3){transform:rotate(-45deg);}
 .badge{font-size:8px;padding:2px 7px;border:1px solid;letter-spacing:.07em;text-transform:uppercase;flex-shrink:0;}
 .doc-status{position:absolute;top:10px;right:10px;font-size:8px;padding:2px 8px;border:1px solid;letter-spacing:.08em;text-transform:uppercase;}
 
@@ -124,6 +149,13 @@ input.tf{width:160px;color:#1a1a1a;}
 .prog-bar-bg{flex:1 1 auto;min-width:0;height:8px;min-height:8px;background:var(--gray-200);border-radius:0;display:block;}
 .prog-bar{height:8px;min-height:8px;border-radius:0;transition:width .5s;display:block;}
 .prog-count{font-size:9px;color:var(--text-dim);flex:0 0 170px;width:170px;text-align:right;white-space:nowrap;}
+.prog-pct{font-size:10px;font-weight:700;flex:0 0 38px;width:38px;text-align:right;white-space:nowrap;letter-spacing:.03em;}
+.prog-global{display:flex;align-items:center;gap:12px;padding:10px 0 14px;border-bottom:2px solid var(--gray-200);margin-bottom:12px;}
+.prog-global-bar-bg{flex:1 1 auto;height:12px;background:var(--gray-200);border-radius:0;}
+.prog-global-bar{height:12px;border-radius:0;transition:width .6s;background:linear-gradient(90deg,var(--teal),var(--gold));}
+.prog-global-lbl{font-size:9px;color:var(--text-muted);letter-spacing:.15em;text-transform:uppercase;flex:0 0 150px;}
+.prog-global-pct{font-size:14px;font-weight:800;color:var(--text);flex:0 0 46px;text-align:right;letter-spacing:.02em;}
+.prog-global-count{font-size:9px;color:var(--text-dim);flex:0 0 170px;text-align:right;white-space:nowrap;}
 
 @media print{
   .filters,.legend,.no-print{display:none!important;}
@@ -343,26 +375,43 @@ function goBackToPreviousPage() {
 
 <!-- PROGRESS -->
 <div class="progress-wrap">
-  <div style="font-size:9px;color:var(--text-muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px">Avancement global</div>
+  <!-- Global progress bar -->
+  <div class="prog-global">
+    <div class="prog-global-lbl">Avancement global</div>
+    <div class="prog-global-bar-bg"><div class="prog-global-bar" id="pb-global" style="width:0%"></div></div>
+    <div class="prog-global-pct" id="pp-global">0%</div>
+    <div class="prog-global-count" id="pc-global">—</div>
+  </div>
+  <!-- Per-category rows -->
   <div class="progress-row">
     <div class="prog-lbl">Commerciaux</div>
     <div class="prog-bar-bg"><div class="prog-bar" id="pb-com" style="background:var(--teal);width:0%"></div></div>
+    <div class="prog-pct" id="pp-com" style="color:var(--teal)">0%</div>
     <div class="prog-count" id="pc-com">—</div>
   </div>
   <div class="progress-row">
     <div class="prog-lbl">Administratifs</div>
     <div class="prog-bar-bg"><div class="prog-bar" id="pb-adm" style="background:var(--orange);width:0%"></div></div>
+    <div class="prog-pct" id="pp-adm" style="color:var(--orange)">0%</div>
     <div class="prog-count" id="pc-adm">—</div>
   </div>
   <div class="progress-row">
     <div class="prog-lbl">Financiers</div>
     <div class="prog-bar-bg"><div class="prog-bar" id="pb-fin" style="background:var(--gold);width:0%"></div></div>
+    <div class="prog-pct" id="pp-fin" style="color:var(--gold)">0%</div>
     <div class="prog-count" id="pc-fin">—</div>
   </div>
   <div class="progress-row">
     <div class="prog-lbl">RH &amp; Consultants</div>
     <div class="prog-bar-bg"><div class="prog-bar" id="pb-rh" style="background:var(--purple);width:0%"></div></div>
+    <div class="prog-pct" id="pp-rh" style="color:var(--purple)">0%</div>
     <div class="prog-count" id="pc-rh">—</div>
+  </div>
+  <div class="progress-row">
+    <div class="prog-lbl">🇨🇭 Légaux Suisse</div>
+    <div class="prog-bar-bg"><div class="prog-bar" id="pb-ch" style="background:#c0392b;width:0%"></div></div>
+    <div class="prog-pct" id="pp-ch" style="color:#c0392b">0%</div>
+    <div class="prog-count" id="pc-ch">—</div>
   </div>
 </div>
 
@@ -389,6 +438,7 @@ function goBackToPreviousPage() {
     <option value="admin">Administratif</option>
     <option value="financier">Financier</option>
     <option value="rh">RH &amp; Consultants</option>
+    <option value="suisse">🇨🇭 Légaux Suisse</option>
   </select>
   <div class="flbl">Priorité</div>
   <select class="tf" id="f-prio" onchange="render()">
@@ -454,6 +504,7 @@ function goBackToPreviousPage() {
           <option value="admin">Administratif</option>
           <option value="financier">Financier</option>
           <option value="rh">RH &amp; Consultants</option>
+          <option value="suisse">🇨🇭 Légaux Suisse</option>
         </select>
       </div>
       <div style="display:flex;flex-direction:column;gap:3px;">
@@ -708,7 +759,61 @@ const DEFAULT_DOCS = [
   owner:"CCA",statusFr:"done",statusEn:"na",refFr:"",refEn:"",notes:"Document fondateur IC — à conserver version à jour"},
 {id:51,cat:"admin",prio:2,name:"Registre Mouvements de Titres",nameEn:"Share Transfer Register",icon:"📋",
   desc:"Registre des mouvements de titres IC SAS : comptes individuels associés, ordres de mouvement, actes de cession. Document légal obligatoire. Mis à jour à chaque mouvement capitalistique.",
-  owner:"CCA",statusFr:"done",statusEn:"na",refFr:"",refEn:"",notes:"EN N/A — document légal FR uniquement"}
+  owner:"CCA",statusFr:"done",statusEn:"na",refFr:"",refEn:"",notes:"EN N/A — document légal FR uniquement"},
+
+// ── DOCUMENTS LÉGAUX SUISSE ─────────────────────────────────────────────────
+// Sàrl suisse · Cantons du Jura et de Neuchâtel · Réf. MYEOD-SYN-SARL-CH-JU-NE-260522
+{id:52,cat:"suisse",prio:1,name:"Acte authentique de constitution",nameEn:"Notarial Deed of Incorporation",icon:"⚖️",
+  desc:"Acte passé devant notaire constatant la création de la Sàrl, les statuts et la nomination des organes. Obligatoire pour toute fondation. Condition sine qua non de l'existence juridique.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Réf. MYEOD-SYN-SARL-CH-JU-NE-260522 · Notaire canton du siège"},
+{id:53,cat:"suisse",prio:1,name:"Statuts de la Sàrl",nameEn:"Articles of Association (Sàrl)",icon:"📜",
+  desc:"Statuts devant indiquer la raison sociale, le but, le siège, le capital social (min. CHF 20'000), le nombre et la valeur nominale des parts sociales, et la forme des communications.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Pièce centrale · À valider notaire suisse avant signature"},
+{id:54,cat:"suisse",prio:1,name:"Preuve de libération du capital",nameEn:"Capital Release Evidence",icon:"🏦",
+  desc:"Justificatif de libération du capital minimum (CHF 20'000). En pratique : compte de consignation bancaire, déclaration de consignation, puis libération après publication/inscription au RC.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Capital min. CHF 20'000 entièrement libéré · Compte consignation requis"},
+{id:55,cat:"suisse",prio:1,name:"Réquisition au Registre du Commerce",nameEn:"Commercial Register Filing",icon:"📋",
+  desc:"Inscription au registre du commerce du canton du siège (Jura ou Neuchâtel). L'inscription donne naissance à la personnalité juridique. Pièce obligatoire et constitutive.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"RC cantonal du siège · Interlocuteur RC Jura ou Neuchâtel selon canton retenu"},
+{id:56,cat:"suisse",prio:1,name:"Nomination gérance et représentation",nameEn:"Management & Representation Appointment",icon:"👤",
+  desc:"Désignation formelle de la gérance et des signataires avec droit de signature. Au moins une personne domiciliée en Suisse doit pouvoir représenter la société. Signatures légalisées requises.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"JMA domicilié en Suisse — rôle clé pour représentation · Signatures légalisées à déposer"},
+{id:57,cat:"suisse",prio:2,name:"Registre des parts sociales",nameEn:"Share Register",icon:"📒",
+  desc:"Registre interne à tenir à jour : associés, nombre et valeur nominale des parts, transferts et droits attachés. Document obligatoire pour toute la vie sociale de la Sàrl.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Mise à jour à chaque transfert · Document interne confidentiel"},
+{id:58,cat:"suisse",prio:2,name:"Liste des ayants droit économiques",nameEn:"Beneficial Owners Register",icon:"🔍",
+  desc:"À tenir lorsque des participations atteignent ou dépassent 25% du capital ou des droits de vote. Mise à jour indispensable. Obligation légale LBVM/LBA.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Seuil : 25% du capital ou droits de vote · Mise à jour obligatoire à chaque changement"},
+{id:59,cat:"suisse",prio:2,name:"Procès-verbaux des associés et gérants",nameEn:"Minutes of Shareholders & Managers",icon:"📝",
+  desc:"Nécessaires pour les décisions sociales : nominations, radiations, transfert de parts, changement de siège/statuts, organe de révision, dissolution. À conserver intégralement.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Forme écrite obligatoire · Conserver 10 ans minimum"},
+{id:60,cat:"suisse",prio:2,name:"Contrats de transfert de parts",nameEn:"Share Transfer Agreements",icon:"📋",
+  desc:"Forme écrite requise pour tout transfert de parts. Ratification par assemblée des associés en principe requise, sauf règles statutaires particulières. Document légal fondamental.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"À notifier au RC cantonal · Ratification assemblée associés selon statuts"},
+{id:61,cat:"suisse",prio:2,name:"Mises à jour Registre du Commerce",nameEn:"Commercial Register Updates",icon:"🔄",
+  desc:"Tout fait inscrit qui change doit être annoncé au RC : domicile, siège, but, gérants, signatures, organe de révision, dissolution, liquidation. Procédure continue.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Délai légal de notification · RC Jura ou RC Neuchâtel selon siège"},
+{id:62,cat:"suisse",prio:1,name:"Comptabilité complète",nameEn:"Full Accounting Records",icon:"💼",
+  desc:"Obligatoire pour les personnes morales : inventaire, bilan complet, compte de résultat et pièces justificatives. Base légale CO art. 957 et ss. Tenue annuelle.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Fiduciaire suisse recommandée · Pièces à conserver 10 ans"},
+{id:63,cat:"suisse",prio:1,name:"Comptes annuels — Bilan & Résultat",nameEn:"Annual Accounts — Balance Sheet & P&L",icon:"📊",
+  desc:"Bilan, compte de profits et pertes et annexe. Servent de base à la déclaration fiscale cantonale. Doivent être joints à la déclaration d'impôt (Neuchâtel notamment). Approbation par associés.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Base déclaration fiscale · Délai annuel à respecter selon canton"},
+{id:64,cat:"suisse",prio:1,name:"Déclaration fiscale cantonale",nameEn:"Cantonal Tax Return",icon:"🏛️",
+  desc:"Obligatoire chaque année dans le canton de rattachement fiscal (Jura ou Neuchâtel selon siège/administration effective). Formulaires cantonaux personnes morales à utiliser.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Jura : formulaires RC Jura · Neuchâtel : declaration-impot.ne.ch · Comptes annuels à joindre"},
+{id:65,cat:"suisse",prio:2,name:"Évaluation TVA & inscription",nameEn:"VAT Assessment & Registration",icon:"💰",
+  desc:"Assujettissement en principe dès que le CA déterminant atteint CHF 100'000. Inscription volontaire possible sous conditions. AFC suisse. À évaluer avant émission des premières factures.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Seuil CHF 100'000 CA · estv.admin.ch · Inscription avant activité effective si probable"},
+{id:66,cat:"suisse",prio:2,name:"Déclaration LFAIE / Pièces complémentaires",nameEn:"LFAIE Declaration / Complementary Documents",icon:"🌍",
+  desc:"À vérifier selon la structure de l'actionnariat, les personnes étrangères concernées et les exigences du registre cantonal. Applicable si associés étrangers ou actifs immobiliers.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"À valider selon profil des associés · Conseil juridique suisse recommandé"},
+{id:67,cat:"suisse",prio:3,name:"Décision opting-out révision",nameEn:"Audit Opting-Out Decision",icon:"✅",
+  desc:"Contrôle restreint par défaut. Opting-out possible si unanimité des associés et au plus dix emplois à plein temps en moyenne annuelle. À documenter correctement. Fiduciaire ou RC cantonal peut demander pièces complémentaires.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Condition : unanimité associés + max 10 ETP · À archiver avec les PV"},
+{id:68,cat:"suisse",prio:3,name:"Obligations employeur — AVS/LPP/LAA",nameEn:"Employer Obligations — AVS/LPP/LAA",icon:"🛡️",
+  desc:"Si salariés : affiliation AVS/AI/APG/AC, assurance-accidents LAA, certificats de salaire, fiches de salaire, LPP selon seuils. À mettre en place avant le premier contrat de travail.",
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Traiter avant engagement premiers salariés · Caisse de compensation cantonale"}
 ]
 
 const SK_DOCS = 'myeod_docs_v3';
@@ -718,6 +823,7 @@ const CAT_CONFIG = {
   admin:      {label:'Documents Administratifs', icon:'🏢', color:'var(--orange)', desc:'Contrats équipe · Convention IC · Procédures · Charte · HSE · Juridique'},
   financier:  {label:'Documents Financiers',     icon:'💰', color:'var(--gold)',   desc:'Devis · Factures · CGV · Trésorerie · Grille tarifaire · Dépenses'},
   rh:         {label:'RH & Consultants Externes',icon:'👤', color:'var(--purple)', desc:'Dossiers consultants · HSE/BOSIET · Médical · Assurances · Suivi validités'},
+  suisse:     {label:'Documents Légaux Suisse',  icon:'🇨🇭', color:'#c0392b',      desc:'Sàrl Suisse · Constitution · Registres · Comptabilité · Fiscalité · Cantons JU & NE'},
 };
 
 const PRIO_COLORS = {1:'var(--p1)',2:'var(--p2)',3:'var(--p3)'};
@@ -771,6 +877,37 @@ function removeDoc(id){
 
 function showSync(state,msg){ /* local mode */ }
 
+
+const EXPERT_MAP = {
+  5: ['Avocat'],
+  6: ['Avocat'],
+  7: ['Avocat'],
+  13: ['Avocat'],
+  18: ['Avocat'],
+  30: ['Avocat'],
+  39: ['Avocat'],
+  48: ['Avocat'],
+  49: ['Expert-comptable'],
+  50: ['Avocat', 'Notaire'],
+  51: ['Avocat'],
+  52: ['Notaire'],
+  53: ['Notaire', 'Avocat'],
+  54: ['Expert-comptable'],
+  55: ['Notaire'],
+  56: ['Notaire'],
+  57: ['Avocat'],
+  58: ['Avocat'],
+  59: ['Avocat'],
+  60: ['Notaire', 'Avocat'],
+  61: ['Notaire', 'Avocat'],
+  62: ['Expert-comptable', 'Réviseur'],
+  63: ['Expert-comptable', 'Réviseur'],
+  64: ['Expert-comptable', 'Fiduciaire'],
+  65: ['Expert-comptable', 'Fiduciaire'],
+  66: ['Avocat'],
+  67: ['Réviseur', 'Avocat'],
+  68: ['Expert-comptable', 'Fiduciaire']
+};
 
 function isComplete(d){ return d.statusFr==='done'||d.statusFr==='template'||d.statusFr==='na'; }
 function isCompleteEn(d){ return d.statusEn==='done'||d.statusEn==='template'||d.statusEn==='na'; }
@@ -898,17 +1035,32 @@ function render(){
   document.getElementById('total-count').textContent = docs.length + ' documents au total';
 
   // Progress bars — count as done if both FR+EN complete
-  ['commercial','admin','financier','rh'].forEach(cat=>{
+  let globalDone=0, globalWip=0, globalTotal=0;
+  ['commercial','admin','financier','rh','suisse'].forEach(cat=>{
     const all  = docs.filter(d=>d.cat===cat);
     const done = all.filter(isFullyDone).length;
     const wip  = all.filter(d=>!isFullyDone(d)&&(d.statusFr==='wip'||d.statusEn==='wip')).length;
     const pct  = all.length ? Math.round((done + wip*0.5)/all.length*100) : 0;
-    const id   = {commercial:'com',admin:'adm',financier:'fin',rh:'rh'}[cat];
+    const id   = {commercial:'com',admin:'adm',financier:'fin',rh:'rh',suisse:'ch'}[cat];
     const pb   = document.getElementById('pb-'+id);
     const pc   = document.getElementById('pc-'+id);
+    const pp   = document.getElementById('pp-'+id);
     if(pb) pb.style.width = pct+'%';
-    if(pc) pc.textContent = done+'/'+all.length+' bilingues ('+wip+' en cours)';
+    if(pp) pp.textContent = pct+'%';
+    const lbl = cat==='suisse' ? ' produits ('+wip+' en cours)' : ' bilingues ('+wip+' en cours)';
+    if(pc) pc.textContent = done+'/'+all.length+lbl;
+    globalDone  += done;
+    globalWip   += wip;
+    globalTotal += all.length;
   });
+  // Global bar
+  const globalPct = globalTotal ? Math.round((globalDone + globalWip*0.5)/globalTotal*100) : 0;
+  const pbg = document.getElementById('pb-global');
+  const ppg = document.getElementById('pp-global');
+  const pcg = document.getElementById('pc-global');
+  if(pbg) pbg.style.width = globalPct+'%';
+  if(ppg) ppg.textContent = globalPct+'%';
+  if(pcg) pcg.textContent = globalDone+'/'+globalTotal+' complétés ('+globalWip+' en cours)';
 
   if(!filtered.length){
     container.innerHTML='<div style="text-align:center;color:var(--text-muted);padding:60px;font-size:13px;letter-spacing:.1em;">Aucun document</div>';
@@ -916,7 +1068,7 @@ function render(){
   }
 
   let html = '';
-  ['commercial','admin','financier','rh'].forEach(cat=>{
+  ['commercial','admin','financier','rh','suisse'].forEach(cat=>{
     const catDocs = filtered.filter(d=>d.cat===cat);
     if(!catDocs.length) return;
     const cfg = CAT_CONFIG[cat];
@@ -942,7 +1094,8 @@ function render(){
       const frRef = d.refFr ? `<span title="${d.refFr}" style="font-size:7px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;display:inline-block;vertical-align:middle;margin-left:3px;">📎 ${d.refFr}</span>` : '';
       const enRef = d.refEn ? `<span title="${d.refEn}" style="font-size:7px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;display:inline-block;vertical-align:middle;margin-left:3px;">📎 ${d.refEn}</span>` : '';
 
-      html += `<div class="doc-card p${d.prio}${fully?' done':''}" onclick="openEdit(${d.id})" style="border-left-color:${pc}">
+      const hasStamp = !!(EXPERT_MAP[d.id]&&EXPERT_MAP[d.id].length);
+      html += `<div class="doc-card p${d.prio}${fully?' done':''}${hasStamp?' has-stamp':''}" onclick="openEdit(${d.id})" style="border-left-color:${pc}">
         <div class="doc-card-top">
           <span class="doc-icon">${d.icon}</span>
           <div style="flex:1;min-width:0;">
@@ -968,6 +1121,7 @@ function render(){
           <span class="badge" style="border-color:var(--border-hi);color:var(--text-muted)">${d.owner||''}</span>
           ${d.notes?`<span style="font-size:9px;color:var(--text-muted);font-style:italic;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${d.notes}">💡 ${d.notes}</span>`:''}
         </div>
+        ${hasStamp?`<div class="expert-stamps">${EXPERT_MAP[d.id].map((e,i)=>`<span class="stamp">${e}</span>`).join('')}</div>`:''}
       ${getDlLinks(d.id)}
     </div>`;
     });

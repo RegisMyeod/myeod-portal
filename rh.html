@@ -265,7 +265,9 @@
       width: 86px; height: 5px; background: var(--gray-100); margin-top: .32rem; overflow: hidden;
     }
     .db-progress span { display: block; height: 100%; background: var(--black); }
-    .db-row-actions { display: flex; gap: .4rem; }
+    .db-row-actions { display: flex; gap: .4rem; flex-wrap: wrap; }
+    .db-mini-btn.publish { border-color: var(--black); color: var(--black); }
+    .db-mini-btn.publish[disabled] { opacity: .35; cursor: not-allowed; border-color: var(--gray-200); color: var(--gray-400); }
     .db-mini-btn {
       border: 1px solid var(--gray-200); background: var(--white); color: var(--gray-600);
       font-family: var(--font); font-size: .56rem; font-weight: 800; letter-spacing: .1em;
@@ -305,6 +307,13 @@
     }
     .db-rule { background: var(--white); padding: 1rem 1.1rem; }
     .db-empty { padding: 1.4rem; text-align: center; color: var(--gray-400); font-size: .72rem; }
+    .publish-note {
+      margin-top: .85rem; border: 1px solid var(--gray-200); background: var(--gray-50);
+      padding: .9rem 1rem; color: var(--gray-500); font-size: .66rem; line-height: 1.7;
+      display: none;
+    }
+    .publish-note.visible { display: block; }
+    .publish-note strong { color: var(--black); }
 
     @media (max-width: 960px) {
       .principles { grid-template-columns: 1fr; }
@@ -415,11 +424,13 @@
         <h2 class="section-title">Base de donn&eacute;es RHGrid anonymis&eacute;e</h2>
         <p class="db-subtitle">
           La grille est maintenant int&eacute;gr&eacute;e dans la page sous forme de base de donn&eacute;es locale.
-          Elle stocke uniquement les donn&eacute;es professionnelles anonymis&eacute;es et utilise la Ref MyEOD comme identifiant unique.
+          Elle stocke uniquement les donn&eacute;es professionnelles anonymis&eacute;es, utilise la Ref MyEOD comme identifiant unique, accepte l&rsquo;import JSON et bloque la publication tant que des documents restent &agrave; collecter ou v&eacute;rifier.
         </p>
       </div>
       <div class="db-actions">
         <button class="db-btn primary" type="button" onclick="newRhRecord()">Nouveau consultant</button>
+        <button class="db-btn" type="button" onclick="triggerRhgridJsonImport()">Importer JSON</button>
+        <input id="rhgrid-json-import" type="file" accept="application/json,.json" style="display:none" onchange="handleRhgridJsonImport(event)"/>
         <button class="db-btn" type="button" onclick="exportRhgridJson()">Exporter JSON</button>
         <button class="db-btn" type="button" onclick="resetRhgridDemo()">R&eacute;initialiser</button>
       </div>
@@ -441,6 +452,7 @@
         <tbody id="rhgrid-body"></tbody>
       </table>
     </div>
+    <div id="rhgrid-publish-note" class="publish-note" aria-live="polite"></div>
 
     <section id="rhgrid-panel" class="db-panel" aria-label="Edition RHGrid">
       <div class="db-panel-head">
@@ -461,7 +473,7 @@
     <div class="db-rules">
       <article class="db-rule">
         <p class="principle-label">Donn&eacute;es autoris&eacute;es</p>
-        <p class="principle-text">Titre de profil, mots-cl&eacute;s, comp&eacute;tences, niveaux, exp&eacute;rience par plage, pays travaill&eacute;s, anciens clients, disponibilit&eacute;, certificats et statut NDA.</p>
+        <p class="principle-text">Titre de profil, mots-cl&eacute;s, comp&eacute;tences, niveaux, exp&eacute;rience par plage, pays travaill&eacute;s, anciens clients, disponibilit&eacute;, certificats, statut NDA et documents restant &agrave; collecter ou v&eacute;rifier.</p>
       </article>
       <article class="db-rule">
         <p class="principle-label">Donn&eacute;es bloqu&eacute;es</p>
@@ -530,6 +542,11 @@ function scrollToDatabase() {
 }
 
 const RHGRID_STORAGE_KEY = 'myeod.rhgrid.anonymized.database.v1';
+const RHGRID_PUBLICATION_DOCUMENTS = [
+  { key:'profile', label:'Profil anonymisé consultant', extension:'html' },
+  { key:'agent_summary', label:'Synthèse agent', extension:'txt' },
+  { key:'publication_checklist', label:'Checklist de validation publication', extension:'txt' }
+];
 const RHGRID_SELECTS = {
   integrationStatus: ['Référence créée','Upload 1 reçu','Entretien pro','Profil anonymisé prêt','Upload 2 reçu','Actif','Archivé'],
   publicationStatus: ['Non publié','Brouillon','À relire','Publié','Archivé'],
@@ -560,7 +577,7 @@ const RHGRID_COLUMNS = [
   { key:'certificatesStatus', label:'Certificats', type:'select', options:RHGRID_SELECTS.certificatesStatus },
   { key:'profileCompletion', label:'Profil complété', readonly:true },
   { key:'ndaStatus', label:'NDA', type:'select', options:RHGRID_SELECTS.ndaStatus },
-  { key:'missingDocs', label:'Docs manquants', wide:true },
+  { key:'missingDocs', label:'Docs à collecter / vérifier', wide:true },
   { key:'safeNotes', label:'Notes non sensibles', textarea:true },
   { key:'lastUpdated', label:'Dernière mise à jour', readonly:true }
 ];
@@ -610,9 +627,24 @@ function htmlEscape(value) {
   return String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 }
 function todayIso() { return new Date().toISOString().slice(0,10); }
+function hasDocsToCollectOrVerify(row) {
+  const missing = String(row.missingDocs || '').trim();
+  const certStatus = String(row.certificatesStatus || '').trim();
+  return Boolean(missing) || !certStatus || certStatus !== 'OK';
+}
+function completionBlockerLabel(row) {
+  if (String(row.missingDocs || '').trim()) return 'Documents à collecter / vérifier';
+  if (!String(row.certificatesStatus || '').trim() || row.certificatesStatus !== 'OK') return 'Certificats à vérifier';
+  return '';
+}
 function computeCompletion(row) {
   const filled = RHGRID_COMPLETION_KEYS.filter(k => String(row[k] ?? '').trim() !== '').length;
-  return Math.round((filled / RHGRID_COMPLETION_KEYS.length) * 100);
+  let pct = Math.round((filled / RHGRID_COMPLETION_KEYS.length) * 100);
+  if (hasDocsToCollectOrVerify(row)) pct = Math.min(pct, 95);
+  return pct;
+}
+function canPublishRow(row) {
+  return computeCompletion(row) === 100 && !hasDocsToCollectOrVerify(row) && row.ndaStatus === 'Signé';
 }
 function nextRhRef() {
   const max = rhgridDb.reduce((acc, row) => {
@@ -673,7 +705,9 @@ function renderRhHead() {
 function renderCell(row, key) {
   if (key === 'profileCompletion') {
     const pct = computeCompletion(row);
-    return `<td><span class="db-ref">${pct}%</span><div class="db-progress"><span style="width:${pct}%"></span></div></td>`;
+    const blocker = completionBlockerLabel(row);
+    const blockerMarkup = blocker ? `<div style="margin-top:.25rem;color:#8b1d1d;font-size:.54rem;letter-spacing:.06em;text-transform:uppercase;">${htmlEscape(blocker)}</div>` : '';
+    return `<td><span class="db-ref">${pct}%</span><div class="db-progress"><span style="width:${pct}%"></span></div>${blockerMarkup}</td>`;
   }
   if (key === 'publicationStatus') {
     const cls = row[key] === 'Publié' ? 'published' : 'draft';
@@ -696,7 +730,7 @@ function renderRhgrid() {
   body.innerHTML = rows.map(row => `
     <tr>
       ${RHGRID_TABLE_KEYS.map(key => renderCell(row, key)).join('')}
-      <td><div class="db-row-actions"><button class="db-mini-btn" type="button" onclick="editRhRecord('${htmlEscape(row.ref)}')">Editer</button></div></td>
+      <td><div class="db-row-actions"><button class="db-mini-btn" type="button" onclick="editRhRecord('${htmlEscape(row.ref)}')">Editer</button><button class="db-mini-btn publish" type="button" onclick="publishRhRecord('${htmlEscape(row.ref)}')"${canPublishRow(row) ? '' : ' disabled'} title="Publication possible uniquement avec une fiche complète, NDA signé, et aucun document restant à collecter ou vérifier.">Publier</button></div></td>
     </tr>
   `).join('');
 }
@@ -789,6 +823,114 @@ function deleteRhRecord() {
   persistRhgrid();
   closeRhPanel();
   renderRhgrid();
+}
+function triggerRhgridJsonImport() {
+  const input = document.getElementById('rhgrid-json-import');
+  if (input) input.click();
+}
+function normalizeImportedRhRow(raw, index) {
+  const row = {};
+  RHGRID_COLUMNS.forEach(col => { row[col.key] = String(raw[col.key] ?? '').trim(); });
+  row.ref = row.ref || nextRhRefForImport(index);
+  row.integrationStatus = row.integrationStatus || 'Référence créée';
+  row.publicationStatus = row.publicationStatus || 'Non publié';
+  row.availability = row.availability || 'Inconnue';
+  row.certificatesStatus = row.certificatesStatus || 'Inconnu';
+  row.ndaStatus = row.ndaStatus || 'À signer';
+  row.lastUpdated = todayIso();
+  row.profileCompletion = computeCompletion(row);
+  return row;
+}
+function nextRhRefForImport(offset) {
+  const base = rhgridDb.reduce((acc, row) => {
+    const m = String(row.ref || '').match(/MYEOD-(\d+)/i);
+    return m ? Math.max(acc, parseInt(m[1], 10)) : acc;
+  }, 0);
+  return 'MYEOD-' + String(base + offset + 1).padStart(4, '0');
+}
+function handleRhgridJsonImport(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function() {
+    try {
+      const parsed = JSON.parse(reader.result);
+      const records = Array.isArray(parsed) ? parsed : (Array.isArray(parsed.records) ? parsed.records : null);
+      if (!records) throw new Error('Format JSON attendu : tableau de fiches ou objet { records: [...] }.');
+      const normalized = records.map((row, index) => normalizeImportedRhRow(row, index));
+      const blocked = normalized.map(row => ({ ref: row.ref, warnings: sensitiveWarnings(row) })).filter(item => item.warnings.length);
+      if (blocked.length) {
+        showPublishNote('<strong>Import bloqué.</strong> Des données sensibles potentielles ont été détectées dans : ' + htmlEscape(blocked.map(b => b.ref + ' (' + b.warnings.join(', ') + ')').join('; ')) + '.');
+        return;
+      }
+      const byRef = new Map(rhgridDb.map(row => [row.ref, row]));
+      normalized.forEach(row => byRef.set(row.ref, row));
+      rhgridDb = Array.from(byRef.values());
+      persistRhgrid();
+      closeRhPanel();
+      renderRhgrid();
+      showPublishNote('<strong>Import JSON terminé.</strong> ' + normalized.length + ' fiche(s) importée(s) ou mise(s) à jour. La complétion tient compte des documents restant à collecter ou vérifier.');
+    } catch (err) {
+      showPublishNote('<strong>Import impossible.</strong> ' + htmlEscape(err.message || String(err)));
+    } finally {
+      event.target.value = '';
+    }
+  };
+  reader.readAsText(file, 'utf-8');
+}
+function buildPublicationDocuments(row) {
+  return RHGRID_PUBLICATION_DOCUMENTS.map(doc => ({
+    type: doc.key,
+    label: doc.label,
+    fileName: row.ref + '_' + doc.key + '.' + doc.extension,
+    generatedAt: new Date().toISOString(),
+    status: 'placeholder à spécifier',
+    payload: {
+      ref: row.ref,
+      profileTitle: row.profileTitle,
+      expertiseLevel: row.expertiseLevel,
+      educationLevel: row.educationLevel,
+      experienceRange: row.experienceRange,
+      availability: row.availability,
+      availabilityDate: row.availabilityDate,
+      mainSkills: row.mainSkills,
+      additionalSkills: row.additionalSkills,
+      interventionArea: row.interventionArea,
+      workedCountries: row.workedCountries,
+      formerClients: row.formerClients,
+      missionTypes: row.missionTypes
+    }
+  }));
+}
+function publishRhRecord(ref) {
+  const idx = rhgridDb.findIndex(r => r.ref === ref);
+  if (idx < 0) return;
+  const row = rhgridDb[idx];
+  if (!canPublishRow(row)) {
+    showPublishNote('<strong>Publication bloquée pour ' + htmlEscape(ref) + '.</strong> La fiche doit être à 100%, le NDA doit être signé, et aucun document ne doit rester à collecter ou vérifier. Complétion actuelle : ' + computeCompletion(row) + '%.');
+    return;
+  }
+  const documents = buildPublicationDocuments(row);
+  row.publicationStatus = 'Publié';
+  row.lastUpdated = todayIso();
+  row.generatedDocuments = documents.map(d => ({ type:d.type, label:d.label, fileName:d.fileName, generatedAt:d.generatedAt, status:d.status }));
+  rhgridDb[idx] = row;
+  persistRhgrid();
+  renderRhgrid();
+  const exportPayload = { ref: row.ref, generatedAt: new Date().toISOString(), documents };
+  const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type:'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = row.ref + '_publication_documents_manifest.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showPublishNote('<strong>Publication préparée pour ' + htmlEscape(ref) + '.</strong> Statut passé à “Publié”. Un manifeste JSON liste les documents générés provisoirement : ' + htmlEscape(documents.map(d => d.label).join(', ')) + '. Les modèles exacts pourront être définis ultérieurement.');
+}
+function showPublishNote(html) {
+  const note = document.getElementById('rhgrid-publish-note');
+  if (!note) return;
+  note.innerHTML = html;
+  note.classList.add('visible');
 }
 function exportRhgridJson() {
   const blob = new Blob([JSON.stringify(rhgridDb, null, 2)], { type:'application/json' });

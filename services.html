@@ -919,6 +919,27 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       padding: 3rem 2rem 0;
     }
   </style>
+
+  <style>
+    /* === FIX RETOUR SERVICES === */
+    /* Header toujours au-dessus et cliquable */
+    header.myeod-header {
+      position: fixed !important;
+      top: 0; left: 0; right: 0;
+      z-index: 9999 !important;
+      background: #fff !important;
+    }
+    /* Pousser le contenu sous le header fixe */
+    #app, #modal-qui, #modal-client {
+      padding-top: 106px !important;
+    }
+    /* Bouton retour toujours cliquable */
+    .btn-nav-back {
+      position: relative;
+      z-index: 10000 !important;
+      pointer-events: auto !important;
+    }
+  </style>
 </head>
 <body>
 <header class="myeod-header">
@@ -982,5 +1003,19 @@ function loadQuiContent() {
 document.addEventListener('DOMContentLoaded', loadQuiContent);
 </script>
 
+
+<script>
+function goBackToPreviousPage() {
+  var fallback = 'index.html';
+  try {
+    if (window.history.length > 1) {
+      window.history.back();
+      window.setTimeout(function() { window.location.href = fallback; }, 450);
+      return;
+    }
+  } catch(e) {}
+  window.location.href = fallback;
+}
+</script>
 </body>
 </html>

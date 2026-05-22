@@ -506,59 +506,7 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       .landing-cards { flex-direction: column; align-items: center; }
       .landing-card  { max-width: 100%; }
       .qui-offers    { grid-template-columns: 1fr; }
-      .myeod-header, .dash-header { padding: 0.9rem 1rem; }
-      .myeod-header-logo { height: 54px; }
-      .dash-header-logo { height: 64px; }
-    }
-
-
-
-    /* ── SHARED HEADER / CLOSE BUTTON ────────────────────────────── */
-    .myeod-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 2.5rem;
-      border-bottom: 1px solid var(--gray-200);
-      background: var(--white);
-    }
-    .myeod-header-logo { height: 72px; }
-    .myeod-header-right {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      margin-left: auto;
-    }
-    .btn-close,
-    .btn-nav-back {
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gray-600);
-      background: none;
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius);
-      padding: 0.4rem 0.9rem;
-      cursor: pointer;
-      font-family: var(--font);
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
-    }
-    .btn-nav-back {
-      width: 34px;
-      min-width: 34px;
-      padding: 0.4rem 0;
-      font-size: 0.9rem;
-      line-height: 1;
-      letter-spacing: 0;
-    }
-    .btn-close:hover,
-    .btn-close:focus-visible,
-    .btn-nav-back:hover,
-    .btn-nav-back:focus-visible {
-      border-color: var(--black);
-      color: var(--black);
-      outline: none;
+      .myeod-header { padding: 0.9rem 1rem; }
     }
 
     /* Header partagé sur les pages Services et Accès clients */
@@ -756,7 +704,6 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       background: var(--white);
       z-index: 100;
     }
-    .dash-header-logo { height: 96px; }
     .dash-header-right {
       display: flex;
       align-items: center;
@@ -917,6 +864,41 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
     #modal-qui .qui-wrap, #modal-client .client-wrap {
       align-self: center;
       padding: 3rem 2rem 0;
+    }
+  </style>
+
+  <style>
+    /* === FIX HEADER LOGO ACCES-CLIENT === */
+    header.myeod-header {
+      position: fixed !important;
+      top: 0; left: 0; right: 0;
+      z-index: 9999 !important;
+      background: #fff !important;
+      height: auto !important;
+      min-height: 0 !important;
+      padding: 1rem 2.5rem !important;
+    }
+    /* Logo : hauteur et alignement identiques aux autres pages */
+    header.myeod-header .myeod-header-logo {
+      height: 72px !important;
+      display: flex !important;
+      align-items: center !important;
+      flex-shrink: 0 !important;
+    }
+    header.myeod-header .myeod-header-logo svg {
+      height: 100% !important;
+      width: auto !important;
+      display: block !important;
+    }
+    /* Pousser le contenu sous le header fixe */
+    #app {
+      padding-top: 106px !important;
+    }
+    /* Bouton retour cliquable */
+    .btn-nav-back {
+      position: relative;
+      z-index: 10000 !important;
+      pointer-events: auto !important;
     }
   </style>
 </head>

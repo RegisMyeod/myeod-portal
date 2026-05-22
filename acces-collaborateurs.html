@@ -160,60 +160,6 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       color: var(--gray-500);
     }
 
-    /* 3 cards */
-    .landing-cards {
-      display: flex; gap: 1.5rem; flex-wrap: wrap;
-      justify-content: center; width: 100%; max-width: 860px;
-    }
-
-    .landing-card {
-      flex: 1; min-width: 220px; max-width: 260px;
-      border: 1px solid var(--gray-200);
-      padding: 2.2rem 1.8rem;
-      cursor: pointer;
-      display: flex; flex-direction: column;
-      align-items: flex-start; gap: 0.8rem;
-      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
-      background: #fff;
-      position: relative; overflow: hidden;
-    }
-    .landing-card::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; right: 0; height: 3px;
-      background: var(--gray-200);
-      transition: background 0.2s;
-    }
-    .landing-card:hover {
-      border-color: var(--gray-300);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.07);
-      transform: translateY(-2px);
-    }
-    .landing-card:hover::before { background: #1a1a1a; }
-
-    .landing-card-num {
-      font-family: var(--font);
-      font-size: 0.6rem; font-weight: 700;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--gray-300);
-    }
-    .landing-card-title {
-      font-family: var(--font);
-      font-size: 1.05rem; font-weight: 700;
-      letter-spacing: 0.02em;
-      color: #1a1a1a; line-height: 1.3;
-    }
-    .landing-card-desc {
-      font-family: var(--font);
-      font-size: 0.68rem; color: var(--gray-400);
-      letter-spacing: 0.04em; line-height: 1.7;
-    }
-    .landing-card-arrow {
-      font-size: 0.9rem; color: var(--gray-300);
-      margin-top: auto; transition: transform 0.2s, color 0.2s;
-    }
-    .landing-card:hover .landing-card-arrow {
-      transform: translateX(4px); color: #1a1a1a;
-    }
 
     /* Footer IC */
     .landing-footer {
@@ -503,7 +449,6 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
     }
 
     @media (max-width: 600px) {
-      .landing-cards { flex-direction: column; align-items: center; }
       .landing-card  { max-width: 100%; }
       .qui-offers    { grid-template-columns: 1fr; }
       .myeod-header, .dash-header { padding: 0.9rem 1rem; }
@@ -818,62 +763,68 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       margin-bottom: 3rem;
     }
 
-    /* Thematic grid */
-    .themes-grid {
+    /* ── Dashboard cards — identique index.html, grille 3×2 ── */
+    .landing-cards {
       display: grid;
-      grid-template-columns: repeat(2, minmax(220px, 1fr));
-      grid-auto-rows: 1fr;
-      gap: 1px;
-      background: var(--gray-200);
-      border: 1px solid var(--gray-200);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
       width: 100%;
-      max-width: 900px;
-      flex: 0 0 auto;
+      max-width: 960px;
     }
-    @media (max-width: 640px) {
-      .themes-grid { grid-template-columns: 1fr; }
+    @media (max-width: 720px) {
+      .landing-cards { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .landing-cards { grid-template-columns: 1fr; }
     }
 
-    .theme-card {
-      background: var(--white);
-      padding: 1.96rem 2.4rem;
+    .landing-card {
+      border: 1px solid var(--gray-200);
+      padding: 2.2rem 1.8rem;
       cursor: pointer;
-      transition: background 0.18s;
-      position: relative;
-      overflow: hidden;
-      min-height: 126px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+      display: flex; flex-direction: column;
+      align-items: flex-start; gap: 0.8rem;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+      background: #fff;
+      position: relative; overflow: hidden;
     }
-    .theme-card:hover { background: var(--gray-50); }
-    .theme-card:hover .theme-arrow { opacity: 1; transform: translateX(0); }
+    .landing-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--gray-200);
+      transition: background 0.2s;
+    }
+    .landing-card:hover {
+      border-color: var(--gray-300);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+      transform: translateY(-2px);
+    }
+    .landing-card:hover::before { background: #1a1a1a; }
 
-    .theme-tag {
-      font-size: 0.62rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gray-400);
-      margin-bottom: 0.56rem;
+    .landing-card-num {
+      font-family: var(--font);
+      font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gray-300);
     }
-    .theme-title {
-      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--black);
-      line-height: 1.1;
+    .landing-card-title {
+      font-family: var(--font);
+      font-size: 1.1rem; font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #1a1a1a; line-height: 1.3;
     }
-    .theme-arrow {
-      font-size: 1.3rem;
-      color: var(--gray-400);
-      opacity: 0;
-      transform: translateX(-6px);
-      transition: all 0.2s ease;
-      align-self: center;
-      margin-top: 0.84rem;
+    .landing-card-desc {
+      font-family: var(--font);
+      font-size: 0.7rem; color: var(--gray-400);
+      letter-spacing: 0.04em; line-height: 1.7;
+      flex: 1;
+    }
+    .landing-card-arrow {
+      font-size: 0.9rem; color: var(--gray-300);
+      margin-top: auto; transition: transform 0.2s, color 0.2s;
+    }
+    .landing-card:hover .landing-card-arrow {
+      transform: translateX(4px); color: #1a1a1a;
     }
 
     /* Footer */
@@ -968,49 +919,56 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
 <div class="dash-body">
 <p class="dash-greeting">Portail collaborateurs</p>
 <h1 class="dash-welcome" id="dash-welcome-name">Bonjour</h1>
-<div class="themes-grid">
-<div class="theme-card" onclick="openTheme('admin')">
-<div>
-<p class="theme-tag">01 —</p>
-<h2 class="theme-title">Admin</h2>
-</div>
-<span class="theme-arrow">→</span>
-</div>
-<div class="theme-card" onclick="openTheme('it')">
-<div>
-<p class="theme-tag">02 —</p>
-<h2 class="theme-title">IT</h2>
-</div>
-<span class="theme-arrow">→</span>
-</div>
-<div class="theme-card" onclick="openTheme('bizdev')">
-<div>
-<p class="theme-tag">03 —</p>
-<h2 class="theme-title">BizDev</h2>
-</div>
-<span class="theme-arrow">→</span>
-</div>
-<div class="theme-card" onclick="openTheme('operations')">
-<div>
-<p class="theme-tag">04 —</p>
-<h2 class="theme-title">Operations</h2>
-</div>
-<span class="theme-arrow">→</span>
-</div>
-<div class="theme-card" onclick="openTheme('documents')">
-<div>
-<p class="theme-tag">05 —</p>
-<h2 class="theme-title">Documents</h2>
-</div>
-<span class="theme-arrow">→</span>
-</div>
-<div class="theme-card" onclick="openTheme('planning')">
-<div>
-<p class="theme-tag">06 —</p>
-<h2 class="theme-title">Planning</h2>
-</div>
-<span class="theme-arrow">→</span>
-</div>
+<div class="landing-cards">
+
+  <div class="landing-card" onclick="openTheme('admin')" role="button" tabindex="0"
+       onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openTheme('admin');}">
+    <p class="landing-card-num">01 —</p>
+    <h2 class="landing-card-title">Admin</h2>
+    <p class="landing-card-desc">Juridique, comptabilité, RH, contrats et gestion administrative IC.</p>
+    <span class="landing-card-arrow">→</span>
+  </div>
+
+  <div class="landing-card" onclick="openTheme('it')" role="button" tabindex="0"
+       onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openTheme('it');}">
+    <p class="landing-card-num">02 —</p>
+    <h2 class="landing-card-title">IT</h2>
+    <p class="landing-card-desc">Gestion des accès, comptes utilisateurs et infrastructure plateforme.</p>
+    <span class="landing-card-arrow">→</span>
+  </div>
+
+  <div class="landing-card" onclick="openTheme('bizdev')" role="button" tabindex="0"
+       onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openTheme('bizdev');}">
+    <p class="landing-card-num">03 —</p>
+    <h2 class="landing-card-title">BizDev</h2>
+    <p class="landing-card-desc">Pipeline commercial, prospects, fiche clients et suivi des opportunités.</p>
+    <span class="landing-card-arrow">→</span>
+  </div>
+
+  <div class="landing-card" onclick="openTheme('operations')" role="button" tabindex="0"
+       onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openTheme('operations');}">
+    <p class="landing-card-num">04 —</p>
+    <h2 class="landing-card-title">Opérations</h2>
+    <p class="landing-card-desc">Suivi des projets en cours, livrables, ressources et jalons.</p>
+    <span class="landing-card-arrow">→</span>
+  </div>
+
+  <div class="landing-card" onclick="openTheme('documents')" role="button" tabindex="0"
+       onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openTheme('documents');}">
+    <p class="landing-card-num">05 —</p>
+    <h2 class="landing-card-title">Documents</h2>
+    <p class="landing-card-desc">Bibliothèque de documents, NDAs, propositions et référentiels MyEOD.</p>
+    <span class="landing-card-arrow">→</span>
+  </div>
+
+  <div class="landing-card" onclick="openTheme('planning')" role="button" tabindex="0"
+       onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openTheme('planning');}">
+    <p class="landing-card-num">06 —</p>
+    <h2 class="landing-card-title">Planning</h2>
+    <p class="landing-card-desc">Agenda équipe, missions offshore, RDV commerciaux et formations.</p>
+    <span class="landing-card-arrow">→</span>
+  </div>
+
 </div>
 </div>
 <footer class="dash-footer">
@@ -1116,5 +1074,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<script>
+function goBackToPreviousPage() {
+  var fallback = 'index.html';
+  try {
+    if (window.history.length > 1) {
+      window.history.back();
+      window.setTimeout(function() { window.location.href = fallback; }, 450);
+      return;
+    }
+  } catch(e) {}
+  window.location.href = fallback;
+}
+</script>
 </body>
 </html>

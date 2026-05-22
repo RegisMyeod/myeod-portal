@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -248,7 +246,7 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
     .modal-close-btn:hover { border-color: #1a1a1a; color: #1a1a1a; }
 
     /* Qui sommes-nous content */
-    .qui-wrap { max-width: 760px; width: 100%; }
+    .qui-wrap { max-width: 860px; width: 100%; }
     .qui-logo  { height: 48px; margin-bottom: 2.5rem; }
     .qui-section-tag {
       font-family: var(--font); font-size: 0.6rem;
@@ -267,8 +265,8 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       margin-bottom: 1.5rem;
     }
     .qui-offers {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1rem; margin: 2rem 0;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1rem; margin: 1.5rem 0; width: 100%;
     }
     .qui-offer {
       border: 1px solid var(--gray-200); padding: 1.4rem;
@@ -282,24 +280,6 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
     .qui-offer-desc {
       font-family: var(--font); font-size: 0.72rem;
       color: var(--gray-500); line-height: 1.7;
-    }
-    .qui-refs {
-      border-top: 1px solid var(--gray-100);
-      padding-top: 1.5rem; margin-top: 1.5rem;
-    }
-    .qui-refs-title {
-      font-family: var(--font); font-size: 0.6rem;
-      font-weight: 700; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--gray-400);
-      margin-bottom: 1rem;
-    }
-    .qui-ref-pills {
-      display: flex; flex-wrap: wrap; gap: 0.5rem;
-    }
-    .qui-ref-pill {
-      font-family: var(--font); font-size: 0.65rem;
-      letter-spacing: 0.08em; border: 1px solid var(--gray-200);
-      padding: 0.3rem 0.8rem; color: var(--gray-500);
     }
     /* AI loading */
     .qui-ai-state {
@@ -505,7 +485,7 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
     @media (max-width: 600px) {
       .landing-cards { flex-direction: column; align-items: center; }
       .landing-card  { max-width: 100%; }
-      .qui-offers    { grid-template-columns: 1fr; }
+      /* qui-offers: always single row */
       .myeod-header, .dash-header { padding: 0.9rem 1rem; }
       .myeod-header-logo { height: 54px; }
       .dash-header-logo { height: 64px; }
@@ -575,11 +555,7 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       width: 100%;
       flex-shrink: 0;
     }
-    #modal-qui .qui-wrap,
-    #modal-client .client-wrap {
-      align-self: center;
-      padding: 3rem 2rem 0;
-    }
+    /* qui-wrap padding handled by SERVICES LAYOUT FINAL block */
 
     /* ── LOGIN SCREEN ─────────────────────────────────────────────── */
     #login-screen {
@@ -891,14 +867,29 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
     
 
     </style>
-
   <style>
-    body { overflow: auto; }
+    /* ═══════════════════════════════════════════════════════════════
+       SERVICES PAGE — LAYOUT 2 COLONNES 40/60 — COLONNE GAUCHE STICKY
+       ═══════════════════════════════════════════════════════════════ */
+
+    /* Reset body/app */
+    body { overflow-y: auto; }
     #app { height: auto; min-height: 100vh; overflow: visible; }
-    .myeod-header.services-header { position: sticky; top: 0; z-index: 100; width: 100%; flex-shrink: 0; }
-  </style>
 
-  <style>
+    /* Header fixe */
+    header.myeod-header {
+      position: fixed !important;
+      top: 0; left: 0; right: 0;
+      z-index: 9999 !important;
+      background: #fff !important;
+    }
+    .btn-nav-back {
+      position: relative;
+      z-index: 10000 !important;
+      pointer-events: auto !important;
+    }
+
+    /* Modal — pleine page sous le header */
     #modal-qui, #modal-client {
       position: static !important;
       inset: auto !important;
@@ -906,38 +897,170 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       opacity: 1 !important;
       z-index: auto !important;
       width: 100%;
-      min-height: 100vh;
+      min-height: calc(100vh - 106px);
       background: #fff;
       flex-direction: column;
       align-items: stretch;
       justify-content: flex-start;
       overflow: visible;
-      padding: 0 0 4rem !important;
+      padding: 0 !important;
+      margin-top: 106px;
     }
-    #modal-qui .qui-wrap, #modal-client .client-wrap {
-      align-self: center;
-      padding: 3rem 2rem 0;
-    }
-  </style>
 
-  <style>
-    /* === FIX RETOUR SERVICES === */
-    /* Header toujours au-dessus et cliquable */
-    header.myeod-header {
-      position: fixed !important;
-      top: 0; left: 0; right: 0;
-      z-index: 9999 !important;
-      background: #fff !important;
+    /* ── Layout 2 colonnes ── */
+    .qui-layout {
+      display: grid;
+      grid-template-columns: 40fr 60fr;
+      gap: 0;
+      width: 100%;
+      min-height: calc(100vh - 106px);
+      align-items: start;
     }
-    /* Pousser le contenu sous le header fixe */
-    #app, #modal-qui, #modal-client {
-      padding-top: 106px !important;
+
+    /* Colonne gauche — sticky */
+    .qui-col-text {
+      position: sticky;
+      top: 106px;
+      height: calc(100vh - 106px);
+      overflow-y: auto;
+      padding: 3rem 2.5rem 3rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
     }
-    /* Bouton retour toujours cliquable */
-    .btn-nav-back {
+
+    /* Colonne droite — scrollable */
+    .qui-col-tiles {
+      padding: 3rem 3rem 4rem 2.5rem;
+      overflow-y: auto;
+    }
+
+    /* ── Texte colonne gauche ── */
+    .qui-section-tag {
+      font-family: var(--font); font-size: 0.6rem;
+      font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gray-400);
+      margin-bottom: 0.6rem;
+    }
+    .qui-title {
+      font-family: var(--font); font-size: 1.6rem;
+      font-weight: 800; letter-spacing: -0.01em;
+      color: #1a1a1a; margin-bottom: 1.8rem; line-height: 1.25;
+    }
+    .qui-body {
+      font-family: var(--font); font-size: 0.8rem;
+      line-height: 1.85; color: var(--gray-600);
+      margin-bottom: 1.2rem;
+    }
+    .qui-body-tagline {
+      font-family: var(--font); font-size: 0.88rem;
+      font-style: italic; color: #1a1a1a;
+      line-height: 1.7; margin-bottom: 1.4rem;
+    }
+
+
+    /* ── Grille tuiles — colonne droite ── */
+    .qui-offers-label {
+      font-family: var(--font); font-size: 0.6rem;
+      font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gray-400);
+      margin-bottom: 1.2rem;
+    }
+    .qui-offers {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 1rem !important;
+      width: 100% !important;
+    }
+    .qui-offer {
+      border: 1px solid var(--gray-200);
+      padding: 1.4rem;
       position: relative;
-      z-index: 10000 !important;
-      pointer-events: auto !important;
+      overflow: hidden;
+      transition: border-color .2s, box-shadow .2s, transform .15s;
+      cursor: default;
+    }
+    .qui-offer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gray-200);
+      transition: background .2s;
+    }
+    .qui-offer:hover {
+      border-color: var(--gray-300);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transform: translateY(-1px);
+    }
+    .qui-offer:hover::before { background: var(--gold); }
+
+    .qui-offer-num {
+      font-family: var(--font); font-size: 0.58rem;
+      font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--gray-300);
+      margin-bottom: 0.6rem;
+    }
+    .qui-offer-title {
+      font-family: var(--font); font-size: 0.78rem;
+      font-weight: 700; letter-spacing: 0.06em;
+      color: #1a1a1a; margin-bottom: 0.6rem;
+    }
+    .qui-offer-desc {
+      font-family: var(--font); font-size: 0.7rem;
+      color: var(--gray-500); line-height: 1.75;
+    }
+
+    /* Placeholder tuile future */
+    .qui-offer-placeholder {
+      border: 1px dashed var(--gray-200);
+      padding: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qui-offer-placeholder span {
+      font-family: var(--font); font-size: 0.6rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gray-300);
+    }
+
+    /* Mention IC */
+    .qui-brand-mention {
+      margin-top: auto;
+      padding-top: 2rem;
+      font-family: var(--font);
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-300);
+      line-height: 1.6;
+    }
+
+    /* Responsive — mobile */
+    @media (max-width: 900px) {
+      .qui-layout {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      .qui-col-text {
+        position: static;
+        height: auto;
+        border-bottom: 1px solid var(--gray-200);
+        padding: 2rem 1.5rem;
+      }
+      .qui-col-tiles {
+        padding: 2rem 1.5rem 3rem;
+      }
+      .qui-offers {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+    @media (max-width: 540px) {
+      .qui-offers {
+        grid-template-columns: 1fr !important;
+      }
+      #modal-qui, #modal-client { margin-top: 90px; }
     }
   </style>
 </head>
@@ -956,12 +1079,27 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
 </header>
 <div id="app" class="visible">
 <div id="modal-qui">
+<div class="qui-layout">
 
-<div class="qui-wrap">
-<p class="qui-section-tag">À propos</p>
-<h1 class="qui-title" id="qui-title">My Expert On Demand</h1>
-<div id="qui-content">
-<p class="qui-ai-state">⟳ Génération en cours…</p>
+  <!-- ── Colonne gauche : texte sticky ── -->
+  <div class="qui-col-text">
+    <p class="qui-section-tag">À propos</p>
+    <h1 class="qui-title" id="qui-title">My Expert On Demand</h1>
+    <div id="qui-content-text">
+      <p class="qui-ai-state">⟳ Chargement…</p>
+    </div>
+    <p class="qui-brand-mention">MyEOD est une marque représentée par IC&nbsp;/&nbsp;Ingénieurs Créatifs</p>
+  </div>
+
+  <!-- ── Colonne droite : tuiles ── -->
+  <div class="qui-col-tiles">
+    <p class="qui-offers-label">Nos offres</p>
+    <div class="qui-offers" id="qui-offers-grid">
+      <p class="qui-ai-state">⟳ Chargement…</p>
+    </div>
+  </div>
+
+</div>
 </div>
 </div>
 </div>
@@ -980,25 +1118,40 @@ function escapeHTML(value) {
 }
 function loadQuiContent() {
   const d = {
-    tagline: 'Expertise industrielle à la demande, structurée pour accélérer vos missions.',
-    intro: 'MyEOD accompagne les équipes industrielles, offshore et projets complexes avec une approche pragmatique, rapide et documentée. La marque est portée par Ingénieurs Créatifs (IC) et combine expertise terrain, production documentaire et outils digitaux.',
-    mission: 'Notre mission : fournir le bon niveau d’expertise au bon moment, sans alourdir les organisations. Nous intervenons sur les sujets RSiP, Visual Intelligence, staffing augmenté, marque blanche et communication industrielle.',
+    tagline: 'Expertise industrielle \u00e0 la demande, structur\u00e9e pour acc\u00e9l\u00e9rer vos missions.',
+    intro: 'MyEOD accompagne les \u00e9quipes industrielles, offshore et projets complexes avec une approche pragmatique, rapide et document\u00e9e. La marque est port\u00e9e par Ing\u00e9nieurs Cr\u00e9atifs (IC) et combine expertise terrain, production documentaire et outils digitaux.',
+    mission: "Notre mission\u00a0: fournir le bon niveau d\u2019expertise au bon moment, sans alourdir les organisations. Nous intervenons sur les sujets RSiP, Visual Intelligence, staffing augment\u00e9, marque blanche et communication industrielle.",
     offers: [
-      { title: 'RSiP', desc: 'Structuration, audit et amélioration des processus industriels. Les livrables sont orientés décision et exploitation terrain.' },
-      { title: 'Visual Intelligence', desc: 'Tableaux de bord, supports visuels et synthèses opérationnelles. L’objectif est de rendre les données lisibles, utiles et actionnables.' },
-      { title: 'Staffing Augmenté', desc: 'Renfort ciblé pour absorber les pics de charge ou sécuriser une étape projet. Les profils sont intégrés selon les besoins réels des équipes.' },
-      { title: 'Marque Blanche', desc: 'Production de contenus, documents et dispositifs sous identité client. Le fond reste expert, la forme respecte vos standards.' },
-      { title: 'Communication industrielle', desc: 'Supports institutionnels, techniques et projet pour valoriser les opérations. Les messages sont clairs, sobres et adaptés aux parties prenantes.' }
+      { num: '01', title: 'RSiP', desc: 'Structuration, audit et am\u00e9lioration des processus industriels. Les livrables sont orient\u00e9s d\u00e9cision et exploitation terrain.' },
+      { num: '02', title: 'Visual Intelligence', desc: "Tableaux de bord, supports visuels et synth\u00e8ses op\u00e9rationnelles. L\u2019objectif est de rendre les donn\u00e9es lisibles, utiles et actionnables." },
+      { num: '03', title: 'Staffing Augment\u00e9', desc: 'Renfort cibl\u00e9 pour absorber les pics de charge ou s\u00e9curiser une \u00e9tape projet. Les profils sont int\u00e9gr\u00e9s selon les besoins r\u00e9els des \u00e9quipes.' },
+      { num: '04', title: 'Marque Blanche', desc: 'Production de contenus, documents et dispositifs sous identit\u00e9 client. Le fond reste expert, la forme respecte vos standards.' },
+      { num: '05', title: 'Communication industrielle', desc: 'Supports institutionnels, techniques et projet pour valoriser les op\u00e9rations. Les messages sont clairs, sobres et adapt\u00e9s aux parties prenantes.' }
     ]
   };
-  const title = document.getElementById('qui-title');
-  const content = document.getElementById('qui-content');
-  if (title) title.textContent = 'My Expert On Demand';
-  if (content) content.innerHTML = `
-    <p class="qui-body" style="font-style:italic;color:#1a1a1a;font-size:.9rem;margin-bottom:1.8rem;">"${escapeHTML(d.tagline)}"</p>
-    <p class="qui-body">${escapeHTML(d.intro)}</p>
-    <p class="qui-body">${escapeHTML(d.mission)}</p>
-    <div class="qui-offers">${d.offers.map(o=>`<div class="qui-offer"><p class="qui-offer-title">${escapeHTML(o.title)}</p><p class="qui-offer-desc">${escapeHTML(o.desc)}</p></div>`).join('')}</div>`;
+
+  // Colonne gauche — texte
+  const textCol = document.getElementById('qui-content-text');
+  if (textCol) {
+    textCol.innerHTML =
+      '<p class="qui-body-tagline">\u201c' + escapeHTML(d.tagline) + '\u201d</p>' +
+      '<p class="qui-body">' + escapeHTML(d.intro) + '</p>' +
+      '<p class="qui-body">' + escapeHTML(d.mission) + '</p>';
+  }
+
+  // Colonne droite — grille tuiles
+  const grid = document.getElementById('qui-offers-grid');
+  if (grid) {
+    const tilesHtml = d.offers.map(function(o){
+      return '<div class="qui-offer">' +
+        '<p class="qui-offer-num">' + escapeHTML(o.num) + ' \u2014</p>' +
+        '<p class="qui-offer-title">' + escapeHTML(o.title) + '</p>' +
+        '<p class="qui-offer-desc">' + escapeHTML(o.desc) + '</p>' +
+        '</div>';
+    }).join('');
+    grid.innerHTML = tilesHtml +
+      '<div class="qui-offer-placeholder"><span>\u00c0 venir</span></div>';
+  }
 }
 document.addEventListener('DOMContentLoaded', loadQuiContent);
 </script>

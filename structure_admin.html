@@ -442,7 +442,7 @@ function goBackToPreviousPage() {
       <div style="font-family:'MazzardM',sans-serif;font-size:0.55rem;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:#9a9a9a;margin-top:2px;">MyEOD / Ingénieurs Créatifs</div>
     </div>
     <span id="auth-badge" style="display:none;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border:1px solid var(--gray-200);padding:2px 8px;white-space:nowrap;"></span>
-    <button id="auth-btn" onclick="authAction()" style="display:inline-flex;align-items:center;gap:5px;font-family:var(--font);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border:1px solid var(--gray-200);background:none;cursor:pointer;color:var(--gray-600);transition:border-color .15s,color .15s;" title="Connexion">🔒 Connexion</button>
+    <button id="auth-btn" onclick="authAction()" style="display:inline-flex;align-items:center;gap:5px;font-family:var(--font);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;height:34px;min-height:34px;padding:0 10px;border:1px solid var(--gray-200);border-radius:2px;background:none;cursor:pointer;color:var(--gray-600);transition:border-color .15s,color .15s;" title="Connexion">🔒 Connexion</button>
     <button type="button" class="btn-nav-back" onclick="goBackToPreviousPage()" title="Retour à la page précédente" aria-label="Retour à la page précédente">&larr;</button>
   </div>
 </header>
@@ -1150,60 +1150,18 @@ function getDlLinks(docId) {
   html += '</div>';
   return html;
 }
-function filteredDocs(){
-  const fs  = document.getElementById('f-search').value.toLowerCase();
-  const fc  = document.getElementById('f-cat').value;
-  const fp  = document.getElementById('f-prio').value;
-  const fsfr= document.getElementById('f-status-fr').value;
-  const fsen= document.getElementById('f-status-en').value;
-  return docs.filter(d=>{
-    if(fc   && d.cat !== fc) return false;
-    if(fp   && String(d.prio) !== fp) return false;
-    if(fsfr && d.statusFr !== fsfr) return false;
-    if(fsen && d.statusEn !== fsen) return false;
-    if(fs   && !(d.name+' '+d.nameEn+' '+d.desc+' '+(d.owner||'')+' '+(d.notes||'')).toLowerCase().includes(fs)) return false;
-    return true;
-  });
-}
 
 
 
-function filteredDocs(){
-  const fs  = document.getElementById('f-search').value.toLowerCase();
-  const fc  = document.getElementById('f-cat').value;
-  const fp  = document.getElementById('f-prio').value;
-  const fsfr= document.getElementById('f-status-fr').value;
-  const fsen= document.getElementById('f-status-en').value;
-  return docs.filter(d=>{
-    if(fc   && d.cat !== fc) return false;
-    if(fp   && String(d.prio) !== fp) return false;
-    if(fsfr && d.statusFr !== fsfr) return false;
-    if(fsen && d.statusEn !== fsen) return false;
-    if(fs   && !(d.name+' '+d.nameEn+' '+d.desc+' '+(d.owner||'')+' '+(d.notes||'')).toLowerCase().includes(fs)) return false;
-    return true;
-  });
-}
+
+
 
 
 
 // ── DOCUMENT DOWNLOAD LINKS ─────────────────────────────────────
 // Base64 payloads stored as plain vars (no template literals)
 
-function filteredDocs(){
-  const fs  = document.getElementById('f-search').value.toLowerCase();
-  const fc  = document.getElementById('f-cat').value;
-  const fp  = document.getElementById('f-prio').value;
-  const fsfr= document.getElementById('f-status-fr').value;
-  const fsen= document.getElementById('f-status-en').value;
-  return docs.filter(d=>{
-    if(fc   && d.cat !== fc) return false;
-    if(fp   && String(d.prio) !== fp) return false;
-    if(fsfr && d.statusFr !== fsfr) return false;
-    if(fsen && d.statusEn !== fsen) return false;
-    if(fs   && !(d.name+' '+d.nameEn+' '+d.desc+' '+(d.owner||'')+' '+(d.notes||'')).toLowerCase().includes(fs)) return false;
-    return true;
-  });
-}
+
 
 
 

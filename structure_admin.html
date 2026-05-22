@@ -77,7 +77,6 @@ input.tf{width:160px;color:#1a1a1a;}
 
 /* DOC CARD */
 .doc-card{background:#ffffff;border:1px solid var(--gray-200);border-left:3px solid;padding:13px 15px;cursor:pointer;transition:box-shadow .15s,border-color .15s;position:relative;}
-.doc-card.has-stamp{padding-bottom:72px;}
 .doc-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);border-color:var(--gray-400);}
 .doc-card.done{opacity:.6;}
 .doc-card-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:7px;}
@@ -87,29 +86,22 @@ input.tf{width:160px;color:#1a1a1a;}
 .doc-desc{font-size:10px;color:var(--gray-600);line-height:1.7;margin-bottom:8px;}
 .doc-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
 .expert-stamps{
-  position:absolute;
-  bottom:10px;right:10px;
-  display:flex;flex-direction:column;align-items:flex-end;
-  gap:6px;
-  pointer-events:none;
+  display:flex;flex-direction:row;flex-wrap:wrap;
+  align-items:center;gap:4px;
+  margin-left:auto;
 }
 .stamp{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:11.25px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;
-  color:#c0392b;border:2.5px solid #c0392b;
-  padding:4px 11px 4px 8px;
+  display:inline-flex;align-items:center;gap:3px;
+  font-size:7.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;
+  color:#c0392b;border:1.5px solid #c0392b;
+  padding:2px 6px 2px 5px;
   border-radius:2px;
   font-family:var(--font);
-  opacity:.78;
-  transform-origin:center center;
+  opacity:.85;
   background:rgba(192,57,43,.05);
   white-space:nowrap;
-  box-shadow:1px 1px 0 rgba(192,57,43,.15);
 }
-.stamp::before{content:'⛔';font-size:10px;margin-right:3px;opacity:.65;}
-.stamp:nth-child(1){transform:rotate(-30deg);}
-.stamp:nth-child(2){transform:rotate(-15deg);}
-.stamp:nth-child(3){transform:rotate(-45deg);}
+.stamp::before{content:'⚑';font-size:8px;opacity:.7;}
 .badge{font-size:8px;padding:2px 7px;border:1px solid;letter-spacing:.07em;text-transform:uppercase;flex-shrink:0;}
 .doc-status{position:absolute;top:10px;right:10px;font-size:8px;padding:2px 8px;border:1px solid;letter-spacing:.08em;text-transform:uppercase;}
 
@@ -331,6 +323,88 @@ input.tf{width:160px;color:#1a1a1a;}
   .sumbar-right { width: 100%; justify-content: flex-start; margin-left: 0; }
 }
 
+
+/* ── UPLOAD ZONES ────────────────────────────────────────────── */
+.upload-zone{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;border:1.5px dashed var(--border-hi);
+  padding:9px 8px;cursor:pointer;
+  font-family:var(--font);font-size:8px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-muted);background:var(--gray-50);
+  transition:border-color .15s,background .15s,color .15s;
+  position:relative;overflow:hidden;
+}
+.upload-zone:hover,.upload-zone.drag-over{
+  border-color:var(--gold);background:var(--gold-faint);color:var(--gold-dim);
+}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-zone-icon{font-size:16px;line-height:1;}
+.upload-zone-lbl{font-size:7.5px;text-align:center;line-height:1.5;}
+
+/* Modal upload panels */
+.modal-upload-panel{
+  margin-top:10px;border-top:1px dashed var(--border-hi);padding-top:10px;
+}
+.modal-upload-panel .up-title{
+  font-size:8px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text-muted);margin-bottom:6px;font-weight:700;
+}
+.up-slots{display:flex;flex-direction:column;gap:6px;}
+.up-slot{display:flex;flex-direction:column;gap:3px;}
+.up-slot label{font-size:8px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;}
+.up-row{display:flex;gap:5px;align-items:stretch;}
+.up-dropzone{
+  flex:1;min-height:32px;
+  display:flex;align-items:center;gap:6px;
+  border:1.5px dashed var(--border-hi);
+  padding:4px 8px;cursor:pointer;
+  font-family:var(--font);font-size:8px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--text-muted);background:var(--gray-50);
+  position:relative;overflow:hidden;
+  transition:border-color .15s,background .15s;
+}
+.up-dropzone:hover,.up-dropzone.drag-over{border-color:var(--gold);background:var(--gold-faint);}
+.up-dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.up-dropzone-ico{font-size:13px;flex-shrink:0;}
+.up-dropzone-txt{font-size:8px;line-height:1.4;}
+.up-dropzone-txt strong{display:block;font-size:9px;color:var(--text-dim);}
+.up-progress{
+  height:3px;background:var(--gray-200);margin-top:2px;display:none;
+}
+.up-progress-bar{height:3px;background:var(--gold);width:0%;transition:width .3s;}
+.up-status{
+  font-size:8px;letter-spacing:.06em;padding:2px 0;min-height:14px;
+  display:none;
+}
+.up-status.ok{color:var(--green);display:block;}
+.up-status.err{color:var(--red);display:block;}
+.up-status.loading{color:var(--orange);display:block;}
+
+/* Card compact upload strip */
+.card-upload-strip{
+  display:flex;gap:4px;flex-wrap:wrap;
+  margin-top:5px;padding-top:5px;
+  border-top:1px dashed var(--gray-200);
+}
+.card-up-slot{
+  flex:1;min-width:0;
+  display:flex;align-items:center;gap:3px;
+  border:1px dashed var(--border-hi);
+  padding:3px 6px;
+  font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text-muted);background:var(--gray-50);
+  cursor:pointer;font-family:var(--font);position:relative;overflow:hidden;
+  transition:border-color .15s,color .15s;white-space:nowrap;
+}
+.card-up-slot:hover,.card-up-slot.drag-over{border-color:var(--gold);color:var(--gold-dim);}
+.card-up-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.card-up-slot .cu-lang{
+  font-size:6.5px;font-weight:700;padding:1px 3px;background:#888;color:#fff;flex-shrink:0;
+}
+.card-up-slot .cu-lang.fr{background:#2980b9;}
+.card-up-slot .cu-lang.en{background:#27ae60;}
+.card-up-slot .cu-ico{font-size:10px;}
+.card-up-slot.uploading{opacity:.6;pointer-events:none;}
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="upload-widget.js" defer></script>
@@ -367,9 +441,34 @@ function goBackToPreviousPage() {
       <div style="font-family:'MazzardM',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#1a1a1a;">Admin — Documents</div>
       <div style="font-family:'MazzardM',sans-serif;font-size:0.55rem;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:#9a9a9a;margin-top:2px;">MyEOD / Ingénieurs Créatifs</div>
     </div>
+    <span id="auth-badge" style="display:none;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border:1px solid var(--gray-200);padding:2px 8px;white-space:nowrap;"></span>
+    <button id="auth-btn" onclick="authAction()" style="display:inline-flex;align-items:center;gap:5px;font-family:var(--font);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border:1px solid var(--gray-200);background:none;cursor:pointer;color:var(--gray-600);transition:border-color .15s,color .15s;" title="Connexion">🔒 Connexion</button>
     <button type="button" class="btn-nav-back" onclick="goBackToPreviousPage()" title="Retour à la page précédente" aria-label="Retour à la page précédente">&larr;</button>
   </div>
 </header>
+
+<!-- LOGIN MODAL -->
+<div id="login-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:500;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;max-width:360px;width:100%;padding:28px 30px;">
+    <div style="font-family:var(--font);font-size:1.1rem;font-weight:300;color:var(--gold);margin-bottom:4px;">Connexion MyEOD</div>
+    <div style="font-size:8px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px;">Accès documents sécurisés</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div>
+        <label style="font-size:8px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:3px;">Email</label>
+        <input id="login-email" type="email" class="tf" placeholder="prenom.nom@..." style="width:100%;box-sizing:border-box;" autocomplete="email">
+      </div>
+      <div>
+        <label style="font-size:8px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:3px;">Mot de passe</label>
+        <input id="login-pwd" type="password" class="tf" style="width:100%;box-sizing:border-box;" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div id="login-err" style="font-size:9px;color:var(--red);display:none;padding:4px 0;"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px;">
+        <button class="btn btn-ghost" onclick="closeLoginModal()">Annuler</button>
+        <button class="btn btn-gold" onclick="doLogin()" id="login-submit">Connexion</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </div>
 
@@ -558,6 +657,36 @@ function goBackToPreviousPage() {
             <input class="tf" id="doc-ref-fr" type="text" placeholder="nom_fichier_fr.docx" style="width:100%;box-sizing:border-box;font-size:10px;">
           </div>
           <div id="fr-ref-hint" style="font-size:9px;color:#2980b9;font-style:italic;display:none;word-break:break-all;padding:3px 6px;background:rgba(41,128,185,.07);border-left:2px solid #2980b9;"></div>
+          <!-- Upload FR -->
+          <div class="modal-upload-panel">
+            <div class="up-title">📎 Fichier(s) — Version FR</div>
+            <div class="up-slots">
+              <div class="up-slot">
+                <label>DOCX</label>
+                <div class="up-row">
+                  <div class="up-dropzone" id="udz-fr-docx" ondragover="uzDrag(event,this)" ondragleave="uzLeave(this)" ondrop="uzDrop(event,this,'fr','docx')">
+                    <input type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onchange="uzPick(event,this,'fr','docx')">
+                    <span class="up-dropzone-ico">📄</span>
+                    <span class="up-dropzone-txt"><strong id="uf-fr-docx-name">Déposer un .docx</strong>ou cliquer pour parcourir</span>
+                  </div>
+                </div>
+                <div class="up-progress" id="up-fr-docx-prog"><div class="up-progress-bar" id="up-fr-docx-bar"></div></div>
+                <div class="up-status" id="up-fr-docx-st"></div>
+              </div>
+              <div class="up-slot">
+                <label>PDF</label>
+                <div class="up-row">
+                  <div class="up-dropzone" id="udz-fr-pdf" ondragover="uzDrag(event,this)" ondragleave="uzLeave(this)" ondrop="uzDrop(event,this,'fr','pdf')">
+                    <input type="file" accept=".pdf,application/pdf" onchange="uzPick(event,this,'fr','pdf')">
+                    <span class="up-dropzone-ico">📕</span>
+                    <span class="up-dropzone-txt"><strong id="uf-fr-pdf-name">Déposer un .pdf</strong>ou cliquer pour parcourir</span>
+                  </div>
+                </div>
+                <div class="up-progress" id="up-fr-pdf-prog"><div class="up-progress-bar" id="up-fr-pdf-bar"></div></div>
+                <div class="up-status" id="up-fr-pdf-st"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -574,7 +703,7 @@ function goBackToPreviousPage() {
           </div>
           <div style="display:flex;flex-direction:column;gap:3px;">
             <label style="font-size:9px;color:var(--text-muted);">Status EN</label>
-            <select class="tf" id="doc-status-en" style="width:100%;box-sizing:border-box;">
+            <select class="tf" id="doc-status-en" style="width:100%;box-sizing:border-box;" onchange="updateEnUploadVisibility()">
               <option value="todo">&#x2B1C; To create</option>
               <option value="wip">&#x1F7E1; In progress</option>
               <option value="done">&#x2705; Existing</option>
@@ -587,6 +716,36 @@ function goBackToPreviousPage() {
             <input class="tf" id="doc-ref-en" type="text" placeholder="filename_en.docx" style="width:100%;box-sizing:border-box;font-size:10px;">
           </div>
           <div id="en-ref-hint" style="font-size:9px;color:#27ae60;font-style:italic;display:none;word-break:break-all;padding:3px 6px;background:rgba(39,174,96,.07);border-left:2px solid #27ae60;"></div>
+          <!-- Upload EN -->
+          <div class="modal-upload-panel" id="en-upload-panel">
+            <div class="up-title">📎 File(s) — English Version</div>
+            <div class="up-slots">
+              <div class="up-slot">
+                <label>DOCX</label>
+                <div class="up-row">
+                  <div class="up-dropzone" id="udz-en-docx" ondragover="uzDrag(event,this)" ondragleave="uzLeave(this)" ondrop="uzDrop(event,this,'en','docx')">
+                    <input type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onchange="uzPick(event,this,'en','docx')">
+                    <span class="up-dropzone-ico">📄</span>
+                    <span class="up-dropzone-txt"><strong id="uf-en-docx-name">Drop a .docx file</strong>or click to browse</span>
+                  </div>
+                </div>
+                <div class="up-progress" id="up-en-docx-prog"><div class="up-progress-bar" id="up-en-docx-bar"></div></div>
+                <div class="up-status" id="up-en-docx-st"></div>
+              </div>
+              <div class="up-slot">
+                <label>PDF</label>
+                <div class="up-row">
+                  <div class="up-dropzone" id="udz-en-pdf" ondragover="uzDrag(event,this)" ondragleave="uzLeave(this)" ondrop="uzDrop(event,this,'en','pdf')">
+                    <input type="file" accept=".pdf,application/pdf" onchange="uzPick(event,this,'en','pdf')">
+                    <span class="up-dropzone-ico">📕</span>
+                    <span class="up-dropzone-txt"><strong id="uf-en-pdf-name">Drop a .pdf file</strong>or click to browse</span>
+                  </div>
+                </div>
+                <div class="up-progress" id="up-en-pdf-prog"><div class="up-progress-bar" id="up-en-pdf-bar"></div></div>
+                <div class="up-status" id="up-en-pdf-st"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -850,6 +1009,7 @@ let editId = null;
 let docs=[];
 
 function load(){
+  loadDocFiles();
   // Load from localStorage if available, else use DEFAULT_DOCS
   try{
     const saved = localStorage.getItem('myeod_admin_v1');
@@ -935,22 +1095,61 @@ const DOC_FILES = {
 };
 
 function getDlLinks(docId) {
-  const files = DOC_FILES[docId];
-  if (!files) return '';
-  let html = '<div class="doc-files">';
-  if (files.fr) {
-    const fname = files.fr.split('/').pop();
-    html += `<a class="doc-file-btn" href="${files.fr}" download="${fname}" target="_blank" onclick="event.stopPropagation()"><span class="doc-file-lang">FR</span> ⬇ ${files.nameFr||fname}</a>`;
+  const files = DOC_FILES[docId] || {};
+  const d = docs.find(x => x.id === docId);
+  const needEn = d && d.statusEn !== 'na';
+  const cat    = d ? d.cat : 'admin';
+  let html = '';
+
+  // ── Download buttons for existing files ──────────────────────────────────
+  const paths = [];
+  if (files.fr_docx || files.fr)     paths.push({ path: files.fr_docx || files.fr,  lang:'FR', fmt:'docx', fname: files.fr_name_docx || files.nameFr });
+  if (files.fr_pdf)                  paths.push({ path: files.fr_pdf,                lang:'FR', fmt:'pdf',  fname: files.fr_name_pdf });
+  if (files.en_docx || files.en)     paths.push({ path: files.en_docx || files.en,  lang:'EN', fmt:'docx', fname: files.en_name_docx || files.nameEn });
+  if (files.en_pdf)                  paths.push({ path: files.en_pdf,               lang:'EN', fmt:'pdf',  fname: files.en_name_pdf });
+
+  if (paths.length) {
+    html += '<div class="doc-files">';
+    paths.forEach(function(p) {
+      const ico   = p.fmt === 'pdf' ? '&#x1F4D5;' : '&#x1F4C4;';
+      const label = (p.fname || p.path.split('/').pop());
+      const isProtected = PROTECTED_CATS[cat] !== false;
+      if (isProtected) {
+        // secure download via signed URL
+        html += '<button class="doc-file-btn" onclick="event.stopPropagation();downloadFile(' + "'" + p.path + "','" + cat + "','" + label + "')" + '" style="cursor:pointer;">'
+          + '<span class="doc-file-lang">' + p.lang + '</span> ' + ico + ' ' + label + '</button>';
+      } else {
+        // public direct link
+        const sb = getSB();
+        const publicUrl = sb ? sb.storage.from(SB_BUCKET).getPublicUrl(p.path).data.publicUrl : '#';
+        html += '<a class="doc-file-btn" href="' + publicUrl + '" download="' + label + '" target="_blank" onclick="event.stopPropagation()">'
+          + '<span class="doc-file-lang">' + p.lang + '</span> ' + ico + ' ' + label + '</a>';
+      }
+    });
+    html += '</div>';
   }
-  if (files.en) {
-    const fname = files.en.split('/').pop();
-    html += `<a class="doc-file-btn" href="${files.en}" download="${fname}" target="_blank" onclick="event.stopPropagation()"><span class="doc-file-lang">EN</span> ⬇ ${files.nameEn||fname}</a>`;
+
+  // ── Compact card upload strip ─────────────────────────────────────────────
+  function cuSlot(slotId, lang, langCls, ico, fmt, fname) {
+    return '<label class="card-up-slot" id="' + slotId + '" title="Upload ' + lang.toUpperCase() + ' ' + fmt.toUpperCase() + '">'
+      + '<span class="cu-lang ' + langCls + '">' + lang.toUpperCase() + '</span>'
+      + '<span class="cu-ico">' + ico + '</span>'
+      + '<span style="font-size:7px;flex:1;overflow:hidden;text-overflow:ellipsis;">' + (fname || fmt.toUpperCase()) + '</span>'
+      + '<input type="file" accept=".' + fmt + '"'
+      + ' onchange="cardUpload(event,' + docId + ',\'' + lang + '\',\'' + fmt + '\')"'
+      + ' onclick="event.stopPropagation()">'
+      + '</label>';
+  }
+  html += '<div class="card-upload-strip" onclick="event.stopPropagation()">';
+  html += cuSlot('cu-' + docId + '-fr-docx', 'fr', 'fr', '&#x1F4C4;', 'docx', files.fr_name_docx);
+  html += cuSlot('cu-' + docId + '-fr-pdf',  'fr', 'fr', '&#x1F4D5;', 'pdf',  files.fr_name_pdf);
+  if (needEn) {
+    html += cuSlot('cu-' + docId + '-en-docx', 'en', 'en', '&#x1F4C4;', 'docx', files.en_name_docx);
+    html += cuSlot('cu-' + docId + '-en-pdf',  'en', 'en', '&#x1F4D5;', 'pdf',  files.en_name_pdf);
   }
   html += '</div>';
   return html;
 }
-
-
 function filteredDocs(){
   const fs  = document.getElementById('f-search').value.toLowerCase();
   const fc  = document.getElementById('f-cat').value;
@@ -1095,7 +1294,8 @@ function render(){
       const enRef = d.refEn ? `<span title="${d.refEn}" style="font-size:7px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;display:inline-block;vertical-align:middle;margin-left:3px;">📎 ${d.refEn}</span>` : '';
 
       const hasStamp = !!(EXPERT_MAP[d.id]&&EXPERT_MAP[d.id].length);
-      html += `<div class="doc-card p${d.prio}${fully?' done':''}${hasStamp?' has-stamp':''}" onclick="openEdit(${d.id})" style="border-left-color:${pc}">
+      const stampHtml = hasStamp ? '<div class="expert-stamps">' + EXPERT_MAP[d.id].map(function(e){return '<span class="stamp">'+e+'</span>';}).join('') + '</div>' : '';
+      html += `<div class="doc-card p${d.prio}${fully?' done':''}" onclick="openEdit(${d.id})" style="border-left-color:${pc}">
         <div class="doc-card-top">
           <span class="doc-icon">${d.icon}</span>
           <div style="flex:1;min-width:0;">
@@ -1120,8 +1320,8 @@ function render(){
           <span class="badge" style="border-color:${pc};color:${pc}">${['','🔴 P1','🟠 P2','🟢 P3'][d.prio]}</span>
           <span class="badge" style="border-color:var(--border-hi);color:var(--text-muted)">${d.owner||''}</span>
           ${d.notes?`<span style="font-size:9px;color:var(--text-muted);font-style:italic;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${d.notes}">💡 ${d.notes}</span>`:''}
+          ${stampHtml}
         </div>
-        ${hasStamp?`<div class="expert-stamps">${EXPERT_MAP[d.id].map((e,i)=>`<span class="stamp">${e}</span>`).join('')}</div>`:''}
       ${getDlLinks(d.id)}
     </div>`;
     });
@@ -1151,6 +1351,9 @@ function openEdit(id){
   eh.style.display=d.refEn?'block':'none';if(d.refEn)eh.textContent='Current : '+d.refEn;
   document.getElementById('modal-del').style.display='inline-flex';
   document.getElementById('modal-ov').classList.add('open');
+  resetModalUploadZones();
+  restoreModalUploads(id);
+  updateEnUploadVisibility();
 }
 function openAdd(){
   editId=null;
@@ -1165,6 +1368,8 @@ function openAdd(){
   document.getElementById('en-ref-hint').style.display='none';
   document.getElementById('modal-del').style.display='none';
   document.getElementById('modal-ov').classList.add('open');
+  resetModalUploadZones();
+  updateEnUploadVisibility();
 }
 function closeModal(){document.getElementById('modal-ov').classList.remove('open');}
 function saveDoc(){
@@ -1197,7 +1402,381 @@ function resetDocs(){
   try{localStorage.setItem('myeod_admin_v1',JSON.stringify(docs));}catch(e){}
   render();
 }
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SUPABASE UPLOAD ENGINE
+// ══════════════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════════════
+// SUPABASE — AUTH + SECURED STORAGE ENGINE
+// ══════════════════════════════════════════════════════════════════════════════
+
+const SB_URL    = 'https://kewhxzitwdrnpsnzlihn.supabase.co';
+const SB_KEY    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtld2h4eml0d2RybnBzbnpsaWhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDYxMDg5OTYsImV4cCI6MjA2MTY4NDk5Nn0.FGc5Hp4pGdDlJKj4K5UBv7eFR8LjAalsPkCp0-5OQPU';
+const SB_BUCKET = 'myeod-docs';
+const SIGNED_URL_TTL = 86400; // 24h in seconds
+
+// Categories that require signed URLs (private bucket)
+// Set to true = signed URL required; false = public URL
+const PROTECTED_CATS = {
+  commercial: false,   // proposals, NDA, MSA — adjustable
+  admin:      true,
+  financier:  true,
+  rh:         true,
+  suisse:     true,
+};
+
+let _sbClient = null;
+let _sbSession = null;
+
+// ── Supabase client (lazy) ────────────────────────────────────────────────────
+function getSB() {
+  if (!_sbClient && window.supabase && window.supabase.createClient) {
+    _sbClient = window.supabase.createClient(SB_URL, SB_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true }
+    });
+  }
+  return _sbClient;
+}
+
+function isAuthenticated() { return !!_sbSession; }
+
+// ── Auth: session restore ─────────────────────────────────────────────────────
+async function initAuth() {
+  const sb = getSB();
+  if (!sb) return;
+  const { data } = await sb.auth.getSession();
+  if (data && data.session) {
+    _sbSession = data.session;
+    updateAuthUI(data.session.user);
+    await loadDocFilesFromDB();
+  }
+  // Listen for auth changes
+  sb.auth.onAuthStateChange(async (event, session) => {
+    _sbSession = session;
+    if (session) {
+      updateAuthUI(session.user);
+      await loadDocFilesFromDB();
+    } else {
+      updateAuthUI(null);
+    }
+    render();
+  });
+}
+
+function updateAuthUI(user) {
+  const badge = document.getElementById('auth-badge');
+  const btn   = document.getElementById('auth-btn');
+  if (!badge || !btn) return;
+  if (user) {
+    const name = user.email.split('@')[0].replace('.', ' ');
+    badge.textContent = name;
+    badge.style.display = 'inline';
+    btn.textContent = '🔓 Déconnexion';
+    btn.style.color = 'var(--green)';
+    btn.style.borderColor = 'var(--green)';
+  } else {
+    badge.style.display = 'none';
+    btn.innerHTML = '🔒 Connexion';
+    btn.style.color = 'var(--gray-600)';
+    btn.style.borderColor = 'var(--gray-200)';
+  }
+}
+
+function authAction() {
+  if (isAuthenticated()) {
+    getSB().auth.signOut();
+  } else {
+    openLoginModal();
+  }
+}
+
+// ── Login modal ───────────────────────────────────────────────────────────────
+function openLoginModal() {
+  const m = document.getElementById('login-modal');
+  if (m) { m.style.display = 'flex'; }
+  setTimeout(() => {
+    const e = document.getElementById('login-email');
+    if (e) e.focus();
+  }, 80);
+}
+function closeLoginModal() {
+  const m = document.getElementById('login-modal');
+  if (m) m.style.display = 'none';
+  const err = document.getElementById('login-err');
+  if (err) err.style.display = 'none';
+}
+
+async function doLogin() {
+  const email = (document.getElementById('login-email').value || '').trim();
+  const pwd   = (document.getElementById('login-pwd').value   || '').trim();
+  const err   = document.getElementById('login-err');
+  const btn   = document.getElementById('login-submit');
+  if (!email || !pwd) { err.textContent = 'Email et mot de passe requis.'; err.style.display = 'block'; return; }
+  if (btn) { btn.textContent = 'Connexion…'; btn.disabled = true; }
+  const sb = getSB();
+  const { error } = await sb.auth.signInWithPassword({ email, password: pwd });
+  if (btn) { btn.textContent = 'Connexion'; btn.disabled = false; }
+  if (error) {
+    err.textContent = 'Identifiants incorrects.';
+    err.style.display = 'block';
+  } else {
+    closeLoginModal();
+  }
+}
+
+// ── Signed URL fetcher ────────────────────────────────────────────────────────
+async function getFileUrl(storagePath, catId) {
+  const needSign = PROTECTED_CATS[catId] !== false;
+  if (!needSign) {
+    // public URL
+    const sb = getSB();
+    const { data } = sb.storage.from(SB_BUCKET).getPublicUrl(storagePath);
+    return data.publicUrl;
+  }
+  // signed URL — requires auth
+  if (!isAuthenticated()) {
+    openLoginModal();
+    return null;
+  }
+  const sb = getSB();
+  const { data, error } = await sb.storage.from(SB_BUCKET).createSignedUrl(storagePath, SIGNED_URL_TTL);
+  if (error) { console.error('Signed URL error:', error); return null; }
+  return data.signedUrl;
+}
+
+// ── Download handler (click → get signed URL → open) ─────────────────────────
+async function downloadFile(storagePath, catId, filename) {
+  const url = await getFileUrl(storagePath, catId);
+  if (!url) return;
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename || storagePath.split('/').pop();
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+// ── Slug utility ──────────────────────────────────────────────────────────────
+function slugDoc(d, lang, fmt) {
+  const base = (d.name || d.nameEn || 'doc').toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
+  return 'doc_' + d.id + '/' + base + '_' + lang + '.' + fmt;
+}
+
+// ── Core upload (requires auth for protected categories) ──────────────────────
+async function uploadToSupabase(file, path, catId) {
+  const needAuth = PROTECTED_CATS[catId] !== false;
+  if (needAuth && !isAuthenticated()) {
+    openLoginModal();
+    throw new Error('Connexion requise pour uploader ce document.');
+  }
+  const sb = getSB();
+  if (!sb) throw new Error('Supabase non initialisé');
+  await sb.storage.from(SB_BUCKET).remove([path]);
+  const { data, error } = await sb.storage.from(SB_BUCKET).upload(path, file, {
+    cacheControl: '3600', upsert: true,
+    contentType: file.type || 'application/octet-stream'
+  });
+  if (error) throw error;
+  return path; // return path, not public URL — we resolve later via getFileUrl
+}
+
+// ── Supabase DB: persist doc_files ────────────────────────────────────────────
+async function persistFileToDB(docId, lang, fmt, storagePath, filename) {
+  if (!isAuthenticated()) return; // only persist when logged in
+  const sb = getSB();
+  await sb.from('doc_files').upsert({
+    doc_id: docId, lang, fmt,
+    storage_path: storagePath,
+    filename,
+    uploaded_by: _sbSession.user.email,
+    uploaded_at: new Date().toISOString()
+  }, { onConflict: 'doc_id,lang,fmt' });
+}
+
+// ── Load doc_files from DB ────────────────────────────────────────────────────
+async function loadDocFilesFromDB() {
+  const sb = getSB();
+  const { data, error } = await sb.from('doc_files').select('*');
+  if (error || !data) return;
+  data.forEach(row => {
+    if (!DOC_FILES[row.doc_id]) DOC_FILES[row.doc_id] = {};
+    const key = row.lang + '_' + row.fmt;
+    DOC_FILES[row.doc_id][key] = row.storage_path;  // store path, not URL
+    DOC_FILES[row.doc_id][row.lang + '_name_' + row.fmt] = row.filename;
+    if (!DOC_FILES[row.doc_id][row.lang]) {
+      DOC_FILES[row.doc_id][row.lang] = row.storage_path;
+      DOC_FILES[row.doc_id][row.lang === 'fr' ? 'nameFr' : 'nameEn'] = row.filename;
+    }
+  });
+  // Persist to localStorage as cache
+  try { localStorage.setItem('myeod_doc_files_v1', JSON.stringify(DOC_FILES)); } catch(e){}
+  render();
+}
+
+// ── Load from localStorage (offline/initial cache) ────────────────────────────
+function loadDocFiles() {
+  try {
+    const saved = localStorage.getItem('myeod_doc_files_v1');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      Object.keys(parsed).forEach(k => {
+        DOC_FILES[+k] = Object.assign({}, DOC_FILES[+k] || {}, parsed[k]);
+      });
+    }
+  } catch(e) {}
+}
+
+// ── Register upload in memory + DB ───────────────────────────────────────────
+async function registerUpload(docId, lang, fmt, storagePath, filename) {
+  if (!DOC_FILES[docId]) DOC_FILES[docId] = {};
+  const key = lang + '_' + fmt;
+  DOC_FILES[docId][key] = storagePath;
+  DOC_FILES[docId][lang + '_name_' + fmt] = filename;
+  if (!DOC_FILES[docId][lang]) {
+    DOC_FILES[docId][lang] = storagePath;
+    DOC_FILES[docId][lang === 'fr' ? 'nameFr' : 'nameEn'] = filename;
+  }
+  const d = docs.find(x => x.id === docId);
+  if (d) {
+    if (lang === 'fr' && !d.refFr) { d.refFr = filename; persistDoc(d); }
+    if (lang === 'en' && !d.refEn) { d.refEn = filename; persistDoc(d); }
+  }
+  try { localStorage.setItem('myeod_doc_files_v1', JSON.stringify(DOC_FILES)); } catch(e){}
+  await persistFileToDB(docId, lang, fmt, storagePath, filename);
+}
+
+// ── CARD upload handler ───────────────────────────────────────────────────────
+async function cardUpload(evt, docId, lang, fmt) {
+  const file = evt.target.files[0];
+  if (!file) return;
+  const d   = docs.find(x => x.id === docId);
+  const cat = d ? d.cat : 'admin';
+  if (PROTECTED_CATS[cat] !== false && !isAuthenticated()) {
+    openLoginModal();
+    evt.target.value = '';
+    return;
+  }
+  const slot = document.getElementById('cu-' + docId + '-' + lang + '-' + fmt);
+  if (slot) slot.classList.add('uploading');
+  const path = slugDoc(d || { id: docId, name: 'doc' }, lang, fmt);
+  try {
+    await uploadToSupabase(file, path, cat);
+    await registerUpload(docId, lang, fmt, path, file.name);
+    if (slot) {
+      const lbl = slot.querySelector('span:nth-child(3)');
+      if (lbl) lbl.textContent = file.name;
+      slot.style.borderColor = 'var(--green)';
+      slot.style.color = 'var(--green)';
+    }
+    render();
+  } catch(e) {
+    if (slot) slot.style.borderColor = 'var(--red)';
+    alert('Erreur upload : ' + (e.message || e));
+  } finally {
+    if (slot) slot.classList.remove('uploading');
+  }
+}
+
+// ── MODAL drop-zone helpers ───────────────────────────────────────────────────
+function uzDrag(e, el) { e.preventDefault(); el.classList.add('drag-over'); }
+function uzLeave(el)   { el.classList.remove('drag-over'); }
+function uzDrop(e, el, lang, fmt) {
+  e.preventDefault(); el.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) _modalUpload(file, lang, fmt);
+}
+function uzPick(e, el, lang, fmt) {
+  const file = e.target.files[0];
+  if (file) _modalUpload(file, lang, fmt);
+}
+
+async function _modalUpload(file, lang, fmt) {
+  const docId = parseInt(document.getElementById('doc-id').value);
+  if (!docId) { alert('Sauvegardez le document avant de l\u2019uploader.'); return; }
+  const d   = docs.find(x => x.id === docId);
+  const cat = d ? d.cat : 'admin';
+  if (PROTECTED_CATS[cat] !== false && !isAuthenticated()) {
+    openLoginModal(); return;
+  }
+  const nameEl   = document.getElementById('uf-' + lang + '-' + fmt + '-name');
+  const progWrap = document.getElementById('up-' + lang + '-' + fmt + '-prog');
+  const progBar  = document.getElementById('up-' + lang + '-' + fmt + '-bar');
+  const stEl     = document.getElementById('up-' + lang + '-' + fmt + '-st');
+
+  if (nameEl)   nameEl.textContent = file.name;
+  if (progWrap) progWrap.style.display = 'block';
+  if (progBar)  progBar.style.width = '20%';
+  if (stEl)     { stEl.className = 'up-status loading'; stEl.textContent = 'Upload en cours\u2026'; }
+
+  const path = slugDoc(d || { id: docId, name: 'doc' }, lang, fmt);
+  try {
+    if (progBar) progBar.style.width = '60%';
+    await uploadToSupabase(file, path, cat);
+    if (progBar) progBar.style.width = '100%';
+    await registerUpload(docId, lang, fmt, path, file.name);
+    if (stEl) { stEl.className = 'up-status ok'; stEl.textContent = '\u2713 ' + file.name + ' \u2014 upload\u00e9'; }
+    const hintId = lang === 'fr' ? 'fr-ref-hint' : 'en-ref-hint';
+    const refId  = lang === 'fr' ? 'doc-ref-fr'  : 'doc-ref-en';
+    const hint = document.getElementById(hintId);
+    const ref  = document.getElementById(refId);
+    if (ref)  ref.value = file.name;
+    if (hint) { hint.style.display = 'block'; hint.textContent = 'Fichier : ' + file.name; }
+    render();
+  } catch(e) {
+    if (stEl)   { stEl.className = 'up-status err'; stEl.textContent = '\u2717 Erreur : ' + (e.message || e); }
+    if (progBar)  progBar.style.width = '0%';
+  }
+}
+
+// ── EN panel visibility ───────────────────────────────────────────────────────
+function updateEnUploadVisibility() {
+  const statusEn = document.getElementById('doc-status-en');
+  const panel    = document.getElementById('en-upload-panel');
+  if (!statusEn || !panel) return;
+  panel.style.display = statusEn.value === 'na' ? 'none' : '';
+}
+
+// ── Reset modal upload zones ──────────────────────────────────────────────────
+function resetModalUploadZones() {
+  ['fr-docx', 'fr-pdf', 'en-docx', 'en-pdf'].forEach(k => {
+    const [lang, fmt] = k.split('-');
+    const nameEl   = document.getElementById('uf-' + lang + '-' + fmt + '-name');
+    const progWrap = document.getElementById('up-' + lang + '-' + fmt + '-prog');
+    const progBar  = document.getElementById('up-' + lang + '-' + fmt + '-bar');
+    const stEl     = document.getElementById('up-' + lang + '-' + fmt + '-st');
+    if (nameEl)   nameEl.textContent = lang === 'fr' ? (fmt === 'docx' ? 'D\u00e9poser un .docx' : 'D\u00e9poser un .pdf') : (fmt === 'docx' ? 'Drop a .docx file' : 'Drop a .pdf file');
+    if (progWrap) progWrap.style.display = 'none';
+    if (progBar)  progBar.style.width = '0%';
+    if (stEl)     stEl.className = 'up-status';
+  });
+  updateEnUploadVisibility();
+}
+
+// ── Restore uploads in modal ──────────────────────────────────────────────────
+function restoreModalUploads(docId) {
+  const files = DOC_FILES[docId] || {};
+  function show(lang, fmt, path, fname) {
+    if (!path) return;
+    const nameEl = document.getElementById('uf-' + lang + '-' + fmt + '-name');
+    const stEl   = document.getElementById('up-' + lang + '-' + fmt + '-st');
+    if (nameEl) nameEl.textContent = fname || path.split('/').pop();
+    if (stEl)   { stEl.className = 'up-status ok'; stEl.textContent = '\u2713 Fichier existant \u2014 ' + (fname || path.split('/').pop()); stEl.style.display = 'block'; }
+  }
+  show('fr', 'docx', files.fr_docx || files.fr,  files.fr_name_docx || files.nameFr);
+  show('fr', 'pdf',  files.fr_pdf,                files.fr_name_pdf);
+  show('en', 'docx', files.en_docx || files.en,  files.en_name_docx || files.nameEn);
+  show('en', 'pdf',  files.en_pdf,                files.en_name_pdf);
+}
+
 load();
+
+// Init auth after load (non-blocking)
+document.addEventListener('DOMContentLoaded', function() {
+  initAuth();
+  if (typeof window.initUploadWidget === 'function') window.initUploadWidget();
+});
 </script>
 
 <script>

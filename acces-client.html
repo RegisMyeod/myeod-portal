@@ -1056,5 +1056,18 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNewClientPopup(); });
 </script>
 
+<script>
+function goBackToPreviousPage() {
+  var fallback = 'index.html';
+  try {
+    if (window.history.length > 1) {
+      window.history.back();
+      window.setTimeout(function() { window.location.href = fallback; }, 450);
+      return;
+    }
+  } catch(e) {}
+  window.location.href = fallback;
+}
+</script>
 </body>
 </html>

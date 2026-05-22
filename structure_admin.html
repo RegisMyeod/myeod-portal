@@ -564,6 +564,14 @@ function goBackToPreviousPage() {
     <option value="template">Template</option>
     <option value="na">N/A</option>
   </select>
+  <div class="flbl">Rédacteur</div>
+  <select class="tf" id="f-owner" onchange="render()">
+    <option value="">Tous</option>
+    <option value="RMO">RMO</option>
+    <option value="CCA">CCA</option>
+    <option value="PPI">PPI</option>
+    <option value="JMA">JMA</option>
+  </select>
   <span id="rc"></span>
   <button class="btn btn-gold no-print" onclick="openAdd()" style="margin-left:8px">+ Ajouter</button>
   <button class="btn btn-ghost no-print" onclick="window.print()">⬇ Export</button>
@@ -1008,30 +1016,43 @@ let editId = null;
 
 let docs=[];
 
+const LS_DOCS = 'myeod_admin_v2'; // bumped: v1 lacked suisse docs
+
 function load(){
   loadDocFiles();
-  // Load from localStorage if available, else use DEFAULT_DOCS
+  // Always start from DEFAULT_DOCS (source of truth for structure),
+  // then overlay saved customizations (status, refs, notes, owner) by id.
+  docs = JSON.parse(JSON.stringify(DEFAULT_DOCS));
   try{
-    const saved = localStorage.getItem('myeod_admin_v1');
-    if(saved){docs=JSON.parse(saved);}
-    else{docs=JSON.parse(JSON.stringify(DEFAULT_DOCS));}
-  }catch(e){
-    docs=JSON.parse(JSON.stringify(DEFAULT_DOCS));
-  }
+    const saved = localStorage.getItem(LS_DOCS);
+    if(saved){
+      const savedDocs = JSON.parse(saved);
+      savedDocs.forEach(s=>{
+        const d = docs.find(x=>x.id===s.id);
+        if(d){
+          // Overlay only user-editable fields — never replace structure fields
+          ['statusFr','statusEn','refFr','refEn','owner','notes','name','nameEn','desc','prio','cat']
+            .forEach(k=>{ if(s[k]!==undefined) d[k]=s[k]; });
+        } else {
+          // Custom doc added by user — keep it
+          docs.push(s);
+        }
+      });
+    }
+  }catch(e){}
   render();
 }
 
 function persistDoc(d){
-  // Update in docs array then save to localStorage
   const i=docs.findIndex(x=>x.id===d.id);
   if(i>=0)docs[i]=d; else docs.push(d);
-  try{localStorage.setItem('myeod_admin_v1',JSON.stringify(docs));}
+  try{localStorage.setItem(LS_DOCS,JSON.stringify(docs));}
   catch(e){console.warn('localStorage:',e);}
 }
 
 function removeDoc(id){
   docs=docs.filter(d=>d.id!==id);
-  try{localStorage.setItem('myeod_admin_v1',JSON.stringify(docs));}
+  try{localStorage.setItem(LS_DOCS,JSON.stringify(docs));}
   catch(e){console.warn('localStorage:',e);}
 }
 
@@ -1171,11 +1192,13 @@ function filteredDocs(){
   const fp  = document.getElementById('f-prio').value;
   const fsfr= document.getElementById('f-status-fr').value;
   const fsen= document.getElementById('f-status-en').value;
+  const fo  = document.getElementById('f-owner').value;
   return docs.filter(d=>{
     if(fc   && d.cat !== fc) return false;
     if(fp   && String(d.prio) !== fp) return false;
     if(fsfr && d.statusFr !== fsfr) return false;
     if(fsen && d.statusEn !== fsen) return false;
+    if(fo   && !(d.owner||'').includes(fo)) return false;
     if(fs   && !(d.name+' '+d.nameEn+' '+d.desc+' '+(d.owner||'')+' '+(d.notes||'')).toLowerCase().includes(fs)) return false;
     return true;
   });
@@ -1357,7 +1380,7 @@ function deleteDoc(){
 function resetDocs(){
   if(!confirm('Réinitialiser tous les documents ? Les modifications seront perdues.'))return;
   docs=JSON.parse(JSON.stringify(DEFAULT_DOCS));
-  try{localStorage.setItem('myeod_admin_v1',JSON.stringify(docs));}catch(e){}
+  try{localStorage.setItem(LS_DOCS,JSON.stringify(docs));}catch(e){}
   render();
 }
 

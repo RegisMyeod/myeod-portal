@@ -978,7 +978,7 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       position: relative;
       overflow: hidden;
       transition: border-color .2s, box-shadow .2s, transform .15s;
-      cursor: default;
+      cursor: pointer;
     }
     .qui-offer::before {
       content: '';
@@ -1025,6 +1025,195 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       color: var(--gray-300);
     }
 
+
+
+    /* ── Landing pages services — ouverture depuis chaque tuile ── */
+    .qui-offer:focus-visible {
+      border-color: var(--black);
+      box-shadow: 0 0 0 2px rgba(10,10,10,0.08);
+      outline: none;
+    }
+    .qui-offer-cta {
+      display: inline-block;
+      margin-top: 0.9rem;
+      font-family: var(--font);
+      font-size: 0.56rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      transition: color 0.2s, transform 0.2s;
+    }
+    .qui-offer:hover .qui-offer-cta,
+    .qui-offer:focus-visible .qui-offer-cta {
+      color: var(--black);
+      transform: translateX(3px);
+    }
+    .qui-layout.is-hidden {
+      display: none !important;
+    }
+    .service-detail-page {
+      display: none;
+      width: 100%;
+      min-height: calc(100vh - 106px);
+      background: var(--white);
+    }
+    .service-detail-page.open {
+      display: grid;
+      grid-template-columns: 40fr 60fr;
+      align-items: start;
+    }
+    .service-detail-hero {
+      position: sticky;
+      top: 106px;
+      height: calc(100vh - 106px);
+      overflow-y: auto;
+      padding: 3rem 2.5rem 3rem 3rem;
+      border-right: 1px solid var(--gray-100);
+      display: flex;
+      flex-direction: column;
+    }
+    .service-detail-main {
+      padding: 3rem 3rem 4rem 2.5rem;
+    }
+    .service-detail-back {
+      align-self: flex-start;
+      margin-bottom: 2rem;
+      background: none;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      color: var(--gray-600);
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      line-height: 1;
+      padding: 0.55rem 0.9rem;
+      text-transform: uppercase;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .service-detail-back:hover,
+    .service-detail-back:focus-visible {
+      border-color: var(--black);
+      color: var(--black);
+      outline: none;
+    }
+    .service-detail-kicker {
+      font-family: var(--font);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 0.7rem;
+    }
+    .service-detail-title {
+      font-family: var(--font);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      color: var(--black);
+      margin-bottom: 1.4rem;
+    }
+    .service-detail-tagline {
+      font-family: var(--font);
+      font-size: 0.92rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text-dim, var(--gray-600));
+      margin-bottom: 1.6rem;
+    }
+    .service-detail-summary {
+      font-family: var(--font);
+      font-size: 0.82rem;
+      line-height: 1.85;
+      color: var(--gray-600);
+      margin-bottom: 1.4rem;
+    }
+    .service-detail-meta {
+      margin-top: auto;
+      padding-top: 2rem;
+      font-family: var(--font);
+      font-size: 0.58rem;
+      letter-spacing: 0.13em;
+      line-height: 1.7;
+      text-transform: uppercase;
+      color: var(--gray-300);
+    }
+    .service-detail-section {
+      border: 1px solid var(--gray-200);
+      padding: 1.45rem;
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-detail-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gray-200);
+    }
+    .service-detail-section-title {
+      font-family: var(--font);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 0.9rem;
+    }
+    .service-detail-list {
+      list-style: none;
+      display: grid;
+      gap: 0.65rem;
+    }
+    .service-detail-list li {
+      font-family: var(--font);
+      font-size: 0.76rem;
+      line-height: 1.75;
+      color: var(--gray-600);
+      position: relative;
+      padding-left: 1rem;
+    }
+    .service-detail-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--gray-400);
+    }
+    .service-detail-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0 0 1rem;
+    }
+    .service-detail-chip {
+      border: 1px solid var(--gray-200);
+      color: var(--gray-500);
+      font-family: var(--font);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 0.38rem 0.65rem;
+      text-transform: uppercase;
+    }
+    .service-detail-close-note {
+      border-left: 2px solid var(--gold);
+      margin-top: 1.4rem;
+      padding: 0.8rem 0 0.8rem 1rem;
+      font-family: var(--font);
+      font-size: 0.82rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--gray-600);
+    }
+
     /* Mention IC */
     .qui-brand-mention {
       margin-top: auto;
@@ -1055,6 +1244,21 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       .qui-offers {
         grid-template-columns: repeat(2, 1fr) !important;
       }
+      .service-detail-page.open {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      .service-detail-hero {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--gray-200);
+        padding: 2rem 1.5rem;
+      }
+      .service-detail-main {
+        padding: 2rem 1.5rem 3rem;
+      }
+
     }
     @media (max-width: 540px) {
       .qui-offers {
@@ -1100,6 +1304,9 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
   </div>
 
 </div>
+
+<div class="service-detail-page" id="service-detail-page" aria-live="polite"></div>
+
 </div>
 </div>
 </div>
@@ -1116,39 +1323,172 @@ function escapeHTML(value) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
+const myeodServices = {
+  tagline: 'BRiDGE : experts, technologies et IA pour piloter la valeur d’un asset industriel, du concept au decommissioning.',
+  intro: 'MyEOD — My Expert On Demand — est une marque de services spécialisée dans la Project Intelligence offshore, énergie et construction, incubée et portée par Ingénieurs Créatifs SAS. Le pivot stratégique fait émerger BRiDGE comme un ensemble de solutions associant experts, technologies de capture et de traitement, IA et capitalisation documentaire.',
+  mission: 'BRiDGE supporte l’ensemble de la chaîne de valeur d’un asset industriel : études préliminaires, Pre-FEED, FEED, FID, offres techniques et commerciales, engineering, operations, installation, construction, delivery, closing, life of field et decommissioning. Chaque mission transforme l’intervention terrain en actif réutilisable : BRiDGE Data Lake, DPR, data management, DCC, QC, as-built, dashboards et reporting décisionnel.',
+  offers: [
+    {
+      id: 'bridge',
+      num: '01',
+      title: 'BRiDGE',
+      desc: 'Suite modulaire de Project Intelligence combinant experts, technologies et IA pour structurer la donnée projet de bout en bout. BRiDGE agrège Data Lake, DPR, Data Management, DCC, géodésie & CRS, GIS, LBL acoustique, QC positionnement, MRU Monitoring, SIMOPS/COMOPS, Construction & Install., contrôle dimensionnel, Visual Intelligence et advisory Pre-FEED/FEED/FID.',
+      kicker: 'Service 01',
+      detailTitle: 'BRiDGE — Project Intelligence de bout en bout',
+      detailTagline: 'Un dispositif expert, technologique et IA pour sécuriser les décisions, les opérations et la mémoire industrielle sur tout le cycle de vie d’un asset.',
+      detailSummary: 'BRiDGE devient le socle MyEOD pour capter, contrôler, structurer et restituer la connaissance projet. La solution accompagne l’asset depuis les études préliminaires jusqu’au decommissioning, avec une logique modulaire qui s’adapte au niveau de maturité, au profil projet et aux exigences de gouvernance client.',
+      chips: ['Pre-FEED', 'FEED', 'FID', 'Engineering', 'Operations', 'Installation', 'Delivery', 'Life of field', 'Decommissioning'],
+      blocks: [
+        { title: 'Chaîne de valeur couverte', items: ['Études préliminaires, cadrage technique, retour d’expérience et support aux spécifications.', 'Pre-FEED, FEED, FID, offres techniques et commerciales, revues critiques et sécurisation documentaire.', 'Engineering, DCC, opérations, installation, construction, delivery, closing et dossiers as-built.', 'Life of field, monitoring, capitalisation de la donnée et préparation des phases de modification ou de decommissioning.'] },
+        { title: 'Modules activables', items: ['BRiDGE Advisory, BRiDGE DCC, BRiDGE Data Lake, DPR et Data Management.', 'Géodésie & CRS, GIS, Mob & Calibration, LBL acoustique et QC positionnement.', 'MRU Monitoring, SIMOPS/COMOPS, Construction & Install., contrôle dimensionnel et Visual Intelligence.', 'Automatisation, classification IA, alertes, tableaux de bord et validation experte sur les cas critiques.'] },
+        { title: 'Livrables et valeur client', items: ['Environnement projet sécurisé et consultable, structuré autour d’un Data Lake documentaire.', 'Rapports DPR, QC, DCC, dashboards, dossiers d’écarts, registres de décisions et exports client.', 'Dossier as-built et mémoire projet réutilisable pour les opérations, l’exploitation, les audits et les appels d’offres futurs.', 'Réduction des pertes de connaissance entre phases projet, équipes, contractants et zones géographiques.'] }
+      ],
+      closing: 'Objectif : faire de chaque mission un actif de connaissance exploitable, pas seulement une prestation ponctuelle.'
+    },
+    {
+      id: 'visual-intelligence',
+      num: '02',
+      title: 'Visual Intelligence',
+      desc: 'Acquisition photogrammétrique drone et analyse visuelle de sites industriels, structures offshore ou bâtiments. L’offre couvre acquisition terrain, caméra 4K, thermographie, traitement Pix4D/Metashape, nuages de points 3D, orthophotos, détection d’anomalies IA, condition assessment et intégration au BRiDGE Data Lake.',
+      kicker: 'Service 02',
+      detailTitle: 'Visual Intelligence — Capturer, modéliser, comprendre',
+      detailTagline: 'Des inspections visuelles augmentées pour transformer photos, vidéos, scans et observations terrain en supports de décision industrialisables.',
+      detailSummary: 'Visual Intelligence combine acquisition terrain, photogrammétrie, traitement 3D, analyse visuelle et restitution structurée. Le service s’adresse aux sites industriels, assets offshore, bâtiments techniques, yards, chantiers et infrastructures énergie/construction nécessitant une lecture rapide, documentée et partageable de l’état réel.',
+      chips: ['Drone', '4K', 'Thermographie', 'Photogrammétrie', 'Nuages de points', 'Modèles 3D', 'IA', 'BRiDGE Data Lake'],
+      blocks: [
+        { title: 'Acquisition terrain', items: ['Mobilisation drone, caméra 4K, thermographie et captation photo/vidéo selon contraintes site.', 'Préparation HSE, plan de vol, zones d’exclusion, coordination avec équipes opérationnelles et exigences client.', 'Collecte d’images exploitables pour inspection, relevés, suivi chantier, communication technique ou documentation as-built.'] },
+        { title: 'Traitement et intelligence visuelle', items: ['Traitement Pix4D, Metashape ou workflows équivalents pour modèles 3D, orthophotos et nuages de points.', 'Détection et classification d’anomalies, features, écarts visibles et points d’attention terrain.', 'Croisement avec données projet, plans, repères, KPIs ou historiques dans BRiDGE.'] },
+        { title: 'Restitution client', items: ['Rapports visuels structurés, dashboards, cartographies, exports image/vidéo et supports de revue.', 'Condition assessment d’assets, comparaisons temporelles, suivi de progression et aide à la décision.', 'Archivage dans le BRiDGE Data Lake pour conserver une mémoire visuelle exploitable.'] }
+      ],
+      closing: 'Objectif : rendre l’état réel d’un site lisible, partageable et actionnable par les équipes projet, HSE, engineering et management.'
+    },
+    {
+      id: 'staffing-augmente',
+      num: '03',
+      title: 'Staffing Augmenté',
+      desc: 'Renfort opérationnel différencié : Survey Expert, PMT, Survey Rep, GIS Specialist, DCC ou support HSE/installation arrivent avec la toolbox BRiDGE. L’objectif est de délivrer une valeur documentaire supérieure au staffing classique, avec des profils mobilisables sur deepwater, éolien offshore, LNG, construction marine et grands projets industriels.',
+      kicker: 'Service 03',
+      detailTitle: 'Staffing Augmenté — Experts outillés, livrables renforcés',
+      detailTagline: 'Des profils terrain ou projet qui ne se limitent pas à tenir un poste : ils produisent, structurent et transmettent une connaissance exploitable.',
+      detailSummary: 'Le staffing augmenté MyEOD associe des experts expérimentés à la toolbox BRiDGE pour sécuriser une phase critique, absorber un pic de charge ou renforcer une équipe client. Chaque mobilisation vise un résultat opérationnel et documentaire mesurable.',
+      chips: ['Survey Expert', 'PMT', 'Survey Rep', 'GIS', 'DCC', 'HSE', 'Installation', 'Offshore ready'],
+      blocks: [
+        { title: 'Profils mobilisables', items: ['Survey Expert, Survey Rep, PMT, GIS Specialist, DCC et coordinateurs installation/construction.', 'Renforts expérimentés pour deepwater, LNG, éolien offshore, construction marine, yards et projets industriels complexes.', 'Mobilisation courte, moyenne ou longue durée selon fenêtres opérationnelles, contraintes visa, HSE et planning.'] },
+        { title: 'Apport BRiDGE intégré', items: ['Mise en place de routines DPR, QC, data management, suivi documentaire et reporting dès l’arrivée sur mission.', 'Captation structurée des écarts, décisions, événements clés, données survey, installation ou construction.', 'Production de livrables exploitables au-delà de la simple présence d’un expert sur site.'] },
+        { title: 'Valeur opérationnelle', items: ['Sécurisation des interfaces client, contractor, opérateur, engineering et terrain.', 'Réduction des pertes d’information entre rotations, disciplines et phases projet.', 'Montée en qualité des livrables même lorsque l’équipe client manque temporairement de ressources senior.'] }
+      ],
+      closing: 'Objectif : transformer un renfort humain en capacité projet augmentée, documentée et immédiatement productive.'
+    },
+    {
+      id: 'marque-blanche',
+      num: '04',
+      title: 'Marque Blanche',
+      desc: 'Déploiement de BRiDGE et des expertises MyEOD sous identité client pour contractors, survey companies, EPCI ou opérateurs. MyEOD fournit une sous-traitance technique brandée client, contractualisable via NDA/MSA white-label, sans visibilité de la marque MyEOD lorsque le contexte l’exige.',
+      kicker: 'Service 04',
+      detailTitle: 'Marque Blanche — Expertise invisible, valeur visible',
+      detailTagline: 'Un canal discret pour intégrer les capacités MyEOD dans l’offre, les standards et l’identité d’un client ou d’un partenaire.',
+      detailSummary: 'La marque blanche permet à un contractor, EPCI, survey company, opérateur ou cabinet partenaire d’utiliser les capacités BRiDGE et les expertises MyEOD sous sa propre identité. Le dispositif est adapté aux contextes où la continuité commerciale, la confidentialité ou la lisibilité client final imposent une présence non visible de MyEOD.',
+      chips: ['NDA', 'MSA', 'Sous-traitance', 'EPCI', 'Survey contractors', 'Intégration client', 'Confidentialité'],
+      blocks: [
+        { title: 'Modes d’intervention', items: ['Sous-traitance technique brandée client, sans exposition de la marque MyEOD sur les livrables externes.', 'Déploiement de modules BRiDGE dans les workflows, templates, reportings et standards qualité du client.', 'Support ponctuel, projet complet ou cellule back-office selon le niveau de délégation attendu.'] },
+        { title: 'Cadre et gouvernance', items: ['Intervention encadrée par NDA, MSA, SOW ou modalités contractuelles white-label spécifiques.', 'Respect strict des standards documentaires, graphiques, HSE, cybersécurité et communication du client.', 'Organisation claire des rôles, validations, droits d’usage, propriété des données et circuits d’approbation.'] },
+        { title: 'Bénéfices pour le partenaire', items: ['Extension rapide de capacité sans créer une structure interne permanente.', 'Accès à une expertise multi-disciplinaire et à des modules BRiDGE déjà structurés.', 'Renforcement de l’offre commerciale du partenaire tout en conservant sa relation directe avec le client final.'] }
+      ],
+      closing: 'Objectif : amplifier la capacité d’un partenaire tout en restant totalement aligné avec son identité et ses engagements contractuels.'
+    },
+    {
+      id: 'medias-reportages',
+      num: '05',
+      title: 'Médias & reportages industriels',
+      desc: 'Création de médias spécialisés pour les métiers de l’énergie et de la construction : photos, vidéos, maquettes, contenus immersifs, reportages institutionnels et valorisation terrain. Les équipes mobilisées disposent des qualifications HSE nécessaires pour intervenir sur sites industriels, offshore ou chantiers, partout dans le monde.',
+      kicker: 'Service 05',
+      detailTitle: 'Médias & reportages industriels — Montrer les métiers, valoriser les projets',
+      detailTagline: 'Des contenus visuels sobres, techniques et institutionnels, produits par des équipes capables d’évoluer dans les environnements énergie et construction.',
+      detailSummary: 'Ce service accompagne les entreprises qui doivent documenter, valoriser ou expliquer leurs projets industriels sans perdre la rigueur du terrain. Il couvre la création de médias, photos, vidéos, maquettes, contenus immersifs et reportages institutionnels spécialisés, avec des équipes préparées aux exigences HSE internationales.',
+      chips: ['Photo', 'Vidéo', 'Maquettes', 'Reportage', 'Institutionnel', 'HSE ready', 'Énergie', 'Construction'],
+      blocks: [
+        { title: 'Formats produits', items: ['Reportages photo et vidéo sur sites industriels, chantiers, yards, assets offshore ou infrastructures énergie.', 'Maquettes, supports visuels, contenus immersifs, séquences métiers, interviews et capsules institutionnelles.', 'Supports de communication projet, présentation client, onboarding, retour d’expérience, formation ou documentation corporate.'] },
+        { title: 'Spécialisation énergie & construction', items: ['Compréhension des contraintes terrain : accès, permis, SIMOPS, zones sensibles, confidentialité et coordination HSE.', 'Capacité à traduire des métiers techniques en contenus lisibles pour clients, partenaires, investisseurs, équipes internes ou institutions.', 'Narration sobre, précise et respectueuse des environnements industriels complexes.'] },
+        { title: 'Mobilisation internationale', items: ['Équipes préparées pour intervenir sur sites industriels, offshore, bases logistiques, chantiers et environnements isolés.', 'Qualifications HSE, préparation documentaire et coordination avec les règles locales ou client avant mobilisation.', 'Production adaptée aux contextes internationaux : Afrique, Europe, APAC, Amériques et Moyen-Orient.'] }
+      ],
+      closing: 'Objectif : produire des médias professionnels qui valorisent l’action terrain tout en respectant les standards HSE, techniques et institutionnels du client.'
+    }
+  ]
+};
+
+function getServiceById(id) {
+  return myeodServices.offers.find(function(service) { return service.id === id; });
+}
+
+function renderServiceLanding(service) {
+  const page = document.getElementById('service-detail-page');
+  if (!page || !service) return;
+
+  const chipsHtml = (service.chips || []).map(function(chip) {
+    return '<span class="service-detail-chip">' + escapeHTML(chip) + '</span>';
+  }).join('');
+
+  const blocksHtml = (service.blocks || []).map(function(block) {
+    const itemsHtml = (block.items || []).map(function(item) {
+      return '<li>' + escapeHTML(item) + '</li>';
+    }).join('');
+    return '<section class="service-detail-section">' +
+      '<h3 class="service-detail-section-title">' + escapeHTML(block.title) + '</h3>' +
+      '<ul class="service-detail-list">' + itemsHtml + '</ul>' +
+      '</section>';
+  }).join('');
+
+  page.innerHTML =
+    '<aside class="service-detail-hero">' +
+      '<button type="button" class="service-detail-back" onclick="closeServiceLanding()">← Retour aux offres</button>' +
+      '<p class="service-detail-kicker">' + escapeHTML(service.kicker) + '</p>' +
+      '<h2 class="service-detail-title">' + escapeHTML(service.detailTitle) + '</h2>' +
+      '<p class="service-detail-tagline">“' + escapeHTML(service.detailTagline) + '”</p>' +
+      '<p class="service-detail-summary">' + escapeHTML(service.detailSummary) + '</p>' +
+      '<p class="service-detail-meta">MyEOD est une marque représentée par IC&nbsp;/&nbsp;Ingénieurs Créatifs</p>' +
+    '</aside>' +
+    '<main class="service-detail-main">' +
+      '<div class="service-detail-chips">' + chipsHtml + '</div>' +
+      blocksHtml +
+      '<p class="service-detail-close-note">' + escapeHTML(service.closing) + '</p>' +
+    '</main>';
+}
+
+function openServiceLanding(serviceId, updateHash) {
+  const service = getServiceById(serviceId);
+  const layout = document.querySelector('.qui-layout');
+  const page = document.getElementById('service-detail-page');
+  if (!service || !layout || !page) return;
+
+  renderServiceLanding(service);
+  layout.classList.add('is-hidden');
+  page.classList.add('open');
+  document.body.classList.add('service-detail-open');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (updateHash !== false) {
+    history.pushState({ service: serviceId }, '', '#service-' + serviceId);
+  }
+}
+
+function closeServiceLanding(fromHistory) {
+  const layout = document.querySelector('.qui-layout');
+  const page = document.getElementById('service-detail-page');
+  if (!layout || !page) return;
+
+  page.classList.remove('open');
+  layout.classList.remove('is-hidden');
+  document.body.classList.remove('service-detail-open');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (!fromHistory && window.location.hash.indexOf('#service-') === 0) {
+    history.pushState({}, '', window.location.pathname + window.location.search);
+  }
+}
+
 function loadQuiContent() {
-  const d = {
-      "tagline": "Project Intelligence offshore et industrielle : l’expert terrain augmenté par la donnée.",
-      "intro": "MyEOD — My Expert On Demand — est une marque de services spécialisée dans la Project Intelligence offshore et industrielle, incubée et portée par Ingénieurs Créatifs SAS. Elle combine expertise terrain de haut niveau, capture structurée de données et outils propriétaires de valorisation de la connaissance opérationnelle.",
-      "mission": "Chaque mission vise à transformer l’intervention d’un expert en actif réutilisable : RSiP Data Lake, Visual Intelligence, rapports DPR, as-built survey, QC positioning et dashboards exportables. MyEOD adresse l’O&G deepwater, l’éolien offshore, le LNG et la construction/rénovation industrielle, en mission complète, module seul, remote processing ou marque blanche.",
-      "offers": [
-          {
-              "num": "01",
-              "title": "RSiP",
-              "desc": "Remote Survey Intelligence Platform : capture, structuration et valorisation des données d’opérations offshore et industrielles. RSiP consolide historique projet, traitement, reporting, DPR, as-built survey et QC positioning dans un Data Lake consultable, exportable et intégrable aux workflows clients."
-          },
-          {
-              "num": "02",
-              "title": "Visual Intelligence",
-              "desc": "Acquisition photogrammétrique drone et analyse visuelle de sites industriels, structures offshore ou bâtiments. L’offre couvre acquisition terrain, caméra 4K, thermographie, traitement Pix4D/Metashape, nuages de points 3D, orthophotos, dashboards et intégration RSiP Data Lake."
-          },
-          {
-              "num": "03",
-              "title": "Staffing Augmenté",
-              "desc": "Renfort opérationnel différencié : Survey Expert, PMT, Survey Rep ou GIS Specialist arrivent avec leur toolbox RSiP/VI. L’objectif est de produire une valeur documentaire supérieure au staffing classique, avec des profils offshore ready pour deepwater, éolien, LNG et construction marine."
-          },
-          {
-              "num": "04",
-              "title": "Marque Blanche",
-              "desc": "Intervention sous identité client pour contractors, survey companies et EPCI. MyEOD fournit une sous-traitance technique brandée client, contractualisable via NDA/MSA white-label, sans visibilité de la marque MyEOD lorsque le contexte l’exige."
-          },
-          {
-              "num": "05",
-              "title": "Médias & reportages industriels",
-              "desc": "Création de médias spécialisés pour les métiers de l’énergie et de la construction : photos, vidéos, maquettes, reportages institutionnels et contenus de valorisation terrain. Les équipes mobilisées disposent des qualifications HSE nécessaires pour intervenir sur sites industriels, offshore ou chantiers, partout dans le monde."
-          }
-      ]
-  };
+  const d = myeodServices;
 
   // Colonne gauche — texte
   const textCol = document.getElementById('qui-content-text');
@@ -1163,17 +1503,40 @@ function loadQuiContent() {
   const grid = document.getElementById('qui-offers-grid');
   if (grid) {
     const tilesHtml = d.offers.map(function(o){
-      return '<div class="qui-offer">' +
+      return '<div class="qui-offer" role="button" tabindex="0" data-service="' + escapeHTML(o.id) + '" aria-label="Ouvrir la page service ' + escapeHTML(o.title) + '">' +
         '<p class="qui-offer-num">' + escapeHTML(o.num) + ' \u2014</p>' +
         '<p class="qui-offer-title">' + escapeHTML(o.title) + '</p>' +
         '<p class="qui-offer-desc">' + escapeHTML(o.desc) + '</p>' +
+        '<span class="qui-offer-cta">Découvrir →</span>' +
         '</div>';
     }).join('');
     grid.innerHTML = tilesHtml +
       '<div class="qui-offer-placeholder"><span>\u00c0 venir</span></div>';
+
+    grid.querySelectorAll('.qui-offer[data-service]').forEach(function(tile) {
+      tile.addEventListener('click', function() { openServiceLanding(tile.dataset.service); });
+      tile.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openServiceLanding(tile.dataset.service);
+        }
+      });
+    });
+  }
+
+  if (window.location.hash.indexOf('#service-') === 0) {
+    openServiceLanding(window.location.hash.replace('#service-', ''), false);
   }
 }
+
 document.addEventListener('DOMContentLoaded', loadQuiContent);
+window.addEventListener('popstate', function() {
+  if (window.location.hash.indexOf('#service-') === 0) {
+    openServiceLanding(window.location.hash.replace('#service-', ''), false);
+  } else if (document.body.classList.contains('service-detail-open')) {
+    closeServiceLanding(true);
+  }
+});
 </script>
 
 
@@ -1181,6 +1544,10 @@ document.addEventListener('DOMContentLoaded', loadQuiContent);
 function goBackToPreviousPage() {
   var fallback = 'index.html';
   try {
+    if (document.body.classList.contains('service-detail-open')) {
+      closeServiceLanding();
+      return;
+    }
     if (window.history.length > 1) {
       window.history.back();
       window.setTimeout(function() { window.location.href = fallback; }, 450);

@@ -1571,13 +1571,23 @@ async function uploadToSupabase(file, path, catId) {
   }
   const sb = getSB();
   if (!sb) throw new Error('Supabase non initialisé');
-  // upsert:true handles overwrite natively — no prior remove() needed
+
+  // Refresh session token before upload to ensure auth headers are current
+  const { data: sessionData } = await sb.auth.getSession();
+  if (needAuth && !sessionData?.session) {
+    openLoginModal();
+    throw new Error('Session expirée — reconnectez-vous.');
+  }
+  if (sessionData?.session) {
+    await sb.auth.setSession(sessionData.session);
+    _sbSession = sessionData.session;
+  }
+
   const { data, error } = await sb.storage.from(SB_BUCKET).upload(path, file, {
     cacheControl: '3600', upsert: true,
     contentType: file.type || 'application/octet-stream'
   });
   if (error) {
-    // Surface the exact Supabase error message for diagnosis
     const msg = error.message || (error.error && error.error.message) || JSON.stringify(error);
     throw new Error(msg);
   }
@@ -1586,15 +1596,21 @@ async function uploadToSupabase(file, path, catId) {
 
 // ── Supabase DB: persist doc_files ────────────────────────────────────────────
 async function persistFileToDB(docId, lang, fmt, storagePath, filename) {
-  if (!isAuthenticated()) return; // only persist when logged in
+  if (!isAuthenticated()) return;
   const sb = getSB();
-  await sb.from('doc_files').upsert({
-    doc_id: docId, lang, fmt,
-    storage_path: storagePath,
-    filename,
-    uploaded_by: _sbSession.user.email,
-    uploaded_at: new Date().toISOString()
-  }, { onConflict: 'doc_id,lang,fmt' });
+  try {
+    const { error } = await sb.from('doc_files').upsert({
+      doc_id: docId, lang, fmt,
+      storage_path: storagePath,
+      filename,
+      uploaded_by: _sbSession.user.email,
+      uploaded_at: new Date().toISOString()
+    }, { onConflict: 'doc_id,lang,fmt' });
+    if (error) console.warn('[doc_files RLS]', error.message, error);
+  } catch(e) {
+    console.warn('[doc_files insert failed]', e);
+  }
+  // File is always saved to localStorage regardless of DB result
 }
 
 // ── Load doc_files from DB ────────────────────────────────────────────────────

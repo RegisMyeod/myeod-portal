@@ -775,19 +775,19 @@ function showSync(state,msg){const el=document.getElementById('sync-status');el.
 
 const DEFAULT_DOCS = [
 {id:1,cat:"commercial",prio:1,name:"Capabilities Statement MyEOD",nameEn:"MyEOD Capabilities Statement",icon:"📄",
-  desc:"Document de présentation institutionnel 2 pages : qui est MyEOD, services RSiP & Staffing, références clés, équipe. Premier document à envoyer à un nouveau prospect.",
+  desc:"Document de présentation institutionnel 2 pages : qui est MyEOD, services Myeod BRiDGE & Staffing, références clés, équipe. Premier document à envoyer à un nouveau prospect.",
   owner:"RMO",statusFr:"todo",statusEn:"wip",refFr:"",refEn:"",notes:"Base : fiches projets existantes"},
-{id:2,cat:"commercial",prio:1,name:"Présentation RSiP — Deck Client",nameEn:"RSiP Service Presentation Deck",icon:"📊",
-  desc:"Présentation PowerPoint/HTML 10-15 slides : problème client → solution RSiP → APR → cas d'usage → équipe → références → proposition de valeur.",
+{id:2,cat:"commercial",prio:1,name:"Présentation Myeod BRiDGE — Deck Client",nameEn:"Myeod BRiDGE Service Presentation Deck",icon:"📊",
+  desc:"Présentation PowerPoint/HTML 10-15 slides : problème client → solution Myeod BRiDGE → APR → cas d'usage → équipe → références → proposition de valeur.",
   owner:"RMO",statusFr:"todo",statusEn:"wip",refFr:"",refEn:"",notes:""},
-{id:3,cat:"commercial",prio:1,name:"Proposal Template — RSiP",nameEn:"RSiP Proposal Template",icon:"📝",
-  desc:"Template de proposition commerciale RSiP : scope of work, livrables, équipe mobilisée, durée, conditions. Adaptable à chaque prospect.",
+{id:3,cat:"commercial",prio:1,name:"Proposal Template — Myeod BRiDGE",nameEn:"Myeod BRiDGE Proposal Template",icon:"📝",
+  desc:"Template de proposition commerciale Myeod BRiDGE : scope of work, livrables, équipe mobilisée, durée, conditions. Adaptable à chaque prospect.",
   owner:"RMO + CCA",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:"Ref : proposal SBM Offshore 19k€"},
 {id:4,cat:"commercial",prio:1,name:"Proposal Template — Staffing Augmenté",nameEn:"Augmented Staffing Proposal Template",icon:"📝",
-  desc:"Template proposal pour l'offre Staffing MyEOD : profil expert + RSiP embedded, comparaison vs staffing classique, valeur ajoutée, tarification jour/mois.",
+  desc:"Template proposal pour l'offre Staffing MyEOD : profil expert + Myeod BRiDGE embedded, comparaison vs staffing classique, valeur ajoutée, tarification jour/mois.",
   owner:"RMO + CCA",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:""},
 {id:5,cat:"commercial",prio:1,name:"Non-Disclosure Agreement (NDA)",nameEn:"Non-Disclosure Agreement",icon:"🔒",
-  desc:"NDA bilatéral standard MyEOD/IC. À faire signer avant tout échange de données sensibles ou démonstration RSiP. Clause durée 3 ans, périmètre mondial.",
+  desc:"NDA bilatéral standard MyEOD/IC. À faire signer avant tout échange de données sensibles ou démonstration Myeod BRiDGE. Clause durée 3 ans, périmètre mondial.",
   owner:"CCA",statusFr:"done",statusEn:"done",refFr:"myeod_nda_interne_fr-260510-054921.docx",refEn:"myeod_nda_interne_en-260510-094939.docx",notes:"Template IC existant à adapter MyEOD"},
 {id:6,cat:"commercial",prio:1,name:"Master Service Agreement (MSA)",nameEn:"Master Service Agreement",icon:"📋",
   desc:"Contrat cadre de prestations MyEOD. Définit les conditions générales applicables à tous les SOW. Inclut : IP, confidentialité, responsabilités, résiliation.",
@@ -795,8 +795,8 @@ const DEFAULT_DOCS = [
 {id:7,cat:"commercial",prio:1,name:"Statement of Work (SOW) Template",nameEn:"Statement of Work Template",icon:"📋",
   desc:"Template SOW spécifique à chaque mission. S'appuie sur le MSA. Définit : scope, livrables, jalons, ressources, durée, prix.",
   owner:"RMO + CCA",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:""},
-{id:8,cat:"commercial",prio:2,name:"Fiche Service RSiP — 1 page",nameEn:"RSiP Service Sheet",icon:"📄",
-  desc:"Synthèse RSiP en 1 page A4 : définition, logique APR, cas d'usage clés, équipe, références. Format leave-behind après une réunion client.",
+{id:8,cat:"commercial",prio:2,name:"Fiche Service Myeod BRiDGE — 1 page",nameEn:"Myeod BRiDGE Service Sheet",icon:"📄",
+  desc:"Synthèse Myeod BRiDGE en 1 page A4 : définition, logique APR, cas d'usage clés, équipe, références. Format leave-behind après une réunion client.",
   owner:"RMO",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:""},
 {id:9,cat:"commercial",prio:2,name:"Fiche Service Visual Intelligence — 1 page",nameEn:"Visual Intelligence Service Sheet",icon:"📄",
   desc:"Synthèse VI en 1 page : concept APR, modules A/B/C, équipe terrain vs remote, phase pilote. Format leave-behind.",
@@ -807,17 +807,17 @@ const DEFAULT_DOCS = [
 {id:11,cat:"commercial",prio:2,name:"Case Study — Karish FPSO Scan",nameEn:"Case Study — Karish FPSO Pre-Sailaway Scan",icon:"📁",
   desc:"Étude de cas 1 page : contexte Karish Singapore, scope VI réalisé, résultats, valeur ajoutée TechnipEnergies. Référence commerciale clé pour prospects FPSO.",
   owner:"RMO",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:"Réalisé sous bannière I&C/TEN"},
-{id:12,cat:"commercial",prio:2,name:"Case Study — MozLNG RSiP",nameEn:"Case Study — MozLNG RSiP Deployment",icon:"📁",
-  desc:"Étude de cas RSiP déployé sur MozLNG via Andrews Survey. Contexte, scope, livrables, valeur pour TotalEnergies. Référence centrale O&G.",
-  owner:"RMO",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:"RSiP actif sur le terrain"},
+{id:12,cat:"commercial",prio:2,name:"Case Study — MozLNG Myeod BRiDGE",nameEn:"Case Study — MozLNG Myeod BRiDGE Deployment",icon:"📁",
+  desc:"Étude de cas Myeod BRiDGE déployé sur MozLNG via Andrews Survey. Contexte, scope, livrables, valeur pour TotalEnergies. Référence centrale O&G.",
+  owner:"RMO",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:"Myeod BRiDGE actif sur le terrain"},
 {id:13,cat:"commercial",prio:2,name:"Letter of Intent Template",nameEn:"Letter of Intent Template",icon:"✉️",
   desc:"Template LOI pour formaliser l'intérêt mutuel avant signature MSA/SOW. Utilisé en phase Discussion → Closing.",
   owner:"CCA",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:""},
 {id:14,cat:"commercial",prio:3,name:"Références Projets — Liste consolidée",nameEn:"Project References — Consolidated List",icon:"📋",
   desc:"Document interne listant toutes les références MyEOD/I&C par secteur, région, client, type de service. Utilisé pour cibler les proposals.",
   owner:"RMO",statusFr:"wip",statusEn:"wip",refFr:"",refEn:"",notes:"Base : CRM BizDev + fiches projets"},
-{id:15,cat:"commercial",prio:3,name:"FAQ Clients — RSiP & VI",nameEn:"Client FAQ — RSiP & VI",icon:"❓",
-  desc:"Document réponses aux questions fréquentes des clients : qu'est-ce que RSiP, différence avec un survey classique, IP, confidentialité, déploiement.",
+{id:15,cat:"commercial",prio:3,name:"FAQ Clients — Myeod BRiDGE & VI",nameEn:"Client FAQ — Myeod BRiDGE & VI",icon:"❓",
+  desc:"Document réponses aux questions fréquentes des clients : qu'est-ce que Myeod BRiDGE, différence avec un survey classique, IP, confidentialité, déploiement.",
   owner:"RMO",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:""},
 {id:16,cat:"admin",prio:1,name:"Contrat de collaboration — JMA",nameEn:"Collaboration Agreement — JMA",icon:"🤝",
   desc:"Contrat formalisant la relation MyEOD/IC ↔ Jean-Marie Alliez : missions, rémunération, exclusivité partielle, IP, confidentialité.",
@@ -829,7 +829,7 @@ const DEFAULT_DOCS = [
   desc:"Convention définissant les relations entre MyEOD (marque/service) et Ingénieurs Créatifs (entité juridique portante) : facturation, IP, usage de la marque, transition future.",
   owner:"CCA + RMO",statusFr:"done",statusEn:"todo",refFr:"myeod_convention_services-260510-103956.docx",refEn:"",notes:"Fondamental pour la structure actuelle"},
 {id:19,cat:"admin",prio:1,name:"Accord de confidentialité interne — Équipe",nameEn:"Internal Confidentiality Agreement — Team",icon:"🔒",
-  desc:"NDA interne signé par RMO, PPI, JMA, CCA : confidentialité des données clients, IP RSiP & VI, informations CRM BizDev.",
+  desc:"NDA interne signé par RMO, PPI, JMA, CCA : confidentialité des données clients, IP Myeod BRiDGE & VI, informations CRM BizDev.",
   owner:"CCA",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:""},
 {id:20,cat:"admin",prio:2,name:"Charte graphique MyEOD",nameEn:"MyEOD Brand Guidelines",icon:"🎨",
   desc:"Document de référence graphique : logo (versions, couleurs, usages), typographies, palette de couleurs, ton éditorial. Base pour tous les documents.",
@@ -838,13 +838,13 @@ const DEFAULT_DOCS = [
   desc:"Politique RGPD MyEOD/IC : données clients CRM, données projets, données équipe. Obligatoire pour les clients européens.",
   owner:"CCA",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:"Applicable RGPD dès contacts EU"},
 {id:22,cat:"admin",prio:2,name:"Procédure Onboarding Client",nameEn:"Client Onboarding Procedure",icon:"📋",
-  desc:"Checklist et procédure interne pour l'entrée d'un nouveau client : NDA → MSA → SOW → kick-off → accès RSiP → DPR setup.",
+  desc:"Checklist et procédure interne pour l'entrée d'un nouveau client : NDA → MSA → SOW → kick-off → accès Myeod BRiDGE → DPR setup.",
   owner:"CCA + RMO",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:""},
 {id:23,cat:"admin",prio:2,name:"Procédure Onboarding Expert",nameEn:"Expert Onboarding Procedure",icon:"📋",
-  desc:"Checklist pour intégrer un nouvel expert MyEOD : contrat collaboration, briefing RSiP, accès outils, formation VI si applicable.",
+  desc:"Checklist pour intégrer un nouvel expert MyEOD : contrat collaboration, briefing Myeod BRiDGE, accès outils, formation VI si applicable.",
   owner:"CCA",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:""},
-{id:24,cat:"admin",prio:2,name:"Manuel d'utilisation RSiP — Version Client",nameEn:"RSiP User Manual — Client Version",icon:"📖",
-  desc:"Guide pratique RSiP pour les clients : accès, navigation, comprendre les livrables DPR, exports, FAQ technique.",
+{id:24,cat:"admin",prio:2,name:"Manuel d'utilisation Myeod BRiDGE — Version Client",nameEn:"Myeod BRiDGE User Manual — Client Version",icon:"📖",
+  desc:"Guide pratique Myeod BRiDGE pour les clients : accès, navigation, comprendre les livrables DPR, exports, FAQ technique.",
   owner:"RMO",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:""},
 {id:25,cat:"admin",prio:3,name:"Plan de continuité des activités",nameEn:"Business Continuity Plan",icon:"🔄",
   desc:"Procédure en cas d'indisponibilité d'un membre de l'équipe : substitutions, accès données, communication clients.",
@@ -855,8 +855,8 @@ const DEFAULT_DOCS = [
 {id:27,cat:"admin",prio:3,name:"Registre des qualifications — Équipe",nameEn:"Team Qualifications Register",icon:"🏅",
   desc:"Tableau consolidé des certifications, formations et habilitations de l'équipe : BOSIET, HUET, médecales UKOOA, droits drones, etc. Dates d'expiration.",
   owner:"CCA",statusFr:"wip",statusEn:"wip",refFr:"",refEn:"",notes:"BOSIET JMA valide 2028 · BOSIET PPI à renouveler"},
-{id:28,cat:"financier",prio:1,name:"Template Devis — RSiP",nameEn:"RSiP Quote Template",icon:"💰",
-  desc:"Template devis standardisé RSiP : en-tête IC/MyEOD, lignes de service, TVA, conditions de paiement, validité. Conforme à la facturation IC.",
+{id:28,cat:"financier",prio:1,name:"Template Devis — Myeod BRiDGE",nameEn:"Myeod BRiDGE Quote Template",icon:"💰",
+  desc:"Template devis standardisé Myeod BRiDGE : en-tête IC/MyEOD, lignes de service, TVA, conditions de paiement, validité. Conforme à la facturation IC.",
   owner:"CCA",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:""},
 {id:29,cat:"financier",prio:1,name:"Template Facture — Prestations MyEOD",nameEn:"Invoice Template — MyEOD Services",icon:"🧾",
   desc:"Template facture IC pour prestations MyEOD : mentions légales IC, référence contrat/SOW, description service, TVA, coordonnées bancaires.",
@@ -864,8 +864,8 @@ const DEFAULT_DOCS = [
 {id:30,cat:"financier",prio:1,name:"Conditions Générales de Vente (CGV)",nameEn:"General Terms and Conditions",icon:"📜",
   desc:"CGV MyEOD/IC : modalités de prestation, paiement (30j), retards, responsabilité, IP, résiliation, droit applicable (France).",
   owner:"CCA",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:"À faire valider juridiquement"},
-{id:31,cat:"financier",prio:2,name:"Grille tarifaire interne — RSiP & Staffing",nameEn:"Internal Rate Card — RSiP & Staffing",icon:"📊",
-  desc:"Document interne (non communiqué clients) : taux journaliers par profil (Senior Expert, Junior, Remote), forfaits RSiP, coûts VI par module. Base pour construire les proposals.",
+{id:31,cat:"financier",prio:2,name:"Grille tarifaire interne — Myeod BRiDGE & Staffing",nameEn:"Internal Rate Card — Myeod BRiDGE & Staffing",icon:"📊",
+  desc:"Document interne (non communiqué clients) : taux journaliers par profil (Senior Expert, Junior, Remote), forfaits Myeod BRiDGE, coûts VI par module. Base pour construire les proposals.",
   owner:"CCA + RMO",statusFr:"todo",statusEn:"todo",refFr:"",refEn:"",notes:"À construire en cohérence avec le marché O&G"},
 {id:32,cat:"financier",prio:2,name:"Plan de trésorerie — 18 mois",nameEn:"18-Month Cash Flow Plan",icon:"📈",
   desc:"Projection des flux financiers MyEOD sur 18 mois : revenus attendus par projet (MozLNG, TPC2, SwissRenov, prospects Prio A), charges équipe, investissements VI.",
@@ -1141,8 +1141,7 @@ function getDlLinks(docId) {
           + '<span class="doc-file-lang">' + p.lang + '</span> ' + ico + ' ' + label + '</button>';
       } else {
         // public direct link
-        const sb = getSB();
-        const publicUrl = sb ? sb.storage.from(SB_BUCKET).getPublicUrl(p.path).data.publicUrl : '#';
+        const publicUrl = SB_URL + '/storage/v1/object/public/' + SB_BUCKET + '/' + p.path;
         html += '<a class="doc-file-btn" href="' + publicUrl + '" download="' + label + '" target="_blank" onclick="event.stopPropagation()">'
           + '<span class="doc-file-lang">' + p.lang + '</span> ' + ico + ' ' + label + '</a>';
       }
@@ -1524,40 +1523,9 @@ async function doLogin() {
 
 // ── Signed URL fetcher ────────────────────────────────────────────────────────
 async function getFileUrl(storagePath, catId) {
-  const needSign = PROTECTED_CATS[catId] !== false;
-  const token = _sbSession ? _sbSession.access_token : SB_KEY;
-  console.log('[getFileUrl] path:', storagePath, '| cat:', catId, '| needSign:', needSign, '| bucket:', SB_BUCKET);
-
-  if (!needSign) {
-    const pubUrl = SB_URL + '/storage/v1/object/public/' + SB_BUCKET + '/' + storagePath;
-    console.log('[getFileUrl] public URL:', pubUrl);
-    return pubUrl;
-  }
-
-  // Signed URL via REST API with explicit auth header
-  if (!isAuthenticated()) { openLoginModal(); return null; }
-
-  const signEndpoint = SB_URL + '/storage/v1/object/sign/' + SB_BUCKET + '/' + storagePath;
-  console.log('[getFileUrl] sign endpoint:', signEndpoint);
-  const res = await fetch(signEndpoint, {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer ' + token,
-      'apikey': SB_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ expiresIn: SIGNED_URL_TTL })
-  });
-
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
-    console.error('Signed URL error:', body);
-    return null;
-  }
-  const json = await res.json();
-  // Supabase returns { signedURL: '/object/sign/...' } — prepend base
-  const signed = json.signedURL || json.signedUrl || '';
-  return signed.startsWith('http') ? signed : SB_URL + '/storage/v1' + signed;
+  // Direct public URL — bucket must be set to public in Supabase Dashboard
+  // Upload is protected (auth required), download is public
+  return SB_URL + '/storage/v1/object/public/' + SB_BUCKET + '/' + storagePath;
 }
 
 // ── Download handler (click → get signed URL → open) ─────────────────────────

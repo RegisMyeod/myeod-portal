@@ -1525,21 +1525,35 @@ async function doLogin() {
 // ── Signed URL fetcher ────────────────────────────────────────────────────────
 async function getFileUrl(storagePath, catId) {
   const needSign = PROTECTED_CATS[catId] !== false;
+  const token = _sbSession ? _sbSession.access_token : SB_KEY;
+
   if (!needSign) {
-    // public URL
-    const sb = getSB();
-    const { data } = sb.storage.from(SB_BUCKET).getPublicUrl(storagePath);
-    return data.publicUrl;
+    // Public URL — direct REST
+    return SB_URL + '/storage/v1/object/public/' + SB_BUCKET + '/' + storagePath;
   }
-  // signed URL — requires auth
-  if (!isAuthenticated()) {
-    openLoginModal();
+
+  // Signed URL via REST API with explicit auth header
+  if (!isAuthenticated()) { openLoginModal(); return null; }
+
+  const res = await fetch(SB_URL + '/storage/v1/object/sign/' + SB_BUCKET + '/' + storagePath, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'apikey': SB_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ expiresIn: SIGNED_URL_TTL })
+  });
+
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    console.error('Signed URL error:', body);
     return null;
   }
-  const sb = getSB();
-  const { data, error } = await sb.storage.from(SB_BUCKET).createSignedUrl(storagePath, SIGNED_URL_TTL);
-  if (error) { console.error('Signed URL error:', error); return null; }
-  return data.signedUrl;
+  const json = await res.json();
+  // Supabase returns { signedURL: '/object/sign/...' } — prepend base
+  const signed = json.signedURL || json.signedUrl || '';
+  return signed.startsWith('http') ? signed : SB_URL + '/storage/v1' + signed;
 }
 
 // ── Download handler (click → get signed URL → open) ─────────────────────────

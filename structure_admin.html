@@ -1564,32 +1564,27 @@ function slugDoc(d, lang, fmt) {
 
 // ── Core upload (requires auth for protected categories) ──────────────────────
 async function uploadToSupabase(file, path, catId) {
-  const needAuth = PROTECTED_CATS[catId] !== false;
-  if (needAuth && !isAuthenticated()) {
-    openLoginModal();
-    throw new Error('Connexion requise pour uploader ce document.');
-  }
   const sb = getSB();
   if (!sb) throw new Error('Supabase non initialisé');
 
-  // Refresh session token before upload to ensure auth headers are current
-  const { data: sessionData } = await sb.auth.getSession();
-  if (needAuth && !sessionData?.session) {
-    openLoginModal();
-    throw new Error('Session expirée — reconnectez-vous.');
-  }
-  if (sessionData?.session) {
-    await sb.auth.setSession(sessionData.session);
-    _sbSession = sessionData.session;
-  }
+  // Upload via REST API with explicit Authorization header
+  const token = _sbSession ? _sbSession.access_token : SB_KEY;
+  const url = SB_URL + '/storage/v1/object/' + SB_BUCKET + '/' + path;
 
-  const { data, error } = await sb.storage.from(SB_BUCKET).upload(path, file, {
-    cacheControl: '3600', upsert: true,
-    contentType: file.type || 'application/octet-stream'
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'apikey': SB_KEY,
+      'Content-Type': file.type || 'application/octet-stream',
+      'x-upsert': 'true'
+    },
+    body: file
   });
-  if (error) {
-    const msg = error.message || (error.error && error.error.message) || JSON.stringify(error);
-    throw new Error(msg);
+
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.message || body.error || ('HTTP ' + res.status));
   }
   return path;
 }

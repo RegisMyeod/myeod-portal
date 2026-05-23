@@ -1526,16 +1526,20 @@ async function doLogin() {
 async function getFileUrl(storagePath, catId) {
   const needSign = PROTECTED_CATS[catId] !== false;
   const token = _sbSession ? _sbSession.access_token : SB_KEY;
+  console.log('[getFileUrl] path:', storagePath, '| cat:', catId, '| needSign:', needSign, '| bucket:', SB_BUCKET);
 
   if (!needSign) {
-    // Public URL — direct REST
-    return SB_URL + '/storage/v1/object/public/' + SB_BUCKET + '/' + storagePath;
+    const pubUrl = SB_URL + '/storage/v1/object/public/' + SB_BUCKET + '/' + storagePath;
+    console.log('[getFileUrl] public URL:', pubUrl);
+    return pubUrl;
   }
 
   // Signed URL via REST API with explicit auth header
   if (!isAuthenticated()) { openLoginModal(); return null; }
 
-  const res = await fetch(SB_URL + '/storage/v1/object/sign/' + SB_BUCKET + '/' + storagePath, {
+  const signEndpoint = SB_URL + '/storage/v1/object/sign/' + SB_BUCKET + '/' + storagePath;
+  console.log('[getFileUrl] sign endpoint:', signEndpoint);
+  const res = await fetch(signEndpoint, {
     method: 'POST',
     headers: {
       'Authorization': 'Bearer ' + token,

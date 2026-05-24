@@ -1011,16 +1011,6 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       color: var(--gray-500); line-height: 1.75;
     }
 
-
-    /* Liens des tuiles vers les landing pages séparées */
-    .qui-offer-link {
-      display: block;
-      height: 100%;
-      color: inherit;
-      text-decoration: none;
-    }
-    .qui-offer-link .qui-offer { height: 100%; }
-
     /* Placeholder tuile future */
     .qui-offer-placeholder {
       border: 1px dashed var(--gray-200);
@@ -1045,6 +1035,73 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       text-transform: uppercase;
       color: var(--gray-300);
       line-height: 1.6;
+    }
+
+
+
+    /* ── Liens tuiles & bandeau références clients ─────────────── */
+    .qui-offer {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+    }
+    .qui-offer:focus-visible {
+      border-color: var(--black);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(10,10,10,0.08);
+    }
+    .ic-clients-band {
+      grid-column: 1 / -1;
+      border-top: 1px solid var(--gray-200);
+      background: #fff;
+      padding: 1.75rem 3rem 2rem;
+    }
+    .ic-clients-title {
+      font-family: var(--font);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      line-height: 1.7;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+    .ic-clients-logos {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 1rem;
+      align-items: center;
+      width: 100%;
+    }
+    .ic-client-logo-box {
+      min-height: 78px;
+      border: 1px solid var(--gray-100);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem 1rem;
+    }
+    .ic-client-logo-box img {
+      display: block;
+      width: 100%;
+      max-width: 170px;
+      max-height: 54px;
+      object-fit: contain;
+      opacity: 0.72;
+      filter: grayscale(1);
+    }
+    .ic-client-logo-box img.logo-square {
+      max-width: 98px;
+      max-height: 68px;
+    }
+    @media (max-width: 900px) {
+      .ic-clients-band { padding: 1.5rem 1.5rem 2rem; }
+      .ic-clients-logos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 540px) {
+      .ic-clients-logos { grid-template-columns: 1fr; }
     }
 
     /* Responsive — mobile */
@@ -1084,7 +1141,7 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       <div style="font-family:'MazzardM',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#1a1a1a;">Services</div>
       <div style="font-family:'MazzardM',sans-serif;font-size:0.55rem;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:#9a9a9a;margin-top:2px;">Offres MyEOD</div>
     </div>
-    <a href="./index.html" class="btn-nav-back" title="Retour" aria-label="Retour">←</a>
+    <a class="btn-nav-back" href="./index.html" title="Retour" aria-label="Retour">←</a>
   </div>
 </header>
 <div id="app" class="visible">
@@ -1128,23 +1185,48 @@ function escapeHTML(value) {
 }
 function loadQuiContent() {
   const d = {
-    tagline: 'BRiDGE : experts, technologies et IA pour accompagner les équipes client du concept au decommissioning.',
-    intro: 'MyEOD accompagne les opérateurs énergie, EPCI/EPCIC, EPC, contractors, survey companies, installation contractors, maîtres d’ouvrage, exploitants, industriels, yards, PMO/PMC et partenaires construction-rénovation avec une approche terrain, documentaire et digitale.',
-    mission: 'BRiDGE couvre les phases études préliminaires, Pre-FEED, FEED, FID, offres techniques et commerciales, engineering, opérations, installation, construction, delivery, closing, puis Life of Field et Decommissioning. Le continuum intègre la surveillance continue de l’intégrité, les inspections périodiques, le suivi des anomalies, le MOC, la mise à jour as-maintained, l’audit as-built et la préparation des plans de démantèlement.',
-    offers: [
-      { num: '01', title: 'BRiDGE', url: 'service-bridge.html', desc: 'Accompagnement opérationnel modulaire du Pre-FEED au Life of Field et Decommissioning : Data Lake, DCC, QC, VI, MOC et as-maintained.' },
-      { num: '02', title: 'Visual Intelligence', url: 'service-visual-intelligence.html', desc: 'Acquisition drone, photogrammétrie, modèles 3D, orthophotos et analyse visuelle augmentée pour sites énergie et construction.' },
-      { num: '03', title: 'Staffing Augmenté', url: 'service-staffing-augmente.html', desc: 'Renforts experts outillés BRiDGE pour sécuriser les pics de charge, interfaces et phases critiques.' },
-      { num: '04', title: 'Marque Blanche', url: 'service-marque-blanche.html', desc: 'Capacités BRiDGE, experts et livrables MyEOD mobilisés sous identité client ou partenaire.' },
-      { num: '05', title: 'Médias & reportages industriels', url: 'service-medias-reportages.html', desc: 'Photos, vidéos, maquettes et reportages institutionnels spécialisés, avec équipes qualifiées HSE mobilisables monde.' }
-    ]
-  };
+      "tagline": "BRiDGE : experts, technologies et IA pour accompagner les équipes client sur tout le continuum opérationnel, du concept au decommissioning.",
+      "intro": "MyEOD accompagne les équipes industrielles, offshore, énergie et construction avec une approche terrain, rapide et documentée. La marque est portée par Ingénieurs Créatifs (IC) et combine expertise opérationnelle, production documentaire, technologies de capture et outils digitaux.",
+      "mission": "Notre mission : apporter le bon niveau d’expertise au bon moment, renforcer les équipes client sans alourdir leurs organisations et sécuriser la préparation, l’exécution, la documentation et la transmission opérationnelle. Nous accompagnons notamment opérateurs énergie, EPCI/EPCIC, EPC, contractors, survey companies, installation contractors, maîtres d’ouvrage, exploitants, industriels, yards, PMO/PMC, partenaires construction-rénovation et équipes corporate.",
+      "offers": [
+            {
+                  "num": "01",
+                  "title": "BRiDGE",
+                  "url": "service-bridge.html",
+                  "desc": "Experts, technologies et IA pour accompagner les équipes client du concept au decommissioning : advisory, DCC, Data Lake, QC, GIS, SIMOPS et reporting."
+            },
+            {
+                  "num": "02",
+                  "title": "Visual Intelligence",
+                  "url": "service-visual-intelligence.html",
+                  "desc": "Drone, photogrammétrie, nuages de points, orthophotos, détection IA et rapports visuels pour sites industriels, offshore et construction."
+            },
+            {
+                  "num": "03",
+                  "title": "Staffing Augmenté",
+                  "url": "service-staffing-augmente.html",
+                  "desc": "Experts mobilisables avec toolbox BRiDGE : survey, PMT, GIS, DCC, HSE, installation et support opérations."
+            },
+            {
+                  "num": "04",
+                  "title": "Marque Blanche",
+                  "url": "service-marque-blanche.html",
+                  "desc": "Déploiement des expertises MyEOD sous identité client pour opérateurs, EPCI, contractors, survey companies et partenaires."
+            },
+            {
+                  "num": "05",
+                  "title": "Médias & reportages industriels",
+                  "url": "service-medias-reportages.html",
+                  "desc": "Photos, vidéos, maquettes et reportages institutionnels énergie/construction, par équipes HSE mobilisables worldwide."
+            }
+      ]
+};
 
   // Colonne gauche — texte
   const textCol = document.getElementById('qui-content-text');
   if (textCol) {
     textCol.innerHTML =
-      '<p class="qui-body-tagline">“' + escapeHTML(d.tagline) + '”</p>' +
+      '<p class="qui-body-tagline">\u201c' + escapeHTML(d.tagline) + '\u201d</p>' +
       '<p class="qui-body">' + escapeHTML(d.intro) + '</p>' +
       '<p class="qui-body">' + escapeHTML(d.mission) + '</p>';
   }
@@ -1153,12 +1235,11 @@ function loadQuiContent() {
   const grid = document.getElementById('qui-offers-grid');
   if (grid) {
     const tilesHtml = d.offers.map(function(o){
-      return '<a class="qui-offer-link" href="' + escapeHTML(o.url) + '">' +
-        '<div class="qui-offer">' +
-        '<p class="qui-offer-num">' + escapeHTML(o.num) + ' —</p>' +
+      const href = o.url ? ' href="' + escapeHTML(o.url) + '"' : '';
+      return '<a class="qui-offer"' + href + ' aria-label="Découvrir ' + escapeHTML(o.title) + '">' +
+        '<p class="qui-offer-num">' + escapeHTML(o.num) + ' \u2014</p>' +
         '<p class="qui-offer-title">' + escapeHTML(o.title) + '</p>' +
         '<p class="qui-offer-desc">' + escapeHTML(o.desc) + '</p>' +
-        '</div>' +
         '</a>';
     }).join('');
     grid.innerHTML = tilesHtml;
@@ -1169,9 +1250,7 @@ document.addEventListener('DOMContentLoaded', loadQuiContent);
 
 
 <script>
-function goBackToPreviousPage() {
-  window.location.href = './index.html';
-}
+function goBackToPreviousPage() { window.location.href = './index.html'; }
 </script>
 </body>
 </html>

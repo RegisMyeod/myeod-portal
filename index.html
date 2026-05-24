@@ -71,15 +71,15 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       font-family: var(--font);
       background: var(--white);
       color: var(--black);
-      overflow: hidden;
+      /* overflow: hidden supprimé — bloquait le scroll sur mobile */
     }
 
     /* ── MAIN APP ─────────────────────────────────────────────────── */
     #app {
       display: block;
       width: 100%;
-      height: 100vh;
-      overflow-y: auto;
+      min-height: 100vh;
+      /* overflow-y géré par body — ne pas bloquer le scroll natif mobile */
     }
     #app.visible { display: block; }
 
@@ -87,7 +87,8 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
     /* ── LANDING SCREEN ──────────────────────────────────────────────── */
     #landing-screen {
       width: 100%;
-      position: fixed; inset: 0;
+      min-height: 100vh;
+      /* position:fixed supprimé — empêchait le scroll sur Android */
       background: #fff;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
@@ -106,7 +107,9 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       gap: 2.5rem;
-      width: 100%; min-height: calc(100vh - 106px); padding: 2rem;
+      width: 100%;
+      padding: 2rem 2rem 3rem;
+      /* min-height calc supprimé — laisse le contenu définir la hauteur naturellement */
     }
 
     /* Small logo above tagline */
@@ -164,6 +167,7 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
     .landing-cards {
       display: flex; gap: 1.5rem; flex-wrap: wrap;
       justify-content: center; width: 100%; max-width: 1120px;
+      align-items: stretch; /* toutes les tuiles à la même hauteur */
     }
 
     .landing-card {
@@ -176,6 +180,8 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
       background: #fff;
       position: relative; overflow: hidden;
+      /* hauteur uniforme entre tuiles d'une même ligne */
+      box-sizing: border-box;
     }
     .landing-card::before {
       content: ''; position: absolute;
@@ -510,8 +516,8 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
     }
 
     @media (max-width: 600px) {
-      .landing-cards { flex-direction: column; align-items: center; }
-      .landing-card  { max-width: 100%; }
+      .landing-cards { flex-direction: column; align-items: stretch; }
+      .landing-card  { max-width: 100%; width: 100%; min-width: 0; }
       .qui-offers    { grid-template-columns: 1fr; }
       .myeod-header, .dash-header { padding: 0.9rem 1rem; }
       .myeod-header-logo { height: 54px; }

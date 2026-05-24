@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -980,7 +978,7 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       position: relative;
       overflow: hidden;
       transition: border-color .2s, box-shadow .2s, transform .15s;
-      cursor: pointer;
+      cursor: default;
     }
     .qui-offer::before {
       content: '';
@@ -1012,6 +1010,16 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       font-family: var(--font); font-size: 0.7rem;
       color: var(--gray-500); line-height: 1.75;
     }
+
+
+    /* Liens des tuiles vers les landing pages séparées */
+    .qui-offer-link {
+      display: block;
+      height: 100%;
+      color: inherit;
+      text-decoration: none;
+    }
+    .qui-offer-link .qui-offer { height: 100%; }
 
     /* Placeholder tuile future */
     .qui-offer-placeholder {
@@ -1057,21 +1065,6 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       .qui-offers {
         grid-template-columns: repeat(2, 1fr) !important;
       }
-      .service-detail-page.open {
-        grid-template-columns: 1fr;
-        min-height: auto;
-      }
-      .service-detail-hero {
-        position: static;
-        height: auto;
-        border-right: 0;
-        border-bottom: 1px solid var(--gray-200);
-        padding: 2rem 1.5rem;
-      }
-      .service-detail-main {
-        padding: 2rem 1.5rem 3rem;
-      }
-
     }
     @media (max-width: 540px) {
       .qui-offers {
@@ -1080,32 +1073,6 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       #modal-qui, #modal-client { margin-top: 90px; }
     }
   </style>
-
-<style>
-/* === Ajustements tuiles : hauteur réduite, deux lignes visibles sans scroll === */
-.qui-offer {
-  display: block;
-  min-height: 112px;
-  padding: 1rem 1rem 0.95rem !important;
-  text-decoration: none;
-  color: inherit;
-}
-.qui-offer-num { margin-bottom: 0.42rem !important; }
-.qui-offer-title { margin-bottom: 0.42rem !important; font-size: 0.76rem !important; line-height: 1.25 !important; }
-.qui-offer-desc {
-  font-size: 0.66rem !important;
-  line-height: 1.42 !important;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.qui-offer-cta { margin-top: 0.55rem !important; font-size: 0.52rem !important; }
-.qui-col-tiles { padding-top: 2.25rem !important; }
-.qui-offers-label { margin-bottom: 0.9rem !important; }
-.qui-offer-placeholder { min-height: 112px; padding: 1rem !important; }
-</style>
-
 </head>
 <body>
 <header class="myeod-header">
@@ -1117,28 +1084,40 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       <div style="font-family:'MazzardM',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#1a1a1a;">Services</div>
       <div style="font-family:'MazzardM',sans-serif;font-size:0.55rem;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:#9a9a9a;margin-top:2px;">Offres MyEOD</div>
     </div>
-    <a href="./index.html" class="btn-nav-back" title="Retour à l'accueil" aria-label="Retour à l'accueil">←</a>
+    <a href="./index.html" class="btn-nav-back" title="Retour" aria-label="Retour">←</a>
   </div>
 </header>
 <div id="app" class="visible">
-  <div id="modal-qui">
-    <div class="qui-layout">
-      <div class="qui-col-text">
-        <p class="qui-section-tag">À propos</p>
-        <h1 class="qui-title" id="qui-title">My Expert On Demand</h1>
-        <div id="qui-content-text"><p class="qui-ai-state">⟳ Chargement…</p></div>
-        <p class="qui-brand-mention">MyEOD est une marque représentée par IC&nbsp;/&nbsp;Ingénieurs Créatifs</p>
-      </div>
-      <div class="qui-col-tiles">
-        <p class="qui-offers-label">Nos offres</p>
-        <div class="qui-offers" id="qui-offers-grid"><p class="qui-ai-state">⟳ Chargement…</p></div>
-      </div>
+<div id="modal-qui">
+<div class="qui-layout">
+
+  <!-- ── Colonne gauche : texte sticky ── -->
+  <div class="qui-col-text">
+    <p class="qui-section-tag">À propos</p>
+    <h1 class="qui-title" id="qui-title">My Expert On Demand</h1>
+    <div id="qui-content-text">
+      <p class="qui-ai-state">⟳ Chargement…</p>
+    </div>
+    <p class="qui-brand-mention">MyEOD est une marque représentée par IC&nbsp;/&nbsp;Ingénieurs Créatifs</p>
+  </div>
+
+  <!-- ── Colonne droite : tuiles ── -->
+  <div class="qui-col-tiles">
+    <p class="qui-offers-label">Nos offres</p>
+    <div class="qui-offers" id="qui-offers-grid">
+      <p class="qui-ai-state">⟳ Chargement…</p>
     </div>
   </div>
+
+</div>
+</div>
+</div>
+</div>
 </div>
 
 <script>
 function goHome(){ window.location.href = 'index.html'; }
+function goBackOneStep(){ if (window.history.length > 1) window.history.back(); else goHome(); }
 function escapeHTML(value) {
   return String(value)
     .replace(/&/g, '&amp;')
@@ -1147,50 +1126,21 @@ function escapeHTML(value) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
-const myeodServices = {
-  "tagline": "BRiDGE : experts, technologies et IA pour accompagner les équipes client sur le terrain et dans leurs décisions opérationnelles, du concept au decommissioning.",
-  "intro": "MyEOD accompagne les opérateurs énergie, EPCI/EPCIC, EPC, contractors, survey companies, installation contractors, maîtres d’ouvrage, exploitants, industriels, yards, PMO/PMC et partenaires construction-rénovation avec des expertises terrain, des outils digitaux et des livrables structurés.",
-  "mission": "Notre rôle : renforcer les équipes client au bon moment, sécuriser l’exécution opérationnelle, produire des informations exploitables et capitaliser les retours d’expérience sans alourdir l’organisation.",
-  "offers": [
-    {
-      "id": "bridge",
-      "file": "service-bridge.html",
-      "num": "01",
-      "title": "BRiDGE",
-      "desc": "Experts, technologies et IA pour accompagner les équipes client sur tout le cycle projet."
-    },
-    {
-      "id": "visual-intelligence",
-      "file": "service-visual-intelligence.html",
-      "num": "02",
-      "title": "Visual Intelligence",
-      "desc": "Acquisition terrain, photogrammétrie, modèles 3D, inspection visuelle et restitution structurée."
-    },
-    {
-      "id": "staffing-augmente",
-      "file": "service-staffing-augmente.html",
-      "num": "03",
-      "title": "Staffing Augmenté",
-      "desc": "Renforts experts outillés BRiDGE pour sécuriser les pics de charge et phases critiques."
-    },
-    {
-      "id": "marque-blanche",
-      "file": "service-marque-blanche.html",
-      "num": "04",
-      "title": "Marque Blanche",
-      "desc": "Capacités BRiDGE et expertises MyEOD intégrées sous identité client ou partenaire."
-    },
-    {
-      "id": "medias-reportages",
-      "file": "service-medias-reportages.html",
-      "num": "05",
-      "title": "Médias & reportages industriels",
-      "desc": "Photos, vidéos, maquettes et reportages HSE-ready pour énergie et construction."
-    }
-  ]
-};
 function loadQuiContent() {
-  const d = myeodServices;
+  const d = {
+    tagline: 'BRiDGE : experts, technologies et IA pour accompagner les équipes client du concept au decommissioning.',
+    intro: 'MyEOD accompagne les opérateurs énergie, EPCI/EPCIC, EPC, contractors, survey companies, installation contractors, maîtres d’ouvrage, exploitants, industriels, yards, PMO/PMC et partenaires construction-rénovation avec une approche terrain, documentaire et digitale.',
+    mission: 'BRiDGE couvre les phases études préliminaires, Pre-FEED, FEED, FID, offres techniques et commerciales, engineering, opérations, installation, construction, delivery, closing, puis Life of Field et Decommissioning. Le continuum intègre la surveillance continue de l’intégrité, les inspections périodiques, le suivi des anomalies, le MOC, la mise à jour as-maintained, l’audit as-built et la préparation des plans de démantèlement.',
+    offers: [
+      { num: '01', title: 'BRiDGE', url: 'service-bridge.html', desc: 'Accompagnement opérationnel modulaire du Pre-FEED au Life of Field et Decommissioning : Data Lake, DCC, QC, VI, MOC et as-maintained.' },
+      { num: '02', title: 'Visual Intelligence', url: 'service-visual-intelligence.html', desc: 'Acquisition drone, photogrammétrie, modèles 3D, orthophotos et analyse visuelle augmentée pour sites énergie et construction.' },
+      { num: '03', title: 'Staffing Augmenté', url: 'service-staffing-augmente.html', desc: 'Renforts experts outillés BRiDGE pour sécuriser les pics de charge, interfaces et phases critiques.' },
+      { num: '04', title: 'Marque Blanche', url: 'service-marque-blanche.html', desc: 'Capacités BRiDGE, experts et livrables MyEOD mobilisés sous identité client ou partenaire.' },
+      { num: '05', title: 'Médias & reportages industriels', url: 'service-medias-reportages.html', desc: 'Photos, vidéos, maquettes et reportages institutionnels spécialisés, avec équipes qualifiées HSE mobilisables monde.' }
+    ]
+  };
+
+  // Colonne gauche — texte
   const textCol = document.getElementById('qui-content-text');
   if (textCol) {
     textCol.innerHTML =
@@ -1198,24 +1148,29 @@ function loadQuiContent() {
       '<p class="qui-body">' + escapeHTML(d.intro) + '</p>' +
       '<p class="qui-body">' + escapeHTML(d.mission) + '</p>';
   }
+
+  // Colonne droite — grille tuiles
   const grid = document.getElementById('qui-offers-grid');
   if (grid) {
     const tilesHtml = d.offers.map(function(o){
-      return '<a class="qui-offer" href="' + escapeHTML(o.file) + '" aria-label="Ouvrir la page service ' + escapeHTML(o.title) + '">' +
+      return '<a class="qui-offer-link" href="' + escapeHTML(o.url) + '">' +
+        '<div class="qui-offer">' +
         '<p class="qui-offer-num">' + escapeHTML(o.num) + ' —</p>' +
         '<p class="qui-offer-title">' + escapeHTML(o.title) + '</p>' +
         '<p class="qui-offer-desc">' + escapeHTML(o.desc) + '</p>' +
-        '<span class="qui-offer-cta">Découvrir →</span>' +
+        '</div>' +
         '</a>';
     }).join('');
-    grid.innerHTML = tilesHtml + '<div class="qui-offer-placeholder"><span>À venir</span></div>';
+    grid.innerHTML = tilesHtml;
   }
 }
 document.addEventListener('DOMContentLoaded', loadQuiContent);
 </script>
+
+
 <script>
 function goBackToPreviousPage() {
-  window.location.assign('./index.html');
+  window.location.href = './index.html';
 }
 </script>
 </body>

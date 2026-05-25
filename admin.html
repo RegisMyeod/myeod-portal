@@ -497,6 +497,32 @@
       .myeod-footer-meta{gap:.35rem;}
     }
 
+
+    /* === FIX ADMIN — éviter l'empiètement du premier cadre sur le titre === */
+    .hero > div,
+    .hero-panel{
+      min-width:0;
+    }
+    .hero{
+      grid-template-columns:minmax(0,1.22fr) minmax(300px,.78fr);
+      gap:5rem;
+      align-items:center;
+    }
+    .hero h1{
+      overflow-wrap:break-word;
+      hyphens:auto;
+    }
+    @media(max-width:1100px){
+      .hero{
+        grid-template-columns:1fr;
+        gap:2.5rem;
+        align-items:start;
+      }
+      .hero-panel{
+        max-width:720px;
+      }
+    }
+
   </style>
 </head>
 
@@ -601,25 +627,7 @@
         </div>
       </div>
     </section>
-
-    <section class="section compact">
-      <div class="kicker">Organisation</div>
-      <h2>Une structure simple pour les fonctions support.</h2>
-      <div class="card-grid">
-        <article class="card">
-          <div class="card-meta">Administration</div>
-          <h3>Regrouper</h3>
-          <p>Centraliser les documents et accès utiles aux démarches administratives et de conformité.</p>
-        </article>
-        <article class="card highlight">
-          <div class="card-meta">Pilotage interne</div>
-          <h3>Orienter</h3>
-          <p>Accéder rapidement à la bonne rubrique, sans multiplier les niveaux de navigation.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="cta">
+<section class="cta">
       <h2>Besoin d'un autre espace administratif ?</h2>
       <p>Les tuiles disponibles peuvent être étendues au fil de la structuration interne.</p>
       <a class="btn" href="acces-collaborateurs.html">Retour au portail</a>

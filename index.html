@@ -87,7 +87,7 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
     /* ── LANDING SCREEN ──────────────────────────────────────────────── */
     #landing-screen {
       width: 100%;
-      min-height: 100vh;
+      min-height: calc(100vh - 106px);
       /* position:fixed supprimé — empêchait le scroll sur Android */
       background: #fff;
       display: flex; flex-direction: column;
@@ -106,9 +106,9 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
       position: relative; z-index: 1;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      gap: 2.5rem;
+      gap: 1.4rem;
       width: 100%;
-      padding: 2rem 2rem 3rem;
+      padding: 1.2rem 2rem 1.5rem;
       /* min-height calc supprimé — laisse le contenu définir la hauteur naturellement */
     }
 

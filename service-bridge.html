@@ -122,6 +122,19 @@
     .card-meta{margin-bottom:.75rem;color:var(--gray-500);font-size:.62rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;}
     .extensions{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem;}
     .extension-card{border:1px solid var(--gray-200);padding:1.35rem;min-height:210px;}
+    .lifecycle-dev-band{margin-top:2.4rem;border:1px solid var(--black);background:var(--gray-50);}
+    .lifecycle-dev-head{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:2rem;align-items:start;padding:2rem;border-bottom:1px solid var(--black);background:var(--white);}
+    .lifecycle-status{display:inline-flex;margin-bottom:.9rem;padding:.32rem .55rem;background:var(--black);color:var(--white);font-size:.58rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;}
+    .lifecycle-title{font-size:clamp(1.45rem,2.7vw,2.35rem);line-height:1.03;letter-spacing:-.035em;font-weight:800;color:var(--black);}
+    .lifecycle-dev-head p{font-size:1.02rem;color:var(--gray-600);}
+    .lifecycle-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--gray-200);}
+    .lifecycle-card{position:relative;min-height:190px;padding:1.35rem;background:var(--white);display:flex;flex-direction:column;justify-content:space-between;}
+    .lifecycle-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:var(--black);opacity:.85;}
+    .lifecycle-card h3{margin-top:.25rem;margin-bottom:.6rem;font-size:.92rem;}
+    .lifecycle-card p{font-size:.86rem;line-height:1.65;color:var(--gray-600);}
+    .lifecycle-num{color:var(--gray-400);font-size:.58rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;}
+    .lifecycle-note{padding:1.35rem 2rem;background:var(--black);color:var(--white);}
+    .lifecycle-note p{color:rgba(255,255,255,.74);font-size:.95rem;}
     .cta{text-align:center;padding:5rem 2rem;background:var(--black);color:var(--white);}
     .cta h2{margin-left:auto;margin-right:auto;color:var(--white);}
     .cta p{max-width:720px;margin:0 auto;color:rgba(255,255,255,.72);}
@@ -129,7 +142,8 @@
 
     @media(max-width:900px){
       .hero,.intro-grid,.deployment,.pack{grid-template-columns:1fr;}
-      .value-chain,.core-grid,.extensions,.discount-grid{grid-template-columns:1fr 1fr;}
+      .value-chain,.core-grid,.extensions,.discount-grid,.lifecycle-grid{grid-template-columns:1fr 1fr;}
+      .lifecycle-dev-head{grid-template-columns:1fr;}
       .module-row{grid-template-columns:1fr;}
       .module-price{text-align:left;}
     }
@@ -141,7 +155,10 @@
       .myeod-footer-meta{gap:0.35rem;}
       .section{width:min(100% - 28px,1120px);padding:3.5rem 0;}
       .hero{padding:3.2rem 0;}
-      .value-chain,.core-grid,.before-after,.extensions,.discount-grid{grid-template-columns:1fr;}
+      .value-chain,.core-grid,.before-after,.extensions,.discount-grid,.lifecycle-grid{grid-template-columns:1fr;}
+      .lifecycle-dev-head{padding:1.35rem;}
+      .lifecycle-note{padding:1.25rem;}
+      .lifecycle-card{min-height:165px;}
       .pack,.deployment{padding:1.3rem;}
     }
   </style>
@@ -189,7 +206,7 @@
           <div class="fact"><span class="fact-label">Cœur plateforme</span><span class="fact-value">Data Lake projet</span></div>
           <div class="fact"><span class="fact-label">Déploiement</span><span class="fact-value">&lt; 15 min</span></div>
           <div class="fact"><span class="fact-label">Footprint</span><span class="fact-value">Lecture seule</span></div>
-          <div class="fact"><span class="fact-label">Systèmes</span><span class="fact-value">Agnostique des outils et capteurs, compatibilité totale.</span></div>
+          <div class="fact"><span class="fact-label">Systèmes</span><span class="fact-value">Agnostique des outils et capteurs,<br>compatibilité totale.</span></div>
         </div>
       </aside>
     </section>
@@ -387,14 +404,19 @@
             BRiDGE se connecte au réseau survey existant via un Edge Device préconfiguré.
             Il reste agnostique des outils et capteurs déjà en place, sans installation intrusive
             ni modification de la chaîne d'acquisition. Il lit, transmet et structure les données.
+            Ces fonctionnalités et composants hardware sont actuellement en développement, avec
+            un prototypage en cours. Nous recherchons des projets intéressés pour bêta-tester ces
+            nouvelles fonctionnalités sur un périmètre encadré avant industrialisation.
           </p>
         </div>
         <div class="device">
           <div class="device-line"><strong>Connexion</strong><span>RJ45 · lecture seule</span></div>
           <div class="device-line"><strong>Power</strong><span>USB-C · faible consommation</span></div>
           <div class="device-line"><strong>Déploiement</strong><span>&lt; 15 minutes</span></div>
-          <div class="device-line"><strong>IT</strong><span>Aucune installation bord</span></div>
+          <div class="device-line"><strong>IT</strong><span>Plug &amp; Play</span></div>
           <div class="device-line"><strong>Flux</strong><span>Chiffré vers environnement projet isolé</span></div>
+          <div class="device-line"><strong>Statut</strong><span>Fonctionnalités & hardware en développement</span></div>
+          <div class="device-line"><strong>Bêta</strong><span>Projets pilotes recherchés</span></div>
         </div>
       </div>
     </section>
@@ -421,12 +443,126 @@
         <div>
           <p>
             Tarif mensuel indicatif : <strong>13 500 – 17 000 €HT / mois</strong>.<br>
-            Valeur estimée d'un événement évité : <strong>580 000 – 1 280 000 €HT</strong>.<br>
+            Valeur estimée d'un événement évité : <strong>500 000 – 1 500 000 €HT</strong>.<br>
             Ratio de couverture : <strong>x50 à x70</strong>.
           </p>
         </div>
       </div>
+    </section>
 
+    <section class="section compact">
+      <div class="kicker">Extensions &middot; Roadmap industrielle</div>
+      <h2>BRiDGE &eacute;tend son Data Lake &agrave; l'ensemble du cycle de vie industriel.</h2>
+      <p class="lead">
+        Les extensions ne sont plus pr&eacute;sent&eacute;es comme de simples fonctions p&eacute;riph&eacute;riques : elles deviennent
+        une trajectoire de d&eacute;veloppement structurante. BRiDGE d&eacute;veloppe actuellement des modules
+        compl&eacute;mentaires pour connecter la donn&eacute;e survey/projet aux phases cl&eacute;s des projets industriels,
+        depuis le tendering jusqu'au decommissioning.
+      </p>
+
+      <div class="lifecycle-dev-band" aria-label="Modules compl&eacute;mentaires BRiDGE en d&eacute;veloppement">
+        <div class="lifecycle-dev-head">
+          <div>
+            <span class="lifecycle-status">En d&eacute;veloppement</span>
+            <div class="lifecycle-title">Modules compl&eacute;mentaires pour couvrir toute la vie du projet.</div>
+          </div>
+          <p>
+            Objectif : faire de BRiDGE une continuit&eacute; de donn&eacute;es entre les phases commerciales, techniques,
+            op&eacute;rationnelles et patrimoniales. Les modules sont en cours de conception et de prototypage,
+            avec recherche de projets int&eacute;ress&eacute;s pour contribuer aux premiers cas d'usage et aux tests terrain.
+          </p>
+        </div>
+
+        <div class="lifecycle-grid">
+          <article class="lifecycle-card">
+            <div>
+              <div class="lifecycle-num">Phase 01</div>
+              <h3>Tendering</h3>
+              <p>Structuration des hypoth&egrave;ses, contraintes, risques, donn&eacute;es d'appel d'offres et retours d'exp&eacute;rience mobilisables d&egrave;s l'offre.</p>
+            </div>
+          </article>
+          <article class="lifecycle-card">
+            <div>
+              <div class="lifecycle-num">Phase 02</div>
+              <h3>Engineering</h3>
+              <p>Connexion entre donn&eacute;es terrain, bases techniques, r&eacute;f&eacute;rentiels projet, CRS, interfaces et exigences de design.</p>
+            </div>
+          </article>
+          <article class="lifecycle-card">
+            <div>
+              <div class="lifecycle-num">Phase 03</div>
+              <h3>Procurement</h3>
+              <p>Support au suivi des fournitures critiques, dossiers fournisseurs, conformit&eacute; documentaire et tra&ccedil;abilit&eacute; des &eacute;quipements.</p>
+            </div>
+          </article>
+          <article class="lifecycle-card">
+            <div>
+              <div class="lifecycle-num">Phase 04</div>
+              <h3>Commissioning</h3>
+              <p>Capitalisation des tests, validations, punch items, dossiers de mise en service et preuves de conformit&eacute; avant transfert op&eacute;rationnel.</p>
+            </div>
+          </article>
+          <article class="lifecycle-card">
+            <div>
+              <div class="lifecycle-num">Phase 05</div>
+              <h3>Asset Management</h3>
+              <p>Transformation du Data Lake projet en base d'actifs exploitable pour le suivi, les inspections, les modifications et les arbitrages techniques.</p>
+            </div>
+          </article>
+          <article class="lifecycle-card">
+            <div>
+              <div class="lifecycle-num">Phase 06</div>
+              <h3>Life of Field Monitoring</h3>
+              <p>Maintien d'une donn&eacute;e as-maintained, historis&eacute;e et comparable aux campagnes initiales pour suivre l'&eacute;volution de l'actif dans le temps.</p>
+            </div>
+          </article>
+          <article class="lifecycle-card">
+            <div>
+              <div class="lifecycle-num">Phase 07</div>
+              <h3>Decommissioning</h3>
+              <p>Pr&eacute;paration des campagnes de fin de vie &agrave; partir d'un historique projet propre, tra&ccedil;able et directement exploitable.</p>
+            </div>
+          </article>
+          <article class="lifecycle-card">
+            <div>
+              <div class="lifecycle-num">Continuit&eacute;</div>
+              <h3>Industrial Lifecycle Data Lake</h3>
+              <p>Un fil de donn&eacute;es commun pour relier d&eacute;cisions, livrables, preuves, risques et REX sur l'ensemble du cycle de vie industriel.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="lifecycle-note">
+          <p>
+            Cette roadmap compl&egrave;te les modules Survey existants : BRiDGE conserve son socle terrain/Data Lake,
+            tout en &eacute;tendant progressivement sa valeur aux &eacute;quipes tendering, engineering, procurement,
+            commissioning, asset management, operations et decommissioning.
+          </p>
+        </div>
+      </div>
+
+      <div class="extensions">
+        <article class="extension-card">
+          <h3>Livrables automatiques</h3>
+          <p>DPR, as-built et rapports QC g&eacute;n&eacute;r&eacute;s par agr&eacute;gation Data Lake, sans ressaisie.</p>
+        </article>
+        <article class="extension-card">
+          <h3>Bridge DCC</h3>
+          <p>Audit de compl&eacute;tude et coh&eacute;rence documentaire &agrave; partir du Data Lake projet.</p>
+        </article>
+        <article class="extension-card">
+          <h3>Advisory</h3>
+          <p>Analyse experte nourrie par le REX structur&eacute; des projets ant&eacute;rieurs.</p>
+        </article>
+        <article class="extension-card">
+          <h3>Life of Field &amp; Decom</h3>
+          <p>Maintien d'un actif de donn&eacute;es as-maintained jusqu'aux phases de d&eacute;commissioning.</p>
+        </article>
+      </div>
+    </section>
+
+
+    <section class="section compact">
       <div class="discount-band" aria-label="Dégressivité tarifaire BRiDGE">
         <div class="kicker">Dégressivité modulaire</div>
         <h3>Plus le nombre de modules souscrits augmente, plus le tarif consolidé devient compétitif.</h3>
@@ -453,42 +589,13 @@
         </div>
       </div>
     </section>
-
-    <section class="section compact">
-      <div class="kicker">Extensions</div>
-      <h2>La valeur dérivée du Data Lake.</h2>
-      <p class="lead">
-        DCC, Advisory, Life of Field et Decommissioning ne sont pas le point de départ :
-        ils sont la conséquence naturelle d'une donnée survey/projet correctement structurée.
-      </p>
-
-      <div class="extensions">
-        <article class="extension-card">
-          <h3>Livrables automatiques</h3>
-          <p>DPR, as-built et rapports QC générés par agrégation Data Lake, sans ressaisie.</p>
-        </article>
-        <article class="extension-card">
-          <h3>Bridge DCC</h3>
-          <p>Audit de complétude et cohérence documentaire à partir du Data Lake projet.</p>
-        </article>
-        <article class="extension-card">
-          <h3>Advisory</h3>
-          <p>Analyse experte nourrie par le REX structuré des projets antérieurs.</p>
-        </article>
-        <article class="extension-card">
-          <h3>Life of Field & Decom</h3>
-          <p>Maintien d'un actif de données as-maintained jusqu'aux phases de décommissioning.</p>
-        </article>
-      </div>
-    </section>
-
     <section class="cta" id="contact">
       <h2>Votre prochaine mobilisation peut produire plus que des fichiers.</h2>
       <p>
         Donnez-nous la date de mob, le type de projet et le CRS. Nous configurons le socle Core,
         activons le Data Lake projet et préparons les modules Survey pertinents avant la mobilisation.
       </p>
-      <a class="btn" href="mailto:rmo@myexpertondemand.com?subject=BRiDGE%20-%20D%C3%A9monstration">Planifier une démonstration BRiDGE</a>
+      <a class="btn" href="mailto:rmo@myexpertondemand.com?subject=BRiDGE%20-%20D%C3%A9monstration">Prenons un moment ensemble pour évaluer vos besoins</a>
     </section>
   </main>
 

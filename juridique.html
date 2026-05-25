@@ -1,695 +1,1396 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MyEOD — Juridique & Création myeod.ch</title>
-<style>
-/* === FONTS === */
-@font-face { font-family:'MazzardM'; src:url('MazzardM-Thin.woff2') format('woff2'); font-weight:100; font-style:normal; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-ExtraLight.woff2') format('woff2'); font-weight:200; font-style:normal; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-ExtraLightItalic.woff2') format('woff2'); font-weight:200; font-style:italic; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-Light.woff2') format('woff2'); font-weight:300; font-style:normal; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-LightItalic.woff2') format('woff2'); font-weight:300; font-style:italic; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-Regular.woff2') format('woff2'); font-weight:400; font-style:normal; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-Italic.woff2') format('woff2'); font-weight:400; font-style:italic; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-Medium.woff2') format('woff2'); font-weight:500; font-style:normal; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-MediumItalic.woff2') format('woff2'); font-weight:500; font-style:italic; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-SemiBold.woff2') format('woff2'); font-weight:600; font-style:normal; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-SemiBoldItalic.woff2') format('woff2'); font-weight:600; font-style:italic; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-BoldItalic.woff2') format('woff2'); font-weight:700; font-style:italic; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-ExtraBold.woff2') format('woff2'); font-weight:800; font-style:normal; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-ExtraBoldItalic.woff2') format('woff2'); font-weight:800; font-style:italic; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-Black.woff2') format('woff2'); font-weight:900; font-style:normal; }
-@font-face { font-family:'MazzardM'; src:url('MazzardM-BlackItalic.woff2') format('woff2'); font-weight:900; font-style:italic; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyEOD — Juridique & Création myeod.ch</title>
+  <style>
 
-/* === TOKENS === */
-:root {
-  --gold:#b08a2a; --gold-dim:#8a6a1a; --gold-faint:rgba(176,138,42,0.06);
-  --teal:#0e7070; --teal-dim:#0a5050;
-  --orange:#d4880a; --blue:#2a6099; --red:#c0392b; --green:#1e7a3a; --purple:#7d3c98;
-  --p1:#c0392b; --p2:#d4880a; --p3:#1e7a3a;
-  --white:#ffffff; --black:#0a0a0a;
-  --gray-50:#f8f8f8; --gray-100:#f0f0f0; --gray-200:#e0e0e0;
-  --gray-400:#9a9a9a; --gray-600:#555555;
-  --border:#e0e0e0; --border-hi:#cccccc;
-  --text:#1a1a1a; --text-dim:#444444; --text-muted:#888888;
-  --font:'MazzardM',sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-size:11px;line-height:1.6;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-Thin.woff2') format('woff2');font-weight:100;font-style:normal;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-ExtraLight.woff2') format('woff2');font-weight:200;font-style:normal;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-ExtraLightItalic.woff2') format('woff2');font-weight:200;font-style:italic;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-Light.woff2') format('woff2');font-weight:300;font-style:normal;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-LightItalic.woff2') format('woff2');font-weight:300;font-style:italic;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-Regular.woff2') format('woff2');font-weight:400;font-style:normal;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-Italic.woff2') format('woff2');font-weight:400;font-style:italic;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-Medium.woff2') format('woff2');font-weight:500;font-style:normal;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-MediumItalic.woff2') format('woff2');font-weight:500;font-style:italic;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-SemiBoldItalic.woff2') format('woff2');font-weight:600;font-style:italic;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-BoldItalic.woff2') format('woff2');font-weight:700;font-style:italic;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-ExtraBold.woff2') format('woff2');font-weight:800;font-style:normal;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-ExtraBoldItalic.woff2') format('woff2');font-weight:800;font-style:italic;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-Black.woff2') format('woff2');font-weight:900;font-style:normal;}
+    @font-face{font-family:'MazzardM';src:url('MazzardM-BlackItalic.woff2') format('woff2');font-weight:900;font-style:italic;}
 
-/* === HEADER === */
-.myeod-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;border-bottom:1px solid var(--gray-200);background:var(--white);position:sticky;top:0;z-index:100;}
-.myeod-header-logo{height:72px;display:block;cursor:pointer;text-decoration:none;transition:opacity .2s;}
-.myeod-header-logo:hover{opacity:.7;}
-.myeod-header-logo svg{height:100%;width:auto;display:block;}
-.myeod-header-right{display:flex;align-items:center;gap:1rem;}
-.btn-nav-back{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;font-family:var(--font);font-size:0.9rem;font-weight:700;color:var(--gray-600);background:none;border:1px solid var(--gray-200);border-radius:2px;cursor:pointer;transition:border-color .2s,color .2s;}
-.btn-nav-back:hover{border-color:var(--black);color:var(--black);}
+    :root{
+      --black:#0a0a0a;
+      --white:#ffffff;
+      --gray-50:#f8f8f8;
+      --gray-100:#f0f0f0;
+      --gray-200:#e0e0e0;
+      --gray-300:#c7c7c7;
+      --gray-400:#9a9a9a;
+      --gray-500:#777777;
+      --gray-600:#555555;
+      --text:#1a1a1a;
+      --gold:#b08a2a;
+      --gold-dim:#8a6a1a;
+      --gold-faint:rgba(176,138,42,.08);
+      --teal:#0e7070;
+      --orange:#d4880a;
+      --blue:#2a6099;
+      --red:#c0392b;
+      --green:#1e7a3a;
+      --purple:#7d3c98;
+      --p1:#c0392b;
+      --p2:#d4880a;
+      --p3:#1e7a3a;
+      --font:'MazzardM',sans-serif;
+      --radius:2px;
+    }
 
-/* === LAYOUT === */
-.page{max-width:960px;margin:0 auto;padding:32px 40px 80px;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{
+      min-height:100vh;
+      background:var(--white);
+      color:var(--text);
+      font-family:var(--font);
+      font-size:14px;
+      line-height:1.65;
+      overflow:auto;
+    }
+    a{color:inherit;text-decoration:none;}
+    button{font-family:var(--font);}
+    .no-print{}
 
-/* === PAGE HEADER === */
-.page-intro{margin-bottom:36px;padding-bottom:20px;border-bottom:1px solid var(--gray-100);}
-.page-intro h1{font-size:1.15rem;font-weight:300;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
-.page-intro p{font-size:10.5px;color:var(--text-dim);max-width:680px;line-height:1.7;}
+    .myeod-header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:1rem 2.5rem;
+      background:rgba(255,255,255,.96);
+      border-bottom:1px solid var(--gray-200);
+      backdrop-filter:blur(10px);
+    }
+    .myeod-header-logo{
+      height:72px;
+      display:inline-flex;
+      align-items:center;
+      color:inherit;
+      text-decoration:none;
+      flex-shrink:0;
+    }
+    .myeod-header-logo svg{height:100%;width:auto;display:block;}
+    .header-right{
+      display:flex;
+      align-items:center;
+      gap:.55rem;
+      margin-left:auto;
+    }
+    .simple-nav{
+      display:flex;
+      align-items:center;
+      gap:.55rem;
+    }
+    .simple-nav a,
+    .btn-nav-back{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:34px;
+      padding:.55rem .72rem;
+      border:1px solid transparent;
+      background:transparent;
+      color:var(--gray-500);
+      font-size:.62rem;
+      font-weight:800;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      cursor:pointer;
+      transition:border-color .18s ease,color .18s ease,background .18s ease;
+    }
+    .btn-nav-back{
+      width:34px;
+      min-width:34px;
+      padding:.4rem 0;
+      border-color:var(--gray-200);
+      font-size:.9rem;
+      letter-spacing:0;
+    }
+    .simple-nav a:hover,
+    .simple-nav a:focus-visible,
+    .btn-nav-back:hover,
+    .btn-nav-back:focus-visible{
+      border-color:var(--gray-200);
+      color:var(--black);
+      background:var(--gray-50);
+      outline:none;
+    }
 
-/* === PROGRESS BAR === */
-.progress-wrap{margin-bottom:32px;}
-.progress-label{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
-.progress-track{height:3px;background:var(--gray-100);border-radius:2px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:2px;transition:width .5s ease;}
+    main{overflow:hidden;}
+    .section{
+      width:min(1120px,calc(100% - 40px));
+      margin:0 auto;
+      padding:5.2rem 0;
+    }
+    .section.compact{padding:3.8rem 0;}
+    .hero{
+      min-height:calc(100vh - 106px);
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);
+      align-items:center;
+      gap:4rem;
+      padding:5rem 0;
+    }
+    .kicker{
+      margin-bottom:1.1rem;
+      color:var(--gray-500);
+      font-size:.66rem;
+      font-weight:800;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+    }
+    h1{
+      max-width:820px;
+      font-size:clamp(2.55rem,6vw,5.6rem);
+      line-height:.96;
+      letter-spacing:-.065em;
+      font-weight:800;
+      color:var(--black);
+    }
+    h2{
+      max-width:820px;
+      margin-bottom:1.25rem;
+      font-size:clamp(1.85rem,3.5vw,3.35rem);
+      line-height:1.02;
+      letter-spacing:-.045em;
+      font-weight:800;
+      color:var(--black);
+    }
+    h3{
+      margin-bottom:.55rem;
+      font-size:1rem;
+      line-height:1.25;
+      letter-spacing:.02em;
+      font-weight:800;
+      color:var(--black);
+    }
+    p{
+      color:var(--gray-600);
+      font-size:1rem;
+      line-height:1.78;
+    }
+    .lead{
+      margin-top:1.45rem;
+      max-width:720px;
+      font-size:1.18rem;
+      line-height:1.75;
+      color:var(--gray-600);
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:38px;
+      padding:.72rem 1.05rem;
+      border:1px solid var(--black);
+      background:var(--black);
+      color:var(--white);
+      font-size:.68rem;
+      font-weight:800;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+      cursor:pointer;
+      transition:all .18s ease;
+      border-radius:0;
+    }
+    .btn:hover,
+    .btn:focus-visible{
+      transform:translateY(-1px);
+      box-shadow:0 8px 28px rgba(0,0,0,.12);
+      outline:none;
+    }
+    .btn.secondary{
+      background:var(--white);
+      color:var(--black);
+      border-color:var(--gray-200);
+    }
+    .btn.secondary:hover,
+    .btn.secondary:focus-visible{
+      border-color:var(--black);
+      box-shadow:none;
+    }
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.75rem;
+      margin-top:2.2rem;
+    }
 
-/* === PHASE BLOCK === */
-.phase{margin-bottom:28px;}
-.phase-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:8px 12px;background:var(--gray-50);border-left:3px solid var(--gold);cursor:pointer;user-select:none;}
-.phase-header:hover{background:var(--gray-100);}
-.phase-number{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);min-width:60px;}
-.phase-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text);flex:1;}
-.phase-meta{font-size:9px;color:var(--text-muted);letter-spacing:.06em;white-space:nowrap;}
-.phase-count{font-size:9px;background:var(--gold-faint);border:1px solid var(--gold);color:var(--gold);padding:2px 7px;border-radius:2px;letter-spacing:.08em;}
-.phase-toggle{font-size:12px;color:var(--gray-400);transition:transform .25s;display:inline-block;}
-.phase.collapsed .phase-toggle{transform:rotate(-90deg);}
-.phase-body{display:block;}
-.phase.collapsed .phase-body{display:none;}
+    .hero-panel{
+      border:1px solid var(--gray-200);
+      background:var(--gray-50);
+      padding:2rem;
+      min-width:0;
+    }
+    .panel-title{
+      margin-bottom:1.4rem;
+      padding-bottom:1.4rem;
+      border-bottom:1px solid var(--gray-200);
+    }
+    .panel-label{
+      font-size:.72rem;
+      font-weight:800;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--gray-500);
+    }
+    .panel-main{
+      margin-top:.4rem;
+      font-size:1.34rem;
+      line-height:1.25;
+      letter-spacing:-.02em;
+      color:var(--black);
+      font-weight:800;
+    }
+    .hero-facts{
+      display:grid;
+      gap:.85rem;
+      margin-top:1.5rem;
+    }
+    .fact{
+      display:flex;
+      justify-content:space-between;
+      gap:1rem;
+      padding:.85rem 0;
+      border-bottom:1px solid var(--gray-200);
+    }
+    .fact:last-child{border-bottom:0;}
+    .fact-label{
+      color:var(--gray-500);
+      font-size:.72rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-weight:700;
+    }
+    .fact-value{
+      color:var(--black);
+      font-weight:800;
+      text-align:right;
+    }
 
-/* === CHECKLIST ITEM === */
-.cl-item{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border-bottom:1px solid var(--gray-100);transition:background .15s;}
-.cl-item:last-child{border-bottom:none;}
-.cl-item:hover{background:var(--gray-50);}
-.cl-item.done{opacity:.65;}
-.cl-item.done .cl-label{text-decoration:line-through;color:var(--text-muted);}
+    .access-band{
+      background:var(--black);
+      color:var(--white);
+    }
+    .access-band .section{padding:4.8rem 0;}
+    .access-band h2,
+    .access-band h3{color:var(--white);}
+    .access-band p{color:rgba(255,255,255,.72);}
+    .access-band .kicker{color:rgba(255,255,255,.56);}
+    .access-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1px;
+      margin-top:2rem;
+      background:rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.18);
+    }
+    .access-card{
+      position:relative;
+      min-height:235px;
+      padding:1.55rem;
+      border:0;
+      text-align:left;
+      background:#111111;
+      display:flex;
+      flex-direction:column;
+      gap:.75rem;
+      transition:background .18s ease,transform .18s ease;
+      cursor:pointer;
+      color:var(--white);
+    }
+    .access-card:hover,
+    .access-card:focus-visible{
+      background:#171717;
+      outline:none;
+    }
+    .access-card::before{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      top:0;
+      height:3px;
+      background:rgba(255,255,255,.18);
+      transition:background .18s ease;
+    }
+    .access-card:hover::before,
+    .access-card:focus-visible::before{background:var(--white);}
+    .access-card.disabled{
+      cursor:default;
+      pointer-events:none;
+      opacity:.52;
+    }
+    .access-num{
+      color:rgba(255,255,255,.38);
+      font-size:.62rem;
+      font-weight:800;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+    .access-arrow{
+      margin-top:auto;
+      color:rgba(255,255,255,.42);
+      font-size:1.2rem;
+      transition:transform .18s ease,color .18s ease;
+    }
+    .access-card:hover .access-arrow,
+    .access-card:focus-visible .access-arrow{
+      transform:translateX(4px);
+      color:var(--white);
+    }
 
-.cl-check{flex-shrink:0;width:16px;height:16px;border:1px solid var(--gray-400);border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s,background .15s;margin-top:1px;}
-.cl-check.checked{background:var(--green);border-color:var(--green);}
-.cl-check.checked::after{content:'✓';color:#fff;font-size:9px;font-weight:900;}
+    .card-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:1rem;
+      margin-top:2rem;
+    }
+    .card{
+      border:1px solid var(--gray-200);
+      background:var(--white);
+      padding:1.55rem;
+    }
+    .card.highlight{
+      background:var(--gray-50);
+      border-color:var(--gray-300);
+    }
+    .card-meta{
+      margin-bottom:.75rem;
+      color:var(--gray-500);
+      font-size:.62rem;
+      font-weight:800;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
 
-.cl-body{flex:1;}
-.cl-label{font-size:11px;font-weight:500;color:var(--text);line-height:1.4;cursor:pointer;}
-.cl-desc{font-size:9.5px;color:var(--text-muted);margin-top:2px;line-height:1.5;}
-.cl-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
-.cl-tag{font-size:8.5px;letter-spacing:.07em;text-transform:uppercase;padding:2px 6px;border:1px solid;border-radius:1px;}
-.tag-legal{border-color:#7d3c98;color:#7d3c98;background:rgba(125,60,152,.06);}
-.tag-admin{border-color:var(--blue);color:var(--blue);background:rgba(42,96,153,.06);}
-.tag-tech{border-color:var(--teal);color:var(--teal);background:rgba(14,112,112,.06);}
-.tag-finance{border-color:var(--green);color:var(--green);background:rgba(30,122,58,.06);}
-.tag-com{border-color:var(--orange);color:var(--orange);background:rgba(212,136,10,.06);}
-.tag-rh{border-color:var(--gold-dim);color:var(--gold-dim);background:var(--gold-faint);}
+    .cta{
+      text-align:center;
+      padding:4.6rem 2rem;
+      background:var(--gray-50);
+      border-top:1px solid var(--gray-200);
+    }
+    .cta h2{margin-left:auto;margin-right:auto;}
+    .cta p{max-width:720px;margin:0 auto;}
+    .cta .btn{margin-top:2rem;}
 
-.cl-priority{flex-shrink:0;width:3px;align-self:stretch;border-radius:2px;margin-top:1px;}
-.pri-1{background:var(--p1);}
-.pri-2{background:var(--p2);}
-.pri-3{background:var(--p3);}
+    .myeod-footer{
+      width:100%;
+      background:#ffffff;
+      border-top:1px solid var(--gray-100);
+      color:var(--gray-400);
+      font-family:var(--font);
+      padding:1.25rem 2rem 1.35rem;
+    }
+    .myeod-footer-inner{
+      width:min(100%,1120px);
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:.75rem;
+      text-align:center;
+    }
+    .myeod-footer-brand{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:.24rem;
+      line-height:1.5;
+    }
+    .myeod-footer-title{
+      font-size:.64rem;
+      font-weight:700;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--gray-600);
+    }
+    .myeod-footer-meta{
+      display:inline-flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:.45rem;
+      font-size:.56rem;
+      font-weight:500;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--gray-400);
+    }
+    .myeod-footer-countries{
+      display:inline-flex;
+      align-items:center;
+      white-space:nowrap;
+    }
+    .myeod-footer-links{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:.35rem .9rem;
+      max-width:980px;
+      padding-top:.1rem;
+    }
+    .myeod-footer-links a{
+      color:var(--gray-400);
+      text-decoration:none;
+      font-size:.56rem;
+      font-weight:600;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      transition:color .2s;
+    }
+    .myeod-footer-links a:hover,
+    .myeod-footer-links a:focus-visible{
+      color:var(--gray-600);
+      outline:none;
+    }
+    .myeod-footer-bottom{
+      display:inline-flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:.35rem .65rem;
+      font-size:.52rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--gray-300);
+    }
 
-/* === LEGEND === */
-.legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px;padding:10px 14px;background:var(--gray-50);border:1px solid var(--border);}
-.legend-item{display:flex;align-items:center;gap:5px;font-size:8.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);}
-.legend-dot{width:8px;height:8px;border-radius:1px;}
+    @media(max-width:900px){
+      .hero{grid-template-columns:1fr;min-height:auto;gap:2.5rem;}
+      .access-grid{grid-template-columns:1fr;}
+      .card-grid{grid-template-columns:1fr;}
+    }
+    @media(max-width:640px){
+      .myeod-header{padding:.9rem 1rem;align-items:flex-start;}
+      .myeod-header-logo{height:54px;}
+      .header-right{gap:.35rem;}
+      .simple-nav{
+        gap:.25rem;
+        flex-wrap:wrap;
+        justify-content:flex-end;
+      }
+      .simple-nav a{font-size:.55rem;min-height:30px;padding:.45rem .5rem;}
+      .section{width:min(100% - 28px,1120px);padding:3.5rem 0;}
+      .hero{padding:3.2rem 0;}
+      .hero-panel{padding:1.3rem;}
+      .access-card{min-height:210px;}
+      .access-band .section{padding:3.5rem 0;}
+      .cta{padding:3.5rem 1rem;}
+      .myeod-footer{padding:1.2rem 1rem 1.35rem;}
+      .myeod-footer-links{gap:.45rem .75rem;}
+      .myeod-footer-meta{gap:.35rem;}
+    }
 
-/* === CONTROLS === */
-.controls{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
-.btn{border:none;padding:5px 12px;font-family:'MazzardM',sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .15s,color .15s;}
-.btn-ghost{background:transparent;border:1px solid var(--gray-200);color:var(--gray-600);}
-.btn-ghost:hover{border-color:var(--black);color:var(--black);}
-.btn-gold{background:#1a1a1a;color:#fff;font-weight:600;}
-.btn-gold:hover{background:#333;}
-.filter-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);}
 
-/* === NOTES === */
-.phase-note{font-size:9.5px;color:var(--text-muted);background:rgba(176,138,42,.04);border-left:2px solid var(--gold-faint);padding:6px 10px;margin-bottom:4px;font-style:italic;}
+    /* === Checklist juridique === */
+    .pilotage-band{
+      background:var(--black);
+      color:var(--white);
+    }
+    .pilotage-band .section{padding:4.8rem 0;}
+    .pilotage-band h2,
+    .pilotage-band h3{color:var(--white);}
+    .pilotage-band p{color:rgba(255,255,255,.72);}
+    .pilotage-band .kicker{color:rgba(255,255,255,.56);}
+    .pilotage-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(300px,.75fr);
+      gap:1px;
+      margin-top:2rem;
+      background:rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.18);
+    }
+    .pilotage-panel{
+      background:#111111;
+      padding:1.55rem;
+    }
+    .progress-wrap{margin:0;}
+    .progress-label{
+      display:flex;
+      justify-content:space-between;
+      gap:1rem;
+      font-size:.62rem;
+      font-weight:800;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.64);
+      margin-bottom:.8rem;
+    }
+    .progress-track{
+      height:4px;
+      background:rgba(255,255,255,.16);
+      overflow:hidden;
+    }
+    .progress-fill{
+      height:100%;
+      background:var(--white);
+      transition:width .5s ease;
+    }
+    .controls{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.65rem;
+      align-items:center;
+      margin:0;
+    }
+    .controls .btn,
+    .btn-ghost,
+    .btn-gold{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:34px;
+      padding:.58rem .78rem;
+      border:1px solid rgba(255,255,255,.2);
+      background:transparent;
+      color:rgba(255,255,255,.82);
+      font-size:.6rem;
+      font-weight:800;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+      cursor:pointer;
+      transition:all .18s ease;
+    }
+    .controls .btn:hover,
+    .controls .btn:focus-visible,
+    .btn-ghost:hover,
+    .btn-ghost:focus-visible,
+    .btn-gold:hover,
+    .btn-gold:focus-visible{
+      border-color:var(--white);
+      color:var(--white);
+      outline:none;
+    }
+    .btn-gold{
+      background:var(--white);
+      color:var(--black);
+      border-color:var(--white);
+    }
+    .legend{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.6rem .75rem;
+      margin:0;
+      padding:0;
+      background:transparent;
+      border:0;
+      color:rgba(255,255,255,.72);
+    }
+    .legend-item{
+      display:flex;
+      align-items:center;
+      gap:.35rem;
+      font-size:.58rem;
+      font-weight:800;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.64);
+    }
+    .legend-dot{
+      width:8px;
+      height:8px;
+      border-radius:1px;
+    }
 
-/* === PRINT === */
-@media print {
-  .no-print{display:none!important;}
-  body{background:#fff;color:#111;}
-  .cl-item{page-break-inside:avoid;}
-}
-@media(max-width:600px){
-  .myeod-header{padding:.9rem 1rem;}
-  .myeod-header-logo{height:54px;}
-  .page{padding:16px 16px 40px;}
-  .phase-meta{display:none;}
-}
-</style>
+    .checklist-wrap{
+      width:min(1120px,calc(100% - 40px));
+      margin:0 auto;
+      padding:4.8rem 0;
+    }
+    .checklist-head{
+      display:grid;
+      grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+      gap:3rem;
+      align-items:start;
+      margin-bottom:2rem;
+    }
+    .quote-block{
+      border-left:3px solid var(--black);
+      padding:1.2rem 0 1.2rem 1.35rem;
+      color:var(--black);
+      font-size:1.28rem;
+      line-height:1.55;
+      letter-spacing:-.02em;
+      font-weight:600;
+    }
+    .phase{
+      margin-bottom:1rem;
+      border:1px solid var(--gray-200);
+      background:var(--white);
+    }
+    .phase-header{
+      display:grid;
+      grid-template-columns:90px minmax(0,1fr) auto auto auto;
+      gap:.9rem;
+      align-items:center;
+      padding:1rem 1.15rem;
+      background:var(--gray-50);
+      border-bottom:1px solid var(--gray-200);
+      cursor:pointer;
+      user-select:none;
+    }
+    .phase-header:hover{background:var(--gray-100);}
+    .phase-number{
+      color:var(--gray-500);
+      font-size:.62rem;
+      font-weight:800;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    .phase-title{
+      color:var(--black);
+      font-size:.9rem;
+      font-weight:800;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+    .phase-meta{
+      color:var(--gray-500);
+      font-size:.62rem;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+    .phase-count{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:42px;
+      padding:.25rem .45rem;
+      border:1px solid var(--gold);
+      color:var(--gold);
+      background:var(--gold-faint);
+      font-size:.62rem;
+      font-weight:800;
+      letter-spacing:.08em;
+    }
+    .phase-toggle{
+      color:var(--gray-400);
+      font-size:1rem;
+      transition:transform .25s;
+    }
+    .phase.collapsed .phase-toggle{transform:rotate(-90deg);}
+    .phase-body{display:block;}
+    .phase.collapsed .phase-body{display:none;}
+    .phase-note{
+      margin:0;
+      padding:.9rem 1.15rem;
+      border-bottom:1px solid var(--gray-100);
+      background:#fffdf8;
+      color:var(--gray-600);
+      font-size:.86rem;
+      line-height:1.6;
+      font-style:italic;
+    }
+    .cl-item{
+      display:flex;
+      align-items:flex-start;
+      gap:.9rem;
+      padding:1rem 1.15rem;
+      border-bottom:1px solid var(--gray-100);
+      transition:background .15s;
+    }
+    .cl-item:last-child{border-bottom:none;}
+    .cl-item:hover{background:var(--gray-50);}
+    .cl-item.done{opacity:.62;}
+    .cl-item.done .cl-label{
+      text-decoration:line-through;
+      color:var(--gray-500);
+    }
+    .cl-priority{
+      flex-shrink:0;
+      width:4px;
+      align-self:stretch;
+      min-height:28px;
+      margin-top:.1rem;
+      border-radius:1px;
+    }
+    .pri-1{background:var(--p1);}
+    .pri-2{background:var(--p2);}
+    .pri-3{background:var(--p3);}
+    .cl-check{
+      flex-shrink:0;
+      width:18px;
+      height:18px;
+      border:1px solid var(--gray-400);
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:border-color .15s,background .15s;
+      margin-top:.12rem;
+    }
+    .cl-check.checked{
+      background:var(--green);
+      border-color:var(--green);
+    }
+    .cl-check.checked::after{
+      content:'✓';
+      color:#fff;
+      font-size:.68rem;
+      font-weight:900;
+    }
+    .cl-body{flex:1;min-width:0;}
+    .cl-label{
+      color:var(--black);
+      font-size:.96rem;
+      font-weight:600;
+      line-height:1.45;
+      cursor:pointer;
+    }
+    .cl-desc{
+      color:var(--gray-500);
+      font-size:.82rem;
+      margin-top:.25rem;
+      line-height:1.55;
+    }
+    .cl-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.35rem;
+      margin-top:.55rem;
+    }
+    .cl-tag{
+      display:inline-flex;
+      align-items:center;
+      font-size:.55rem;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      padding:.22rem .45rem;
+      border:1px solid;
+      border-radius:1px;
+      background:#fff;
+    }
+    .tag-legal{border-color:var(--purple);color:var(--purple);background:rgba(125,60,152,.06);}
+    .tag-admin{border-color:var(--blue);color:var(--blue);background:rgba(42,96,153,.06);}
+    .tag-tech{border-color:var(--teal);color:var(--teal);background:rgba(14,112,112,.06);}
+    .tag-finance{border-color:var(--green);color:var(--green);background:rgba(30,122,58,.06);}
+    .tag-com{border-color:var(--orange);color:var(--orange);background:rgba(212,136,10,.06);}
+    .tag-rh{border-color:var(--gold-dim);color:var(--gold-dim);background:var(--gold-faint);}
+
+    @media(max-width:900px){
+      .pilotage-grid{grid-template-columns:1fr;}
+      .checklist-head{grid-template-columns:1fr;gap:1.5rem;}
+      .phase-header{grid-template-columns:1fr auto auto;}
+      .phase-number,.phase-meta{grid-column:1 / -1;}
+    }
+    @media(max-width:640px){
+      .checklist-wrap{width:min(100% - 28px,1120px);padding:3.5rem 0;}
+      .phase-header{gap:.5rem;padding:.9rem;}
+      .cl-item{padding:.9rem;gap:.65rem;}
+      .phase-note{padding:.85rem .9rem;}
+      .phase-meta{white-space:normal;}
+    }
+    @media print{
+      .no-print,.myeod-header,.myeod-footer,.pilotage-band,.cta{display:none!important;}
+      body{background:#fff;color:#111;font-size:11px;}
+      .hero{display:block;min-height:0;padding:0;}
+      .checklist-wrap{width:100%;padding:0;}
+      .phase,.cl-item{page-break-inside:avoid;}
+      .phase-header{background:#fff;border-bottom:1px solid #ddd;}
+    }
+
+  </style>
 </head>
+
 <body>
-
-<!-- HEADER -->
-<header class="myeod-header">
-  <a href="index.html" class="myeod-header-logo" title="Retour à l'accueil">
-    <svg id="Calque_1" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 262.15 96.47"><defs><style>.cls-1{fill:#1e1717;}</style></defs><path class="cls-1" d="M117.46,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM114.76,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M121.64,66l1.92,2.55h-.51l-1.65-2.22-1.08,1.44-.58.77h-.5l1.9-2.55-1.75-2.33h.51l1.48,2,.79-1.03.72-.97h.51l-1.77,2.33Z"/><path class="cls-1" d="M128.51,63.91c.37.21.66.51.87.89.21.38.31.82.31,1.31s-.1.92-.31,1.31-.5.68-.87.89c-.37.21-.8.32-1.27.32s-.89-.1-1.25-.31c-.37-.21-.64-.49-.83-.84v3.44h-.42v-7.26h.4v1.09c.18-.36.45-.64.83-.85.37-.21.8-.32,1.27-.32s.9.11,1.27.32ZM128.28,67.98c.31-.18.56-.43.73-.75.17-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.18-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75s-.26.7-.26,1.12.09.79.26,1.12c.18.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M134.61,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM131.91,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M140.28,63.89l-.19.36c-.24-.14-.52-.22-.82-.22s-.58.09-.84.27c-.25.18-.45.42-.6.73-.14.31-.22.65-.22,1.02v2.51h-.42v-4.89h.4v1.09c.17-.36.4-.63.7-.84.29-.2.62-.3.98-.3.39,0,.72.09,1,.27Z"/><path class="cls-1" d="M144.26,68.38c-.36.18-.69.27-1,.27-.49,0-.84-.13-1.04-.39s-.3-.65-.3-1.17v-3.04h-1.05v-.39h1.05v-1.44l.42-.04v1.48h1.69v.39h-1.69v3.04c0,.39.06.68.19.88s.37.3.73.3c.11,0,.25-.02.41-.07s.3-.1.44-.17l.16.35Z"/><path class="cls-1" d="M149.11,68.32c-.38-.22-.68-.52-.89-.9-.21-.39-.32-.82-.32-1.3s.11-.92.32-1.3c.21-.39.51-.69.89-.9s.81-.33,1.28-.33.91.11,1.29.33.68.52.89.9c.21.39.32.82.32,1.3s-.11.91-.32,1.3c-.21.39-.51.69-.89.9-.38.22-.81.33-1.29.33s-.9-.11-1.28-.33ZM151.46,67.97c.32-.18.57-.44.75-.77.18-.33.27-.69.27-1.09s-.09-.77-.27-1.09c-.18-.33-.43-.58-.75-.77-.32-.18-.67-.28-1.07-.28s-.75.09-1.07.28c-.32.18-.56.44-.74.77-.18.33-.27.69-.27,1.09s.09.77.27,1.09c.18.33.43.58.74.77s.67.28,1.07.28.75-.09,1.07-.28Z"/><path class="cls-1" d="M158.24,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"/><path class="cls-1" d="M168.02,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM166.61,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M173.27,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM170.57,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M182.93,64.16c.34.37.51.89.51,1.55v2.85h-.42v-2.83c0-.55-.13-.98-.4-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.85.24s-.45.37-.59.65c-.14.27-.21.58-.21.92v2.75h-.42v-2.83c0-.55-.13-.98-.39-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.84.24-.25.16-.45.37-.59.65-.14.27-.21.58-.21.92v2.75h-.42v-4.89h.4v.92c.18-.31.41-.55.71-.73s.62-.26.96-.26c.44,0,.82.1,1.12.31s.52.51.65.89c.17-.38.42-.67.74-.89.32-.21.68-.32,1.08-.32.6,0,1.07.19,1.41.56Z"/><path class="cls-1" d="M189.84,63.67v4.89h-.4v-1.09c-.19.36-.47.65-.85.85-.37.21-.79.31-1.26.31s-.9-.11-1.27-.32c-.37-.21-.66-.51-.86-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.86-.89.37-.21.79-.32,1.27-.32s.89.11,1.26.32c.37.21.65.5.84.86v-1.1h.41ZM188.43,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M195.5,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"/><path class="cls-1" d="M202.44,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM201.03,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><polygon class="cls-1" points="72.23 42.73 72.11 42.9 72.03 43 71.95 42.9 71.83 42.73 61.05 27.8 59.71 27.8 59.71 52.29 60.79 52.29 60.79 29.98 60.79 29.5 60.79 29.21 60.96 29.45 61.23 29.83 71.98 44.65 72.12 44.65 82.86 29.8 83.14 29.41 83.31 29.18 83.31 29.47 83.31 29.94 83.31 52.29 84.35 52.29 84.35 27.8 83.01 27.8 72.23 42.73"/><polygon class="cls-1" points="111.97 27.8 102.01 50.45 101.87 50.78 101.78 50.98 101.69 50.78 101.56 50.45 99.23 44.91 91.91 27.8 90.81 27.8 101.19 52.04 101.22 52.1 101.23 52.14 101.22 52.17 101.19 52.23 94.12 68.67 95.22 68.67 113.07 27.8 111.97 27.8"/><polygon class="cls-1" points="42.39 28.9 41.61 28.05 28.25 39.6 28.25 40.35 41.61 51.97 42.39 51.11 29.97 40.31 29.58 39.97 29.97 39.63 42.39 28.9"/><polygon class="cls-1" points="220.54 28.05 219.76 28.9 232.18 39.7 232.57 40.04 232.18 40.38 219.76 51.11 220.54 51.97 233.9 40.41 233.9 39.66 220.54 28.05"/><path class="cls-1" d="M120.78,40.78c.22,2.98,1.23,5.34,3.03,7.07,1.79,1.73,4.12,2.6,6.97,2.6,1.76,0,3.44-.35,5.05-1.06,1.6-.7,2.84-1.63,3.7-2.79l1.44,1.2c-1.12,1.41-2.58,2.52-4.37,3.34-1.79.82-3.73,1.23-5.82,1.23-2.31,0-4.37-.53-6.2-1.59-1.83-1.06-3.25-2.52-4.28-4.4-1.03-1.87-1.54-4-1.54-6.37s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.32,4.23-4.37s3.87-1.59,6.18-1.59,4.46.49,6.27,1.47c1.81.98,3.2,2.35,4.18,4.11.98,1.76,1.47,3.8,1.47,6.1,0,.61-.02,1.07-.05,1.39h-17.93l.03-1.87h15.99c0-1.83-.43-3.44-1.27-4.85-.85-1.41-2.02-2.51-3.51-3.29-1.49-.78-3.21-1.18-5.17-1.18-2.79,0-5.08.86-6.87,2.57-1.79,1.71-2.8,3.97-3.03,6.75-.1.82,0,1.87,0,1.87Z"/><path class="cls-1" d="M154.04,50.72c-1.84-1.06-3.28-2.52-4.33-4.4-1.04-1.87-1.56-3.98-1.56-6.32s.52-4.45,1.56-6.32c1.04-1.87,2.48-3.34,4.33-4.4,1.84-1.06,3.92-1.59,6.22-1.59s4.43.53,6.27,1.59,3.28,2.52,4.33,4.4c1.04,1.87,1.56,3.98,1.56,6.32s-.52,4.45-1.56,6.32c-1.04,1.87-2.48,3.34-4.33,4.4s-3.93,1.59-6.27,1.59-4.38-.53-6.22-1.59ZM165.46,49.04c1.54-.9,2.75-2.14,3.63-3.73.88-1.59,1.32-3.36,1.32-5.31s-.44-3.72-1.32-5.31c-.88-1.59-2.09-2.83-3.63-3.73-1.54-.9-3.27-1.35-5.19-1.35s-3.65.45-5.19,1.35c-1.54.9-2.74,2.14-3.6,3.73-.86,1.59-1.3,3.36-1.3,5.31s.43,3.72,1.3,5.31c.86,1.59,2.07,2.83,3.6,3.73,1.54.9,3.27,1.35,5.19,1.35s3.65-.45,5.19-1.35Z"/><path class="cls-1" d="M202.44,18.23v33.64h-1.92l-.05-5.24c-.9,1.73-2.25,3.1-4.06,4.11-1.81,1.01-3.85,1.51-6.13,1.51s-4.32-.52-6.13-1.56c-1.81-1.04-3.22-2.49-4.23-4.35-1.01-1.86-1.51-3.97-1.51-6.34s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.31,4.23-4.35,1.81-1.04,3.85-1.56,6.13-1.56s4.31.5,6.1,1.49c1.79.99,3.14,2.36,4.04,4.09v-15.09h2.02ZM195.59,49.09c1.52-.86,2.71-2.08,3.56-3.65.85-1.57,1.27-3.38,1.27-5.43s-.43-3.86-1.27-5.43c-.85-1.57-2.04-2.79-3.56-3.65-1.52-.87-3.24-1.3-5.17-1.3s-3.69.43-5.19,1.3c-1.51.86-2.68,2.08-3.53,3.65s-1.27,3.38-1.27,5.43.42,3.86,1.27,5.43c.85,1.57,2.03,2.79,3.53,3.65,1.51.87,3.24,1.3,5.19,1.3s3.64-.43,5.17-1.3Z"/></svg>
-  </a>
-  <div class="myeod-header-right">
-    <div style="text-align:right;">
-      <div style="font-family:'MazzardM',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#1a1a1a;">Juridique & Création</div>
-      <div style="font-family:'MazzardM',sans-serif;font-size:0.55rem;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:#9a9a9a;margin-top:2px;">myeod.ch — Démarches</div>
+  <header class="myeod-header">
+    <a class="myeod-header-logo" href="index.html" aria-label="Accueil MyEOD">
+      <svg id="Calque_1" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 262.15 96.47"><defs><style> .cls-1 { fill: #1e1717; } </style></defs><path class="cls-1" d="M117.46,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM114.76,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M121.64,66l1.92,2.55h-.51l-1.65-2.22-1.08,1.44-.58.77h-.5l1.9-2.55-1.75-2.33h.51l1.48,2,.79-1.03.72-.97h.51l-1.77,2.33Z"/><path class="cls-1" d="M128.51,63.91c.37.21.66.51.87.89.21.38.31.82.31,1.31s-.1.92-.31,1.31-.5.68-.87.89c-.37.21-.8.32-1.27.32s-.89-.1-1.25-.31c-.37-.21-.64-.49-.83-.84v3.44h-.42v-7.26h.4v1.09c.18-.36.45-.64.83-.85.37-.21.8-.32,1.27-.32s.9.11,1.27.32ZM128.28,67.98c.31-.18.56-.43.73-.75.17-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.18-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75s-.26.7-.26,1.12.09.79.26,1.12c.18.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M134.61,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM131.91,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M140.28,63.89l-.19.36c-.24-.14-.52-.22-.82-.22s-.58.09-.84.27c-.25.18-.45.42-.6.73-.14.31-.22.65-.22,1.02v2.51h-.42v-4.89h.4v1.09c.17-.36.4-.63.7-.84.29-.2.62-.3.98-.3.39,0,.72.09,1,.27Z"/><path class="cls-1" d="M144.26,68.38c-.36.18-.69.27-1,.27-.49,0-.84-.13-1.04-.39s-.3-.65-.3-1.17v-3.04h-1.05v-.39h1.05v-1.44l.42-.04v1.48h1.69v.39h-1.69v3.04c0,.39.06.68.19.88s.37.3.73.3c.11,0,.25-.02.41-.07s.3-.1.44-.17l.16.35Z"/><path class="cls-1" d="M149.11,68.32c-.38-.22-.68-.52-.89-.9-.21-.39-.32-.82-.32-1.3s.11-.92.32-1.3c.21-.39.51-.69.89-.9s.81-.33,1.28-.33.91.11,1.29.33.68.52.89.9c.21.39.32.82.32,1.3s-.11.91-.32,1.3c-.21.39-.51.69-.89.9-.38.22-.81.33-1.29.33s-.9-.11-1.28-.33ZM151.46,67.97c.32-.18.57-.44.75-.77.18-.33.27-.69.27-1.09s-.09-.77-.27-1.09c-.18-.33-.43-.58-.75-.77-.32-.18-.67-.28-1.07-.28s-.75.09-1.07.28c-.32.18-.56.44-.74.77-.18.33-.27.69-.27,1.09s.09.77.27,1.09c.18.33.43.58.74.77s.67.28,1.07.28.75-.09,1.07-.28Z"/><path class="cls-1" d="M158.24,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"/><path class="cls-1" d="M168.02,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM166.61,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M173.27,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM170.57,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M182.93,64.16c.34.37.51.89.51,1.55v2.85h-.42v-2.83c0-.55-.13-.98-.4-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.85.24s-.45.37-.59.65c-.14.27-.21.58-.21.92v2.75h-.42v-2.83c0-.55-.13-.98-.39-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.84.24-.25.16-.45.37-.59.65-.14.27-.21.58-.21.92v2.75h-.42v-4.89h.4v.92c.18-.31.41-.55.71-.73s.62-.26.96-.26c.44,0,.82.1,1.12.31s.52.51.65.89c.17-.38.42-.67.74-.89.32-.21.68-.32,1.08-.32.6,0,1.07.19,1.41.56Z"/><path class="cls-1" d="M189.84,63.67v4.89h-.4v-1.09c-.19.36-.47.65-.85.85-.37.21-.79.31-1.26.31s-.9-.11-1.27-.32c-.37-.21-.66-.51-.86-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.86-.89.37-.21.79-.32,1.27-.32s.89.11,1.26.32c.37.21.65.5.84.86v-1.1h.41ZM188.43,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M195.5,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"/><path class="cls-1" d="M202.44,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM201.03,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><polygon class="cls-1" points="72.23 42.73 72.11 42.9 72.03 43 71.95 42.9 71.83 42.73 61.05 27.8 59.71 27.8 59.71 52.29 60.79 52.29 60.79 29.98 60.79 29.5 60.79 29.21 60.96 29.45 61.23 29.83 71.98 44.65 72.12 44.65 82.86 29.8 83.14 29.41 83.31 29.18 83.31 29.47 83.31 29.94 83.31 52.29 84.35 52.29 84.35 27.8 83.01 27.8 72.23 42.73"/><polygon class="cls-1" points="111.97 27.8 102.01 50.45 101.87 50.78 101.78 50.98 101.69 50.78 101.56 50.45 99.23 44.91 91.91 27.8 90.81 27.8 101.19 52.04 101.22 52.1 101.23 52.14 101.22 52.17 101.19 52.23 94.12 68.67 95.22 68.67 113.07 27.8 111.97 27.8"/><polygon class="cls-1" points="42.39 28.9 41.61 28.05 28.25 39.6 28.25 40.35 41.61 51.97 42.39 51.11 29.97 40.31 29.58 39.97 29.97 39.63 42.39 28.9"/><polygon class="cls-1" points="220.54 28.05 219.76 28.9 232.18 39.7 232.57 40.04 232.18 40.38 219.76 51.11 220.54 51.97 233.9 40.41 233.9 39.66 220.54 28.05"/><path class="cls-1" d="M120.78,40.78c.22,2.98,1.23,5.34,3.03,7.07,1.79,1.73,4.12,2.6,6.97,2.6,1.76,0,3.44-.35,5.05-1.06,1.6-.7,2.84-1.63,3.7-2.79l1.44,1.2c-1.12,1.41-2.58,2.52-4.37,3.34-1.79.82-3.73,1.23-5.82,1.23-2.31,0-4.37-.53-6.2-1.59-1.83-1.06-3.25-2.52-4.28-4.4-1.03-1.87-1.54-4-1.54-6.37s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.32,4.23-4.37s3.87-1.59,6.18-1.59,4.46.49,6.27,1.47c1.81.98,3.2,2.35,4.18,4.11.98,1.76,1.47,3.8,1.47,6.1,0,.61-.02,1.07-.05,1.39h-17.93l.03-1.87h15.99c0-1.83-.43-3.44-1.27-4.85-.85-1.41-2.02-2.51-3.51-3.29-1.49-.78-3.21-1.18-5.17-1.18-2.79,0-5.08.86-6.87,2.57-1.79,1.71-2.8,3.97-3.03,6.75-.1.82,0,1.87,0,1.87Z"/><path class="cls-1" d="M154.04,50.72c-1.84-1.06-3.28-2.52-4.33-4.4-1.04-1.87-1.56-3.98-1.56-6.32s.52-4.45,1.56-6.32c1.04-1.87,2.48-3.34,4.33-4.4,1.84-1.06,3.92-1.59,6.22-1.59s4.43.53,6.27,1.59,3.28,2.52,4.33,4.4c1.04,1.87,1.56,3.98,1.56,6.32s-.52,4.45-1.56,6.32c-1.04,1.87-2.48,3.34-4.33,4.4s-3.93,1.59-6.27,1.59-4.38-.53-6.22-1.59ZM165.46,49.04c1.54-.9,2.75-2.14,3.63-3.73.88-1.59,1.32-3.36,1.32-5.31s-.44-3.72-1.32-5.31c-.88-1.59-2.09-2.83-3.63-3.73-1.54-.9-3.27-1.35-5.19-1.35s-3.65.45-5.19,1.35c-1.54.9-2.74,2.14-3.6,3.73-.86,1.59-1.3,3.36-1.3,5.31s.43,3.72,1.3,5.31c.86,1.59,2.07,2.83,3.6,3.73,1.54.9,3.27,1.35,5.19,1.35s3.65-.45,5.19-1.35Z"/><path class="cls-1" d="M202.44,18.23v33.64h-1.92l-.05-5.24c-.9,1.73-2.25,3.1-4.06,4.11-1.81,1.01-3.85,1.51-6.13,1.51s-4.32-.52-6.13-1.56c-1.81-1.04-3.22-2.49-4.23-4.35-1.01-1.86-1.51-3.97-1.51-6.34s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.31,4.23-4.35,1.81-1.04,3.85-1.56,6.13-1.56s4.31.5,6.1,1.49c1.79.99,3.14,2.36,4.04,4.09v-15.09h2.02ZM195.59,49.09c1.52-.86,2.71-2.08,3.56-3.65.85-1.57,1.27-3.38,1.27-5.43s-.43-3.86-1.27-5.43c-.85-1.57-2.04-2.79-3.56-3.65-1.52-.87-3.24-1.3-5.17-1.3s-3.69.43-5.19,1.3c-1.51.86-2.68,2.08-3.53,3.65s-1.27,3.38-1.27,5.43.42,3.86,1.27,5.43c.85,1.57,2.03,2.79,3.53,3.65,1.51.87,3.24,1.3,5.19,1.3s3.64-.43,5.17-1.3Z"/></svg>
+    </a>
+    <div class="header-right">
+      <nav class="simple-nav" aria-label="Navigation principale">
+        <a href="index.html">Accueil</a>
+        <a href="admin.html">Admin</a>
+        <a href="acces-collaborateurs.html">Collaborateurs</a>
+      </nav>
+      <button type="button" class="btn-nav-back no-print" onclick="goBackToPreviousPage()" title="Retour" aria-label="Retour">←</button>
     </div>
-    <button type="button" class="btn-nav-back no-print" onclick="goBackToPreviousPage()" title="Retour" aria-label="Retour">←</button>
-  </div>
-</header>
+  </header>
 
-<!-- PAGE CONTENT -->
-<div class="page">
+  <main>
+    <section class="section hero">
+      <div>
+        <div class="kicker">Juridique · Création myeod.ch</div>
+        <h1>Checklist de création.</h1>
+        <p class="lead">
+          Démarches chronologiques pour la constitution juridique, administrative, technique
+          et commerciale de l'entité MyEOD en Suisse.
+        </p>
+        <div class="hero-actions no-print">
+          <a class="btn" href="#pilotage">Voir la progression</a>
+          <a class="btn secondary" href="#checklist">Ouvrir la checklist</a>
+        </div>
+      </div>
 
-  <!-- INTRO -->
-  <div class="page-intro">
-    <h1>Checklist de création — myeod.ch</h1>
-    <p>Démarches chronologiques pour la constitution juridique, administrative, technique et commerciale de l'entité <strong>MyEOD</strong> en Suisse. Les étapes sont organisées par phase et peuvent être cochées au fil de l'avancement.</p>
-  </div>
+      <aside class="hero-panel" aria-label="Synthèse checklist juridique">
+        <div class="panel-title">
+          <div class="panel-label">myeod.ch</div>
+          <div class="panel-main">Une checklist suivie phase par phase.</div>
+        </div>
+        <p>
+          Les étapes sont organisées par phase et peuvent être cochées au fil de l'avancement.
+          L'état est conservé localement dans le navigateur.
+        </p>
+        <div class="hero-facts">
+          <div class="fact"><span class="fact-label">Phases</span><span class="fact-value">7</span></div>
+          <div class="fact"><span class="fact-label">Actions</span><span class="fact-value">39</span></div>
+          <div class="fact"><span class="fact-label">Suivi</span><span class="fact-value">Progression locale</span></div>
+          <div class="fact"><span class="fact-label">Priorités</span><span class="fact-value">Critique · Important · Standard</span></div>
+        </div>
+      </aside>
+    </section>
 
-  <!-- PROGRESS -->
-  <div class="progress-wrap no-print">
-    <div class="progress-label">
-      <span>Progression globale</span>
-      <span id="progress-text">0 / 0 complétées</span>
+    <section class="pilotage-band no-print" id="pilotage">
+      <div class="section compact">
+        <div class="kicker">Pilotage</div>
+        <h2>Suivre l'avancement global.</h2>
+        <p class="lead">
+          La barre de progression et les compteurs de phase se mettent à jour automatiquement lorsque les actions sont cochées.
+        </p>
+        <div class="pilotage-grid">
+          <div class="pilotage-panel">
+            <h3>Progression</h3>
+            <div class="progress-wrap no-print">
+<div class="progress-label">
+<span>Progression globale</span>
+<span id="progress-text">0 / 0 complétées</span>
+</div>
+<div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+</div>
+          </div>
+          <div class="pilotage-panel">
+            <h3>Actions rapides</h3>
+            <div class="controls no-print">
+<button class="btn btn-ghost" onclick="expandAll()">Tout déplier</button>
+<button class="btn btn-ghost" onclick="collapseAll()">Tout replier</button>
+<button class="btn btn-ghost" onclick="window.print()">Imprimer</button>
+<button class="btn btn-gold" onclick="resetAll()">Réinitialiser</button>
+</div>
+          </div>
+          <div class="pilotage-panel" style="grid-column:1 / -1;">
+            <h3>Légende</h3>
+            <div class="legend no-print">
+<span class="legend-item"><span class="legend-dot" style="background:var(--p1)"></span> Critique</span>
+<span class="legend-item"><span class="legend-dot" style="background:var(--p2)"></span> Important</span>
+<span class="legend-item"><span class="legend-dot" style="background:var(--p3)"></span> Standard</span>
+<span style="width:1px;background:var(--border);margin:0 4px;align-self:stretch;"></span>
+<span class="cl-tag tag-legal" style="font-size:8px;">Juridique</span>
+<span class="cl-tag tag-admin" style="font-size:8px;">Admin</span>
+<span class="cl-tag tag-tech" style="font-size:8px;">Tech</span>
+<span class="cl-tag tag-finance" style="font-size:8px;">Finance</span>
+<span class="cl-tag tag-com" style="font-size:8px;">Com</span>
+<span class="cl-tag tag-rh" style="font-size:8px;">RH</span>
+</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="checklist-wrap" id="checklist">
+      <div class="checklist-head">
+        <div>
+          <div class="kicker">Checklist opérationnelle</div>
+          <h2>Créer, structurer, activer.</h2>
+        </div>
+        <div class="quote-block">
+          Constitution juridique, administration, socle technique, communication et lancement commercial de l'entité.
+        </div>
+      </div>
+
+<div class="phase" id="phase-1">
+<div class="phase-header" onclick="togglePhase('phase-1')">
+<span class="phase-number">Phase 01</span>
+<span class="phase-title">Préparation &amp; Stratégie</span>
+<span class="phase-meta">Avant constitution — Fondements</span>
+<span class="phase-count" id="count-phase-1">0/6</span>
+<span class="phase-toggle">▾</span>
+</div>
+<div class="phase-body">
+<div class="phase-note">Décisions fondatrices à prendre en équipe (Régis, Pascal, Jean-Marie, Christelle) avant toute démarche officielle.</div>
+<div class="cl-item" data-id="1-1" data-phase="phase-1">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('1-1')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('1-1')">Définir la forme juridique cible en Suisse</div>
+<div class="cl-desc">Choisir entre Sàrl (GmbH) ou SA en fonction des apports, de la gouvernance souhaitée et des besoins de levée de fonds. La Sàrl est recommandée pour un démarrage avec 4 associés. Capital minimum : CHF 20 000 (Sàrl) ou CHF 100 000 (SA).</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-finance">Finance</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="1-2" data-phase="phase-1">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('1-2')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('1-2')">Définir la répartition des parts sociales entre fondateurs</div>
+<div class="cl-desc">Accord entre Régis, Pascal, Jean-Marie et Christelle sur le pourcentage de chacun, les droits de vote, et les conditions de rachat/sortie. Documenter dans un pacte d'actionnaires (shareholders agreement).</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-rh">RH</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="1-3" data-phase="phase-1">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('1-3')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('1-3')">Vérifier la disponibilité du nom "MyEOD" en Suisse</div>
+<div class="cl-desc">Consulter le registre ZEFIX (zefix.ch) pour vérifier qu'aucune société suisse n'utilise déjà ce nom ou un nom similaire. Vérifier également la disponibilité de la marque auprès de l'IPI (Institut Fédéral de la Propriété Intellectuelle).</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-admin">Admin</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="1-4" data-phase="phase-1">
+<div class="cl-priority pri-2"></div>
+<div class="cl-check" onclick="toggle('1-4')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('1-4')">Choisir le canton et la commune de domiciliation</div>
+<div class="cl-desc">Comparer la fiscalité cantonale (Zoug, Vaud, Genève, Neuchâtel…). Le canton de Zoug est fiscalement attractif. Prévoir une adresse commerciale valide en Suisse — possibilité de recourir à un prestataire de domiciliation.</div>
+<div class="cl-tags"><span class="cl-tag tag-admin">Admin</span><span class="cl-tag tag-finance">Finance</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="1-5" data-phase="phase-1">
+<div class="cl-priority pri-2"></div>
+<div class="cl-check" onclick="toggle('1-5')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('1-5')">Consulter un avocat ou fiduciaire suisse spécialisé en création de société</div>
+<div class="cl-desc">Engagement d'un professionnel local pour accompagner les démarches notariales et administratives. Prévoir un budget de CHF 2 000 à 5 000 pour cette phase conseil.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="1-6" data-phase="phase-1">
+<div class="cl-priority pri-3"></div>
+<div class="cl-check" onclick="toggle('1-6')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('1-6')">Préparer le business plan MyEOD version Suisse</div>
+<div class="cl-desc">Adapter le BP existant au contexte helvétique : marché cible, modèle de tarification en CHF, prévisions financières sur 3 ans, stratégie d'entrée. Document nécessaire pour l'ouverture de compte bancaire.</div>
+<div class="cl-tags"><span class="cl-tag tag-finance">Finance</span><span class="cl-tag tag-com">Com</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="phase" id="phase-2">
+<div class="phase-header" onclick="togglePhase('phase-2')">
+<span class="phase-number">Phase 02</span>
+<span class="phase-title">Constitution Juridique</span>
+<span class="phase-meta">Notaire &amp; Registre du Commerce</span>
+<span class="phase-count" id="count-phase-2">0/6</span>
+<span class="phase-toggle">▾</span>
+</div>
+<div class="phase-body">
+<div class="phase-note">Étapes officielles et irréversibles. Nécessitent la présence (ou la procuration notariée) de tous les associés fondateurs.</div>
+<div class="cl-item" data-id="2-1" data-phase="phase-2">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('2-1')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('2-1')">Rédiger les statuts de la société (Sàrl/SA)</div>
+<div class="cl-desc">Les statuts définissent l'objet social, le capital, les organes de direction, les règles de cession de parts, etc. Doivent être rédigés en français ou en allemand selon le canton, et authentifiés par notaire.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="2-2" data-phase="phase-2">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('2-2')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('2-2')">Déposer le capital social sur un compte de consignation bancaire</div>
+<div class="cl-desc">Ouvrir un compte de consignation auprès d'une banque suisse (PostFinance, UBS, Raiffeisen, banque cantonale…). Déposer le capital libéré (min. CHF 20 000 pour Sàrl). La banque émet une attestation de dépôt remise au notaire.</div>
+<div class="cl-tags"><span class="cl-tag tag-finance">Finance</span><span class="cl-tag tag-admin">Admin</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="2-3" data-phase="phase-2">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('2-3')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('2-3')">Acte constitutif devant notaire</div>
+<div class="cl-desc">Signature de l'acte de constitution en présence d'un notaire suisse. Fournir : statuts, pièces d'identité de tous les associés, attestation de dépôt bancaire, liste des gérants et des ayants droit économiques.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="2-4" data-phase="phase-2">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('2-4')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('2-4')">Inscription au Registre du Commerce cantonal (RC)</div>
+<div class="cl-desc">Le notaire transmet le dossier au Registre du Commerce. Publication dans la Feuille Officielle Suisse du Commerce (FOSC). Délai habituel : 5 à 10 jours ouvrés. Obtenus : numéro IDE (CHE-xxx.xxx.xxx) et extrait RC.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-admin">Admin</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="2-5" data-phase="phase-2">
+<div class="cl-priority pri-2"></div>
+<div class="cl-check" onclick="toggle('2-5')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('2-5')">Rédiger et signer le pacte d'actionnaires (shareholders agreement)</div>
+<div class="cl-desc">Document confidentiel (hors RC) définissant les droits et obligations des associés : clauses de non-concurrence, drag-along, tag-along, conditions de sortie, vesting si applicable. Complémentaire aux statuts.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-rh">RH</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="2-6" data-phase="phase-2">
+<div class="cl-priority pri-2"></div>
+<div class="cl-check" onclick="toggle('2-6')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('2-6')">Obtenir le déblocage du compte de consignation → compte courant</div>
+<div class="cl-desc">Après l'inscription au RC, soumettre l'extrait à la banque pour convertir le compte de consignation en compte bancaire opérationnel au nom de la société. Les fonds sont alors disponibles.</div>
+<div class="cl-tags"><span class="cl-tag tag-finance">Finance</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="phase" id="phase-3">
+<div class="phase-header" onclick="togglePhase('phase-3')">
+<span class="phase-number">Phase 03</span>
+<span class="phase-title">Obligations Fiscales &amp; Sociales</span>
+<span class="phase-meta">Post-inscription — Obligations légales</span>
+<span class="phase-count" id="count-phase-3">0/6</span>
+<span class="phase-toggle">▾</span>
+</div>
+<div class="phase-body">
+<div class="phase-note">À réaliser dans les 30 jours suivant l'inscription au RC sous peine de pénalités.</div>
+<div class="cl-item" data-id="3-1" data-phase="phase-3">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('3-1')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('3-1')">S'inscrire à l'Administration Fiscale cantonale (impôts sociétés)</div>
+<div class="cl-desc">Déclaration d'existence auprès de l'autorité fiscale cantonale. Obligatoire dès l'immatriculation. Fournir extrait RC, statuts, liste des associés et gérants.</div>
+<div class="cl-tags"><span class="cl-tag tag-finance">Finance</span><span class="cl-tag tag-admin">Admin</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="3-2" data-phase="phase-3">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('3-2')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('3-2')">S'inscrire à la TVA (taxe sur la valeur ajoutée)</div>
+<div class="cl-desc">Inscription obligatoire si le chiffre d'affaires annuel prévisible dépasse CHF 100 000. Démarche en ligne sur le portail AFC (admin.ch). Taux standard : 8,1 %. Obtenir un numéro TVA (CHE-xxx.xxx.xxx TVA).</div>
+<div class="cl-tags"><span class="cl-tag tag-finance">Finance</span><span class="cl-tag tag-legal">Juridique</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="3-3" data-phase="phase-3">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('3-3')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('3-3')">S'affilier à une caisse de compensation AVS/AI/APG</div>
+<div class="cl-desc">Toute société employant des salariés (ou ses gérants rémunérés) doit s'affilier à une caisse AVS. Possibilité de choisir la caisse cantonale ou une caisse interprofessionnelle. Cotisations totales ≈ 10,6 % du salaire brut (part employeur + salarié).</div>
+<div class="cl-tags"><span class="cl-tag tag-rh">RH</span><span class="cl-tag tag-legal">Juridique</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="3-4" data-phase="phase-3">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('3-4')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('3-4')">S'affilier à une institution de prévoyance professionnelle (LPP / 2e pilier)</div>
+<div class="cl-desc">Obligatoire pour les employés dont le salaire annuel dépasse CHF 22 050. Choisir une fondation collective (Allianz, Swiss Life, AXA, Fondation collective LPP…). À négocier en fonction des profils salariaux de l'équipe.</div>
+<div class="cl-tags"><span class="cl-tag tag-rh">RH</span><span class="cl-tag tag-legal">Juridique</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="3-5" data-phase="phase-3">
+<div class="cl-priority pri-2"></div>
+<div class="cl-check" onclick="toggle('3-5')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('3-5')">Souscrire une assurance accidents obligatoire (LAA)</div>
+<div class="cl-desc">Obligatoire dès le premier salarié. Couvre les accidents professionnels et non professionnels (si travail &gt; 8h/semaine). Contacter SUVA ou un assureur privé autorisé. Prévoir également RC professionnelle et assurance cyber.</div>
+<div class="cl-tags"><span class="cl-tag tag-rh">RH</span><span class="cl-tag tag-admin">Admin</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="3-6" data-phase="phase-3">
+<div class="cl-priority pri-3"></div>
+<div class="cl-check" onclick="toggle('3-6')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('3-6')">Mettre en place une comptabilité conforme au CO suisse</div>
+<div class="cl-desc">Désigner un fiduciaire ou logiciel comptable agréé (Bexio, Abacus, Sage 50). La loi suisse impose une comptabilité en partie double pour les Sàrl/SA. Exercice calé sur l'année civile ou à définir dans les statuts.</div>
+<div class="cl-tags"><span class="cl-tag tag-finance">Finance</span><span class="cl-tag tag-admin">Admin</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="phase" id="phase-4">
+<div class="phase-header" onclick="togglePhase('phase-4')">
+<span class="phase-number">Phase 04</span>
+<span class="phase-title">Domaine, Marque &amp; Protection IP</span>
+<span class="phase-meta">Identité numérique &amp; propriété intellectuelle</span>
+<span class="phase-count" id="count-phase-4">0/5</span>
+<span class="phase-toggle">▾</span>
+</div>
+<div class="phase-body">
+<div class="cl-item" data-id="4-1" data-phase="phase-4">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('4-1')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('4-1')">Réserver le nom de domaine myeod.ch auprès de SWITCH</div>
+<div class="cl-desc">SWITCH est le registre officiel des domaines .ch. Enregistrement via un bureau d'enregistrement agréé (Infomaniak, Hostpoint, Cloudflare…). Coût : ≈ CHF 15/an. Vérifier aussi myeod.com, myeod.fr, myeod.eu pour cohérence internationale.</div>
+<div class="cl-tags"><span class="cl-tag tag-tech">Tech</span><span class="cl-tag tag-legal">Juridique</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="4-2" data-phase="phase-4">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('4-2')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('4-2')">Déposer la marque "MyEOD" auprès de l'IPI (Institut Fédéral de la Propriété Intellectuelle)</div>
+<div class="cl-desc">Dépôt en ligne sur ipi.ch. Choisir les classes Nice pertinentes (ex : classe 35 services aux entreprises, classe 42 ingénierie/conseil, classe 38 services de communication). Taxe de base : CHF 550 pour 3 classes. Durée de protection : 10 ans renouvelables.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="4-3" data-phase="phase-4">
+<div class="cl-priority pri-2"></div>
+<div class="cl-check" onclick="toggle('4-3')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('4-3')">Envisager un dépôt de marque international (OMPI / Madrid Protocol)</div>
+<div class="cl-desc">Si MyEOD opère en Europe et à l'international, envisager une extension via le système de Madrid (OMPI). Coûts variables selon les pays désignés. À planifier dans les 6 mois suivant le dépôt suisse.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-com">Com</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="4-4" data-phase="phase-4">
+<div class="cl-priority pri-2"></div>
+<div class="cl-check" onclick="toggle('4-4')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('4-4')">Transférer les droits sur le logo et la charte graphique (Studio Alizé → MyEOD)</div>
+<div class="cl-desc">Formaliser par contrat de cession de droits d'auteur l'ensemble des créations visuelles réalisées par Studio Alizé pour MyEOD (logo, charte, pictogrammes). Préciser le périmètre, les territoires et la durée. Document à archiver.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-com">Com</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="4-5" data-phase="phase-4">
+<div class="cl-priority pri-3"></div>
+<div class="cl-check" onclick="toggle('4-5')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('4-5')">Protéger le code source de la plateforme MyEOD (dépôt APP ou horodatage)</div>
+<div class="cl-desc">Le code source est protégé par le droit d'auteur dès sa création, mais il est recommandé de procéder à un dépôt chez un huissier (France) ou via un service d'horodatage qualifié pour constituer une preuve d'antériorité opposable.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-tech">Tech</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="phase" id="phase-5">
+<div class="phase-header" onclick="togglePhase('phase-5')">
+<span class="phase-number">Phase 05</span>
+<span class="phase-title">Infrastructure Technique &amp; Données</span>
+<span class="phase-meta">Hébergement, emails, conformité nLPD</span>
+<span class="phase-count" id="count-phase-5">0/6</span>
+<span class="phase-toggle">▾</span>
+</div>
+<div class="phase-body">
+<div class="phase-note">La Suisse applique la nLPD (nouvelle Loi sur la Protection des Données, en vigueur depuis sept. 2023), similaire au RGPD européen. L'hébergement en Suisse est fortement recommandé pour la clientèle O&amp;G internationale.</div>
+<div class="cl-item" data-id="5-1" data-phase="phase-5">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('5-1')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('5-1')">Choisir un hébergeur suisse certifié ISO 27001</div>
+<div class="cl-desc">Recommandations : Infomaniak (Genève, énergie renouvelable), Exoscale, Nine.ch, ou Cloudflare avec data centers CH. Vérifier la localisation effective des données (data résidency) et les garanties contractuelles de confidentialité.</div>
+<div class="cl-tags"><span class="cl-tag tag-tech">Tech</span><span class="cl-tag tag-legal">Juridique</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="5-2" data-phase="phase-5">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('5-2')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('5-2')">Configurer les emails professionnels @myeod.ch</div>
+<div class="cl-desc">Mettre en place les adresses email sur le domaine myeod.ch (ex : regis@myeod.ch, pascal@myeod.ch…). Configurer SPF, DKIM et DMARC. Utiliser un service professionnel : Microsoft 365, Google Workspace, ou ProtonMail Business (hébergé en Suisse).</div>
+<div class="cl-tags"><span class="cl-tag tag-tech">Tech</span><span class="cl-tag tag-admin">Admin</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="5-3" data-phase="phase-5">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('5-3')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('5-3')">Nommer un Responsable de la Protection des Données (RPD / DPO)</div>
+<div class="cl-desc">La nLPD impose la désignation d'un RPD si le traitement de données est à grande échelle ou concerne des données sensibles. Ce rôle peut être assuré en interne (Christelle) ou externalisé. Déclarer le RPD auprès du PFPDT si applicable.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-rh">RH</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="5-4" data-phase="phase-5">
+<div class="cl-priority pri-2"></div>
+<div class="cl-check" onclick="toggle('5-4')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('5-4')">Rédiger la Politique de Confidentialité (Privacy Policy) conforme nLPD/RGPD</div>
+<div class="cl-desc">Document obligatoire décrivant les données collectées, leur finalité, leur durée de conservation, les droits des utilisateurs, les transferts internationaux. À publier sur myeod.ch et dans la plateforme portail. Mentionner la base légale suisse (nLPD) et européenne (RGPD) si clients UE.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-tech">Tech</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="5-5" data-phase="phase-5">
+<div class="cl-priority pri-2"></div>
+<div class="cl-check" onclick="toggle('5-5')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('5-5')">Mettre en place un registre des activités de traitement</div>
+<div class="cl-desc">Inventaire de tous les traitements de données personnelles effectués par MyEOD : données experts, données clients, données de facturation, données d'usage de la plateforme. Obligatoire sous nLPD pour les entreprises au-delà d'un certain seuil.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="5-6" data-phase="phase-5">
+<div class="cl-priority pri-3"></div>
+<div class="cl-check" onclick="toggle('5-6')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('5-6')">Configurer les sauvegardes et le plan de reprise d'activité (PRA)</div>
+<div class="cl-desc">Mettre en place des sauvegardes automatiques chiffrées (idéalement hors-site), des procédures de restauration testées, et documenter le RTO/RPO cible. Critique pour une plateforme SaaS B2B dans le secteur O&amp;G.</div>
+<div class="cl-tags"><span class="cl-tag tag-tech">Tech</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="phase" id="phase-6">
+<div class="phase-header" onclick="togglePhase('phase-6')">
+<span class="phase-number">Phase 06</span>
+<span class="phase-title">Documents Contractuels</span>
+<span class="phase-meta">CGU, CGV, NDA, contrats experts</span>
+<span class="phase-count" id="count-phase-6">0/5</span>
+<span class="phase-toggle">▾</span>
+</div>
+<div class="phase-body">
+<div class="cl-item" data-id="6-1" data-phase="phase-6">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('6-1')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('6-1')">Rédiger les Conditions Générales d'Utilisation (CGU) de la plateforme</div>
+<div class="cl-desc">Définissent les règles d'accès et d'utilisation du portail MyEOD pour les utilisateurs (clients et experts). Couvrir : propriété intellectuelle, responsabilités, données personnelles, droit applicable (droit suisse, for à XXX). Version bilingue FR/EN recommandée.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="6-2" data-phase="phase-6">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('6-2')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('6-2')">Rédiger les Conditions Générales de Vente / de Services (CGV/CGS)</div>
+<div class="cl-desc">Encadrent la relation commerciale entre MyEOD et ses clients : tarification, modalités de paiement, délais, responsabilité, clause de force majeure, résiliation. À valider par un juriste suisse ou spécialisé en droit des contrats internationaux.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-finance">Finance</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="6-3" data-phase="phase-6">
+<div class="cl-priority pri-1"></div>
+<div class="cl-check" onclick="toggle('6-3')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('6-3')">Finaliser le modèle NDA (Accord de Confidentialité) MyEOD</div>
+<div class="cl-desc">Déjà développé au sein d'IC — adapter la version pour MyEOD SA/Sàrl Suisse, avec en-tête myeod.ch, références juridiques suisses (CO art. 321a / 418d), et processus de signature électronique (DocuSign, SwissSign).</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="6-4" data-phase="phase-6">
+<div class="cl-priority pri-2"></div>
+<div class="cl-check" onclick="toggle('6-4')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('6-4')">Rédiger le contrat-type Expert / Freelance (Independant Contractor Agreement)</div>
+<div class="cl-desc">Contrat liant MyEOD aux experts du réseau. Couvrir : périmètre de mission, tarification, confidentialité, cession de droits sur les livrables, clause de non-sollicitation. Distinguer le statut selon la nationalité et le pays de résidence de l'expert.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-rh">RH</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="6-5" data-phase="phase-6">
+<div class="cl-priority pri-3"></div>
+<div class="cl-check" onclick="toggle('6-5')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('6-5')">Publier les mentions légales obligatoires sur myeod.ch</div>
+<div class="cl-desc">En Suisse, les mentions légales doivent figurer sur le site web : raison sociale, numéro IDE, adresse du siège, contact, responsable éditorial. Conformément à la LTC (Loi sur les Télécommunications) et aux usages professionnels.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-com">Com</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="phase" id="phase-7">
+<div class="phase-header" onclick="togglePhase('phase-7')">
+<span class="phase-number">Phase 07</span>
+<span class="phase-title">Communication &amp; Lancement</span>
+<span class="phase-meta">Identité, présence externe, go-live</span>
+<span class="phase-count" id="count-phase-7">0/5</span>
+<span class="phase-toggle">▾</span>
+</div>
+<div class="phase-body">
+<div class="cl-item" data-id="7-1" data-phase="phase-7">
+<div class="cl-priority pri-2"></div>
+<div class="cl-check" onclick="toggle('7-1')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('7-1')">Migrer / ouvrir les comptes LinkedIn, email et réseaux sous l'entité myeod.ch</div>
+<div class="cl-desc">Créer la page LinkedIn Company pour MyEOD (entité suisse distincte de IC). Mettre à jour les profils des fondateurs. Configurer les signatures email avec les nouvelles adresses @myeod.ch et les mentions légales suisses.</div>
+<div class="cl-tags"><span class="cl-tag tag-com">Com</span><span class="cl-tag tag-admin">Admin</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="7-2" data-phase="phase-7">
+<div class="cl-priority pri-2"></div>
+<div class="cl-check" onclick="toggle('7-2')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('7-2')">Mettre en ligne le site institutionnel myeod.ch</div>
+<div class="cl-desc">Page de présentation (landing page) a minima : qui sommes-nous, nos services, contact, et mentions légales. Intégrer le certificat SSL, les redirections http→https, et la politique de cookies conforme nLPD.</div>
+<div class="cl-tags"><span class="cl-tag tag-com">Com</span><span class="cl-tag tag-tech">Tech</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="7-3" data-phase="phase-7">
+<div class="cl-priority pri-2"></div>
+<div class="cl-check" onclick="toggle('7-3')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('7-3')">Notifier les partenaires et clients existants de la nouvelle entité suisse</div>
+<div class="cl-desc">Informer les partenaires IC déjà engagés dans des discussions MyEOD de la création de l'entité helvétique, des nouvelles coordonnées et des CGV applicables. Mettre à jour les propositions commerciales en cours.</div>
+<div class="cl-tags"><span class="cl-tag tag-com">Com</span><span class="cl-tag tag-admin">Admin</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="7-4" data-phase="phase-7">
+<div class="cl-priority pri-3"></div>
+<div class="cl-check" onclick="toggle('7-4')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('7-4')">Formaliser la convention entre IC (France) et MyEOD (Suisse)</div>
+<div class="cl-desc">Définir contractuellement les termes de la relation entre Ingénieurs Créatifs (société hébergeante) et MyEOD (entité incubée). Préciser les prestations, la facturation inter-sociétés, les droits sur la propriété intellectuelle développée pendant l'incubation.</div>
+<div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-finance">Finance</span></div>
+</div>
+</div>
+<div class="cl-item" data-id="7-5" data-phase="phase-7">
+<div class="cl-priority pri-3"></div>
+<div class="cl-check" onclick="toggle('7-5')"></div>
+<div class="cl-body">
+<div class="cl-label" onclick="toggle('7-5')">Préparer un kit de lancement institutionnel</div>
+<div class="cl-desc">Compiler : extrait RC, numéro IDE, numéro TVA, coordonnées bancaires, modèle de facture suisse conforme (mention TVA, IBAN CH…), kit de présentation MyEOD. À distribuer en interne et aux premiers clients.</div>
+<div class="cl-tags"><span class="cl-tag tag-com">Com</span><span class="cl-tag tag-admin">Admin</span></div>
+</div>
+</div>
+</div>
+</div>
+    </section>
+
+    <section class="cta no-print">
+      <h2>Checklist prête pour le suivi.</h2>
+      <p>Utilisez les contrôles pour déplier, replier, imprimer ou réinitialiser les actions cochées.</p>
+      <a class="btn" href="#pilotage">Retour au pilotage</a>
+    </section>
+  </main>
+
+
+  <footer class="myeod-footer" role="contentinfo">
+    <div class="myeod-footer-inner">
+      <div class="myeod-footer-brand">
+        <div class="myeod-footer-title">My Expert On Demand</div>
+        <div class="myeod-footer-meta">
+          <span>Une marque représentée par Ingénieurs Créatifs</span>
+          <span class="myeod-footer-countries">France · Suisse</span>
+        </div>
+      </div>
+      <nav class="myeod-footer-links" aria-label="Liens de pied de page">
+        <a href="services.html">Services</a>
+        <a href="acces-client.html">Accès clients</a>
+        <a href="acces-collaborateurs.html">Accès collaborateurs</a>
+        <a href="mentions-legales-impressum.html">Mentions légales / Impressum</a>
+        <a href="protection-donnees.html">Protection des données</a>
+        <a href="cookies.html#preferences">Cookies</a>
+        <a href="conditions-generales.html">Conditions générales</a>
+        <a href="reclamation-mediation.html">Réclamation / Médiation</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="myeod-footer-bottom">
+        <span>© 2026 MyEOD</span>
+        <span>Tous droits réservés</span>
+      </div>
     </div>
-    <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-  </div>
+  </footer>
 
-  <!-- CONTROLS -->
-  <div class="controls no-print">
-    <button class="btn btn-ghost" onclick="expandAll()">Tout déplier</button>
-    <button class="btn btn-ghost" onclick="collapseAll()">Tout replier</button>
-    <button class="btn btn-ghost" onclick="window.print()">Imprimer</button>
-    <button class="btn btn-gold" onclick="resetAll()">Réinitialiser</button>
-  </div>
-
-  <!-- LEGEND -->
-  <div class="legend no-print">
-    <span class="legend-item"><span class="legend-dot" style="background:var(--p1)"></span> Critique</span>
-    <span class="legend-item"><span class="legend-dot" style="background:var(--p2)"></span> Important</span>
-    <span class="legend-item"><span class="legend-dot" style="background:var(--p3)"></span> Standard</span>
-    <span style="width:1px;background:var(--border);margin:0 4px;align-self:stretch;"></span>
-    <span class="cl-tag tag-legal" style="font-size:8px;">Juridique</span>
-    <span class="cl-tag tag-admin" style="font-size:8px;">Admin</span>
-    <span class="cl-tag tag-tech" style="font-size:8px;">Tech</span>
-    <span class="cl-tag tag-finance" style="font-size:8px;">Finance</span>
-    <span class="cl-tag tag-com" style="font-size:8px;">Com</span>
-    <span class="cl-tag tag-rh" style="font-size:8px;">RH</span>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       PHASE 1 — PRÉPARATION & STRATÉGIE
-  ══════════════════════════════════════════════════════════ -->
-  <div class="phase" id="phase-1">
-    <div class="phase-header" onclick="togglePhase('phase-1')">
-      <span class="phase-number">Phase 01</span>
-      <span class="phase-title">Préparation & Stratégie</span>
-      <span class="phase-meta">Avant constitution — Fondements</span>
-      <span class="phase-count" id="count-phase-1">0/6</span>
-      <span class="phase-toggle">▾</span>
-    </div>
-    <div class="phase-body">
-      <div class="phase-note">Décisions fondatrices à prendre en équipe (Régis, Pascal, Jean-Marie, Christelle) avant toute démarche officielle.</div>
-
-      <div class="cl-item" data-id="1-1" data-phase="phase-1">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('1-1')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('1-1')">Définir la forme juridique cible en Suisse</div>
-          <div class="cl-desc">Choisir entre Sàrl (GmbH) ou SA en fonction des apports, de la gouvernance souhaitée et des besoins de levée de fonds. La Sàrl est recommandée pour un démarrage avec 4 associés. Capital minimum : CHF 20 000 (Sàrl) ou CHF 100 000 (SA).</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-finance">Finance</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="1-2" data-phase="phase-1">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('1-2')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('1-2')">Définir la répartition des parts sociales entre fondateurs</div>
-          <div class="cl-desc">Accord entre Régis, Pascal, Jean-Marie et Christelle sur le pourcentage de chacun, les droits de vote, et les conditions de rachat/sortie. Documenter dans un pacte d'actionnaires (shareholders agreement).</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-rh">RH</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="1-3" data-phase="phase-1">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('1-3')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('1-3')">Vérifier la disponibilité du nom "MyEOD" en Suisse</div>
-          <div class="cl-desc">Consulter le registre ZEFIX (zefix.ch) pour vérifier qu'aucune société suisse n'utilise déjà ce nom ou un nom similaire. Vérifier également la disponibilité de la marque auprès de l'IPI (Institut Fédéral de la Propriété Intellectuelle).</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-admin">Admin</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="1-4" data-phase="phase-1">
-        <div class="cl-priority pri-2"></div>
-        <div class="cl-check" onclick="toggle('1-4')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('1-4')">Choisir le canton et la commune de domiciliation</div>
-          <div class="cl-desc">Comparer la fiscalité cantonale (Zoug, Vaud, Genève, Neuchâtel…). Le canton de Zoug est fiscalement attractif. Prévoir une adresse commerciale valide en Suisse — possibilité de recourir à un prestataire de domiciliation.</div>
-          <div class="cl-tags"><span class="cl-tag tag-admin">Admin</span><span class="cl-tag tag-finance">Finance</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="1-5" data-phase="phase-1">
-        <div class="cl-priority pri-2"></div>
-        <div class="cl-check" onclick="toggle('1-5')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('1-5')">Consulter un avocat ou fiduciaire suisse spécialisé en création de société</div>
-          <div class="cl-desc">Engagement d'un professionnel local pour accompagner les démarches notariales et administratives. Prévoir un budget de CHF 2 000 à 5 000 pour cette phase conseil.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="1-6" data-phase="phase-1">
-        <div class="cl-priority pri-3"></div>
-        <div class="cl-check" onclick="toggle('1-6')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('1-6')">Préparer le business plan MyEOD version Suisse</div>
-          <div class="cl-desc">Adapter le BP existant au contexte helvétique : marché cible, modèle de tarification en CHF, prévisions financières sur 3 ans, stratégie d'entrée. Document nécessaire pour l'ouverture de compte bancaire.</div>
-          <div class="cl-tags"><span class="cl-tag tag-finance">Finance</span><span class="cl-tag tag-com">Com</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       PHASE 2 — CONSTITUTION JURIDIQUE
-  ══════════════════════════════════════════════════════════ -->
-  <div class="phase" id="phase-2">
-    <div class="phase-header" onclick="togglePhase('phase-2')">
-      <span class="phase-number">Phase 02</span>
-      <span class="phase-title">Constitution Juridique</span>
-      <span class="phase-meta">Notaire & Registre du Commerce</span>
-      <span class="phase-count" id="count-phase-2">0/6</span>
-      <span class="phase-toggle">▾</span>
-    </div>
-    <div class="phase-body">
-      <div class="phase-note">Étapes officielles et irréversibles. Nécessitent la présence (ou la procuration notariée) de tous les associés fondateurs.</div>
-
-      <div class="cl-item" data-id="2-1" data-phase="phase-2">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('2-1')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('2-1')">Rédiger les statuts de la société (Sàrl/SA)</div>
-          <div class="cl-desc">Les statuts définissent l'objet social, le capital, les organes de direction, les règles de cession de parts, etc. Doivent être rédigés en français ou en allemand selon le canton, et authentifiés par notaire.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="2-2" data-phase="phase-2">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('2-2')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('2-2')">Déposer le capital social sur un compte de consignation bancaire</div>
-          <div class="cl-desc">Ouvrir un compte de consignation auprès d'une banque suisse (PostFinance, UBS, Raiffeisen, banque cantonale…). Déposer le capital libéré (min. CHF 20 000 pour Sàrl). La banque émet une attestation de dépôt remise au notaire.</div>
-          <div class="cl-tags"><span class="cl-tag tag-finance">Finance</span><span class="cl-tag tag-admin">Admin</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="2-3" data-phase="phase-2">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('2-3')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('2-3')">Acte constitutif devant notaire</div>
-          <div class="cl-desc">Signature de l'acte de constitution en présence d'un notaire suisse. Fournir : statuts, pièces d'identité de tous les associés, attestation de dépôt bancaire, liste des gérants et des ayants droit économiques.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="2-4" data-phase="phase-2">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('2-4')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('2-4')">Inscription au Registre du Commerce cantonal (RC)</div>
-          <div class="cl-desc">Le notaire transmet le dossier au Registre du Commerce. Publication dans la Feuille Officielle Suisse du Commerce (FOSC). Délai habituel : 5 à 10 jours ouvrés. Obtenus : numéro IDE (CHE-xxx.xxx.xxx) et extrait RC.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-admin">Admin</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="2-5" data-phase="phase-2">
-        <div class="cl-priority pri-2"></div>
-        <div class="cl-check" onclick="toggle('2-5')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('2-5')">Rédiger et signer le pacte d'actionnaires (shareholders agreement)</div>
-          <div class="cl-desc">Document confidentiel (hors RC) définissant les droits et obligations des associés : clauses de non-concurrence, drag-along, tag-along, conditions de sortie, vesting si applicable. Complémentaire aux statuts.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-rh">RH</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="2-6" data-phase="phase-2">
-        <div class="cl-priority pri-2"></div>
-        <div class="cl-check" onclick="toggle('2-6')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('2-6')">Obtenir le déblocage du compte de consignation → compte courant</div>
-          <div class="cl-desc">Après l'inscription au RC, soumettre l'extrait à la banque pour convertir le compte de consignation en compte bancaire opérationnel au nom de la société. Les fonds sont alors disponibles.</div>
-          <div class="cl-tags"><span class="cl-tag tag-finance">Finance</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       PHASE 3 — OBLIGATIONS FISCALES & SOCIALES
-  ══════════════════════════════════════════════════════════ -->
-  <div class="phase" id="phase-3">
-    <div class="phase-header" onclick="togglePhase('phase-3')">
-      <span class="phase-number">Phase 03</span>
-      <span class="phase-title">Obligations Fiscales & Sociales</span>
-      <span class="phase-meta">Post-inscription — Obligations légales</span>
-      <span class="phase-count" id="count-phase-3">0/6</span>
-      <span class="phase-toggle">▾</span>
-    </div>
-    <div class="phase-body">
-      <div class="phase-note">À réaliser dans les 30 jours suivant l'inscription au RC sous peine de pénalités.</div>
-
-      <div class="cl-item" data-id="3-1" data-phase="phase-3">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('3-1')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('3-1')">S'inscrire à l'Administration Fiscale cantonale (impôts sociétés)</div>
-          <div class="cl-desc">Déclaration d'existence auprès de l'autorité fiscale cantonale. Obligatoire dès l'immatriculation. Fournir extrait RC, statuts, liste des associés et gérants.</div>
-          <div class="cl-tags"><span class="cl-tag tag-finance">Finance</span><span class="cl-tag tag-admin">Admin</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="3-2" data-phase="phase-3">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('3-2')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('3-2')">S'inscrire à la TVA (taxe sur la valeur ajoutée)</div>
-          <div class="cl-desc">Inscription obligatoire si le chiffre d'affaires annuel prévisible dépasse CHF 100 000. Démarche en ligne sur le portail AFC (admin.ch). Taux standard : 8,1 %. Obtenir un numéro TVA (CHE-xxx.xxx.xxx TVA).</div>
-          <div class="cl-tags"><span class="cl-tag tag-finance">Finance</span><span class="cl-tag tag-legal">Juridique</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="3-3" data-phase="phase-3">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('3-3')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('3-3')">S'affilier à une caisse de compensation AVS/AI/APG</div>
-          <div class="cl-desc">Toute société employant des salariés (ou ses gérants rémunérés) doit s'affilier à une caisse AVS. Possibilité de choisir la caisse cantonale ou une caisse interprofessionnelle. Cotisations totales ≈ 10,6 % du salaire brut (part employeur + salarié).</div>
-          <div class="cl-tags"><span class="cl-tag tag-rh">RH</span><span class="cl-tag tag-legal">Juridique</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="3-4" data-phase="phase-3">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('3-4')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('3-4')">S'affilier à une institution de prévoyance professionnelle (LPP / 2e pilier)</div>
-          <div class="cl-desc">Obligatoire pour les employés dont le salaire annuel dépasse CHF 22 050. Choisir une fondation collective (Allianz, Swiss Life, AXA, Fondation collective LPP…). À négocier en fonction des profils salariaux de l'équipe.</div>
-          <div class="cl-tags"><span class="cl-tag tag-rh">RH</span><span class="cl-tag tag-legal">Juridique</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="3-5" data-phase="phase-3">
-        <div class="cl-priority pri-2"></div>
-        <div class="cl-check" onclick="toggle('3-5')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('3-5')">Souscrire une assurance accidents obligatoire (LAA)</div>
-          <div class="cl-desc">Obligatoire dès le premier salarié. Couvre les accidents professionnels et non professionnels (si travail &gt; 8h/semaine). Contacter SUVA ou un assureur privé autorisé. Prévoir également RC professionnelle et assurance cyber.</div>
-          <div class="cl-tags"><span class="cl-tag tag-rh">RH</span><span class="cl-tag tag-admin">Admin</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="3-6" data-phase="phase-3">
-        <div class="cl-priority pri-3"></div>
-        <div class="cl-check" onclick="toggle('3-6')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('3-6')">Mettre en place une comptabilité conforme au CO suisse</div>
-          <div class="cl-desc">Désigner un fiduciaire ou logiciel comptable agréé (Bexio, Abacus, Sage 50). La loi suisse impose une comptabilité en partie double pour les Sàrl/SA. Exercice calé sur l'année civile ou à définir dans les statuts.</div>
-          <div class="cl-tags"><span class="cl-tag tag-finance">Finance</span><span class="cl-tag tag-admin">Admin</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       PHASE 4 — DOMAINE, MARQUE & PROTECTION IP
-  ══════════════════════════════════════════════════════════ -->
-  <div class="phase" id="phase-4">
-    <div class="phase-header" onclick="togglePhase('phase-4')">
-      <span class="phase-number">Phase 04</span>
-      <span class="phase-title">Domaine, Marque & Protection IP</span>
-      <span class="phase-meta">Identité numérique & propriété intellectuelle</span>
-      <span class="phase-count" id="count-phase-4">0/5</span>
-      <span class="phase-toggle">▾</span>
-    </div>
-    <div class="phase-body">
-
-      <div class="cl-item" data-id="4-1" data-phase="phase-4">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('4-1')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('4-1')">Réserver le nom de domaine myeod.ch auprès de SWITCH</div>
-          <div class="cl-desc">SWITCH est le registre officiel des domaines .ch. Enregistrement via un bureau d'enregistrement agréé (Infomaniak, Hostpoint, Cloudflare…). Coût : ≈ CHF 15/an. Vérifier aussi myeod.com, myeod.fr, myeod.eu pour cohérence internationale.</div>
-          <div class="cl-tags"><span class="cl-tag tag-tech">Tech</span><span class="cl-tag tag-legal">Juridique</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="4-2" data-phase="phase-4">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('4-2')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('4-2')">Déposer la marque "MyEOD" auprès de l'IPI (Institut Fédéral de la Propriété Intellectuelle)</div>
-          <div class="cl-desc">Dépôt en ligne sur ipi.ch. Choisir les classes Nice pertinentes (ex : classe 35 services aux entreprises, classe 42 ingénierie/conseil, classe 38 services de communication). Taxe de base : CHF 550 pour 3 classes. Durée de protection : 10 ans renouvelables.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="4-3" data-phase="phase-4">
-        <div class="cl-priority pri-2"></div>
-        <div class="cl-check" onclick="toggle('4-3')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('4-3')">Envisager un dépôt de marque international (OMPI / Madrid Protocol)</div>
-          <div class="cl-desc">Si MyEOD opère en Europe et à l'international, envisager une extension via le système de Madrid (OMPI). Coûts variables selon les pays désignés. À planifier dans les 6 mois suivant le dépôt suisse.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-com">Com</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="4-4" data-phase="phase-4">
-        <div class="cl-priority pri-2"></div>
-        <div class="cl-check" onclick="toggle('4-4')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('4-4')">Transférer les droits sur le logo et la charte graphique (Studio Alizé → MyEOD)</div>
-          <div class="cl-desc">Formaliser par contrat de cession de droits d'auteur l'ensemble des créations visuelles réalisées par Studio Alizé pour MyEOD (logo, charte, pictogrammes). Préciser le périmètre, les territoires et la durée. Document à archiver.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-com">Com</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="4-5" data-phase="phase-4">
-        <div class="cl-priority pri-3"></div>
-        <div class="cl-check" onclick="toggle('4-5')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('4-5')">Protéger le code source de la plateforme MyEOD (dépôt APP ou horodatage)</div>
-          <div class="cl-desc">Le code source est protégé par le droit d'auteur dès sa création, mais il est recommandé de procéder à un dépôt chez un huissier (France) ou via un service d'horodatage qualifié pour constituer une preuve d'antériorité opposable.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-tech">Tech</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       PHASE 5 — INFRASTRUCTURE TECHNIQUE & DONNÉES
-  ══════════════════════════════════════════════════════════ -->
-  <div class="phase" id="phase-5">
-    <div class="phase-header" onclick="togglePhase('phase-5')">
-      <span class="phase-number">Phase 05</span>
-      <span class="phase-title">Infrastructure Technique & Données</span>
-      <span class="phase-meta">Hébergement, emails, conformité nLPD</span>
-      <span class="phase-count" id="count-phase-5">0/6</span>
-      <span class="phase-toggle">▾</span>
-    </div>
-    <div class="phase-body">
-      <div class="phase-note">La Suisse applique la nLPD (nouvelle Loi sur la Protection des Données, en vigueur depuis sept. 2023), similaire au RGPD européen. L'hébergement en Suisse est fortement recommandé pour la clientèle O&G internationale.</div>
-
-      <div class="cl-item" data-id="5-1" data-phase="phase-5">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('5-1')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('5-1')">Choisir un hébergeur suisse certifié ISO 27001</div>
-          <div class="cl-desc">Recommandations : Infomaniak (Genève, énergie renouvelable), Exoscale, Nine.ch, ou Cloudflare avec data centers CH. Vérifier la localisation effective des données (data résidency) et les garanties contractuelles de confidentialité.</div>
-          <div class="cl-tags"><span class="cl-tag tag-tech">Tech</span><span class="cl-tag tag-legal">Juridique</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="5-2" data-phase="phase-5">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('5-2')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('5-2')">Configurer les emails professionnels @myeod.ch</div>
-          <div class="cl-desc">Mettre en place les adresses email sur le domaine myeod.ch (ex : regis@myeod.ch, pascal@myeod.ch…). Configurer SPF, DKIM et DMARC. Utiliser un service professionnel : Microsoft 365, Google Workspace, ou ProtonMail Business (hébergé en Suisse).</div>
-          <div class="cl-tags"><span class="cl-tag tag-tech">Tech</span><span class="cl-tag tag-admin">Admin</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="5-3" data-phase="phase-5">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('5-3')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('5-3')">Nommer un Responsable de la Protection des Données (RPD / DPO)</div>
-          <div class="cl-desc">La nLPD impose la désignation d'un RPD si le traitement de données est à grande échelle ou concerne des données sensibles. Ce rôle peut être assuré en interne (Christelle) ou externalisé. Déclarer le RPD auprès du PFPDT si applicable.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-rh">RH</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="5-4" data-phase="phase-5">
-        <div class="cl-priority pri-2"></div>
-        <div class="cl-check" onclick="toggle('5-4')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('5-4')">Rédiger la Politique de Confidentialité (Privacy Policy) conforme nLPD/RGPD</div>
-          <div class="cl-desc">Document obligatoire décrivant les données collectées, leur finalité, leur durée de conservation, les droits des utilisateurs, les transferts internationaux. À publier sur myeod.ch et dans la plateforme portail. Mentionner la base légale suisse (nLPD) et européenne (RGPD) si clients UE.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-tech">Tech</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="5-5" data-phase="phase-5">
-        <div class="cl-priority pri-2"></div>
-        <div class="cl-check" onclick="toggle('5-5')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('5-5')">Mettre en place un registre des activités de traitement</div>
-          <div class="cl-desc">Inventaire de tous les traitements de données personnelles effectués par MyEOD : données experts, données clients, données de facturation, données d'usage de la plateforme. Obligatoire sous nLPD pour les entreprises au-delà d'un certain seuil.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="5-6" data-phase="phase-5">
-        <div class="cl-priority pri-3"></div>
-        <div class="cl-check" onclick="toggle('5-6')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('5-6')">Configurer les sauvegardes et le plan de reprise d'activité (PRA)</div>
-          <div class="cl-desc">Mettre en place des sauvegardes automatiques chiffrées (idéalement hors-site), des procédures de restauration testées, et documenter le RTO/RPO cible. Critique pour une plateforme SaaS B2B dans le secteur O&G.</div>
-          <div class="cl-tags"><span class="cl-tag tag-tech">Tech</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       PHASE 6 — DOCUMENTS CONTRACTUELS
-  ══════════════════════════════════════════════════════════ -->
-  <div class="phase" id="phase-6">
-    <div class="phase-header" onclick="togglePhase('phase-6')">
-      <span class="phase-number">Phase 06</span>
-      <span class="phase-title">Documents Contractuels</span>
-      <span class="phase-meta">CGU, CGV, NDA, contrats experts</span>
-      <span class="phase-count" id="count-phase-6">0/5</span>
-      <span class="phase-toggle">▾</span>
-    </div>
-    <div class="phase-body">
-
-      <div class="cl-item" data-id="6-1" data-phase="phase-6">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('6-1')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('6-1')">Rédiger les Conditions Générales d'Utilisation (CGU) de la plateforme</div>
-          <div class="cl-desc">Définissent les règles d'accès et d'utilisation du portail MyEOD pour les utilisateurs (clients et experts). Couvrir : propriété intellectuelle, responsabilités, données personnelles, droit applicable (droit suisse, for à XXX). Version bilingue FR/EN recommandée.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="6-2" data-phase="phase-6">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('6-2')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('6-2')">Rédiger les Conditions Générales de Vente / de Services (CGV/CGS)</div>
-          <div class="cl-desc">Encadrent la relation commerciale entre MyEOD et ses clients : tarification, modalités de paiement, délais, responsabilité, clause de force majeure, résiliation. À valider par un juriste suisse ou spécialisé en droit des contrats internationaux.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-finance">Finance</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="6-3" data-phase="phase-6">
-        <div class="cl-priority pri-1"></div>
-        <div class="cl-check" onclick="toggle('6-3')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('6-3')">Finaliser le modèle NDA (Accord de Confidentialité) MyEOD</div>
-          <div class="cl-desc">Déjà développé au sein d'IC — adapter la version pour MyEOD SA/Sàrl Suisse, avec en-tête myeod.ch, références juridiques suisses (CO art. 321a / 418d), et processus de signature électronique (DocuSign, SwissSign).</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="6-4" data-phase="phase-6">
-        <div class="cl-priority pri-2"></div>
-        <div class="cl-check" onclick="toggle('6-4')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('6-4')">Rédiger le contrat-type Expert / Freelance (Independant Contractor Agreement)</div>
-          <div class="cl-desc">Contrat liant MyEOD aux experts du réseau. Couvrir : périmètre de mission, tarification, confidentialité, cession de droits sur les livrables, clause de non-sollicitation. Distinguer le statut selon la nationalité et le pays de résidence de l'expert.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-rh">RH</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="6-5" data-phase="phase-6">
-        <div class="cl-priority pri-3"></div>
-        <div class="cl-check" onclick="toggle('6-5')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('6-5')">Publier les mentions légales obligatoires sur myeod.ch</div>
-          <div class="cl-desc">En Suisse, les mentions légales doivent figurer sur le site web : raison sociale, numéro IDE, adresse du siège, contact, responsable éditorial. Conformément à la LTC (Loi sur les Télécommunications) et aux usages professionnels.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-com">Com</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       PHASE 7 — COMMUNICATION & LANCEMENT
-  ══════════════════════════════════════════════════════════ -->
-  <div class="phase" id="phase-7">
-    <div class="phase-header" onclick="togglePhase('phase-7')">
-      <span class="phase-number">Phase 07</span>
-      <span class="phase-title">Communication & Lancement</span>
-      <span class="phase-meta">Identité, présence externe, go-live</span>
-      <span class="phase-count" id="count-phase-7">0/5</span>
-      <span class="phase-toggle">▾</span>
-    </div>
-    <div class="phase-body">
-
-      <div class="cl-item" data-id="7-1" data-phase="phase-7">
-        <div class="cl-priority pri-2"></div>
-        <div class="cl-check" onclick="toggle('7-1')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('7-1')">Migrer / ouvrir les comptes LinkedIn, email et réseaux sous l'entité myeod.ch</div>
-          <div class="cl-desc">Créer la page LinkedIn Company pour MyEOD (entité suisse distincte de IC). Mettre à jour les profils des fondateurs. Configurer les signatures email avec les nouvelles adresses @myeod.ch et les mentions légales suisses.</div>
-          <div class="cl-tags"><span class="cl-tag tag-com">Com</span><span class="cl-tag tag-admin">Admin</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="7-2" data-phase="phase-7">
-        <div class="cl-priority pri-2"></div>
-        <div class="cl-check" onclick="toggle('7-2')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('7-2')">Mettre en ligne le site institutionnel myeod.ch</div>
-          <div class="cl-desc">Page de présentation (landing page) a minima : qui sommes-nous, nos services, contact, et mentions légales. Intégrer le certificat SSL, les redirections http→https, et la politique de cookies conforme nLPD.</div>
-          <div class="cl-tags"><span class="cl-tag tag-com">Com</span><span class="cl-tag tag-tech">Tech</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="7-3" data-phase="phase-7">
-        <div class="cl-priority pri-2"></div>
-        <div class="cl-check" onclick="toggle('7-3')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('7-3')">Notifier les partenaires et clients existants de la nouvelle entité suisse</div>
-          <div class="cl-desc">Informer les partenaires IC déjà engagés dans des discussions MyEOD de la création de l'entité helvétique, des nouvelles coordonnées et des CGV applicables. Mettre à jour les propositions commerciales en cours.</div>
-          <div class="cl-tags"><span class="cl-tag tag-com">Com</span><span class="cl-tag tag-admin">Admin</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="7-4" data-phase="phase-7">
-        <div class="cl-priority pri-3"></div>
-        <div class="cl-check" onclick="toggle('7-4')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('7-4')">Formaliser la convention entre IC (France) et MyEOD (Suisse)</div>
-          <div class="cl-desc">Définir contractuellement les termes de la relation entre Ingénieurs Créatifs (société hébergeante) et MyEOD (entité incubée). Préciser les prestations, la facturation inter-sociétés, les droits sur la propriété intellectuelle développée pendant l'incubation.</div>
-          <div class="cl-tags"><span class="cl-tag tag-legal">Juridique</span><span class="cl-tag tag-finance">Finance</span></div>
-        </div>
-      </div>
-
-      <div class="cl-item" data-id="7-5" data-phase="phase-7">
-        <div class="cl-priority pri-3"></div>
-        <div class="cl-check" onclick="toggle('7-5')"></div>
-        <div class="cl-body">
-          <div class="cl-label" onclick="toggle('7-5')">Préparer un kit de lancement institutionnel</div>
-          <div class="cl-desc">Compiler : extrait RC, numéro IDE, numéro TVA, coordonnées bancaires, modèle de facture suisse conforme (mention TVA, IBAN CH…), kit de présentation MyEOD. À distribuer en interne et aux premiers clients.</div>
-          <div class="cl-tags"><span class="cl-tag tag-com">Com</span><span class="cl-tag tag-admin">Admin</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div><!-- /page -->
 
 <script>
 // ── Storage key ──────────────────────────────

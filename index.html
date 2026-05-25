@@ -912,6 +912,98 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
   </style>
 
   
+
+  <style>
+    /* === MYEOD FOOTER FRANCE · SUISSE === */
+    #landing-screen { justify-content: space-between; }
+    .landing-content { flex: 1; }
+
+    .myeod-footer {
+      width: 100%;
+      background: #ffffff;
+      border-top: 1px solid var(--gray-100);
+      color: var(--gray-400);
+      font-family: var(--font);
+      padding: 1.25rem 2rem 1.35rem;
+    }
+    .myeod-footer-inner {
+      width: min(100%, 1120px);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      text-align: center;
+    }
+    .myeod-footer-brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.24rem;
+      line-height: 1.5;
+    }
+    .myeod-footer-title {
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+    }
+    .myeod-footer-meta {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.45rem;
+      font-size: 0.56rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+    }
+    .myeod-footer-countries {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+    .myeod-footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.35rem 0.9rem;
+      max-width: 980px;
+      padding-top: 0.1rem;
+    }
+    .myeod-footer-links a {
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 0.56rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .myeod-footer-links a:hover,
+    .myeod-footer-links a:focus-visible {
+      color: var(--gray-600);
+      outline: none;
+    }
+    .myeod-footer-bottom {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.35rem 0.65rem;
+      font-size: 0.52rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-300);
+    }
+    @media (max-width: 600px) {
+      .myeod-footer { padding: 1.2rem 1rem 1.35rem; }
+      .myeod-footer-links { gap: 0.45rem 0.75rem; }
+      .myeod-footer-meta { gap: 0.35rem; }
+    }
+  </style>
+
 </head>
 <body>
 <header class="myeod-header">
@@ -966,8 +1058,33 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
 <span class="landing-card-arrow">→</span>
 </div>
 </div>
-<p class="landing-footer">MyEOD · A brand represented by Ingénieurs Créatifs</p>
 </div>
+<footer class="myeod-footer" role="contentinfo">
+  <div class="myeod-footer-inner">
+    <div class="myeod-footer-brand">
+      <div class="myeod-footer-title">MyEOD · Expert on Demand</div>
+      <div class="myeod-footer-meta">
+        <span>Une marque représentée par Ingénieurs Créatifs</span>
+        <span class="myeod-footer-countries">France · Suisse</span>
+      </div>
+    </div>
+    <nav class="myeod-footer-links" aria-label="Liens de pied de page">
+      <a href="services.html">Services</a>
+      <a href="acces-client.html">Accès clients</a>
+      <a href="acces-collaborateurs.html">Accès collaborateurs</a>
+      <a href="mentions-legales-impressum.html">Mentions légales / Impressum</a>
+      <a href="protection-donnees.html">Protection des données</a>
+      <a href="cookies.html#preferences">Cookies</a>
+      <a href="conditions-generales.html">Conditions générales</a>
+      <a href="reclamation-mediation.html">Réclamation / Médiation</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="myeod-footer-bottom">
+      <span>© 2026 MyEOD</span>
+      <span>Tous droits réservés</span>
+    </div>
+  </div>
+</footer>
 </div>
 </div>
 </body>

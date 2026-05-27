@@ -1094,12 +1094,9 @@
 </table>
 </section>
 <section class="cta" id="contact">
-<h2>Quel service faut-il activer pour votre prochain projet ?</h2>
-<p>
-        Donnez-nous le contexte, l'urgence, le livrable attendu et les contraintes opérationnelles.
-        Nous vous orientons vers la brique MyEOD la plus pertinente.
-      </p>
-<a class="btn" href="mailto:rmo@myexpertondemand.com?subject=MyEOD%20-%20Demande%20services">Contacter MyEOD</a>
+<h2>Venez discuter de vos besoins avec l'un de nos experts</h2>
+<p>Nous vous orientons vers l'expert le plus pertinent selon votre contexte, votre urgence et vos contraintes projet.</p>
+<button class="btn" onclick="openContactModal()">Venez discuter de vos besoins avec l'un de nos experts</button>
 </section>
 </main>
 <footer class="myeod-footer" role="contentinfo">
@@ -1141,5 +1138,57 @@
     window.location.href = fallback;
   }
   </script>
+
+<!-- ══ CONTACT MODAL ══ -->
+<div id="contact-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,10,10,.55);backdrop-filter:blur(4px);overflow-y:auto;">
+  <div style="background:#fff;max-width:640px;margin:5vh auto;padding:2.5rem 2rem;border-radius:2px;position:relative;font-family:'MazzardM',sans-serif;">
+    <button onclick="document.getElementById('contact-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#555;">&times;</button>
+    <h2 style="font-size:1rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;">Parlons de votre projet</h2>
+    <p style="font-size:.72rem;color:#888;margin-bottom:1.6rem;">Un expert MyEOD vous recontactera dès que possible.</p>
+    <div id="contact-success" style="display:none;padding:1.2rem;background:#f0faf4;border:1px solid #1e7a3a;color:#1e7a3a;font-size:.8rem;border-radius:2px;margin-bottom:1rem;">
+      ✓ Votre message a bien été envoyé. Nous reviendrons vers vous très prochainement.
+    </div>
+    <div id="contact-error" style="display:none;padding:1.2rem;background:#fdf0f0;border:1px solid #c0392b;color:#c0392b;font-size:.8rem;border-radius:2px;margin-bottom:1rem;"></div>
+    <div id="contact-form-wrap">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.9rem 1.2rem;">
+        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Nom *</label><input id="cf-nom" type="text" required style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Prénom *</label><input id="cf-prenom" type="text" required style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Entreprise</label><input id="cf-entreprise" type="text" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Téléphone</label><input id="cf-tel" type="tel" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Email *</label><input id="cf-email" type="email" required style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Pays</label><input id="cf-pays" type="text" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+      </div>
+      <div style="margin-top:.9rem;">
+        <label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Votre besoin</label>
+        <p style="font-size:.72rem;color:#888;margin-bottom:.4rem;line-height:1.5;">Faites nous part de l'urgence de votre besoin et de quelques éléments nous permettant de définir qui pourra le mieux vous renseigner — et l'un de nos experts vous recontactera dès que possible.</p>
+        <textarea id="cf-message" rows="5" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;resize:vertical;"></textarea>
+      </div>
+      <button onclick="submitContactFR()" style="margin-top:1.2rem;width:100%;background:#0a0a0a;color:#fff;border:none;padding:.75rem 1rem;font-family:'MazzardM',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:2px;">Envoyer ma demande</button>
+    </div>
+  </div>
+</div>
+<script>
+function openContactModal(){ document.getElementById('contact-modal').style.display='block'; }
+function submitContactFR(){
+  const nom=document.getElementById('cf-nom').value.trim();
+  const prenom=document.getElementById('cf-prenom').value.trim();
+  const email=document.getElementById('cf-email').value.trim();
+  const errEl=document.getElementById('contact-error');
+  errEl.style.display='none';
+  if(!nom||!prenom||!email){errEl.textContent='Merci de renseigner au minimum : Nom, Prénom et Email.';errEl.style.display='block';return;}
+  const body=[
+    'Nom : '+nom,'Prénom : '+prenom,
+    'Entreprise : '+document.getElementById('cf-entreprise').value,
+    'Téléphone : '+document.getElementById('cf-tel').value,
+    'Email : '+email,
+    'Pays : '+document.getElementById('cf-pays').value,
+    '','Message :',''+document.getElementById('cf-message').value
+  ].join('\n');
+  window.location.href='mailto:contact@myexpertondemand.com?subject=MyEOD%20%E2%80%94%20Demande%20de%20contact&body='+encodeURIComponent(body);
+  document.getElementById('contact-form-wrap').style.display='none';
+  document.getElementById('contact-success').style.display='block';
+}
+</script>
+
 </body>
 </html>

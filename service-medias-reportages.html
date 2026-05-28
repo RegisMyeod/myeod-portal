@@ -622,6 +622,7 @@ p{
 
 <!-- ═══════════════════════════════════════════════════════
      GALERIE THÉMATIQUES — 6 tuiles 3×2
+     Auto-détection des images par sondage séquentiel
      ═══════════════════════════════════════════════════ -->
 <style>
 .thematic-grid{
@@ -693,6 +694,24 @@ p{
 .tile-label{font-size:.88rem;font-weight:800;letter-spacing:.02em;color:var(--black);flex:1;}
 .tile-count{font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-400);flex-shrink:0;}
 
+/* Spinner de chargement */
+.tile-spinner{
+  position:absolute;inset:0;z-index:5;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--gray-100);
+  transition:opacity .3s;
+}
+.tile-spinner::after{
+  content:"";
+  width:22px;height:22px;
+  border:2px solid var(--gray-200);
+  border-top-color:var(--gray-400);
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.tile-spinner.hidden{opacity:0;pointer-events:none;}
+
 /* Lightbox */
 .gallery-lb{position:fixed;inset:0;z-index:9998;display:none;flex-direction:column;}
 .gallery-lb.open{display:flex;}
@@ -718,11 +737,25 @@ p{
   display:flex;align-items:center;justify-content:center;
   padding:1.5rem 5rem;
 }
-.gallery-lb-img-wrap{max-width:min(1000px,100%);max-height:100%;display:flex;align-items:center;justify-content:center;}
+.gallery-lb-img-wrap{max-width:min(1000px,100%);max-height:100%;display:flex;align-items:center;justify-content:center;position:relative;}
 .gallery-lb-img-wrap canvas{
   display:block;max-width:100%;max-height:calc(100vh - 215px);width:auto;height:auto;
   -webkit-user-drag:none;user-select:none;
 }
+/* Spinner lightbox */
+.lb-spinner{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.lb-spinner::after{
+  content:"";
+  width:32px;height:32px;
+  border:2px solid rgba(255,255,255,.15);
+  border-top-color:rgba(255,255,255,.55);
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+.lb-spinner.hidden{display:none;}
 .gallery-lb-nav{
   position:absolute;top:50%;transform:translateY(-50%);
   background:none;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.5);
@@ -731,6 +764,7 @@ p{
   transition:border-color .18s,color .18s,background .18s;
 }
 .gallery-lb-nav:hover{border-color:rgba(255,255,255,.55);color:#fff;background:rgba(255,255,255,.05);}
+.gallery-lb-nav:disabled{opacity:.2;cursor:default;pointer-events:none;}
 .gallery-lb-prev{left:0;}
 .gallery-lb-next{right:0;}
 .gallery-lb-strip{
@@ -739,9 +773,14 @@ p{
   border-top:1px solid rgba(255,255,255,.06);
   overflow-x:auto;-webkit-overflow-scrolling:touch;
   background:rgba(0,0,0,.38);
+  min-height:75px;align-items:center;
 }
 .gallery-lb-strip::-webkit-scrollbar{height:3px;}
 .gallery-lb-strip::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18);}
+.lb-strip-loading{
+  font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);
+}
 .lb-thumb{
   flex-shrink:0;width:56px;height:56px;overflow:hidden;cursor:pointer;
   opacity:.4;border:1px solid transparent;transition:opacity .2s,border-color .2s;
@@ -769,7 +808,10 @@ p{
 <div class="thematic-grid" id="thematic-grid">
 
   <div class="thematic-tile" data-theme="abroad" tabindex="0" role="button" aria-label="Galerie Abroad">
-    <div class="tile-img-wrap" id="wrap-abroad"><div class="tile-protect"></div></div>
+    <div class="tile-img-wrap" id="wrap-abroad">
+      <div class="tile-spinner" id="spinner-abroad"></div>
+      <div class="tile-protect"></div>
+    </div>
     <div class="tile-meta">
       <span class="tile-num">01 &mdash;</span>
       <span class="tile-label">Abroad</span>
@@ -778,7 +820,10 @@ p{
   </div>
 
   <div class="thematic-tile" data-theme="black-white" tabindex="0" role="button" aria-label="Galerie Black and White">
-    <div class="tile-img-wrap" id="wrap-black-white"><div class="tile-protect"></div></div>
+    <div class="tile-img-wrap" id="wrap-black-white">
+      <div class="tile-spinner" id="spinner-black-white"></div>
+      <div class="tile-protect"></div>
+    </div>
     <div class="tile-meta">
       <span class="tile-num">02 &mdash;</span>
       <span class="tile-label">Black &amp; White</span>
@@ -787,7 +832,10 @@ p{
   </div>
 
   <div class="thematic-tile" data-theme="oldies" tabindex="0" role="button" aria-label="Galerie Oldies">
-    <div class="tile-img-wrap" id="wrap-oldies"><div class="tile-protect"></div></div>
+    <div class="tile-img-wrap" id="wrap-oldies">
+      <div class="tile-spinner" id="spinner-oldies"></div>
+      <div class="tile-protect"></div>
+    </div>
     <div class="tile-meta">
       <span class="tile-num">03 &mdash;</span>
       <span class="tile-label">Oldies</span>
@@ -796,7 +844,10 @@ p{
   </div>
 
   <div class="thematic-tile" data-theme="renewables" tabindex="0" role="button" aria-label="Galerie Renewables">
-    <div class="tile-img-wrap" id="wrap-renewables"><div class="tile-protect"></div></div>
+    <div class="tile-img-wrap" id="wrap-renewables">
+      <div class="tile-spinner" id="spinner-renewables"></div>
+      <div class="tile-protect"></div>
+    </div>
     <div class="tile-meta">
       <span class="tile-num">04 &mdash;</span>
       <span class="tile-label">Renewables</span>
@@ -805,7 +856,10 @@ p{
   </div>
 
   <div class="thematic-tile" data-theme="shipping" tabindex="0" role="button" aria-label="Galerie Shipping">
-    <div class="tile-img-wrap" id="wrap-shipping"><div class="tile-protect"></div></div>
+    <div class="tile-img-wrap" id="wrap-shipping">
+      <div class="tile-spinner" id="spinner-shipping"></div>
+      <div class="tile-protect"></div>
+    </div>
     <div class="tile-meta">
       <span class="tile-num">05 &mdash;</span>
       <span class="tile-label">Shipping</span>
@@ -814,7 +868,10 @@ p{
   </div>
 
   <div class="thematic-tile" data-theme="oil-gas" tabindex="0" role="button" aria-label="Galerie Oil and Gas">
-    <div class="tile-img-wrap" id="wrap-oil-gas"><div class="tile-protect"></div></div>
+    <div class="tile-img-wrap" id="wrap-oil-gas">
+      <div class="tile-spinner" id="spinner-oil-gas"></div>
+      <div class="tile-protect"></div>
+    </div>
     <div class="tile-meta">
       <span class="tile-num">06 &mdash;</span>
       <span class="tile-label">Oil &amp; Gas</span>
@@ -837,10 +894,14 @@ p{
   </div>
   <div class="gallery-lb-stage">
     <button class="gallery-lb-nav gallery-lb-prev" id="lb-prev" aria-label="Photo pr&eacute;c&eacute;dente">&#x2039;</button>
-    <div class="gallery-lb-img-wrap" id="lb-img-wrap"></div>
+    <div class="gallery-lb-img-wrap" id="lb-img-wrap">
+      <div class="lb-spinner hidden" id="lb-spinner"></div>
+    </div>
     <button class="gallery-lb-nav gallery-lb-next" id="lb-next" aria-label="Photo suivante">&#x203A;</button>
   </div>
-  <div class="gallery-lb-strip" id="lb-strip"></div>
+  <div class="gallery-lb-strip" id="lb-strip">
+    <span class="lb-strip-loading" id="lb-strip-loading">Chargement...</span>
+  </div>
 </div>
 
 <script>
@@ -848,20 +909,80 @@ p{
 'use strict';
 
 /* =====================================================
-   CONFIGURATION — Renseigner les images ici.
-   Dossiers au même niveau que ce fichier HTML.
-   Exemple : images:['abroad/01.jpg','abroad/02.jpg']
+   CONFIGURATION DES THÉMATIQUES
+   Convention de nommage :
+     abroad/      → Abroad_001.jpg, Abroad_002.jpg ...
+     black-white/ → B&W_001.jpg, B&W_002.jpg ...
+     oldies/      → oldies-001.jpg, oldies-002.jpg ...
+     renewables/  → Renewables-001.jpg, Renewables-002.jpg ...
+     shipping/    → Shipping_001.jpg, Shipping_002.jpg ...
+     oil-gas/     → O&G_001.jpg, O&G_002.jpg ...
+
+   Extensions testées dans l'ordre : jpg, jpeg, JPG, png, webp
+   Le sondage s'arrête à la première image introuvable.
+   MAX_PER_THEME = nombre max d'images sondées par thématique.
    ================================================= */
+var MAX_PER_THEME = 99;
+var EXTS = ['jpg','jpeg','JPG','JPEG','png','PNG','webp','WEBP'];
+
 var THEMES = [
-  { id:'abroad',      label:'Abroad',        images:[] },
-  { id:'black-white', label:'Black & White',  images:[] },
-  { id:'oldies',      label:'Oldies',         images:[] },
-  { id:'renewables',  label:'Renewables',     images:[] },
-  { id:'shipping',    label:'Shipping',       images:[] },
-  { id:'oil-gas',     label:'Oil & Gas',      images:[] }
+  {
+    id:       'abroad',
+    label:    'Abroad',
+    folder:   'abroad',
+    prefix:   'Abroad_',
+    pad:      3,       /* nombre de chiffres : 001 */
+    sep:      '_',
+    images:   []       /* rempli automatiquement */
+  },
+  {
+    id:       'black-white',
+    label:    'Black & White',
+    folder:   'black-white',
+    prefix:   'B&W_',
+    pad:      3,
+    sep:      '_',
+    images:   []
+  },
+  {
+    id:       'oldies',
+    label:    'Oldies',
+    folder:   'oldies',
+    prefix:   'oldies-',
+    pad:      3,
+    sep:      '-',
+    images:   []
+  },
+  {
+    id:       'renewables',
+    label:    'Renewables',
+    folder:   'renewables',
+    prefix:   'Renewables-',
+    pad:      3,
+    sep:      '-',
+    images:   []
+  },
+  {
+    id:       'shipping',
+    label:    'Shipping',
+    folder:   'shipping',
+    prefix:   'Shipping_',
+    pad:      3,
+    sep:      '_',
+    images:   []
+  },
+  {
+    id:       'oil-gas',
+    label:    'Oil & Gas',
+    folder:   'oil-gas',
+    prefix:   'O&G_',
+    pad:      3,
+    sep:      '_',
+    images:   []
+  }
 ];
 
-/* Palettes placeholder */
+/* Palettes placeholder par thématique */
 var PH = {
   'abroad':      { bg:'#141e2a', line:'#3a6a90', label:'REPORTAGE INTERNATIONAL' },
   'black-white': { bg:'#141414', line:'#666666', label:'NOIR & BLANC' },
@@ -871,180 +992,276 @@ var PH = {
   'oil-gas':     { bg:'#181208', line:'#786020', label:'OIL & GAS OFFSHORE' }
 };
 
-/* Cache images */
+/* =====================================================
+   SONDING — teste les URLs une par une
+   Retourne une Promise<string[]> de toutes les URLs valides.
+   ================================================= */
+function padNum(n, pad){
+  var s = String(n);
+  while(s.length < pad) s = '0' + s;
+  return s;
+}
+
+/* Tente de charger une image, résout avec l'URL si succès, null sinon */
+function probeOne(url){
+  return new Promise(function(resolve){
+    var img = new Image();
+    img.onload  = function(){ resolve(url); };
+    img.onerror = function(){ resolve(null); };
+    /* Timeout 3s pour éviter blocage sur réseau lent */
+    var t = setTimeout(function(){ resolve(null); }, 3000);
+    img.onload = function(){ clearTimeout(t); IMG_CACHE[url]=img; resolve(url); };
+    img.onerror= function(){ clearTimeout(t); resolve(null); };
+    img.src = url;
+  });
+}
+
+/* Pour un index donné, teste toutes les extensions et retourne la première URL valide */
+function probeIndex(theme, n){
+  var num = padNum(n, theme.pad);
+  var base = theme.folder + '/' + theme.prefix + num;
+  /* Tester les extensions en cascade */
+  var idx = 0;
+  return new Promise(function(resolve){
+    function next(){
+      if(idx >= EXTS.length){ resolve(null); return; }
+      var url = base + '.' + EXTS[idx++];
+      probeOne(url).then(function(result){
+        if(result){ resolve(result); }
+        else { next(); }
+      });
+    }
+    next();
+  });
+}
+
+/* Sonde toutes les images d'un thème séquentiellement */
+function probeTheme(theme){
+  return new Promise(function(resolve){
+    var found = [];
+    var n = 1;
+    function next(){
+      if(n > MAX_PER_THEME){ resolve(found); return; }
+      probeIndex(theme, n).then(function(url){
+        if(url){
+          found.push(url);
+          n++;
+          next();
+        } else {
+          /* Première image introuvable = fin de la séquence */
+          resolve(found);
+        }
+      });
+    }
+    next();
+  });
+}
+
+/* =====================================================
+   CACHE IMAGES
+   ================================================= */
 var IMG_CACHE = {};
 
 function loadImg(src){
-  return new Promise(function(res,rej){
+  return new Promise(function(res, rej){
     if(IMG_CACHE[src]){ res(IMG_CACHE[src]); return; }
     var img = new Image();
     img.crossOrigin = 'anonymous';
-    img.onload = function(){ IMG_CACHE[src]=img; res(img); };
-    img.onerror = function(){ rej(); };
+    var t = setTimeout(function(){ rej(new Error('timeout')); }, 8000);
+    img.onload = function(){ clearTimeout(t); IMG_CACHE[src]=img; res(img); };
+    img.onerror= function(){ clearTimeout(t); rej(); };
     img.src = src;
   });
 }
 
-/* Dessine image sur canvas avec crop centré
-   gray=true : filtre N&B manuel pixel par pixel */
+/* =====================================================
+   CANVAS — dessin image (crop cover) + option N&B
+   ================================================= */
 function paint(canvas, src, gray){
-  var ctx=canvas.getContext('2d');
-  var w=canvas.width, h=canvas.height;
-  if(!src){ drawPH(canvas,'unknown',gray); return Promise.resolve(); }
+  var ctx = canvas.getContext('2d');
+  var w = canvas.width, h = canvas.height;
   return loadImg(src).then(function(img){
     var iw=img.width, ih=img.height;
-    var sx=0,sy=0,sw=iw,sh=ih;
+    var sx=0, sy=0, sw=iw, sh=ih;
     var ratio=w/h, ir=iw/ih;
-    if(ir>ratio){ sw=ih*ratio; sx=(iw-sw)/2; }
-    else         { sh=iw/ratio; sy=(ih-sh)/2; }
+    if(ir > ratio){ sw=ih*ratio; sx=(iw-sw)/2; }
+    else           { sh=iw/ratio; sy=(ih-sh)/2; }
     if(gray){
       var tmp=document.createElement('canvas');
       tmp.width=w; tmp.height=h;
       var tc=tmp.getContext('2d');
-      tc.drawImage(img,sx,sy,sw,sh,0,0,w,h);
+      tc.drawImage(img, sx,sy,sw,sh, 0,0,w,h);
       var id=tc.getImageData(0,0,w,h), d=id.data;
       for(var i=0;i<d.length;i+=4){
-        var g=d[i]*.299+d[i+1]*.587+d[i+2]*.114;
+        var g = d[i]*.299 + d[i+1]*.587 + d[i+2]*.114;
         d[i]=d[i+1]=d[i+2]=g;
       }
       tc.putImageData(id,0,0);
       ctx.drawImage(tmp,0,0);
     } else {
-      ctx.drawImage(img,sx,sy,sw,sh,0,0,w,h);
+      ctx.drawImage(img, sx,sy,sw,sh, 0,0,w,h);
     }
   }).catch(function(){
-    ctx.fillStyle='#d0d0d0'; ctx.fillRect(0,0,w,h);
-    ctx.fillStyle='#999'; ctx.font=(w*.045)+'px sans-serif';
+    ctx.fillStyle='#d8d8d8'; ctx.fillRect(0,0,w,h);
+    ctx.fillStyle='#aaa'; ctx.font=(w*.042)+'px sans-serif';
     ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText('Image indisponible',w/2,h/2);
+    ctx.fillText('Image indisponible', w/2, h/2);
   });
 }
 
-/* Placeholder dessiné */
+/* Placeholder dessiné quand aucune image n'est trouvée */
 function drawPH(canvas, themeId, gray){
   var ctx=canvas.getContext('2d');
   var w=canvas.width, h=canvas.height;
-  var cfg=PH[themeId]||{bg:'#181818',line:'#555555',label:'PHOTOS A VENIR'};
-  var bg = gray ? '#181818' : cfg.bg;
-  var ln = gray ? '#555555' : cfg.line;
-  ctx.fillStyle=bg; ctx.fillRect(0,0,w,h);
-  /* Texture grain */
+  var cfg=PH[themeId]||{bg:'#181818',line:'#555',label:'PHOTOS A VENIR'};
+  ctx.fillStyle = gray ? '#181818' : cfg.bg;
+  ctx.fillRect(0,0,w,h);
   for(var i=0;i<w*h*.002;i++){
-    ctx.fillStyle='rgba(255,255,255,'+(gray?.02:.04)+')';
+    ctx.fillStyle='rgba(255,255,255,'+(gray?.025:.04)+')';
     ctx.fillRect(Math.random()*w|0, Math.random()*h|0, 1,1);
   }
-  /* Cadre */
+  var ln = gray ? '#555' : cfg.line;
   ctx.strokeStyle=ln+'33'; ctx.lineWidth=1;
   ctx.strokeRect(w*.07,h*.07,w*.86,h*.86);
-  /* Lignes décoratives */
-  ctx.strokeStyle=ln+'22'; ctx.lineWidth=.5;
+  ctx.strokeStyle=ln+'1a'; ctx.lineWidth=.5;
   for(var y=h*.28;y<h*.82;y+=h*.13){
     ctx.beginPath(); ctx.moveTo(w*.13,y); ctx.lineTo(w*.87,y); ctx.stroke();
   }
-  /* Texte principal */
-  ctx.fillStyle=ln+(gray?'66':'bb');
-  ctx.font='600 '+(w*.052)+'px sans-serif';
+  ctx.fillStyle=ln+(gray?'55':'99');
+  ctx.font='600 '+(w*.05)+'px sans-serif';
   ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillText(gray?'PLACEHOLDER':cfg.label, w/2, h*.48);
-  /* Sous-titre */
-  ctx.fillStyle=ln+(gray?'33':'55');
-  ctx.font=(w*.038)+'px sans-serif';
-  ctx.fillText('PHOTOS A VENIR', w/2, h*.61);
+  ctx.fillText(gray?'PLACEHOLDER':cfg.label, w/2, h*.47);
+  ctx.fillStyle=ln+(gray?'2a':'44');
+  ctx.font=(w*.036)+'px sans-serif';
+  ctx.fillText('PHOTOS A VENIR', w/2, h*.6);
 }
 
 /* =====================================================
-   INIT TUILES
+   CRÉATION DES CANVAS POUR UNE TUILE
    ================================================= */
-function initTiles(){
-  THEMES.forEach(function(th){
-    var wrap=document.getElementById('wrap-'+th.id);
-    if(!wrap) return;
-    /* Compteur */
-    var cel=document.getElementById('count-'+th.id);
-    if(cel) cel.textContent=th.images.length
-      ? th.images.length+' photo'+(th.images.length>1?'s':'')
-      : '— photos';
-    /* Canvas B&W */
-    var cvBW=document.createElement('canvas');
-    cvBW.width=600; cvBW.height=600;
-    cvBW.setAttribute('aria-hidden','true');
-    cvBW.style.cssText='position:absolute;inset:0;width:100%;height:100%;opacity:1;-webkit-user-drag:none;user-select:none;pointer-events:none;transition:opacity .5s,transform .5s;';
-    /* Canvas couleur */
-    var cvC=document.createElement('canvas');
-    cvC.width=600; cvC.height=600;
-    cvC.setAttribute('aria-hidden','true');
-    cvC.style.cssText='position:absolute;inset:0;width:100%;height:100%;opacity:0;-webkit-user-drag:none;user-select:none;pointer-events:none;transition:opacity .5s,transform .5s;';
-    /* Insérer avant .tile-protect */
-    var protect=wrap.querySelector('.tile-protect');
-    wrap.insertBefore(cvBW,protect);
-    wrap.insertBefore(cvC,protect);
-    /* Dessiner */
-    var cover=th.images.length>0?th.images[0]:null;
-    if(cover){ paint(cvBW,cover,true); paint(cvC,cover,false); }
-    else      { drawPH(cvBW,th.id,true); drawPH(cvC,th.id,false); }
-    /* Hover */
-    var tile=wrap.closest('.thematic-tile');
-    tile.addEventListener('mouseenter',function(){
-      cvBW.style.opacity='0'; cvBW.style.transform='scale(1.04)';
-      cvC.style.opacity='1';  cvC.style.transform='scale(1.04)';
-    });
-    tile.addEventListener('mouseleave',function(){
-      cvBW.style.opacity='1'; cvBW.style.transform='scale(1)';
-      cvC.style.opacity='0';  cvC.style.transform='scale(1)';
-    });
-    tile.addEventListener('focus',function(){cvBW.style.opacity='0';cvC.style.opacity='1';});
-    tile.addEventListener('blur', function(){cvBW.style.opacity='1';cvC.style.opacity='0';});
-    /* Click */
-    tile.addEventListener('click',function(){openGallery(th.id);});
-    tile.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openGallery(th.id);}});
-    /* Anti-clic-droit */
-    tile.addEventListener('contextmenu',function(e){e.preventDefault();});
-    tile.addEventListener('dragstart',   function(e){e.preventDefault();});
+function setupTileCanvases(theme){
+  var wrap = document.getElementById('wrap-'+theme.id);
+  if(!wrap) return;
+  var spinner = document.getElementById('spinner-'+theme.id);
+
+  /* Canvas B&W */
+  var cvBW = document.createElement('canvas');
+  cvBW.width=600; cvBW.height=600;
+  cvBW.setAttribute('aria-hidden','true');
+  cvBW.style.cssText='position:absolute;inset:0;width:100%;height:100%;opacity:1;-webkit-user-drag:none;user-select:none;pointer-events:none;transition:opacity .5s,transform .5s;';
+
+  /* Canvas couleur */
+  var cvC = document.createElement('canvas');
+  cvC.width=600; cvC.height=600;
+  cvC.setAttribute('aria-hidden','true');
+  cvC.style.cssText='position:absolute;inset:0;width:100%;height:100%;opacity:0;-webkit-user-drag:none;user-select:none;pointer-events:none;transition:opacity .5s,transform .5s;';
+
+  var protect = wrap.querySelector('.tile-protect');
+  wrap.insertBefore(cvBW, protect);
+  wrap.insertBefore(cvC, protect);
+
+  var cover = theme.images.length > 0 ? theme.images[0] : null;
+  var drawPromise;
+  if(cover){
+    drawPromise = Promise.all([paint(cvBW,cover,true), paint(cvC,cover,false)]);
+  } else {
+    drawPH(cvBW,theme.id,true);
+    drawPH(cvC,theme.id,false);
+    drawPromise = Promise.resolve();
+  }
+
+  drawPromise.then(function(){
+    if(spinner) spinner.classList.add('hidden');
+    setTimeout(function(){ if(spinner) spinner.style.display='none'; }, 400);
   });
+
+  /* Hover swap */
+  var tile = wrap.closest('.thematic-tile');
+  tile.addEventListener('mouseenter',function(){
+    cvBW.style.opacity='0'; cvBW.style.transform='scale(1.04)';
+    cvC.style.opacity='1';  cvC.style.transform='scale(1.04)';
+  });
+  tile.addEventListener('mouseleave',function(){
+    cvBW.style.opacity='1'; cvBW.style.transform='scale(1)';
+    cvC.style.opacity='0';  cvC.style.transform='scale(1)';
+  });
+  tile.addEventListener('focus',function(){ cvBW.style.opacity='0'; cvC.style.opacity='1'; });
+  tile.addEventListener('blur', function(){ cvBW.style.opacity='1'; cvC.style.opacity='0'; });
+
+  /* Click */
+  tile.addEventListener('click',function(){ openGallery(theme.id); });
+  tile.addEventListener('keydown',function(e){
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openGallery(theme.id); }
+  });
+  tile.addEventListener('contextmenu',function(e){ e.preventDefault(); });
+  tile.addEventListener('dragstart',  function(e){ e.preventDefault(); });
+}
+
+/* =====================================================
+   INIT — Sondage de toutes les thématiques en parallèle
+   ================================================= */
+function init(){
+  var probes = THEMES.map(function(theme){
+    return probeTheme(theme).then(function(found){
+      theme.images = found;
+      /* Afficher compteur */
+      var cel = document.getElementById('count-'+theme.id);
+      if(cel) cel.textContent = found.length > 0
+        ? found.length + ' photo' + (found.length>1?'s':'')
+        : '— photos';
+      /* Créer les canvas */
+      setupTileCanvases(theme);
+    });
+  });
+  return Promise.all(probes);
 }
 
 /* =====================================================
    LIGHTBOX
    ================================================= */
-var lbTheme=null, lbIdx=0;
+var lbTheme=null, lbIdx=0, lbStripBuilt=false;
 
 function openGallery(themeId){
-  var th=THEMES.find(function(t){return t.id===themeId;});
+  var th = THEMES.find(function(t){ return t.id===themeId; });
   if(!th) return;
-  lbTheme=th; lbIdx=0;
-  document.getElementById('lb-theme-label').textContent=th.label;
+  lbTheme=th; lbIdx=0; lbStripBuilt=false;
+  document.getElementById('lb-theme-label').textContent = th.label;
   document.body.style.overflow='hidden';
+  /* Afficher lightbox */
+  document.getElementById('gallery-lb').classList.add('open');
+  /* Construire strip + afficher première photo */
   buildStrip(th);
   showPhoto(0);
-  document.getElementById('gallery-lb').classList.add('open');
 }
 
 function closeGallery(){
   document.getElementById('gallery-lb').classList.remove('open');
   document.body.style.overflow='';
-  document.getElementById('lb-img-wrap').innerHTML='';
-  document.getElementById('lb-strip').innerHTML='';
-  lbTheme=null;
+  document.getElementById('lb-img-wrap').innerHTML='<div class="lb-spinner hidden" id="lb-spinner"></div>';
+  document.getElementById('lb-strip').innerHTML='<span class="lb-strip-loading" id="lb-strip-loading">Chargement...</span>';
+  lbTheme=null; lbStripBuilt=false;
 }
 
 function buildStrip(th){
-  var strip=document.getElementById('lb-strip');
+  var strip = document.getElementById('lb-strip');
   strip.innerHTML='';
-  var total=Math.max(th.images.length,1);
-  for(var i=0;i<total;i++){
-    (function(idx){
-      var div=document.createElement('div');
-      div.className='lb-thumb'+(idx===0?' active':'');
-      div.addEventListener('click',function(){showPhoto(idx);});
-      var c=document.createElement('canvas');
-      c.width=112; c.height=112;
-      c.style.cssText='display:block;width:56px;height:56px;-webkit-user-drag:none;user-select:none;pointer-events:none;';
-      div.appendChild(c);
-      strip.appendChild(div);
-      if(th.images[idx]){ paint(c,th.images[idx],false); }
-      else               { drawPH(c,th.id,false); }
-    })(i);
+  if(!th.images.length){
+    var ph=document.createElement('div');
+    ph.className='lb-thumb active';
+    var c=document.createElement('canvas'); c.width=112; c.height=112;
+    c.style.cssText='-webkit-user-drag:none;user-select:none;pointer-events:none;';
+    drawPH(c,th.id,false); ph.appendChild(c); strip.appendChild(ph);
+    return;
   }
+  th.images.forEach(function(src,i){
+    var div=document.createElement('div');
+    div.className='lb-thumb'+(i===0?' active':'');
+    div.addEventListener('click',function(){ showPhoto(i); });
+    var c=document.createElement('canvas'); c.width=112; c.height=112;
+    c.style.cssText='-webkit-user-drag:none;user-select:none;pointer-events:none;';
+    paint(c,src,false);
+    div.appendChild(c); strip.appendChild(div);
+  });
 }
 
 function showPhoto(idx){
@@ -1052,17 +1269,29 @@ function showPhoto(idx){
   lbIdx=idx;
   var total=Math.max(lbTheme.images.length,1);
   document.getElementById('lb-counter').textContent=(idx+1)+' / '+total;
+
+  /* Boutons nav */
+  document.getElementById('lb-prev').disabled=(total<=1);
+  document.getElementById('lb-next').disabled=(total<=1);
+
   var wrap=document.getElementById('lb-img-wrap');
-  wrap.innerHTML='';
+  wrap.innerHTML='<div class="lb-spinner" id="lb-spinner"></div>';
+
   var c=document.createElement('canvas');
   c.width=1400; c.height=934;
   c.style.cssText='display:block;max-width:100%;max-height:calc(100vh - 215px);width:auto;height:auto;-webkit-user-drag:none;user-select:none;';
   c.setAttribute('aria-hidden','true');
   wrap.appendChild(c);
+
   var src=lbTheme.images[idx]||null;
-  if(src){ paint(c,src,false); } else { drawPH(c,lbTheme.id,false); }
-  /* Miniatures */
-  document.querySelectorAll('.lb-thumb').forEach(function(t,i){t.classList.toggle('active',i===idx);});
+  var p = src ? paint(c,src,false) : (drawPH(c,lbTheme.id,false), Promise.resolve());
+  p.then(function(){
+    var sp=document.getElementById('lb-spinner');
+    if(sp) sp.classList.add('hidden');
+  });
+
+  /* Strip — activer miniature */
+  document.querySelectorAll('.lb-thumb').forEach(function(t,i){ t.classList.toggle('active',i===idx); });
   var active=document.querySelector('.lb-thumb.active');
   if(active) active.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
 }
@@ -1074,27 +1303,33 @@ function navPhoto(dir){
   showPhoto(lbIdx);
 }
 
-/* Anti-téléchargement lightbox */
+/* =====================================================
+   PROTECTION ANTI-TÉLÉCHARGEMENT
+   ================================================= */
 var lb=document.getElementById('gallery-lb');
-lb.addEventListener('contextmenu',function(e){e.preventDefault();});
-lb.addEventListener('dragstart',   function(e){e.preventDefault();});
-lb.addEventListener('selectstart', function(e){e.preventDefault();});
+lb.addEventListener('contextmenu',function(e){ e.preventDefault(); });
+lb.addEventListener('dragstart',  function(e){ e.preventDefault(); });
+lb.addEventListener('selectstart',function(e){ e.preventDefault(); });
 document.addEventListener('keydown',function(e){
   if(!lb.classList.contains('open')) return;
-  if((e.ctrlKey||e.metaKey)&&(e.key==='s'||e.key==='S')){e.preventDefault();return;}
+  if((e.ctrlKey||e.metaKey)&&(e.key==='s'||e.key==='S')){ e.preventDefault(); return; }
   if(e.key==='ArrowLeft')  navPhoto(-1);
   if(e.key==='ArrowRight') navPhoto(1);
   if(e.key==='Escape')     closeGallery();
 });
 document.getElementById('lb-close').addEventListener('click',closeGallery);
-document.getElementById('lb-prev').addEventListener('click',function(){navPhoto(-1);});
-document.getElementById('lb-next').addEventListener('click',function(){navPhoto(1);});
+document.getElementById('lb-prev').addEventListener('click',function(){ navPhoto(-1); });
+document.getElementById('lb-next').addEventListener('click',function(){ navPhoto(1); });
 document.getElementById('lb-backdrop').addEventListener('click',closeGallery);
 
-/* Init */
+/* =====================================================
+   LANCEMENT
+   ================================================= */
 if(document.readyState==='loading'){
-  document.addEventListener('DOMContentLoaded',initTiles);
-} else { initTiles(); }
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
 
 })();
 </script>

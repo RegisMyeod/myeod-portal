@@ -498,33 +498,32 @@ p{
   .myeod-footer-meta{gap:.35rem;}
 }
 
-  
-    .lang-switch{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:34px;
-      padding:.55rem .72rem;
-      border:1px solid var(--gray-200);
-      background:var(--white);
-      color:var(--black);
-      font-family:var(--font);
-      font-size:.62rem;
-      font-weight:800;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      cursor:pointer;
-      transition:border-color .18s ease,color .18s ease,background .18s ease;
-      text-decoration:none;
-      min-width:68px;
-    }
-    .lang-switch:hover,
-    .lang-switch:focus-visible{
-      border-color:var(--black);
-      background:var(--black);
-      color:var(--white);
-      outline:none;
-    }
+.lang-switch{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:34px;
+  padding:.55rem .72rem;
+  border:1px solid var(--gray-200);
+  background:var(--white);
+  color:var(--black);
+  font-family:var(--font);
+  font-size:.62rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:border-color .18s ease,color .18s ease,background .18s ease;
+  text-decoration:none;
+  min-width:68px;
+}
+.lang-switch:hover,
+.lang-switch:focus-visible{
+  border-color:var(--black);
+  background:var(--black);
+  color:var(--white);
+  outline:none;
+}
 </style>
 </head>
 <body>
@@ -539,8 +538,9 @@ p{
 <a href="index.html">Accueil</a>
 <a href="services.html">Services</a>
 <a href="service-bridge.html">BRiDGE</a>
-<a aria-label="English version" class="lang-switch" href="service-medias-reportages-en.html">FR / EN</a></nav>
+</nav>
 <button aria-label="Retour" class="btn-nav-back" onclick="goBackToPreviousPage()" title="Retour" type="button">←</button>
+<a aria-label="Version anglaise" class="lang-switch" href="service-medias-reportages-en.html">FR / EN</a>
 </div>
 </header>
 <main>
@@ -1082,15 +1082,28 @@ function paint(canvas, src, gray){
   var w = canvas.width, h = canvas.height;
   return loadImg(src).then(function(img){
     var iw=img.width, ih=img.height;
-    var sx=0, sy=0, sw=iw, sh=ih;
-    var ratio=w/h, ir=iw/ih;
-    if(ir > ratio){ sw=ih*ratio; sx=(iw-sw)/2; }
-    else           { sh=iw/ratio; sy=(ih-sh)/2; }
+    var ir=iw/ih, cr=w/h;   /* ratios image et canvas */
+    var isTile = (w === h);  /* canvas carré = vignette */
+
+    /* Fond :
+       - tuile  → gris très clair pour les portraits (propre sur fond blanc)
+       - lightbox et strip → noir */
+    ctx.fillStyle = isTile ? '#ebebeb' : '#0a0a0a';
+    ctx.fillRect(0,0,w,h);
+
+    /* Contain systématique — aucun rognage quelle que soit l'orientation */
+    var dx,dy,dw,dh;
+    if(ir > cr){ dw=w;   dh=w/ir;  dx=0;       dy=(h-dh)/2; }
+    else        { dh=h;   dw=h*ir;  dy=0;        dx=(w-dw)/2; }
+
     if(gray){
+      /* Rendu N&B pixel par pixel sur canvas temporaire */
       var tmp=document.createElement('canvas');
       tmp.width=w; tmp.height=h;
       var tc=tmp.getContext('2d');
-      tc.drawImage(img, sx,sy,sw,sh, 0,0,w,h);
+      tc.fillStyle = isTile ? '#ebebeb' : '#0a0a0a';
+      tc.fillRect(0,0,w,h);
+      tc.drawImage(img, 0,0,iw,ih, dx,dy,dw,dh);
       var id=tc.getImageData(0,0,w,h), d=id.data;
       for(var i=0;i<d.length;i+=4){
         var g = d[i]*.299 + d[i+1]*.587 + d[i+2]*.114;
@@ -1099,13 +1112,15 @@ function paint(canvas, src, gray){
       tc.putImageData(id,0,0);
       ctx.drawImage(tmp,0,0);
     } else {
-      ctx.drawImage(img, sx,sy,sw,sh, 0,0,w,h);
+      ctx.drawImage(img, 0,0,iw,ih, dx,dy,dw,dh);
     }
   }).catch(function(){
-    ctx.fillStyle='#d8d8d8'; ctx.fillRect(0,0,w,h);
-    ctx.fillStyle='#aaa'; ctx.font=(w*.042)+'px sans-serif';
+    var isTile = (canvas.width === canvas.height);
+    ctx.fillStyle = isTile ? '#e8e8e8' : '#1a1a1a';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle='#999'; ctx.font=(canvas.width*.042)+'px sans-serif';
     ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText('Image indisponible', w/2, h/2);
+    ctx.fillText('Image indisponible', canvas.width/2, canvas.height/2);
   });
 }
 
@@ -1160,7 +1175,10 @@ function setupTileCanvases(theme){
   wrap.insertBefore(cvBW, protect);
   wrap.insertBefore(cvC, protect);
 
-  var cover = theme.images.length > 0 ? theme.images[0] : null;
+  /* Vignette aléatoire — change à chaque chargement de page */
+  var cover = theme.images.length > 0
+    ? theme.images[Math.floor(Math.random() * theme.images.length)]
+    : null;
   var drawPromise;
   if(cover){
     drawPromise = Promise.all([paint(cvBW,cover,true), paint(cvC,cover,false)]);
@@ -1221,16 +1239,23 @@ function init(){
    ================================================= */
 var lbTheme=null, lbIdx=0, lbStripBuilt=false;
 
+/* Mélange Fisher-Yates — retourne une copie mélangée */
+function shuffle(arr){
+  var a=arr.slice(), i=a.length, j, tmp;
+  while(i--){ j=Math.floor(Math.random()*(i+1)); tmp=a[i]; a[i]=a[j]; a[j]=tmp; }
+  return a;
+}
+
 function openGallery(themeId){
   var th = THEMES.find(function(t){ return t.id===themeId; });
   if(!th) return;
-  lbTheme=th; lbIdx=0; lbStripBuilt=false;
+  /* Copie mélangée — l'ordre original reste intact pour les tuiles */
+  var shuffled = Object.assign({}, th, { images: shuffle(th.images) });
+  lbTheme=shuffled; lbIdx=0; lbStripBuilt=false;
   document.getElementById('lb-theme-label').textContent = th.label;
   document.body.style.overflow='hidden';
-  /* Afficher lightbox */
   document.getElementById('gallery-lb').classList.add('open');
-  /* Construire strip + afficher première photo */
-  buildStrip(th);
+  buildStrip(shuffled);
   showPhoto(0);
 }
 

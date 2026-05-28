@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>MyEOD — Médias &amp; reportages industriels</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>MyEOD — Galerie médias & reportages</title>
 <style>
 
-/* === MYEOD SERVICE PAGE — harmonisation Index / Services / service-bridge === */
+/* === FONTS — identiques charte === */
 @font-face{font-family:'MazzardM';src:url('MazzardM-Thin.woff2') format('woff2');font-weight:100;font-style:normal;}
 @font-face{font-family:'MazzardM';src:url('MazzardM-ExtraLight.woff2') format('woff2');font-weight:200;font-style:normal;}
 @font-face{font-family:'MazzardM';src:url('MazzardM-ExtraLightItalic.woff2') format('woff2');font-weight:200;font-style:italic;}
@@ -27,6 +25,7 @@
 @font-face{font-family:'MazzardM';src:url('MazzardM-Black.woff2') format('woff2');font-weight:900;font-style:normal;}
 @font-face{font-family:'MazzardM';src:url('MazzardM-BlackItalic.woff2') format('woff2');font-weight:900;font-style:italic;}
 
+/* === TOKENS — copie exacte charte === */
 :root{
   --black:#0a0a0a;
   --white:#ffffff;
@@ -54,84 +53,56 @@ body{
   font-family:var(--font);
   font-size:14px;
   line-height:1.65;
-  overflow:auto;
 }
 a{color:inherit;text-decoration:none;}
 button{font-family:var(--font);}
 
+/* === HEADER — copie exacte === */
 .myeod-header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:1rem;
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
   padding:1rem 2.5rem;
   background:rgba(255,255,255,.96);
   border-bottom:1px solid var(--gray-200);
   backdrop-filter:blur(10px);
 }
 .myeod-header-logo{
-  height:72px;
-  display:inline-flex;
-  align-items:center;
-  color:inherit;
-  text-decoration:none;
-  flex-shrink:0;
+  height:72px;display:inline-flex;align-items:center;
+  color:inherit;text-decoration:none;flex-shrink:0;
 }
-.myeod-header-logo svg,
-.myeod-header-logo img{
-  height:100%;
-  width:auto;
-  display:block;
-}
-.header-right{
-  display:flex;
-  align-items:center;
-  gap:.55rem;
-  margin-left:auto;
-}
-.simple-nav{
-  display:flex;
-  align-items:center;
-  gap:.55rem;
-}
-.simple-nav a,
-.btn-nav-back{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:34px;
-  padding:.55rem .72rem;
-  border:1px solid transparent;
-  background:transparent;
-  color:var(--gray-500);
-  font-size:.62rem;
-  font-weight:800;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  cursor:pointer;
-  transition:border-color .18s ease,color .18s ease,background .18s ease;
+.myeod-header-logo svg{height:100%;width:auto;display:block;}
+.header-right{display:flex;align-items:center;gap:.55rem;margin-left:auto;}
+.simple-nav{display:flex;align-items:center;gap:.55rem;}
+.simple-nav a,.btn-nav-back{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:34px;padding:.55rem .72rem;
+  border:1px solid transparent;background:transparent;
+  color:var(--gray-500);font-size:.62rem;font-weight:800;
+  letter-spacing:.14em;text-transform:uppercase;cursor:pointer;
+  transition:border-color .18s,color .18s,background .18s;
 }
 .btn-nav-back{
-  width:34px;
-  min-width:34px;
-  padding:.4rem 0;
-  border-color:var(--gray-200);
-  font-size:.9rem;
-  letter-spacing:0;
+  width:34px;min-width:34px;padding:.4rem 0;
+  border-color:var(--gray-200);font-size:.9rem;letter-spacing:0;
 }
-.simple-nav a:hover,
-.simple-nav a:focus-visible,
-.btn-nav-back:hover,
-.btn-nav-back:focus-visible{
-  border-color:var(--gray-200);
-  color:var(--black);
-  background:var(--gray-50);
-  outline:none;
+.simple-nav a:hover,.simple-nav a:focus-visible,
+.btn-nav-back:hover,.btn-nav-back:focus-visible{
+  border-color:var(--gray-200);color:var(--black);background:var(--gray-50);outline:none;
+}
+.lang-switch{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:34px;padding:.55rem .72rem;
+  border:1px solid var(--gray-200);background:var(--white);color:var(--black);
+  font-family:var(--font);font-size:.62rem;font-weight:800;
+  letter-spacing:.14em;text-transform:uppercase;cursor:pointer;
+  transition:border-color .18s,color .18s,background .18s;
+  text-decoration:none;min-width:68px;
+}
+.lang-switch:hover,.lang-switch:focus-visible{
+  border-color:var(--black);background:var(--black);color:var(--white);outline:none;
 }
 
+/* === LAYOUT === */
 main{overflow:hidden;}
 .section{
   width:min(1120px,calc(100% - 40px));
@@ -139,570 +110,1161 @@ main{overflow:hidden;}
   padding:5.2rem 0;
 }
 .section.compact{padding:3.8rem 0;}
-.hero{
-  min-height:calc(100vh - 106px);
-  display:grid;
-  grid-template-columns:minmax(0,1.22fr) minmax(300px,.78fr);
-  align-items:center;
-  gap:5rem;
-  padding:5rem 0;
-}
 .kicker{
-  margin-bottom:1.1rem;
-  color:var(--gray-500);
-  font-size:.66rem;
-  font-weight:800;
-  letter-spacing:.22em;
-  text-transform:uppercase;
+  margin-bottom:1.1rem;color:var(--gray-500);
+  font-size:.66rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
 }
 h1{
   max-width:860px;
   font-size:clamp(2.55rem,5.6vw,5.4rem);
-  line-height:.96;
-  letter-spacing:-.065em;
-  font-weight:800;
-  color:var(--black);
-  overflow-wrap:break-word;
-  hyphens:auto;
+  line-height:.96;letter-spacing:-.065em;font-weight:800;color:var(--black);
+  overflow-wrap:break-word;hyphens:auto;
 }
 h2{
-  max-width:820px;
-  margin-bottom:1.25rem;
+  max-width:820px;margin-bottom:1.25rem;
   font-size:clamp(1.85rem,3.5vw,3.35rem);
-  line-height:1.02;
-  letter-spacing:-.045em;
-  font-weight:800;
-  color:var(--black);
+  line-height:1.02;letter-spacing:-.045em;font-weight:800;color:var(--black);
 }
-h3{
-  margin-bottom:.55rem;
-  font-size:1rem;
-  line-height:1.25;
-  letter-spacing:.02em;
-  font-weight:800;
-  color:var(--black);
-}
-p{
-  color:var(--gray-600);
-  font-size:1rem;
-  line-height:1.78;
-}
+p{color:var(--gray-600);font-size:1rem;line-height:1.78;}
 .lead{
-  margin-top:1.45rem;
-  max-width:760px;
-  font-size:1.18rem;
-  line-height:1.75;
-  color:var(--gray-600);
+  margin-top:1.45rem;max-width:760px;
+  font-size:1.18rem;line-height:1.75;color:var(--gray-600);
 }
 .btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:38px;
-  padding:.72rem 1.05rem;
-  border:1px solid var(--black);
-  background:var(--black);
-  color:var(--white);
-  font-size:.68rem;
-  font-weight:800;
-  letter-spacing:.13em;
-  text-transform:uppercase;
-  cursor:pointer;
-  transition:all .18s ease;
-  border-radius:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:38px;padding:.72rem 1.05rem;
+  border:1px solid var(--black);background:var(--black);color:var(--white);
+  font-size:.68rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;
+  cursor:pointer;transition:all .18s;border-radius:0;
 }
-.btn:hover,
-.btn:focus-visible{
-  transform:translateY(-1px);
-  box-shadow:0 8px 28px rgba(0,0,0,.12);
-  outline:none;
+.btn:hover,.btn:focus-visible{
+  transform:translateY(-1px);box-shadow:0 8px 28px rgba(0,0,0,.12);outline:none;
 }
 .btn.secondary{
-  background:var(--white);
-  color:var(--black);
-  border-color:var(--gray-200);
+  background:var(--white);color:var(--black);border-color:var(--gray-200);
 }
-.btn.secondary:hover,
-.btn.secondary:focus-visible{
-  border-color:var(--black);
-  box-shadow:none;
+.btn.secondary:hover,.btn.secondary:focus-visible{
+  border-color:var(--black);box-shadow:none;
 }
-.hero-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:.75rem;
-  margin-top:2.2rem;
+
+/* === ACCESS BAND (black strip) — copie exacte === */
+.access-band{background:var(--black);color:var(--white);}
+.access-band .section{padding:4.8rem 0;}
+.access-band h2,.access-band h3{color:var(--white);}
+.access-band p{color:rgba(255,255,255,.72);}
+.access-band .kicker{color:rgba(255,255,255,.56);}
+.chip-grid{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:2rem;}
+.chip{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:32px;padding:.45rem .72rem;
+  border:1px solid rgba(255,255,255,.18);background:#111;
+  color:rgba(255,255,255,.78);font-size:.58rem;font-weight:800;
+  letter-spacing:.12em;text-transform:uppercase;
+}
+.chip:hover{border-color:rgba(255,255,255,.35);color:var(--white);}
+
+/* === INTRO HERO (même motif que service page) === */
+.page-intro{
+  display:grid;
+  grid-template-columns:minmax(0,1.22fr) minmax(280px,.78fr);
+  align-items:center;
+  gap:5rem;
+  padding:5rem 0 4rem;
 }
 .hero-panel{
   border:1px solid var(--gray-200);
   background:var(--gray-50);
-  padding:2rem;
-  min-width:0;
+  padding:2rem;min-width:0;
 }
 .panel-title{
-  margin-bottom:1.4rem;
-  padding-bottom:1.4rem;
+  margin-bottom:1.4rem;padding-bottom:1.4rem;
   border-bottom:1px solid var(--gray-200);
 }
 .panel-label{
-  font-size:.72rem;
-  font-weight:800;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:var(--gray-500);
+  font-size:.72rem;font-weight:800;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--gray-500);
 }
 .panel-main{
-  margin-top:.4rem;
-  font-size:1.34rem;
-  line-height:1.25;
-  letter-spacing:-.02em;
-  color:var(--black);
-  font-weight:800;
+  margin-top:.4rem;font-size:1.34rem;line-height:1.25;
+  letter-spacing:-.02em;color:var(--black);font-weight:800;
 }
-.hero-facts{
-  display:grid;
-  gap:.85rem;
-  margin-top:1.5rem;
-}
+.hero-facts{display:grid;gap:.85rem;margin-top:1.5rem;}
 .fact{
-  display:flex;
-  justify-content:space-between;
-  gap:1rem;
-  padding:.85rem 0;
-  border-bottom:1px solid var(--gray-200);
+  display:flex;justify-content:space-between;gap:1rem;
+  padding:.85rem 0;border-bottom:1px solid var(--gray-200);
 }
 .fact:last-child{border-bottom:0;}
 .fact-label{
-  color:var(--gray-500);
-  font-size:.72rem;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  font-weight:700;
+  color:var(--gray-500);font-size:.72rem;letter-spacing:.12em;
+  text-transform:uppercase;font-weight:700;
 }
-.fact-value{
-  color:var(--black);
-  font-weight:800;
-  text-align:right;
-}
+.fact-value{color:var(--black);font-weight:800;text-align:right;}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2.2rem;}
 
-.access-band{
+/* === FILTER BAR === */
+.filter-wrap{
+  padding:2.2rem 0 0;
+  border-bottom:1px solid var(--gray-200);
+  margin-bottom:2.8rem;
+}
+.filter-bar{
+  display:flex;align-items:flex-end;gap:0;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+}
+.filter-btn{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.65rem 1.1rem .75rem;
+  border:none;border-bottom:2px solid transparent;
+  background:none;color:var(--gray-400);
+  font-family:var(--font);font-size:.62rem;font-weight:800;
+  letter-spacing:.16em;text-transform:uppercase;
+  cursor:pointer;white-space:nowrap;
+  transition:color .18s,border-color .18s;
+  margin-bottom:-1px;
+}
+.filter-btn:hover{color:var(--text);}
+.filter-btn.active{color:var(--black);border-bottom-color:var(--black);}
+.filter-count{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:18px;height:18px;padding:0 4px;
+  background:var(--gray-200);color:var(--gray-600);
+  font-size:.5rem;font-weight:800;letter-spacing:.08em;
+  border-radius:2px;transition:background .18s,color .18s;
+}
+.filter-btn.active .filter-count{background:var(--black);color:var(--white);}
+
+/* === GALERIE MASONRY COLUMNS === */
+.gallery-section{min-height:200px;}
+.gallery-empty{
+  padding:4rem 0;color:var(--gray-400);
+  font-size:.8rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  display:none;
+}
+.masonry{
+  columns:3;column-gap:1px;
+}
+.masonry-item{
+  break-inside:avoid;
+  margin-bottom:1px;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  background:var(--gray-100);
+  display:block;
+}
+.masonry-item img,
+.masonry-item .ph{
+  display:block;width:100%;height:auto;
+  transition:transform .42s cubic-bezier(.25,.46,.45,.94);
+}
+/* Placeholder SVG illustrations */
+.masonry-item .ph{
+  width:100%;aspect-ratio:auto;
+  display:block;
+}
+.masonry-item:hover .ph,
+.masonry-item:hover img{transform:scale(1.035);}
+
+/* Overlay on hover */
+.m-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(10,10,10,.72) 0%,rgba(10,10,10,0) 55%);
+  opacity:0;transition:opacity .25s;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:1.2rem 1.1rem;
+}
+.masonry-item:hover .m-overlay{opacity:1;}
+.m-tag{
+  font-size:.52rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.35rem;
+}
+.m-title{
+  font-size:.9rem;font-weight:700;line-height:1.25;
+  color:var(--white);letter-spacing:-.01em;
+}
+.m-sub{
+  font-size:.62rem;font-weight:500;color:rgba(255,255,255,.58);
+  margin-top:.22rem;letter-spacing:.06em;
+}
+/* expand icon */
+.m-expand{
+  position:absolute;top:.9rem;right:.9rem;
+  width:28px;height:28px;
+  border:1px solid rgba(255,255,255,.35);
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.7);font-size:.75rem;
+  opacity:0;transition:opacity .25s,border-color .18s;
+}
+.masonry-item:hover .m-expand{opacity:1;}
+.masonry-item:hover .m-expand:hover{border-color:rgba(255,255,255,.85);color:var(--white);}
+
+/* count bar */
+.gallery-count{
+  margin-bottom:1.6rem;
+  font-size:.62rem;font-weight:800;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gray-400);
+}
+.gallery-count strong{color:var(--black);}
+
+/* === LIGHTBOX === */
+.lb{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(10,10,10,.92);
+  backdrop-filter:blur(6px);
+  display:none;
+  align-items:center;justify-content:center;
+}
+.lb.open{display:flex;}
+.lb-wrap{
+  position:relative;
+  max-width:min(960px,92vw);
+  width:100%;
+  max-height:94vh;
+  display:flex;flex-direction:column;
+  background:var(--white);
+}
+.lb-media{
+  flex:1 1 auto;min-height:0;overflow:hidden;
   background:var(--black);
-  color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  max-height:calc(94vh - 130px);
 }
-.access-band .section{padding:4.8rem 0;}
-.access-band h2,
-.access-band h3{color:var(--white);}
-.access-band p{color:rgba(255,255,255,.72);}
-.access-band .kicker{color:rgba(255,255,255,.56);}
-.chip-grid{
-  display:flex;
-  flex-wrap:wrap;
-  gap:.55rem;
-  margin-top:2rem;
+.lb-media img,.lb-media svg{
+  max-width:100%;max-height:100%;
+  width:auto;height:auto;display:block;
 }
-.chip{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:32px;
-  padding:.45rem .72rem;
-  border:1px solid rgba(255,255,255,.18);
-  background:#111111;
-  color:rgba(255,255,255,.78);
-  font-size:.58rem;
-  font-weight:800;
-  letter-spacing:.12em;
-  text-transform:uppercase;
+.lb-media .ph{
+  width:100%;height:auto;display:block;
 }
-.chip:hover{border-color:rgba(255,255,255,.35);color:var(--white);}
-
-.card-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:1px;
-  margin-top:2rem;
-  background:var(--gray-200);
-  border:1px solid var(--gray-200);
-}
-.service-card{
-  background:var(--white);
-  padding:1.55rem;
-  min-height:280px;
-  position:relative;
-}
-.service-card::before{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  top:0;
-  height:3px;
-  background:var(--gray-200);
-}
-.service-card h3{
-  margin-top:.45rem;
-  font-size:1rem;
-}
-.service-card-num{
-  color:var(--gray-400);
-  font-size:.62rem;
-  font-weight:800;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-}
-.service-card ul{
-  list-style:none;
-  display:grid;
-  gap:.65rem;
-  margin-top:1rem;
-}
-.service-card li{
-  color:var(--gray-600);
-  font-size:.9rem;
-  line-height:1.65;
-  position:relative;
-  padding-left:1rem;
-}
-.service-card li::before{
-  content:"—";
-  position:absolute;
-  left:0;
-  top:0;
-  color:var(--gray-400);
-}
-.quote-block{
-  margin-top:2rem;
-  border-left:3px solid var(--black);
-  padding:1.2rem 0 1.2rem 1.35rem;
-  color:var(--black);
-  font-size:1.28rem;
-  line-height:1.55;
-  letter-spacing:-.02em;
-  font-weight:600;
-  background:var(--white);
-}
-.cta{
-  text-align:center;
-  padding:4.6rem 2rem;
-  background:var(--gray-50);
+.lb-footer{
+  flex:0 0 auto;
+  padding:1.1rem 1.4rem 1.2rem;
   border-top:1px solid var(--gray-200);
+  display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;
+}
+.lb-meta{}
+.lb-meta-tag{
+  font-size:.58rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.3rem;
+}
+.lb-meta-title{
+  font-size:1rem;font-weight:800;line-height:1.25;color:var(--black);
+  letter-spacing:-.015em;
+}
+.lb-meta-desc{
+  margin-top:.45rem;font-size:.8rem;color:var(--gray-600);line-height:1.65;
+  max-width:600px;
+}
+.lb-meta-facts{
+  display:flex;flex-wrap:wrap;gap:.35rem .9rem;margin-top:.7rem;
+}
+.lb-meta-fact{
+  font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gray-400);
+}
+.lb-meta-fact strong{color:var(--gray-600);}
+.lb-close{
+  position:absolute;top:-40px;right:0;
+  background:none;border:1px solid rgba(255,255,255,.3);
+  color:rgba(255,255,255,.75);width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;cursor:pointer;
+  transition:border-color .18s,color .18s;
+}
+.lb-close:hover{border-color:rgba(255,255,255,.85);color:var(--white);}
+.lb-nav{
+  position:fixed;top:50%;transform:translateY(-50%);
+  background:none;border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.6);width:40px;height:64px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;cursor:pointer;z-index:10;
+  transition:border-color .18s,color .18s,background .18s;
+}
+.lb-nav:hover{border-color:rgba(255,255,255,.6);color:var(--white);background:rgba(255,255,255,.06);}
+.lb-prev{left:1.5rem;}
+.lb-next{right:1.5rem;}
+.lb-counter{
+  position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%);
+  font-size:.56rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+}
+
+/* === CTA === */
+.cta{
+  text-align:center;padding:4.6rem 2rem;
+  background:var(--gray-50);border-top:1px solid var(--gray-200);
 }
 .cta h2{margin-left:auto;margin-right:auto;}
 .cta p{max-width:720px;margin:0 auto;}
 .cta .btn{margin-top:2rem;}
 
+/* === FOOTER — copie exacte === */
 .myeod-footer{
-  width:100%;
-  background:#ffffff;
-  border-top:1px solid var(--gray-100);
-  color:var(--gray-400);
-  font-family:var(--font);
-  padding:1.25rem 2rem 1.35rem;
+  width:100%;background:#fff;border-top:1px solid var(--gray-100);
+  color:var(--gray-400);font-family:var(--font);padding:1.25rem 2rem 1.35rem;
 }
 .myeod-footer-inner{
-  width:min(100%,1120px);
-  margin:0 auto;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:.75rem;
-  text-align:center;
+  width:min(100%,1120px);margin:0 auto;
+  display:flex;flex-direction:column;align-items:center;gap:.75rem;text-align:center;
 }
-.myeod-footer-brand{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:.24rem;
-  line-height:1.5;
-}
-.myeod-footer-title{
-  font-size:.64rem;
-  font-weight:700;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:var(--gray-600);
-}
+.myeod-footer-brand{display:flex;flex-direction:column;align-items:center;gap:.24rem;line-height:1.5;}
+.myeod-footer-title{font-size:.64rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gray-600);}
 .myeod-footer-meta{
-  display:inline-flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:.45rem;
-  font-size:.56rem;
-  font-weight:500;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:var(--gray-400);
-}
-.myeod-footer-countries{
-  display:inline-flex;
-  align-items:center;
-  white-space:nowrap;
+  display:inline-flex;flex-wrap:wrap;justify-content:center;gap:.45rem;
+  font-size:.56rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-400);
 }
 .myeod-footer-links{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:.35rem .9rem;
-  max-width:980px;
-  padding-top:.1rem;
+  display:flex;flex-wrap:wrap;justify-content:center;gap:.35rem .9rem;
+  max-width:980px;padding-top:.1rem;
 }
 .myeod-footer-links a{
-  color:var(--gray-400);
-  text-decoration:none;
-  font-size:.56rem;
-  font-weight:600;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  transition:color .2s;
+  color:var(--gray-400);text-decoration:none;font-size:.56rem;
+  font-weight:600;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;
 }
-.myeod-footer-links a:hover,
-.myeod-footer-links a:focus-visible{
-  color:var(--gray-600);
-  outline:none;
-}
+.myeod-footer-links a:hover,.myeod-footer-links a:focus-visible{color:var(--gray-600);outline:none;}
 .myeod-footer-bottom{
-  display:inline-flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:.35rem .65rem;
-  font-size:.52rem;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--gray-300);
+  display:inline-flex;flex-wrap:wrap;justify-content:center;gap:.35rem .65rem;
+  font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-300);
 }
 
+/* === RESPONSIVE === */
 @media(max-width:1100px){
-  .hero{grid-template-columns:1fr;min-height:auto;gap:2.5rem;align-items:start;}
+  .page-intro{grid-template-columns:1fr;gap:2.5rem;align-items:start;}
   .hero-panel{max-width:720px;}
 }
 @media(max-width:900px){
-  .card-grid{grid-template-columns:1fr;}
+  .masonry{columns:2;}
 }
 @media(max-width:640px){
   .myeod-header{padding:.9rem 1rem;align-items:flex-start;}
   .myeod-header-logo{height:54px;}
   .header-right{gap:.35rem;}
-  .simple-nav{
-    gap:.25rem;
-    flex-wrap:wrap;
-    justify-content:flex-end;
-  }
+  .simple-nav{gap:.25rem;flex-wrap:wrap;justify-content:flex-end;}
   .simple-nav a{font-size:.55rem;min-height:30px;padding:.45rem .5rem;}
   .section{width:min(100% - 28px,1120px);padding:3.5rem 0;}
-  .hero{padding:3.2rem 0;}
-  .hero-panel{padding:1.3rem;}
-  .access-band .section{padding:3.5rem 0;}
-  .cta{padding:3.5rem 1rem;}
+  .masonry{columns:1;}
+  .lb-prev{left:.5rem;}
+  .lb-next{right:.5rem;}
+  .lb-footer{flex-direction:column;gap:.8rem;}
   .myeod-footer{padding:1.2rem 1rem 1.35rem;}
-  .myeod-footer-links{gap:.45rem .75rem;}
-  .myeod-footer-meta{gap:.35rem;}
 }
 
-  
-    .lang-switch{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:34px;
-      padding:.55rem .72rem;
-      border:1px solid var(--gray-200);
-      background:var(--white);
-      color:var(--black);
-      font-family:var(--font);
-      font-size:.62rem;
-      font-weight:800;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      cursor:pointer;
-      transition:border-color .18s ease,color .18s ease,background .18s ease;
-      text-decoration:none;
-      min-width:68px;
-    }
-    .lang-switch:hover,
-    .lang-switch:focus-visible{
-      border-color:var(--black);
-      background:var(--black);
-      color:var(--white);
-      outline:none;
-    }
+/* === REVEAL ANIMATION === */
+.masonry-item{
+  opacity:0;transform:translateY(14px);
+  transition:opacity .38s ease,transform .38s ease;
+}
+.masonry-item.visible{opacity:1;transform:translateY(0);}
+
 </style>
 </head>
 <body>
-<header class="myeod-header">
-<a aria-label="Accueil MyEOD" class="myeod-header-logo" href="index.html">
-<div class="myeod-header-logo">
-<svg data-name="Calque 1" id="Calque_1" viewbox="0 0 262.15 96.47" xmlns="http://www.w3.org/2000/svg"><defs><style> .cls-1 { fill: #1e1717; } </style></defs><path class="cls-1" d="M117.46,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM114.76,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"></path><path class="cls-1" d="M121.64,66l1.92,2.55h-.51l-1.65-2.22-1.08,1.44-.58.77h-.5l1.9-2.55-1.75-2.33h.51l1.48,2,.79-1.03.72-.97h.51l-1.77,2.33Z"></path><path class="cls-1" d="M128.51,63.91c.37.21.66.51.87.89.21.38.31.82.31,1.31s-.1.92-.31,1.31-.5.68-.87.89c-.37.21-.8.32-1.27.32s-.89-.1-1.25-.31c-.37-.21-.64-.49-.83-.84v3.44h-.42v-7.26h.4v1.09c.18-.36.45-.64.83-.85.37-.21.8-.32,1.27-.32s.9.11,1.27.32ZM128.28,67.98c.31-.18.56-.43.73-.75.17-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.18-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75s-.26.7-.26,1.12.09.79.26,1.12c.18.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"></path><path class="cls-1" d="M134.61,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM131.91,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"></path><path class="cls-1" d="M140.28,63.89l-.19.36c-.24-.14-.52-.22-.82-.22s-.58.09-.84.27c-.25.18-.45.42-.6.73-.14.31-.22.65-.22,1.02v2.51h-.42v-4.89h.4v1.09c.17-.36.4-.63.7-.84.29-.2.62-.3.98-.3.39,0,.72.09,1,.27Z"></path><path class="cls-1" d="M144.26,68.38c-.36.18-.69.27-1,.27-.49,0-.84-.13-1.04-.39s-.3-.65-.3-1.17v-3.04h-1.05v-.39h1.05v-1.44l.42-.04v1.48h1.69v.39h-1.69v3.04c0,.39.06.68.19.88s.37.3.73.3c.11,0,.25-.02.41-.07s.3-.1.44-.17l.16.35Z"></path><path class="cls-1" d="M149.11,68.32c-.38-.22-.68-.52-.89-.9-.21-.39-.32-.82-.32-1.3s.11-.92.32-1.3c.21-.39.51-.69.89-.9s.81-.33,1.28-.33.91.11,1.29.33.68.52.89.9c.21.39.32.82.32,1.3s-.11.91-.32,1.3c-.21.39-.51.69-.89.9-.38.22-.81.33-1.29.33s-.9-.11-1.28-.33ZM151.46,67.97c.32-.18.57-.44.75-.77.18-.33.27-.69.27-1.09s-.09-.77-.27-1.09c-.18-.33-.43-.58-.75-.77-.32-.18-.67-.28-1.07-.28s-.75.09-1.07.28c-.32.18-.56.44-.74.77-.18.33-.27.69-.27,1.09s.09.77.27,1.09c.18.33.43.58.74.77s.67.28,1.07.28.75-.09,1.07-.28Z"></path><path class="cls-1" d="M158.24,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"></path><path class="cls-1" d="M168.02,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM166.61,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"></path><path class="cls-1" d="M173.27,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM170.57,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"></path><path class="cls-1" d="M182.93,64.16c.34.37.51.89.51,1.55v2.85h-.42v-2.83c0-.55-.13-.98-.4-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.85.24s-.45.37-.59.65c-.14.27-.21.58-.21.92v2.75h-.42v-2.83c0-.55-.13-.98-.39-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.84.24-.25.16-.45.37-.59.65-.14.27-.21.58-.21.92v2.75h-.42v-4.89h.4v.92c.18-.31.41-.55.71-.73s.62-.26.96-.26c.44,0,.82.1,1.12.31s.52.51.65.89c.17-.38.42-.67.74-.89.32-.21.68-.32,1.08-.32.6,0,1.07.19,1.41.56Z"></path><path class="cls-1" d="M189.84,63.67v4.89h-.4v-1.09c-.19.36-.47.65-.85.85-.37.21-.79.31-1.26.31s-.9-.11-1.27-.32c-.37-.21-.66-.51-.86-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.86-.89.37-.21.79-.32,1.27-.32s.89.11,1.26.32c.37.21.65.5.84.86v-1.1h.41ZM188.43,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"></path><path class="cls-1" d="M195.5,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"></path><path class="cls-1" d="M202.44,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM201.03,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"></path><polygon class="cls-1" points="72.23 42.73 72.11 42.9 72.03 43 71.95 42.9 71.83 42.73 61.05 27.8 59.71 27.8 59.71 52.29 60.79 52.29 60.79 29.98 60.79 29.5 60.79 29.21 60.96 29.45 61.23 29.83 71.98 44.65 72.12 44.65 82.86 29.8 83.14 29.41 83.31 29.18 83.31 29.47 83.31 29.94 83.31 52.29 84.35 52.29 84.35 27.8 83.01 27.8 72.23 42.73"></polygon><polygon class="cls-1" points="111.97 27.8 102.01 50.45 101.87 50.78 101.78 50.98 101.69 50.78 101.56 50.45 99.23 44.91 91.91 27.8 90.81 27.8 101.19 52.04 101.22 52.1 101.23 52.14 101.22 52.17 101.19 52.23 94.12 68.67 95.22 68.67 113.07 27.8 111.97 27.8"></polygon><polygon class="cls-1" points="42.39 28.9 41.61 28.05 28.25 39.6 28.25 40.35 41.61 51.97 42.39 51.11 29.97 40.31 29.58 39.97 29.97 39.63 42.39 28.9"></polygon><polygon class="cls-1" points="220.54 28.05 219.76 28.9 232.18 39.7 232.57 40.04 232.18 40.38 219.76 51.11 220.54 51.97 233.9 40.41 233.9 39.66 220.54 28.05"></polygon><path class="cls-1" d="M120.78,40.78c.22,2.98,1.23,5.34,3.03,7.07,1.79,1.73,4.12,2.6,6.97,2.6,1.76,0,3.44-.35,5.05-1.06,1.6-.7,2.84-1.63,3.7-2.79l1.44,1.2c-1.12,1.41-2.58,2.52-4.37,3.34-1.79.82-3.73,1.23-5.82,1.23-2.31,0-4.37-.53-6.2-1.59-1.83-1.06-3.25-2.52-4.28-4.4-1.03-1.87-1.54-4-1.54-6.37s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.32,4.23-4.37s3.87-1.59,6.18-1.59,4.46.49,6.27,1.47c1.81.98,3.2,2.35,4.18,4.11.98,1.76,1.47,3.8,1.47,6.1,0,.61-.02,1.07-.05,1.39h-17.93l.03-1.87h15.99c0-1.83-.43-3.44-1.27-4.85-.85-1.41-2.02-2.51-3.51-3.29-1.49-.78-3.21-1.18-5.17-1.18-2.79,0-5.08.86-6.87,2.57-1.79,1.71-2.8,3.97-3.03,6.75-.1.82,0,1.87,0,1.87Z"></path><path class="cls-1" d="M154.04,50.72c-1.84-1.06-3.28-2.52-4.33-4.4-1.04-1.87-1.56-3.98-1.56-6.32s.52-4.45,1.56-6.32c1.04-1.87,2.48-3.34,4.33-4.4,1.84-1.06,3.92-1.59,6.22-1.59s4.43.53,6.27,1.59,3.28,2.52,4.33,4.4c1.04,1.87,1.56,3.98,1.56,6.32s-.52,4.45-1.56,6.32c-1.04,1.87-2.48,3.34-4.33,4.4s-3.93,1.59-6.27,1.59-4.38-.53-6.22-1.59ZM165.46,49.04c1.54-.9,2.75-2.14,3.63-3.73.88-1.59,1.32-3.36,1.32-5.31s-.44-3.72-1.32-5.31c-.88-1.59-2.09-2.83-3.63-3.73-1.54-.9-3.27-1.35-5.19-1.35s-3.65.45-5.19,1.35c-1.54.9-2.74,2.14-3.6,3.73-.86,1.59-1.3,3.36-1.3,5.31s.43,3.72,1.3,5.31c.86,1.59,2.07,2.83,3.6,3.73,1.54.9,3.27,1.35,5.19,1.35s3.65-.45,5.19-1.35Z"></path><path class="cls-1" d="M202.44,18.23v33.64h-1.92l-.05-5.24c-.9,1.73-2.25,3.1-4.06,4.11-1.81,1.01-3.85,1.51-6.13,1.51s-4.32-.52-6.13-1.56c-1.81-1.04-3.22-2.49-4.23-4.35-1.01-1.86-1.51-3.97-1.51-6.34s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.31,4.23-4.35,1.81-1.04,3.85-1.56,6.13-1.56s4.31.5,6.1,1.49c1.79.99,3.14,2.36,4.04,4.09v-15.09h2.02ZM195.59,49.09c1.52-.86,2.71-2.08,3.56-3.65.85-1.57,1.27-3.38,1.27-5.43s-.43-3.86-1.27-5.43c-.85-1.57-2.04-2.79-3.56-3.65-1.52-.87-3.24-1.3-5.17-1.3s-3.69.43-5.19,1.3c-1.51.86-2.68,2.08-3.53,3.65s-1.27,3.38-1.27,5.43.42,3.86,1.27,5.43c.85,1.57,2.03,2.79,3.53,3.65,1.51.87,3.24,1.3,5.19,1.3s3.64-.43,5.17-1.3Z"></path></svg>
-</div>
-</a>
-<div class="header-right">
-<nav aria-label="Navigation principale" class="simple-nav">
-<a href="index.html">Accueil</a>
-<a href="services.html">Services</a>
-<a href="service-bridge.html">BRiDGE</a>
-<a aria-label="English version" class="lang-switch" href="service-medias-reportages-en.html">FR / EN</a></nav>
-<button aria-label="Retour" class="btn-nav-back" onclick="goBackToPreviousPage()" title="Retour" type="button">←</button>
-</div>
-</header>
-<main>
-<section class="section hero">
-<div>
-<div class="kicker">Service 05 · Offre MyEOD</div>
-<h1>Médias &amp; reportages industriels.<br/>Montrer les métiers, valoriser les projets</h1>
-<p class="lead">Des contenus visuels sobres, techniques et institutionnels, produits par des équipes capables d’évoluer dans les environnements énergie et construction.</p>
-<div class="hero-actions">
-<a class="btn" href="#contenu-service">Voir le détail</a>
-<a class="btn secondary" href="services.html">Retour aux offres</a>
-</div>
-</div>
-<aside aria-label="Synthèse du service" class="hero-panel">
-<div class="panel-title">
-<div class="panel-label">Synthèse</div>
-<div class="panel-main">Médias &amp; reportages industriels</div>
-</div>
-<p>Ce service accompagne les entreprises qui doivent documenter, valoriser ou expliquer leurs projets sans perdre la rigueur du terrain. Il couvre la création de médias, photos, vidéos, maquettes, contenus immersifs et reportages institutionnels spécialisés, avec des équipes préparées aux exigences HSE internationales.</p>
-<div class="hero-facts">
-<div class="fact"><span class="fact-label">Service</span><span class="fact-value">N° 05</span></div>
-<div class="fact"><span class="fact-label">Offre</span><span class="fact-value">Médias &amp; reportages industriels</span></div>
-<div class="fact"><span class="fact-label">Axes</span><span class="fact-value">3</span></div>
-<div class="fact"><span class="fact-label">Mots-clés</span><span class="fact-value">8</span></div>
-</div>
-</aside>
-</section>
-<section class="access-band" id="mots-cles">
-<div class="section compact">
-<div class="kicker">Périmètre</div>
-<h2>Domaines et mots-clés du service.</h2>
-<p class="lead">MyEOD est une marque représentée par IC / Ingénieurs Créatifs</p>
-<div aria-label="Mots-clés du service" class="chip-grid">
-<span class="chip">Photo</span>
-<span class="chip">Vidéo</span>
-<span class="chip">Maquettes</span>
-<span class="chip">Reportage</span>
-<span class="chip">Institutionnel</span>
-<span class="chip">HSE ready</span>
-<span class="chip">Énergie</span>
-<span class="chip">Construction</span>
-</div>
-</div>
-</section>
-<section class="section compact" id="contenu-service">
-<div class="kicker">Cadre d’intervention</div>
-<h2>Une offre structurée en axes opérationnels.</h2>
-<div class="card-grid">
-<article class="service-card">
-<div class="service-card-num">01 —</div>
-<h3>Formats produits</h3>
-<ul>
-<li>Reportages photo et vidéo sur sites énergie, chantiers, yards, structures offshore ou infrastructures de construction.</li>
-<li>Maquettes, supports visuels, contenus immersifs, séquences métiers, interviews et capsules institutionnelles.</li>
-<li>Supports de communication projet, présentation client, onboarding, retour d’expérience, formation ou documentation corporate.</li>
-</ul>
-</article>
-<article class="service-card">
-<div class="service-card-num">02 —</div>
-<h3>Spécialisation énergie &amp; construction</h3>
-<ul>
-<li>Compréhension des contraintes terrain : accès, permis, SIMOPS, zones sensibles, confidentialité et coordination HSE.</li>
-<li>Capacité à traduire des métiers techniques en contenus lisibles pour clients, partenaires, investisseurs, équipes internes ou institutions.</li>
-<li>Narration sobre, précise et respectueuse des environnements complexes.</li>
-</ul>
-</article>
-<article class="service-card">
-<div class="service-card-num">03 —</div>
-<h3>Mobilisation internationale</h3>
-<ul>
-<li>Équipes préparées pour intervenir sur sites énergie, offshore, bases logistiques, chantiers et environnements isolés.</li>
-<li>Qualifications HSE, préparation documentaire et coordination avec les règles locales ou client avant mobilisation.</li>
-<li>Production adaptée aux contextes internationaux : Afrique, Europe, APAC, Amériques et Moyen-Orient.</li>
-</ul>
-</article>
-</div>
-<div class="quote-block">Objectif : produire des médias professionnels qui valorisent l’action terrain tout en respectant les standards HSE, techniques et institutionnels du client.</div>
-</section>
-<section class="cta" id="contact">
-<h2>Venez discuter de vos besoins avec l'un de nos experts</h2>
-<p>Nous vous orientons vers l'expert le plus pertinent selon votre contexte, votre urgence et vos contraintes projet.</p>
-<button class="btn" onclick="openContactModal()">Venez discuter de vos besoins avec l'un de nos experts</button>
-</section>
-</main>
-<footer class="myeod-footer" role="contentinfo">
-<div class="myeod-footer-inner">
-<div class="myeod-footer-brand">
-<div class="myeod-footer-title">My Expert On Demand</div>
-<div class="myeod-footer-meta">
-<span>Une marque représentée par Ingénieurs Créatifs</span>
-<span class="myeod-footer-countries">France · Suisse</span>
-</div>
-</div>
-<nav aria-label="Liens de pied de page" class="myeod-footer-links">
-<a href="services.html">Services</a>
-<a href="service-bridge.html">BRiDGE</a>
-<a href="acces-client.html">Accès clients</a>
-<a href="acces-collaborateurs.html">Accès collaborateurs</a>
-<a href="mentions-legales-impressum.html">Mentions légales / Impressum</a>
-<a href="protection-donnees.html">Protection des données</a>
-<a href="cookies.html#preferences">Cookies</a>
-<a href="conditions-generales.html">Conditions générales</a>
-<a href="contact.html">Contact</a>
-</nav>
-<div class="myeod-footer-bottom">
-<span>© 2026 MyEOD</span>
-<span>Tous droits réservés</span>
-</div>
-</div>
-</footer>
-<script>
-function goHome(){ window.location.href = 'index.html'; }
-function goBackToPreviousPage() {
-  window.location.href = 'services.html';
-}
-</script>
 
-<!-- ══ CONTACT MODAL ══ -->
+<!-- ══ HEADER — copie exacte structure service-medias-reportages ══ -->
+<header class="myeod-header">
+  <a aria-label="Accueil MyEOD" class="myeod-header-logo" href="index.html">
+    <svg data-name="Calque 1" id="Calque_1" viewBox="0 0 262.15 96.47" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:#1e1717;}</style></defs><path class="cls-1" d="M117.46,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM114.76,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M121.64,66l1.92,2.55h-.51l-1.65-2.22-1.08,1.44-.58.77h-.5l1.9-2.55-1.75-2.33h.51l1.48,2,.79-1.03.72-.97h.51l-1.77,2.33Z"/><path class="cls-1" d="M128.51,63.91c.37.21.66.51.87.89.21.38.31.82.31,1.31s-.1.92-.31,1.31-.5.68-.87.89c-.37.21-.8.32-1.27.32s-.89-.1-1.25-.31c-.37-.21-.64-.49-.83-.84v3.44h-.42v-7.26h.4v1.09c.18-.36.45-.64.83-.85.37-.21.8-.32,1.27-.32s.9.11,1.27.32ZM128.28,67.98c.31-.18.56-.43.73-.75.17-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.18-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75s-.26.7-.26,1.12.09.79.26,1.12c.18.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M134.61,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM131.91,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M140.28,63.89l-.19.36c-.24-.14-.52-.22-.82-.22s-.58.09-.84.27c-.25.18-.45.42-.6.73-.14.31-.22.65-.22,1.02v2.51h-.42v-4.89h.4v1.09c.17-.36.4-.63.7-.84.29-.2.62-.3.98-.3.39,0,.72.09,1,.27Z"/><path class="cls-1" d="M144.26,68.38c-.36.18-.69.27-1,.27-.49,0-.84-.13-1.04-.39s-.3-.65-.3-1.17v-3.04h-1.05v-.39h1.05v-1.44l.42-.04v1.48h1.69v.39h-1.69v3.04c0,.39.06.68.19.88s.37.3.73.3c.11,0,.25-.02.41-.07s.3-.1.44-.17l.16.35Z"/><path class="cls-1" d="M149.11,68.32c-.38-.22-.68-.52-.89-.9-.21-.39-.32-.82-.32-1.3s.11-.92.32-1.3c.21-.39.51-.69.89-.9s.81-.33,1.28-.33.91.11,1.29.33.68.52.89.9c.21.39.32.82.32,1.3s-.11.91-.32,1.3c-.21.39-.51.69-.89.9-.38.22-.81.33-1.29.33s-.9-.11-1.28-.33ZM151.46,67.97c.32-.18.57-.44.75-.77.18-.33.27-.69.27-1.09s-.09-.77-.27-1.09c-.18-.33-.43-.58-.75-.77-.32-.18-.67-.28-1.07-.28s-.75.09-1.07.28c-.32.18-.56.44-.74.77-.18.33-.27.69-.27,1.09s.09.77.27,1.09c.18.33.43.58.74.77s.67.28,1.07.28.75-.09,1.07-.28Z"/><path class="cls-1" d="M158.24,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"/><path class="cls-1" d="M168.02,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM166.61,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M173.27,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM170.57,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M182.93,64.16c.34.37.51.89.51,1.55v2.85h-.42v-2.83c0-.55-.13-.98-.4-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.85.24s-.45.37-.59.65c-.14.27-.21.58-.21.92v2.75h-.42v-2.83c0-.55-.13-.98-.39-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.84.24-.25.16-.45.37-.59.65-.14.27-.21.58-.21.92v2.75h-.42v-4.89h.4v.92c.18-.31.41-.55.71-.73s.62-.26.96-.26c.44,0,.82.1,1.12.31s.52.51.65.89c.17-.38.42-.67.74-.89.32-.21.68-.32,1.08-.32.6,0,1.07.19,1.41.56Z"/><path class="cls-1" d="M189.84,63.67v4.89h-.4v-1.09c-.19.36-.47.65-.85.85-.37.21-.79.31-1.26.31s-.9-.11-1.27-.32c-.37-.21-.66-.51-.86-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.86-.89.37-.21.79-.32,1.27-.32s.89.11,1.26.32c.37.21.65.5.84.86v-1.1h.41ZM188.43,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M195.5,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"/><path class="cls-1" d="M202.44,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM201.03,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><polygon class="cls-1" points="72.23 42.73 72.11 42.9 72.03 43 71.95 42.9 71.83 42.73 61.05 27.8 59.71 27.8 59.71 52.29 60.79 52.29 60.79 29.98 60.79 29.5 60.79 29.21 60.96 29.45 61.23 29.83 71.98 44.65 72.12 44.65 82.86 29.8 83.14 29.41 83.31 29.18 83.31 29.47 83.31 29.94 83.31 52.29 84.35 52.29 84.35 27.8 83.01 27.8 72.23 42.73"/><polygon class="cls-1" points="111.97 27.8 102.01 50.45 101.87 50.78 101.78 50.98 101.69 50.78 101.56 50.45 99.23 44.91 91.91 27.8 90.81 27.8 101.19 52.04 101.22 52.1 101.23 52.14 101.22 52.17 101.19 52.23 94.12 68.67 95.22 68.67 113.07 27.8 111.97 27.8"/><polygon class="cls-1" points="42.39 28.9 41.61 28.05 28.25 39.6 28.25 40.35 41.61 51.97 42.39 51.11 29.97 40.31 29.58 39.97 29.97 39.63 42.39 28.9"/><polygon class="cls-1" points="220.54 28.05 219.76 28.9 232.18 39.7 232.57 40.04 232.18 40.38 219.76 51.11 220.54 51.97 233.9 40.41 233.9 39.66 220.54 28.05"/><path class="cls-1" d="M120.78,40.78c.22,2.98,1.23,5.34,3.03,7.07,1.79,1.73,4.12,2.6,6.97,2.6,1.76,0,3.44-.35,5.05-1.06,1.6-.7,2.84-1.63,3.7-2.79l1.44,1.2c-1.12,1.41-2.58,2.52-4.37,3.34-1.79.82-3.73,1.23-5.82,1.23-2.31,0-4.37-.53-6.2-1.59-1.83-1.06-3.25-2.52-4.28-4.4-1.03-1.87-1.54-4-1.54-6.37s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.32,4.23-4.37s3.87-1.59,6.18-1.59,4.46.49,6.27,1.47c1.81.98,3.2,2.35,4.18,4.11.98,1.76,1.47,3.8,1.47,6.1,0,.61-.02,1.07-.05,1.39h-17.93l.03-1.87h15.99c0-1.83-.43-3.44-1.27-4.85-.85-1.41-2.02-2.51-3.51-3.29-1.49-.78-3.21-1.18-5.17-1.18-2.79,0-5.08.86-6.87,2.57-1.79,1.71-2.8,3.97-3.03,6.75-.1.82,0,1.87,0,1.87Z"/><path class="cls-1" d="M154.04,50.72c-1.84-1.06-3.28-2.52-4.33-4.4-1.04-1.87-1.56-3.98-1.56-6.32s.52-4.45,1.56-6.32c1.04-1.87,2.48-3.34,4.33-4.4,1.84-1.06,3.92-1.59,6.22-1.59s4.43.53,6.27,1.59,3.28,2.52,4.33,4.4c1.04,1.87,1.56,3.98,1.56,6.32s-.52,4.45-1.56,6.32c-1.04,1.87-2.48,3.34-4.33,4.4s-3.93,1.59-6.27,1.59-4.38-.53-6.22-1.59ZM165.46,49.04c1.54-.9,2.75-2.14,3.63-3.73.88-1.59,1.32-3.36,1.32-5.31s-.44-3.72-1.32-5.31c-.88-1.59-2.09-2.83-3.63-3.73-1.54-.9-3.27-1.35-5.19-1.35s-3.65.45-5.19,1.35c-1.54.9-2.74,2.14-3.6,3.73-.86,1.59-1.3,3.36-1.3,5.31s.43,3.72,1.3,5.31c.86,1.59,2.07,2.83,3.6,3.73,1.54.9,3.27,1.35,5.19,1.35s3.65-.45,5.19-1.35Z"/><path class="cls-1" d="M202.44,18.23v33.64h-1.92l-.05-5.24c-.9,1.73-2.25,3.1-4.06,4.11-1.81,1.01-3.85,1.51-6.13,1.51s-4.32-.52-6.13-1.56c-1.81-1.04-3.22-2.49-4.23-4.35-1.01-1.86-1.51-3.97-1.51-6.34s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.31,4.23-4.35,1.81-1.04,3.85-1.56,6.13-1.56s4.31.5,6.1,1.49c1.79.99,3.14,2.36,4.04,4.09v-15.09h2.02ZM195.59,49.09c1.52-.86,2.71-2.08,3.56-3.65.85-1.57,1.27-3.38,1.27-5.43s-.43-3.86-1.27-5.43c-.85-1.57-2.04-2.79-3.56-3.65-1.52-.87-3.24-1.3-5.17-1.3s-3.69.43-5.19,1.3c-1.51.86-2.68,2.08-3.53,3.65s-1.27,3.38-1.27,5.43.42,3.86,1.27,5.43c.85,1.57,2.03,2.79,3.53,3.65,1.51.87,3.24,1.3,5.19,1.3s3.64-.43,5.17-1.3Z"/></svg>
+  </a>
+  <div class="header-right">
+    <nav aria-label="Navigation principale" class="simple-nav">
+      <a href="index.html">Accueil</a>
+      <a href="services.html">Services</a>
+      <a href="service-bridge.html">BRiDGE</a>
+      <a aria-label="English version" class="lang-switch" href="galerie-medias-en.html">FR / EN</a>
+    </nav>
+    <button aria-label="Retour" class="btn-nav-back" onclick="goBackToPreviousPage()" title="Retour" type="button">←</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ══ INTRO ══ -->
+  <section class="section">
+    <div class="page-intro">
+      <div>
+        <div class="kicker">Service 05 · Médias &amp; reportages · Illustrations</div>
+        <h1>Voir les métiers.<br/>Montrer les projets.</h1>
+        <p class="lead">Une sélection d'illustrations représentatives des contextes d'intervention MyEOD — offshore, éolien, LNG, construction industrielle. Chaque image correspond à un type de mission, un environnement ou un livrable médias réel.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#galerie">Parcourir la galerie</a>
+          <a class="btn secondary" href="service-medias-reportages.html">Retour au service</a>
+        </div>
+      </div>
+      <aside class="hero-panel" aria-label="Synthèse">
+        <div class="panel-title">
+          <div class="panel-label">Galerie</div>
+          <div class="panel-main">Illustrations de référence</div>
+        </div>
+        <p>Ces visuels illustrent la diversité des contextes couverts par l'offre Médias &amp; reportages : reportage terrain, documentation technique, communication projet et contenus institutionnels.</p>
+        <div class="hero-facts">
+          <div class="fact"><span class="fact-label">Contextes</span><span class="fact-value">4 secteurs</span></div>
+          <div class="fact"><span class="fact-label">Formats</span><span class="fact-value">Photo · Vidéo · 3D</span></div>
+          <div class="fact"><span class="fact-label">Images</span><span class="fact-value" id="total-count">—</span></div>
+          <div class="fact"><span class="fact-label">HSE Ready</span><span class="fact-value">Toutes zones</span></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ══ KEYWORDS BAND ══ -->
+  <section class="access-band">
+    <div class="section compact">
+      <div class="kicker">Périmètre visuel</div>
+      <h2>Contextes, formats et environnements couverts.</h2>
+      <p class="lead">MyEOD est une marque représentée par IC / Ingénieurs Créatifs</p>
+      <div class="chip-grid" aria-label="Mots-clés">
+        <span class="chip">Offshore O&amp;G</span>
+        <span class="chip">Éolien offshore</span>
+        <span class="chip">LNG &amp; GNL</span>
+        <span class="chip">Construction</span>
+        <span class="chip">Drone 4K</span>
+        <span class="chip">Photogrammétrie</span>
+        <span class="chip">Survey terrain</span>
+        <span class="chip">HSE ready</span>
+        <span class="chip">Reportage</span>
+        <span class="chip">Institutionnel</span>
+        <span class="chip">FPSO</span>
+        <span class="chip">International</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ GALERIE ══ -->
+  <section class="section" id="galerie">
+    <div class="kicker">Galerie</div>
+    <h2>Images de référence par contexte.</h2>
+
+    <!-- Filter bar -->
+    <div class="filter-wrap">
+      <div class="filter-bar" role="tablist">
+        <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">
+          Tout <span class="filter-count" id="cnt-all">0</span>
+        </button>
+        <button class="filter-btn" data-filter="og" role="tab" aria-selected="false">
+          O&amp;G Offshore <span class="filter-count" id="cnt-og">0</span>
+        </button>
+        <button class="filter-btn" data-filter="wind" role="tab" aria-selected="false">
+          Éolien offshore <span class="filter-count" id="cnt-wind">0</span>
+        </button>
+        <button class="filter-btn" data-filter="lng" role="tab" aria-selected="false">
+          LNG &amp; Arctique <span class="filter-count" id="cnt-lng">0</span>
+        </button>
+        <button class="filter-btn" data-filter="construction" role="tab" aria-selected="false">
+          Construction <span class="filter-count" id="cnt-construction">0</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="gallery-count" id="gallery-count"></div>
+    <div class="gallery-section">
+      <div class="masonry" id="masonry"></div>
+      <p class="gallery-empty" id="gallery-empty">Aucune image pour ce filtre.</p>
+    </div>
+  </section>
+
+  <!-- ══ CTA ══ -->
+  <section class="cta" id="contact">
+    <h2>Parlons de votre projet médias</h2>
+    <p>Nous vous orientons vers l'expert le plus pertinent selon votre contexte, vos contraintes HSE et vos objectifs de communication.</p>
+    <button class="btn" onclick="openContactModal()">Discuter avec un expert</button>
+  </section>
+
+</main>
+
+<!-- ══ LIGHTBOX ══ -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Visionneuse">
+  <button class="lb-nav lb-prev" id="lb-prev" aria-label="Précédent">‹</button>
+  <div class="lb-wrap">
+    <button class="lb-close" id="lb-close" aria-label="Fermer">✕</button>
+    <div class="lb-media" id="lb-media"></div>
+    <div class="lb-footer">
+      <div class="lb-meta">
+        <div class="lb-meta-tag" id="lb-tag"></div>
+        <div class="lb-meta-title" id="lb-title"></div>
+        <div class="lb-meta-desc" id="lb-desc"></div>
+        <div class="lb-meta-facts" id="lb-facts"></div>
+      </div>
+    </div>
+  </div>
+  <button class="lb-nav lb-next" id="lb-next" aria-label="Suivant">›</button>
+  <div class="lb-counter" id="lb-counter"></div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer class="myeod-footer" role="contentinfo">
+  <div class="myeod-footer-inner">
+    <div class="myeod-footer-brand">
+      <div class="myeod-footer-title">My Expert On Demand</div>
+      <div class="myeod-footer-meta">
+        <span>Une marque représentée par Ingénieurs Créatifs</span>
+        <span class="myeod-footer-countries">France · Suisse</span>
+      </div>
+    </div>
+    <nav aria-label="Liens de pied de page" class="myeod-footer-links">
+      <a href="services.html">Services</a>
+      <a href="service-bridge.html">BRiDGE</a>
+      <a href="acces-client.html">Accès clients</a>
+      <a href="acces-collaborateurs.html">Accès collaborateurs</a>
+      <a href="mentions-legales-impressum.html">Mentions légales / Impressum</a>
+      <a href="protection-donnees.html">Protection des données</a>
+      <a href="cookies.html#preferences">Cookies</a>
+      <a href="conditions-generales.html">Conditions générales</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="myeod-footer-bottom">
+      <span>© 2026 MyEOD</span>
+      <span>Tous droits réservés</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ CONTACT MODAL — copie exacte ══ -->
 <div id="contact-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,10,10,.55);backdrop-filter:blur(4px);overflow-y:auto;">
   <div style="background:#fff;max-width:640px;margin:5vh auto;padding:2.5rem 2rem;border-radius:2px;position:relative;font-family:'MazzardM',sans-serif;">
     <button onclick="document.getElementById('contact-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#555;">&times;</button>
     <h2 style="font-size:1rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;">Parlons de votre projet</h2>
     <p style="font-size:.72rem;color:#888;margin-bottom:1.6rem;">Un expert MyEOD vous recontactera dès que possible.</p>
-    <div id="contact-success" style="display:none;padding:1.2rem;background:#f0faf4;border:1px solid #1e7a3a;color:#1e7a3a;font-size:.8rem;border-radius:2px;margin-bottom:1rem;">
-      ✓ Votre message a bien été envoyé. Nous reviendrons vers vous très prochainement.
-    </div>
+    <div id="contact-success" style="display:none;padding:1.2rem;background:#f0faf4;border:1px solid #1e7a3a;color:#1e7a3a;font-size:.8rem;border-radius:2px;margin-bottom:1rem;">✓ Votre message a bien été envoyé.</div>
     <div id="contact-error" style="display:none;padding:1.2rem;background:#fdf0f0;border:1px solid #c0392b;color:#c0392b;font-size:.8rem;border-radius:2px;margin-bottom:1rem;"></div>
     <div id="contact-form-wrap">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.9rem 1.2rem;">
-        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Nom *</label><input id="cf-nom" type="text" required style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
-        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Prénom *</label><input id="cf-prenom" type="text" required style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Nom *</label><input id="cf-nom" type="text" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Prénom *</label><input id="cf-prenom" type="text" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
         <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Entreprise</label><input id="cf-entreprise" type="text" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
-        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Téléphone</label><input id="cf-tel" type="tel" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
-        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Email *</label><input id="cf-email" type="email" required style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
-        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Pays</label><input id="cf-pays" type="text" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Email *</label><input id="cf-email" type="email" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
       </div>
-      <div style="margin-top:.9rem;">
-        <label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Votre besoin</label>
-        <p style="font-size:.72rem;color:#888;margin-bottom:.4rem;line-height:1.5;">Faites nous part de l'urgence de votre besoin et de quelques éléments nous permettant de définir qui pourra le mieux vous renseigner — et l'un de nos experts vous recontactera dès que possible.</p>
-        <textarea id="cf-message" rows="5" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;resize:vertical;"></textarea>
-      </div>
-      <button onclick="submitContactFR()" style="margin-top:1.2rem;width:100%;background:#0a0a0a;color:#fff;border:none;padding:.75rem 1rem;font-family:'MazzardM',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:2px;">Envoyer ma demande</button>
+      <div style="margin-top:.9rem;"><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Votre besoin</label><textarea id="cf-message" rows="4" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;resize:vertical;"></textarea></div>
+      <button onclick="submitContact()" style="margin-top:1.2rem;width:100%;background:#0a0a0a;color:#fff;border:none;padding:.75rem 1rem;font-family:'MazzardM',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:2px;">Envoyer ma demande</button>
     </div>
   </div>
 </div>
+
 <script>
+/* ═══════════════════════════════════════════════════════════════
+   DATA — Toutes les illustrations
+   Pour remplacer par une vraie photo : changer "svg" par "img"
+   et renseigner src:"chemin/photo.jpg"
+   ═══════════════════════════════════════════════════════════ */
+const PHOTOS = [
+  /* ─── O&G Offshore ─── */
+  {
+    id:1, cat:'og',
+    tag:'O&G Offshore · FPSO',
+    title:'Karish FPSO — Scan photogrammétrique pre-sailaway',
+    desc:'Acquisition photogrammétrique complète du FPSO Karish pré-départ chantier à Singapour. Couverture totale des modules topside, nuage de points 3D et orthophotos livrés à TechnipEnergies.',
+    facts:[{k:'Client',v:'TechnipEnergies'},{k:'Lieu',v:'Singapour'},{k:'Type',v:'Photogrammétrie'},{k:'Rôle',v:'RMO + JMA terrain'}],
+    ratio:'16/9',
+    render: () => makeSVG(`
+      <rect width="800" height="450" fill="#0a1628"/>
+      <rect x="60" y="60" width="680" height="280" rx="3" fill="#0d2240"/>
+      <rect x="80" y="180" width="640" height="100" rx="6" fill="#1a3a5c"/>
+      <rect x="100" y="158" width="600" height="36" rx="3" fill="#1e4472"/>
+      <rect x="110" y="108" width="90" height="62" rx="2" fill="#2a5a8a"/>
+      <rect x="210" y="98" width="70" height="72" rx="2" fill="#2a5a8a"/>
+      <rect x="292" y="115" width="110" height="55" rx="2" fill="#1e4a78"/>
+      <rect x="415" y="105" width="80" height="65" rx="2" fill="#2a5a8a"/>
+      <rect x="505" y="118" width="95" height="52" rx="2" fill="#1e4a78"/>
+      <rect x="612" y="108" width="60" height="62" rx="2" fill="#2a5a8a"/>
+      <rect x="688" y="78" width="9" height="110" fill="#3a7ab0"/>
+      <polygon points="692,78 685,94 699,94" fill="#d4880a"/>
+      <rect x="205" y="115" width="5" height="75" fill="#4a8ab8"/>
+      <line x1="205" y1="118" x2="250" y2="103" stroke="#4a8ab8" stroke-width="2"/>
+      <g opacity="0.12">
+        <line x1="80" y1="108" x2="740" y2="108" stroke="#b08a2a" stroke-width="0.8"/>
+        <line x1="80" y1="148" x2="740" y2="148" stroke="#b08a2a" stroke-width="0.8"/>
+        <line x1="80" y1="188" x2="740" y2="188" stroke="#b08a2a" stroke-width="0.8"/>
+        <line x1="80" y1="228" x2="740" y2="228" stroke="#b08a2a" stroke-width="0.8"/>
+        <line x1="80" y1="268" x2="740" y2="268" stroke="#b08a2a" stroke-width="0.8"/>
+        <line x1="200" y1="78" x2="200" y2="290" stroke="#b08a2a" stroke-width="0.8"/>
+        <line x1="320" y1="78" x2="320" y2="290" stroke="#b08a2a" stroke-width="0.8"/>
+        <line x1="440" y1="78" x2="440" y2="290" stroke="#b08a2a" stroke-width="0.8"/>
+        <line x1="560" y1="78" x2="560" y2="290" stroke="#b08a2a" stroke-width="0.8"/>
+        <line x1="680" y1="78" x2="680" y2="290" stroke="#b08a2a" stroke-width="0.8"/>
+      </g>
+      <g fill="#b08a2a" opacity="0.75">
+        <circle cx="115" cy="115" r="2"/><circle cx="132" cy="112" r="1.5"/><circle cx="150" cy="116" r="2"/>
+        <circle cx="230" cy="104" r="2"/><circle cx="248" cy="101" r="1.5"/>
+        <circle cx="308" cy="119" r="2"/><circle cx="326" cy="116" r="1.5"/><circle cx="345" cy="120" r="2"/>
+        <circle cx="428" cy="109" r="2"/><circle cx="446" cy="107" r="1.5"/>
+        <circle cx="520" cy="122" r="2"/><circle cx="538" cy="120" r="1.5"/>
+        <circle cx="625" cy="112" r="2"/><circle cx="642" cy="110" r="1.5"/>
+      </g>
+      <ellipse cx="400" cy="294" rx="340" ry="14" fill="#0e2840" opacity="0.85"/>
+      <text x="400" y="390" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="13" font-weight="600" letter-spacing="3">KARISH FPSO — PRE-SAILAWAY SCAN</text>
+      <text x="400" y="412" text-anchor="middle" fill="rgba(255,255,255,.32)" font-family="sans-serif" font-size="9" letter-spacing="2">SINGAPORE · TECHNIPÉNERGIES · PHOTOGRAMMETRY</text>
+    `, 800, 450)
+  },
+  {
+    id:2, cat:'og',
+    tag:'O&G Offshore · Point cloud',
+    title:'Nuage de points 3D — Topside FPSO',
+    desc:'Reconstruction photogrammétrique haute densité du topside. Coloration par altitude permettant une analyse structurelle immédiate et une comparaison as-built / as-designed.',
+    facts:[{k:'Outil',v:'Pix4D / Metashape'},{k:'Densité',v:'~120 pts/m²'},{k:'Rôle',v:'PPI remote'}],
+    ratio:'4/3',
+    render: () => makeSVG(`
+      <rect width="600" height="450" fill="#04080f"/>
+      <g opacity="0.92">
+        ${ptCloud(600,450,180,'#0e7070','#2ab0b0','#b08a2a','#e0c060')}
+      </g>
+      <text x="300" y="418" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="10" letter-spacing="3">NUAGE DE POINTS 3D — TOPSIDE</text>
+      <text x="300" y="435" text-anchor="middle" fill="rgba(255,255,255,.3)" font-family="sans-serif" font-size="8" letter-spacing="2">KARISH FPSO · PIX4D / METASHAPE</text>
+    `, 600, 450)
+  },
+  {
+    id:3, cat:'og',
+    tag:'O&G Offshore · Deepwater',
+    title:'Kaombo Angola — LBL Deepwater 2 500 m',
+    desc:'Déploiement record mondial d\'un réseau LBL à 2 500 m de profondeur. Positionnement ultra-précis des FPSOs Kaombo Norte et Sul pour TechnipFMC au large de l\'Angola.',
+    facts:[{k:'Client',v:'TechnipFMC'},{k:'Profondeur',v:'2 500 m'},{k:'Précision',v:'±0.3 m'},{k:'Rôle',v:'RMO Survey Expert'}],
+    ratio:'16/9',
+    render: () => makeSVG(`
+      <defs><radialGradient id="g1" cx="50%" cy="25%" r="70%"><stop offset="0%" stop-color="#0a2a4a"/><stop offset="100%" stop-color="#020810"/></radialGradient></defs>
+      <rect width="800" height="450" fill="url(#g1)"/>
+      <path d="M0,105 Q200,88 400,105 Q600,122 800,105 L800,0 L0,0 Z" fill="#081828" opacity="0.9"/>
+      <rect x="270" y="70" width="260" height="52" rx="3" fill="#0e2840"/>
+      <rect x="282" y="52" width="236" height="26" rx="2" fill="#122f50"/>
+      <ellipse cx="330" cy="61" rx="28" ry="11" fill="#1e4472"/>
+      <ellipse cx="400" cy="57" rx="28" ry="11" fill="#1e4472"/>
+      <ellipse cx="470" cy="61" rx="28" ry="11" fill="#1e4472"/>
+      <rect x="110" y="370" width="16" height="10" rx="1" fill="#0e7070"/>
+      <rect x="270" y="378" width="16" height="10" rx="1" fill="#0e7070"/>
+      <rect x="450" y="365" width="16" height="10" rx="1" fill="#0e7070"/>
+      <rect x="600" y="372" width="16" height="10" rx="1" fill="#0e7070"/>
+      <text x="118" y="395" text-anchor="middle" fill="#0e7070" font-family="sans-serif" font-size="8" letter-spacing="1">LBL 1</text>
+      <text x="278" y="403" text-anchor="middle" fill="#0e7070" font-family="sans-serif" font-size="8" letter-spacing="1">LBL 2</text>
+      <text x="458" y="390" text-anchor="middle" fill="#0e7070" font-family="sans-serif" font-size="8" letter-spacing="1">LBL 3</text>
+      <text x="608" y="397" text-anchor="middle" fill="#0e7070" font-family="sans-serif" font-size="8" letter-spacing="1">LBL 4</text>
+      <line x1="400" y1="96" x2="118" y2="374" stroke="#b08a2a" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.55"/>
+      <line x1="400" y1="96" x2="278" y2="382" stroke="#b08a2a" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.55"/>
+      <line x1="400" y1="96" x2="458" y2="369" stroke="#b08a2a" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.55"/>
+      <line x1="400" y1="96" x2="608" y2="376" stroke="#b08a2a" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.55"/>
+      <line x1="28" y1="105" x2="28" y2="374" stroke="rgba(176,138,42,.35)" stroke-width="1"/>
+      <text x="22" y="248" text-anchor="middle" fill="rgba(176,138,42,.5)" font-family="sans-serif" font-size="8" transform="rotate(-90,22,248)">2 500 m</text>
+      <g fill="rgba(255,255,255,.12)">
+        <circle cx="120" cy="200" r="1.5"/><circle cx="200" cy="240" r="1.5"/><circle cx="560" cy="220" r="1.5"/>
+        <circle cx="650" cy="280" r="1.5"/><circle cx="300" cy="310" r="1.5"/>
+      </g>
+      <text x="400" y="430" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="12" font-weight="600" letter-spacing="3">LBL DEEPWATER — KAOMBO ANGOLA</text>
+      <text x="400" y="446" text-anchor="middle" fill="rgba(255,255,255,.3)" font-family="sans-serif" font-size="8" letter-spacing="2">RECORD MONDIAL 2 500m · TECHNIPFMC</text>
+    `, 800, 450)
+  },
+  {
+    id:4, cat:'og',
+    tag:'O&G Offshore · Dashboard',
+    title:'RSiP Data Lake — Dashboard de positioning',
+    desc:'Interface BRiDGE de visualisation du Data Lake sur un projet offshore. Tracking de position en temps réel, QC intégré, reporting automatisé. Livrable structuré pour le client.',
+    facts:[{k:'Plateforme',v:'RSiP / BRiDGE'},{k:'Livrables',v:'DPR · As-built · QC'},{k:'Accès',v:'Client + MyEOD'}],
+    ratio:'4/3',
+    render: () => makeSVG(`
+      <rect width="600" height="450" fill="#07101a"/>
+      <rect x="20" y="18" width="560" height="390" rx="2" fill="#0c1828" stroke="rgba(176,138,42,.18)" stroke-width="1"/>
+      <rect x="20" y="18" width="560" height="36" rx="2" fill="#0d2040"/>
+      <text x="36" y="42" fill="#b08a2a" font-family="sans-serif" font-size="11" font-weight="700" letter-spacing="2">RSiP DATALAKE — POSITIONING QC</text>
+      <g stroke="rgba(255,255,255,.04)" stroke-width="1">
+        <line x1="40" y1="80" x2="40" y2="370"/><line x1="160" y1="80" x2="160" y2="370"/>
+        <line x1="280" y1="80" x2="280" y2="370"/><line x1="400" y1="80" x2="400" y2="370"/>
+        <line x1="520" y1="80" x2="520" y2="370"/>
+        <line x1="40" y1="100" x2="560" y2="100"/><line x1="40" y1="160" x2="560" y2="160"/>
+        <line x1="40" y1="220" x2="560" y2="220"/><line x1="40" y1="280" x2="560" y2="280"/>
+        <line x1="40" y1="340" x2="560" y2="340"/>
+      </g>
+      <path d="M40,190 Q120,165 160,180 Q220,200 280,168 Q340,135 400,158 Q460,182 520,170" stroke="#0e7070" stroke-width="2.5" fill="none" opacity="0.85"/>
+      <path d="M40,220 Q120,238 160,225 Q220,210 280,232 Q340,255 400,238 Q460,220 520,240" stroke="#b08a2a" stroke-width="2" fill="none" opacity="0.65"/>
+      <path d="M40,270 Q120,260 160,268 Q220,278 280,265 Q340,252 400,270 Q460,288 520,275" stroke="rgba(255,255,255,.2)" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <rect x="36" y="292" width="120" height="44" rx="2" fill="rgba(14,112,112,.15)" stroke="rgba(14,112,112,.35)" stroke-width="1"/>
+      <text x="96" y="310" text-anchor="middle" fill="#0e7070" font-family="sans-serif" font-size="8">USBL Fix</text>
+      <text x="96" y="328" text-anchor="middle" fill="white" font-family="sans-serif" font-size="13" font-weight="700">2 487 m</text>
+      <rect x="166" y="292" width="120" height="44" rx="2" fill="rgba(176,138,42,.12)" stroke="rgba(176,138,42,.35)" stroke-width="1"/>
+      <text x="226" y="310" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="8">Accuracy</text>
+      <text x="226" y="328" text-anchor="middle" fill="white" font-family="sans-serif" font-size="13" font-weight="700">±0.3 m</text>
+      <rect x="296" y="292" width="120" height="44" rx="2" fill="rgba(30,122,58,.12)" stroke="rgba(30,122,58,.35)" stroke-width="1"/>
+      <text x="356" y="310" text-anchor="middle" fill="#1e7a3a" font-family="sans-serif" font-size="8">QC Status</text>
+      <text x="356" y="328" text-anchor="middle" fill="white" font-family="sans-serif" font-size="13" font-weight="700">PASS</text>
+      <text x="300" y="420" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="10" letter-spacing="2">RSIP BRIDGE — LIVE DASHBOARD</text>
+    `, 600, 450)
+  },
+
+  /* ─── Éolien offshore ─── */
+  {
+    id:5, cat:'wind',
+    tag:'Éolien offshore · TPC2 Taiwan',
+    title:'Parc éolien TPC2 — Vue générale offshore',
+    desc:'Documentation visuelle du parc éolien TPC2 dans le détroit de Taiwan. Six turbines offshore en opération, cable layout inter-array, vessel de survey en position.',
+    facts:[{k:'Client',v:'Foxwell / Cadeler'},{k:'Zone',v:'Taiwan Strait'},{k:'Turbines',v:'6 WTGs'},{k:'Mission',v:'O&M Survey'}],
+    ratio:'16/9',
+    render: () => makeSVG(`
+      <defs><linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3a5c"/><stop offset="65%" stop-color="#1e4878"/><stop offset="100%" stop-color="#0a2038"/></linearGradient></defs>
+      <rect width="800" height="450" fill="url(#sky2)"/>
+      <path d="M0,290 Q200,272 400,285 Q600,298 800,280 L800,450 L0,450 Z" fill="#061420"/>
+      ${windFarm(800,290,6)}
+      <ellipse cx="170" cy="330" rx="38" ry="12" fill="#1e4878"/>
+      <rect x="156" y="320" width="28" height="16" rx="2" fill="#2a5a8a"/>
+      <text x="170" y="354" text-anchor="middle" fill="rgba(255,255,255,.3)" font-family="sans-serif" font-size="8">Survey Vessel</text>
+      <path d="M110" y1="282" Q210,288 310,282 Q410,276 510,282 Q610,288 710,282" stroke="rgba(176,138,42,.25)" stroke-width="2" fill="none" stroke-dasharray="7,5"/>
+      <text x="720" y="36" text-anchor="end" fill="rgba(176,138,42,.45)" font-family="sans-serif" font-size="9" letter-spacing="2">TAIWAN STRAIT</text>
+      <text x="400" y="415" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="12" font-weight="600" letter-spacing="3">PARC ÉOLIEN TPC2 — VUE GÉNÉRALE</text>
+      <text x="400" y="433" text-anchor="middle" fill="rgba(255,255,255,.28)" font-family="sans-serif" font-size="9" letter-spacing="2">FOXWELL / CADELER · O&M SURVEY · TAIWAN</text>
+    `, 800, 450)
+  },
+  {
+    id:6, cat:'wind',
+    tag:'Éolien offshore · Inspection drone',
+    title:'TPC2 — Inspection pale turbine offshore',
+    desc:'Inspection rapprochée des pales en drone 4K avec annotations terrain. Leading edge erosion check, tip section et trailing edge. Rapport de conformité QC visuel immédiat.',
+    facts:[{k:'Drone',v:'4K zoom ×8'},{k:'Annotations',v:'Terrain + Remote'},{k:'Livrable',v:'Rapport QC visuel'}],
+    ratio:'3/4',
+    render: () => makeSVG(`
+      <rect width="450" height="600" fill="#060c14"/>
+      <path d="M50,560 Q225,60 400,80" stroke="#e0e0e0" stroke-width="32" fill="none" stroke-linecap="round"/>
+      <path d="M50,560 Q225,60 400,80" stroke="#101020" stroke-width="26" fill="none" stroke-linecap="round"/>
+      <path d="M50,560 Q225,60 400,80" stroke="#d0d0d0" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.35"/>
+      <circle cx="185" cy="220" r="24" fill="none" stroke="#b08a2a" stroke-width="2"/>
+      <line x1="209" y1="220" x2="265" y2="200" stroke="#b08a2a" stroke-width="1.2"/>
+      <text x="270" y="196" fill="#b08a2a" font-family="sans-serif" font-size="8.5">Leading edge</text>
+      <text x="270" y="210" fill="rgba(255,255,255,.38)" font-family="sans-serif" font-size="7.5">Check érosion</text>
+      <circle cx="310" cy="120" r="18" fill="none" stroke="#0e7070" stroke-width="2"/>
+      <line x1="328" y1="120" x2="372" y2="112" stroke="#0e7070" stroke-width="1.2"/>
+      <text x="376" y="108" fill="#0e7070" font-family="sans-serif" font-size="8.5">Tip section</text>
+      <text x="376" y="122" fill="rgba(255,255,255,.38)" font-family="sans-serif" font-size="7.5">OK — No damage</text>
+      <circle cx="120" cy="380" r="16" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+      <line x1="104" y1="380" x2="60" y2="370" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
+      <text x="56" y="366" text-anchor="end" fill="rgba(255,255,255,.35)" font-family="sans-serif" font-size="7.5">Trailing edge</text>
+      <text x="56" y="378" text-anchor="end" fill="rgba(255,255,255,.25)" font-family="sans-serif" font-size="7">Suivi req.</text>
+      <text x="225" y="558" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="10" letter-spacing="2">INSPECTION PALE — QC VISUEL</text>
+      <text x="225" y="575" text-anchor="middle" fill="rgba(255,255,255,.28)" font-family="sans-serif" font-size="8" letter-spacing="1.5">DRONE 4K · TPC2 · TAIWAN</text>
+    `, 450, 600)
+  },
+  {
+    id:7, cat:'wind',
+    tag:'Éolien offshore · Survey',
+    title:'Turbine offshore — Reportage terrain JMA',
+    desc:'Reportage photo et vidéo sur turbine éolienne offshore lors d\'une mission O&M. Cadrage technique, respect des contraintes HSE, production adaptée aux usages client.',
+    facts:[{k:'Rôle',v:'JMA terrain'},{k:'Format',v:'Photo + Vidéo 4K'},{k:'Usage',v:'Communication client'}],
+    ratio:'16/9',
+    render: () => makeSVG(`
+      <defs><linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0e2038"/><stop offset="100%" stop-color="#1a3a5c"/></linearGradient></defs>
+      <rect width="800" height="450" fill="url(#sky3)"/>
+      <path d="M0,320 Q200,305 400,315 Q600,325 800,310 L800,450 L0,450 Z" fill="#080e18"/>
+      <rect x="388" y="130" width="10" height="210" fill="#e0e0e0"/>
+      <rect x="376" y="124" width="34" height="18" rx="2" fill="#d0d0d0"/>
+      <circle cx="393" cy="124" r="7" fill="#c0c0c0"/>
+      <path d="M393,118 Q378,68 372,22" stroke="#e0e0e0" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M393,118 Q432,126 465,135" stroke="#e0e0e0" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M393,118 Q368,142 350,168" stroke="#e0e0e0" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M382,340 L388,340 L388,450 L382,450 Z" fill="#1a3a5c"/>
+      <path d="M398,340 L404,340 L404,450 L398,450 Z" fill="#1a3a5c"/>
+      <g opacity="0.28">
+        <rect x="185" y="210" width="4" height="110" fill="#e0e0e0"/>
+        <circle cx="187" cy="210" r="3" fill="#d0d0d0"/>
+        <path d="M187,207 Q180,183 177,163" stroke="#ddd" stroke-width="3" fill="none"/>
+        <path d="M187,207 Q200,211 212,216" stroke="#ddd" stroke-width="3" fill="none"/>
+        <path d="M187,207 Q179,218 172,230" stroke="#ddd" stroke-width="3" fill="none"/>
+        <rect x="594" y="195" width="4" height="120" fill="#e0e0e0"/>
+        <circle cx="596" cy="195" r="3" fill="#d0d0d0"/>
+        <path d="M596,192 Q589,168 586,148" stroke="#ddd" stroke-width="3" fill="none"/>
+        <path d="M596,192 Q609,196 621,201" stroke="#ddd" stroke-width="3" fill="none"/>
+        <path d="M596,192 Q588,203 581,215" stroke="#ddd" stroke-width="3" fill="none"/>
+      </g>
+      <path d="M393,72 Q420,78 445,92 Q456,110 446,122" stroke="#b08a2a" stroke-width="1.8" fill="none" stroke-dasharray="4,2.5" opacity="0.75"/>
+      <g transform="translate(450,124)">
+        <circle cx="0" cy="0" r="4" fill="none" stroke="#b08a2a" stroke-width="1.5"/>
+        <line x1="-7" y1="-7" x2="-4" y2="-4" stroke="#b08a2a" stroke-width="1.5"/>
+        <line x1="7" y1="-7" x2="4" y2="-4" stroke="#b08a2a" stroke-width="1.5"/>
+        <line x1="-7" y1="7" x2="-4" y2="4" stroke="#b08a2a" stroke-width="1.5"/>
+        <line x1="7" y1="7" x2="4" y2="4" stroke="#b08a2a" stroke-width="1.5"/>
+      </g>
+      <text x="400" y="414" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="12" font-weight="600" letter-spacing="3">TURBINE OFFSHORE — REPORTAGE TERRAIN</text>
+      <text x="400" y="432" text-anchor="middle" fill="rgba(255,255,255,.28)" font-family="sans-serif" font-size="9" letter-spacing="2">TPC2 TAIWAN · JMA TERRAIN · FOXWELL / CADELER</text>
+    `, 800, 450)
+  },
+
+  /* ─── LNG & Arctique ─── */
+  {
+    id:8, cat:'lng',
+    tag:'LNG · Arctic LNG 2',
+    title:'Arctic LNG 2 — Documentation GBS en conditions extrêmes',
+    desc:'Documentation visuelle de la Gravity Based Structure Arctic LNG 2. Acquisition adaptée aux contraintes de température et de visibilité arctiques. Référence VI publiable.',
+    facts:[{k:'Conditions',v:'Arctique · −40 °C'},{k:'Structure',v:'GBS Platform'},{k:'VI',v:'Référence publiable'}],
+    ratio:'16/9',
+    render: () => makeSVG(`
+      <defs><linearGradient id="arc" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0a1520"/><stop offset="45%" stop-color="#0d2035"/><stop offset="100%" stop-color="#152840"/></linearGradient></defs>
+      <rect width="800" height="450" fill="url(#arc)"/>
+      <ellipse cx="400" cy="75" rx="380" ry="48" fill="rgba(14,112,112,.1)"/>
+      <ellipse cx="360" cy="60" rx="220" ry="30" fill="rgba(0,180,120,.06)"/>
+      <path d="M0,250 Q200,230 400,245 Q600,260 800,238 L800,450 L0,450 Z" fill="#0e2030"/>
+      <rect x="220" y="140" width="360" height="120" rx="4" fill="#1a3050"/>
+      <rect x="232" y="118" width="336" height="32" rx="3" fill="#1e3a60"/>
+      <ellipse cx="295" cy="130" rx="34" ry="13" fill="#1e4472"/>
+      <ellipse cx="400" cy="125" rx="34" ry="13" fill="#1e4472"/>
+      <ellipse cx="505" cy="130" rx="34" ry="13" fill="#1e4472"/>
+      <path d="M295,117 Q302,95 296,74" stroke="rgba(255,255,255,.18)" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <path d="M400,112 Q407,88 401,66" stroke="rgba(255,255,255,.18)" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <path d="M505,117 Q512,95 506,74" stroke="rgba(255,255,255,.18)" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <ellipse cx="110" cy="278" rx="72" ry="24" fill="rgba(200,230,255,.07)"/>
+      <ellipse cx="680" cy="268" rx="90" ry="26" fill="rgba(200,230,255,.05)"/>
+      <ellipse cx="540" cy="300" rx="55" ry="18" fill="rgba(200,230,255,.04)"/>
+      <g fill="rgba(255,255,255,.55)">
+        <circle cx="55" cy="30" r="1.2"/><circle cx="165" cy="16" r="1.8"/>
+        <circle cx="640" cy="28" r="1.2"/><circle cx="748" cy="44" r="1.8"/>
+        <circle cx="715" cy="12" r="1.2"/><circle cx="195" cy="50" r="1.2"/>
+        <circle cx="85" cy="48" r="1.5"/><circle cx="520" cy="20" r="1"/>
+      </g>
+      <text x="400" y="400" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="12" font-weight="600" letter-spacing="3">ARCTIC LNG 2 — GBS PLATFORM</text>
+      <text x="400" y="418" text-anchor="middle" fill="rgba(255,255,255,.28)" font-family="sans-serif" font-size="9" letter-spacing="2">GRAVITY BASED STRUCTURE · YNCEPTION · CONDITIONS ARCTIQUES</text>
+    `, 800, 450)
+  },
+  {
+    id:9, cat:'lng',
+    tag:'LNG · Reportage institutionnel',
+    title:'Reportage institutionnel — Complexe GNL',
+    desc:'Production de contenu institutionnel sur un complexe GNL international. Prise de vue terrain, interviews opérateurs et séquences métiers pour communication investisseurs.',
+    facts:[{k:'Format',v:'Photo + Vidéo'},{k:'Usage',v:'Institutionnel · Investisseurs'},{k:'HSE',v:'Préparation complète'}],
+    ratio:'4/3',
+    render: () => makeSVG(`
+      <rect width="600" height="450" fill="#060c14"/>
+      <rect x="40" y="50" width="520" height="310" rx="2" fill="#0a1828"/>
+      <rect x="60" y="70" width="160" height="260" rx="2" fill="#122038"/>
+      <rect x="70" y="80" width="140" height="30" fill="#1e3a58"/>
+      <rect x="70" y="118" width="140" height="30" fill="#1e3a58"/>
+      <rect x="70" y="156" width="140" height="30" fill="#1e3a58"/>
+      <rect x="70" y="194" width="140" height="30" fill="#1e3a58"/>
+      <rect x="232" y="90" width="80" height="230" rx="2" fill="#1a3560"/>
+      <rect x="324" y="70" width="50" height="260" rx="2" fill="#162840"/>
+      <rect x="386" y="100" width="70" height="220" rx="2" fill="#1e3a58"/>
+      <rect x="468" y="80" width="80" height="240" rx="2" fill="#122038"/>
+      <path d="M290,50 Q292,28 290,14" stroke="rgba(255,100,0,.55)" stroke-width="12" fill="none" stroke-linecap="round"/>
+      <path d="M350,50 Q352,22 350,8" stroke="rgba(255,100,0,.35)" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <rect x="60" y="330" width="480" height="30" rx="2" fill="#0d2038"/>
+      <rect x="40" y="350" width="520" height="1" fill="rgba(176,138,42,.2)"/>
+      <text x="300" y="390" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="11" letter-spacing="3">COMPLEXE GNL — REPORTAGE TERRAIN</text>
+      <text x="300" y="408" text-anchor="middle" fill="rgba(255,255,255,.3)" font-family="sans-serif" font-size="8" letter-spacing="2">DOCUMENTATION INSTITUTIONNELLE · HSE READY</text>
+    `, 600, 450)
+  },
+
+  /* ─── Construction industrielle ─── */
+  {
+    id:10, cat:'construction',
+    tag:'Construction · Ynception',
+    title:'Ynception — Orthophoto chantier drone',
+    desc:'Orthophotographie aérienne du chantier de la ferme verticale d\'insectes Ynception à Poulainville. Suivi d\'avancement par zones, cartographie de l\'état réel vs planifié.',
+    facts:[{k:'Client',v:'Ynsect'},{k:'Surface',v:'~17 800 m²'},{k:'Période',v:'06/2020 – 03/2022'},{k:'Rôle',v:'JMA direction de projet'}],
+    ratio:'16/9',
+    render: () => makeSVG(`
+      <rect width="800" height="450" fill="#0d1810"/>
+      <rect x="60" y="55" width="680" height="300" rx="3" fill="#141e10" stroke="rgba(176,138,42,.28)" stroke-width="1.5" stroke-dasharray="8,4"/>
+      <rect x="110" y="88" width="290" height="200" rx="2" fill="#1e2e18"/>
+      <rect x="415" y="98" width="170" height="160" rx="2" fill="#1a2a15"/>
+      <rect x="600" y="108" width="105" height="140" rx="2" fill="#182813"/>
+      <rect x="120" y="93" width="270" height="22" fill="#243820"/>
+      <g stroke="#2a4a20" stroke-width="1.8" fill="none" opacity="0.55">
+        <line x1="150" y1="98" x2="150" y2="288"/><line x1="204" y1="98" x2="204" y2="288"/>
+        <line x1="258" y1="98" x2="258" y2="288"/><line x1="312" y1="98" x2="312" y2="288"/>
+        <line x1="366" y1="98" x2="366" y2="288"/>
+        <line x1="110" y1="168" x2="400" y2="168"/>
+        <line x1="110" y1="228" x2="400" y2="228"/>
+      </g>
+      <rect x="402" y="72" width="6" height="160" fill="#8a6a20"/>
+      <rect x="374" y="72" width="64" height="5" fill="#8a6a20"/>
+      <line x1="438" y1="72" x2="406" y2="232" stroke="#8a6a20" stroke-width="2"/>
+      <rect x="120" y="108" width="110" height="80" rx="1" fill="rgba(30,122,58,.2)" stroke="rgba(30,122,58,.45)" stroke-width="1"/>
+      <text x="175" y="153" text-anchor="middle" fill="#1e7a3a" font-family="sans-serif" font-size="10">DONE</text>
+      <rect x="238" y="108" width="110" height="80" rx="1" fill="rgba(212,136,10,.15)" stroke="rgba(212,136,10,.4)" stroke-width="1"/>
+      <text x="293" y="153" text-anchor="middle" fill="#d4880a" font-family="sans-serif" font-size="10">WIP</text>
+      <g transform="translate(724,115)">
+        <circle cx="0" cy="0" r="20" fill="none" stroke="rgba(176,138,42,.35)" stroke-width="1.2"/>
+        <polygon points="0,-17 -3.5,-6 0,-1 3.5,-6" fill="#b08a2a"/>
+        <polygon points="0,17 -3.5,6 0,1 3.5,6" fill="rgba(255,255,255,.22)"/>
+        <text x="0" y="-22" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="9">N</text>
+      </g>
+      <rect x="80" y="338" width="130" height="3" fill="rgba(176,138,42,.35)"/>
+      <text x="80" y="353" fill="rgba(176,138,42,.55)" font-family="sans-serif" font-size="8">0</text>
+      <text x="206" y="353" fill="rgba(176,138,42,.55)" font-family="sans-serif" font-size="8">50 m</text>
+      <text x="400" y="400" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="12" font-weight="600" letter-spacing="3">YNCEPTION — ORTHOPHOTO CHANTIER</text>
+      <text x="400" y="418" text-anchor="middle" fill="rgba(255,255,255,.28)" font-family="sans-serif" font-size="9" letter-spacing="2">POULAINVILLE · DRONE · SUIVI D'AVANCEMENT · YNSECT</text>
+    `, 800, 450)
+  },
+  {
+    id:11, cat:'construction',
+    tag:'Construction · Rapport visuel',
+    title:'Dashboard avancement — Rapport visuel VI',
+    desc:'Dashboard de suivi d\'avancement par zone de chantier. Taux de complétion, mise à jour hebdomadaire depuis les acquisitions drone. Livrable structuré pour le client.',
+    facts:[{k:'Zones',v:'A · B · C · D'},{k:'Cadence',v:'Hebdomadaire'},{k:'Livrable',v:'Dashboard + Rapport PDF'}],
+    ratio:'4/3',
+    render: () => makeSVG(`
+      <rect width="600" height="450" fill="#080c06"/>
+      <rect x="18" y="18" width="564" height="390" rx="2" fill="#0c140a" stroke="rgba(176,138,42,.14)" stroke-width="1"/>
+      <rect x="18" y="18" width="564" height="32" rx="2" fill="#162010"/>
+      <text x="30" y="40" fill="#b08a2a" font-family="sans-serif" font-size="10" font-weight="700" letter-spacing="2">YNCEPTION — RAPPORT D'AVANCEMENT VI</text>
+      <g font-family="sans-serif">
+        <text x="30" y="76" fill="rgba(255,255,255,.48)" font-size="9">Zone A — Gros œuvre</text>
+        <rect x="30" y="82" width="524" height="13" rx="2" fill="rgba(255,255,255,.04)"/>
+        <rect x="30" y="82" width="498" height="13" rx="2" fill="rgba(30,122,58,.72)"/>
+        <text x="557" y="92" fill="#1e7a3a" font-size="9" font-weight="700">95 %</text>
+        <text x="30" y="114" fill="rgba(255,255,255,.48)" font-size="9">Zone B — Structure métallique</text>
+        <rect x="30" y="120" width="524" height="13" rx="2" fill="rgba(255,255,255,.04)"/>
+        <rect x="30" y="120" width="393" height="13" rx="2" fill="rgba(212,136,10,.72)"/>
+        <text x="557" y="130" fill="#d4880a" font-size="9" font-weight="700">75 %</text>
+        <text x="30" y="152" fill="rgba(255,255,255,.48)" font-size="9">Zone C — Façades</text>
+        <rect x="30" y="158" width="524" height="13" rx="2" fill="rgba(255,255,255,.04)"/>
+        <rect x="30" y="158" width="262" height="13" rx="2" fill="rgba(42,96,153,.72)"/>
+        <text x="557" y="168" fill="#2a6099" font-size="9" font-weight="700">50 %</text>
+        <text x="30" y="190" fill="rgba(255,255,255,.48)" font-size="9">Zone D — Installations techniques</text>
+        <rect x="30" y="196" width="524" height="13" rx="2" fill="rgba(255,255,255,.04)"/>
+        <rect x="30" y="196" width="131" height="13" rx="2" fill="rgba(192,57,43,.72)"/>
+        <text x="557" y="206" fill="#c0392b" font-size="9" font-weight="700">25 %</text>
+      </g>
+      <rect x="30" y="228" width="160" height="90" rx="2" fill="rgba(255,255,255,.02)" stroke="rgba(176,138,42,.18)" stroke-width="1"/>
+      <text x="110" y="280" text-anchor="middle" fill="rgba(176,138,42,.35)" font-family="sans-serif" font-size="8.5">Vue satellite</text>
+      <rect x="200" y="228" width="348" height="90" rx="2" fill="rgba(255,255,255,.02)" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+      <text x="374" y="260" text-anchor="middle" fill="rgba(255,255,255,.22)" font-family="sans-serif" font-size="8">Dernière acquisition</text>
+      <text x="374" y="278" text-anchor="middle" fill="rgba(255,255,255,.45)" font-family="sans-serif" font-size="12" font-weight="700">15 / 03 / 2022</text>
+      <text x="374" y="296" text-anchor="middle" fill="rgba(176,138,42,.55)" font-family="sans-serif" font-size="8.5">Drone 4K · Vol N°28</text>
+      <text x="300" y="380" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="10" letter-spacing="2">RAPPORT D'AVANCEMENT VISUEL</text>
+      <text x="300" y="396" text-anchor="middle" fill="rgba(255,255,255,.28)" font-family="sans-serif" font-size="8" letter-spacing="1.5">YNCEPTION · POULAINVILLE · YNSECT</text>
+    `, 600, 450)
+  },
+  {
+    id:12, cat:'construction',
+    tag:'Construction · Modèle 3D',
+    title:'Modèle 3D structure — Photogrammétrie bâtiment',
+    desc:'Reconstruction 3D par photogrammétrie d\'une structure industrielle. Nuage de points intégré au modèle CAD pour comparaison as-built vs as-designed. Traitement PPI remote.',
+    facts:[{k:'Logiciel',v:'Metashape'},{k:'Rôle',v:'PPI remote processing'},{k:'Livrable',v:'Nuage de points + OBJ'}],
+    ratio:'4/3',
+    render: () => makeSVG(`
+      <rect width="600" height="450" fill="#0a1208"/>
+      <polygon points="80,360 80,130 360,130 360,360" fill="#1a2a14" stroke="#3a6a20" stroke-width="2"/>
+      <polygon points="80,130 130,90 410,90 360,130" fill="#243820" stroke="#3a6a20" stroke-width="2"/>
+      <polygon points="360,360 360,130 410,90 410,320" fill="#162410" stroke="#3a6a20" stroke-width="2"/>
+      <g stroke="#4a8a30" stroke-width="1" opacity="0.55">
+        <line x1="140" y1="130" x2="140" y2="360"/><line x1="200" y1="130" x2="200" y2="360"/>
+        <line x1="260" y1="130" x2="260" y2="360"/><line x1="320" y1="130" x2="320" y2="360"/>
+        <line x1="80" y1="200" x2="360" y2="200"/><line x1="80" y1="280" x2="360" y2="280"/>
+        <line x1="130" y1="90" x2="130" y2="140"/><line x1="190" y1="90" x2="187" y2="130"/>
+        <line x1="250" y1="90" x2="245" y2="130"/><line x1="310" y1="90" x2="303" y2="130"/>
+        <line x1="380" y1="90" x2="410" y2="90"/>
+      </g>
+      <g fill="#b08a2a" opacity="0.55">
+        <circle cx="88" cy="135" r="2"/><circle cx="102" cy="132" r="1.5"/>
+        <circle cx="148" cy="134" r="2"/><circle cx="210" cy="132" r="1.5"/>
+        <circle cx="268" cy="135" r="2"/><circle cx="328" cy="133" r="1.5"/>
+        <circle cx="364" cy="135" r="2"/>
+      </g>
+      <line x1="90" y1="378" x2="170" y2="378" stroke="#b08a2a" stroke-width="1.2" opacity="0.45"/>
+      <text x="130" y="392" text-anchor="middle" fill="rgba(176,138,42,.55)" font-family="sans-serif" font-size="8">10 m</text>
+      <text x="300" y="420" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="10" letter-spacing="2">MODÈLE 3D — PHOTOGRAMMÉTRIE</text>
+      <text x="300" y="436" text-anchor="middle" fill="rgba(255,255,255,.28)" font-family="sans-serif" font-size="8" letter-spacing="1.5">METASHAPE · PPI REMOTE · NUAGE DE POINTS</text>
+    `, 600, 450)
+  },
+  {
+    id:13, cat:'construction',
+    tag:'Construction · SwissRenov',
+    title:'SwissRenov — PoC VI photogrammétrie bâtiments',
+    desc:'Proof of Concept Visual Intelligence pour le projet Innosuisse SwissRenov. Acquisition photogrammétrique de bâtiments industriels, modélisation 3D et rapport d\'analyse pour les 3 sites démonstrateurs.',
+    facts:[{k:'Programme',v:'Innosuisse Flagship'},{k:'Durée',v:'4 ans · 31 partenaires'},{k:'PoC',v:'Q3–Q4 2026'},{k:'KAM',v:'JMA · CCA réseau'}],
+    ratio:'16/9',
+    render: () => makeSVG(`
+      <defs><linearGradient id="sw" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f0f4f8"/><stop offset="100%" stop-color="#dde8f0"/></linearGradient></defs>
+      <rect width="800" height="450" fill="url(#sw)"/>
+      <rect x="0" y="280" width="800" height="170" fill="#c8d8e0"/>
+      <path d="M0,280 Q200,262 400,272 Q600,282 800,265" stroke="#a8b8c0" stroke-width="1" fill="none"/>
+      <polygon points="100,280 100,160 240,160 240,280" fill="#b0c0cc" stroke="#98aabb" stroke-width="1.5"/>
+      <rect x="100" y="160" width="140" height="35" fill="#a0b0bc"/>
+      <polygon points="100,160 170,125 240,160" fill="#c8d8e4"/>
+      <g stroke="#98aabb" stroke-width="1" opacity="0.6">
+        <rect x="115" y="185" width="30" height="40" fill="#d8e8f0"/><rect x="155" y="185" width="30" height="40" fill="#d8e8f0"/>
+        <rect x="195" y="185" width="30" height="40" fill="#d8e8f0"/><rect x="115" y="235" width="30" height="40" fill="#d8e8f0"/>
+        <rect x="155" y="235" width="30" height="40" fill="#d8e8f0"/><rect x="195" y="235" width="30" height="40" fill="#d8e8f0"/>
+      </g>
+      <polygon points="310,280 310,130 500,130 500,280" fill="#a8b8c4" stroke="#90a0b0" stroke-width="2"/>
+      <rect x="310" y="130" width="190" height="42" fill="#98a8b4"/>
+      <polygon points="310,130 405,85 500,130" fill="#c0d0dc"/>
+      <g stroke="#90a0b0" stroke-width="1" opacity="0.65">
+        <rect x="325" y="175" width="38" height="50" fill="#c8d8e8"/><rect x="373" y="175" width="38" height="50" fill="#c8d8e8"/>
+        <rect x="421" y="175" width="38" height="50" fill="#c8d8e8"/><rect x="461" y="175" width="25" height="50" fill="#c8d8e8"/>
+        <rect x="325" y="235" width="38" height="42" fill="#c8d8e8"/><rect x="373" y="235" width="38" height="42" fill="#c8d8e8"/>
+        <rect x="421" y="235" width="38" height="42" fill="#c8d8e8"/><rect x="461" y="235" width="25" height="42" fill="#c8d8e8"/>
+      </g>
+      <polygon points="580,280 580,175 700,175 700,280" fill="#b0c0cc" stroke="#98aabb" stroke-width="1.5"/>
+      <rect x="580" y="175" width="120" height="28" fill="#a0b0bc"/>
+      <polygon points="580,175 640,148 700,175" fill="#c8d8e4"/>
+      <circle cx="660" cy="158" r="18" fill="none" stroke="#b08a2a" stroke-width="2"/>
+      <line x1="678" y1="158" x2="720" y2="148" stroke="#b08a2a" stroke-width="1.5"/>
+      <text x="724" y="144" fill="#8a6a1a" font-family="sans-serif" font-size="8">Acquisition VI</text>
+      <text x="724" y="157" fill="rgba(0,0,0,.4)" font-family="sans-serif" font-size="7">Façade Nord</text>
+      <g transform="translate(750,390)">
+        <circle cx="0" cy="0" r="16" fill="none" stroke="rgba(176,138,42,.4)" stroke-width="1"/>
+        <polygon points="0,-13 -3,-4 0,-1 3,-4" fill="#b08a2a"/>
+        <polygon points="0,13 -3,4 0,1 3,4" fill="rgba(0,0,0,.2)"/>
+        <text x="0" y="-17" text-anchor="middle" fill="#b08a2a" font-family="sans-serif" font-size="7.5">N</text>
+      </g>
+      <text x="400" y="380" text-anchor="middle" fill="#8a6a1a" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="3">SWISSRENOV — POC VI PHOTOGRAMMÉTRIE</text>
+      <text x="400" y="398" text-anchor="middle" fill="rgba(0,0,0,.38)" font-family="sans-serif" font-size="9" letter-spacing="2">INNOSUISSE · 3 SITES DÉMONSTRATEURS · Q3–Q4 2026</text>
+    `, 800, 450)
+  }
+];
+
+/* ═══════════════════════════════════════════════════════════════
+   SVG HELPERS
+   ═══════════════════════════════════════════════════════════ */
+function makeSVG(inner, w, h){
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" style="display:block;width:100%;height:auto;">${inner}</svg>`;
+}
+
+function ptCloud(w,h,n,c1,c2,c3,c4){
+  const cols=[c1,c2,c3,c4]; let s='';
+  for(let i=0;i<n;i++){
+    const x=30+Math.random()*(w-60);
+    const y=30+Math.random()*(h-80);
+    const r=0.8+Math.random()*2.2;
+    const c=cols[Math.floor(Math.random()*cols.length)];
+    s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${c}"/>`;
+  }
+  return s;
+}
+
+function windFarm(w, seaY, n){
+  let s='';
+  const step=w/(n+1);
+  for(let i=0;i<n;i++){
+    const cx=step*(i+1);
+    const baseH=seaY-60-Math.random()*30;
+    const h=baseH-40;
+    const blen=80+Math.random()*20;
+    const op=i===Math.floor(n/2)?1:0.35+Math.random()*0.2;
+    s+=`<g opacity="${op}">
+      <rect x="${cx-2.5}" y="${h}" width="5" height="${seaY-h}" fill="#d8d8d8"/>
+      <rect x="${cx-14}" y="${h-10}" width="28" height="14" rx="2" fill="#c8c8c8"/>
+      <circle cx="${cx}" cy="${h}" r="5" fill="#c0c0c0"/>
+      <path d="M${cx},${h-4} Q${cx-8},${h-blen} ${cx-12},${h-blen*1.3}" stroke="#e0e0e0" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M${cx},${h-4} Q${cx+blen*0.4},${h+6} ${cx+blen*0.75},${h+14}" stroke="#e0e0e0" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M${cx},${h-4} Q${cx-blen*0.3},${h+16} ${cx-blen*0.55},${h+30}" stroke="#e0e0e0" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <rect x="${cx-3}" y="${seaY}" width="6" height="80" fill="#1a3a5c"/>
+    </g>`;
+  }
+  return s;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GALLERY ENGINE
+   ═══════════════════════════════════════════════════════════ */
+let currentFilter='all';
+let visibleItems=[];
+let lbIndex=0;
+
+function buildCounts(){
+  const cats=['og','wind','lng','construction'];
+  document.getElementById('cnt-all').textContent=PHOTOS.length;
+  cats.forEach(c=>{
+    const el=document.getElementById('cnt-'+c);
+    if(el) el.textContent=PHOTOS.filter(p=>p.cat===c).length;
+  });
+  document.getElementById('total-count').textContent=PHOTOS.length+' visuels';
+}
+
+function renderGallery(filter){
+  currentFilter=filter;
+  const data=filter==='all'?PHOTOS:PHOTOS.filter(p=>p.cat===filter);
+  visibleItems=data;
+  const masonry=document.getElementById('masonry');
+  const empty=document.getElementById('gallery-empty');
+  const countEl=document.getElementById('gallery-count');
+  masonry.innerHTML='';
+  if(!data.length){masonry.style.display='none';empty.style.display='block';countEl.textContent='';return;}
+  masonry.style.display='';empty.style.display='none';
+  countEl.innerHTML=`<strong>${data.length}</strong> visuel${data.length>1?'s':''}`;
+  data.forEach((p,i)=>{
+    const item=document.createElement('div');
+    item.className='masonry-item';
+    item.dataset.idx=i;
+    item.setAttribute('role','button');
+    item.setAttribute('tabindex','0');
+    item.setAttribute('aria-label',p.title);
+    item.innerHTML=`
+      ${p.render()}
+      <div class="m-overlay">
+        <div class="m-expand">↗</div>
+        <div class="m-tag">${p.tag}</div>
+        <div class="m-title">${p.title}</div>
+        <div class="m-sub">${p.facts.slice(0,2).map(f=>`${f.k} : ${f.v}`).join(' · ')}</div>
+      </div>`;
+    item.addEventListener('click',()=>openLB(i));
+    item.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openLB(i);}});
+    masonry.appendChild(item);
+    requestAnimationFrame(()=>{requestAnimationFrame(()=>{item.classList.add('visible');});});
+  });
+}
+
+function setFilter(f){
+  document.querySelectorAll('.filter-btn').forEach(btn=>{
+    const active=btn.dataset.filter===f;
+    btn.classList.toggle('active',active);
+    btn.setAttribute('aria-selected',active);
+  });
+  renderGallery(f);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHTBOX
+   ═══════════════════════════════════════════════════════════ */
+function openLB(idx){
+  lbIndex=idx;
+  showLBItem(idx);
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function showLBItem(idx){
+  const p=visibleItems[idx];
+  document.getElementById('lb-media').innerHTML=p.render();
+  document.getElementById('lb-tag').textContent=p.tag;
+  document.getElementById('lb-title').textContent=p.title;
+  document.getElementById('lb-desc').textContent=p.desc;
+  document.getElementById('lb-facts').innerHTML=p.facts.map(f=>`<span class="lb-meta-fact"><strong>${f.k}</strong> — ${f.v}</span>`).join('');
+  document.getElementById('lb-counter').textContent=`${idx+1} / ${visibleItems.length}`;
+}
+
+function closeLB(){
+  document.getElementById('lb').classList.remove('open');
+  document.body.style.overflow='';
+}
+function navLB(dir){
+  lbIndex=(lbIndex+dir+visibleItems.length)%visibleItems.length;
+  showLBItem(lbIndex);
+}
+
+document.getElementById('lb-close').addEventListener('click',closeLB);
+document.getElementById('lb-prev').addEventListener('click',()=>navLB(-1));
+document.getElementById('lb-next').addEventListener('click',()=>navLB(1));
+document.getElementById('lb').addEventListener('click',function(e){if(e.target===this)closeLB();});
+document.addEventListener('keydown',function(e){
+  if(!document.getElementById('lb').classList.contains('open'))return;
+  if(e.key==='Escape')closeLB();
+  if(e.key==='ArrowLeft')navLB(-1);
+  if(e.key==='ArrowRight')navLB(1);
+});
+
+/* filter buttons */
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>setFilter(btn.dataset.filter));
+});
+
+/* ═══════ INIT ═══════ */
+buildCounts();
+renderGallery('all');
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════════════════════ */
+function goBackToPreviousPage(){ window.location.href='service-medias-reportages.html'; }
 function openContactModal(){ document.getElementById('contact-modal').style.display='block'; }
-function submitContactFR(){
+function submitContact(){
   const nom=document.getElementById('cf-nom').value.trim();
   const prenom=document.getElementById('cf-prenom').value.trim();
   const email=document.getElementById('cf-email').value.trim();
   const errEl=document.getElementById('contact-error');
   errEl.style.display='none';
   if(!nom||!prenom||!email){errEl.textContent='Merci de renseigner au minimum : Nom, Prénom et Email.';errEl.style.display='block';return;}
-  const body=[
-    'Nom : '+nom,'Prénom : '+prenom,
-    'Entreprise : '+document.getElementById('cf-entreprise').value,
-    'Téléphone : '+document.getElementById('cf-tel').value,
-    'Email : '+email,
-    'Pays : '+document.getElementById('cf-pays').value,
-    '','Message :',''+document.getElementById('cf-message').value
-  ].join('\n');
+  const body=['Nom : '+nom,'Prénom : '+prenom,'Entreprise : '+document.getElementById('cf-entreprise').value,'Email : '+email,'','Message :',''+document.getElementById('cf-message').value].join('\n');
   window.location.href='mailto:contact@myexpertondemand.com?subject=MyEOD%20%E2%80%94%20Demande%20de%20contact&body='+encodeURIComponent(body);
   document.getElementById('contact-form-wrap').style.display='none';
   document.getElementById('contact-success').style.display='block';

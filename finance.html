@@ -1436,11 +1436,15 @@ details.project-detail{
       document.getElementById('cash-chart').innerHTML = `<div class="chart-bars">${bars}</div><div class="chart-legend"><span>Vert : surplus mensuel</span><span>Rouge : besoin mensuel</span><span>Survol : détail net / cumulé</span></div>`;
     }
     function resetRow(sheet, r, cols) {
+      const skipped = [];
       cols.forEach(c => {
         const raw = rawCell(sheet, r, c);
         if (typeof raw === 'string' && raw.startsWith('=')) return; // skip formulas
+        if (isLockedByOther(sheet, r, c)) { skipped.push(c); return; } // skip locked by other
+        if (isLockedByMe(sheet, r, c)) { skipped.push(c); return; }    // skip locked by me
         setCell(sheet, r, c, 0);
       });
+      if (skipped.length) showToast(`${skipped.length} cellule(s) verrouillée(s) non réinitialisée(s)`);
       document.getElementById('last-save-status').textContent = 'Modification non enregistrée';
       renderDashboard();
     }
@@ -1577,11 +1581,14 @@ details.project-detail{
       return [...Array.from({length:14}, (_,i)=>42+i), ...extra];
     }
     function resetInvestmentRow(r) {
+      const skipped = [];
       [1,2,3].forEach(c => {
         const raw = rawCell(HYP, r, c);
         if (typeof raw === 'string' && raw.startsWith('=')) return;
+        if (isLockedByOther(HYP, r, c) || isLockedByMe(HYP, r, c)) { skipped.push(c); return; }
         setCell(HYP, r, c, 0);
       });
+      if (skipped.length) showToast(`${skipped.length} cellule(s) verrouillée(s) non réinitialisée(s)`);
       document.getElementById('last-save-status').textContent = 'Modification non enregistrée';
       renderDashboard();
     }
@@ -1685,6 +1692,7 @@ details.project-detail{
       renderInvestments();
       renderRisks();
       renderCoverageStatus();
+      applyLockUI();
     }
 
     function scenarioSnapshot() {
@@ -1717,8 +1725,33 @@ details.project-detail{
       }
     }
     function resetToInitial() {
+      // Sauvegarder les valeurs des cellules verrouillées avant reset
+      const lockedValues = {};
+      Object.keys(window._locks).forEach(lk => {
+        const parts = lk.split('||'); // 'lock||sheet||r||c'
+        if (parts.length !== 4) return;
+        const [, sheet, r, c] = parts;
+        const row = parseInt(r), col = parseInt(c);
+        if (WORKBOOK.sheets[sheet] && WORKBOOK.sheets[sheet][row] !== undefined) {
+          lockedValues[lk] = { sheet, r: row, c: col, v: rawCell(sheet, row, col) };
+        }
+      });
+
+      // Reset complet
       WORKBOOK.sheets = JSON.parse(JSON.stringify(INITIAL_SHEETS));
       rebuildEngine();
+
+      // Réappliquer les valeurs verrouillées
+      const count = Object.keys(lockedValues).length;
+      Object.values(lockedValues).forEach(({ sheet, r, c, v }) => {
+        if (WORKBOOK.sheets[sheet] && WORKBOOK.sheets[sheet][r] !== undefined) {
+          WORKBOOK.sheets[sheet][r][c] = v;
+          if (hf && sheetIds[sheet] !== undefined) {
+            try { hf.setCellContents({ sheet: sheetIds[sheet], row: r, col: c }, [[v]]); } catch(e) {}
+          }
+        }
+      });
+      if (count) showToast(`${count} cellule(s) verrouillée(s) préservée(s)`);
     }
     function applySnapshot(snapshot) {
       if (!snapshot || !snapshot.cells) return;

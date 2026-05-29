@@ -127,6 +127,60 @@ body{background:#ffffff;color:#1a1a1a;font-family:'MazzardM',sans-serif;font-siz
     .micro-field input { width:60px; border:1px solid rgba(0,0,204,.22); background:var(--blue-bg); color:var(--blue); font-family:var(--font); font-size:.72rem; font-weight:900; padding:.38rem .34rem; outline:none; }
     .micro-field input:focus { border-color:var(--blue); }
 
+    /* ── Cadenas ──────────────────────────────────────────────────────────── */
+    .field-wrap { position:relative; display:flex; flex-direction:column; gap:.25rem; min-width:0; }
+    .field-wrap .field-lock {
+      position:absolute; top:0; right:0;
+      font-size:.75rem; line-height:1; cursor:pointer;
+      opacity:.35; transition:opacity .15s;
+      user-select:none; z-index:2;
+      background:transparent; border:none; padding:0;
+    }
+    .field-wrap .field-lock:hover { opacity:1; }
+    .field-wrap.locked .field-lock { opacity:1; }
+    .field-wrap.locked input {
+      pointer-events:none;
+      background:#fff5f5 !important;
+      border-color:#e57373 !important;
+      color:#b33 !important;
+      cursor:not-allowed;
+    }
+    .field-wrap.locked-by-other .field-lock { cursor:default; opacity:.7; }
+    .field-wrap.locked-by-other input {
+      pointer-events:none;
+      background:#fff5f5 !important;
+      border-color:#e57373 !important;
+      color:#b33 !important;
+      cursor:not-allowed;
+    }
+    .field-wrap .lock-owner {
+      font-size:.5rem; color:#b33; font-weight:800;
+      letter-spacing:.06em; text-transform:uppercase;
+      display:none; margin-top:.1rem;
+    }
+    .field-wrap.locked .lock-owner,
+    .field-wrap.locked-by-other .lock-owner { display:block; }
+
+    /* Cadenas dans micro-field */
+    .micro-wrap { position:relative; flex-shrink:0; min-width:60px; }
+    .micro-wrap .field-lock {
+      position:absolute; top:0; right:0;
+      font-size:.65rem; cursor:pointer; opacity:.3;
+      transition:opacity .15s; user-select:none;
+      background:transparent; border:none; padding:0; z-index:2;
+    }
+    .micro-wrap .field-lock:hover { opacity:1; }
+    .micro-wrap.locked .field-lock,
+    .micro-wrap.locked-by-other .field-lock { opacity:1; }
+    .micro-wrap.locked input,
+    .micro-wrap.locked-by-other input {
+      pointer-events:none;
+      background:#fff5f5 !important;
+      border-color:#e57373 !important;
+      color:#b33 !important;
+      cursor:not-allowed;
+    }
+
     .scenario-card.featured { border-color:#111; box-shadow:inset 0 3px 0 #111; }
     .scenario-total { display:flex; justify-content:space-between; gap:.8rem; align-items:flex-end; margin-top:.7rem; }
     .scenario-total small { color:var(--gray-400); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; font-weight:800; }
@@ -1152,6 +1206,13 @@ details.project-detail{
       const sheet = input.dataset.sheet;
       const r = Number(input.dataset.row);
       const c = Number(input.dataset.col);
+      if (isLockedByOther(sheet, r, c)) {
+        showToast(`Cellule verrouillée par ${window._locks[lockKey(sheet,r,c)].owner}`);
+        // Remettre la valeur d'origine
+        const raw = rawCell(sheet, r, c);
+        input.value = formatInput(raw, {});
+        return;
+      }
       const next = parseEditedValue(input.value);
       setCell(sheet, r, c, next);
       document.getElementById('last-save-status').textContent = 'Modification non enregistrée';
@@ -1170,6 +1231,108 @@ details.project-detail{
       if (typeof options === 'string') return { unit: options };
       return options || {};
     }
+    // ── Système de verrous partagés ───────────────────────────────────────────
+    window._locks = {};
+
+    // Mapping email → acronyme MyEOD
+    const EMAIL_TO_ACRONYM = {
+      'regis.mortier@myexpertondemand.com':       'RMO',
+      'christelle.cantrainne@myexpertondemand.com': 'CCA',
+      'pascal.piquemal@myexpertondemand.com':      'PPI',
+      'jean-marie.alliez@myexpertondemand.com':    'JMA',
+    };
+
+    function getLockUser() {
+      // Retourne l'acronyme déjà résolu si disponible
+      if (window._lockUser) return window._lockUser;
+
+      // Tenter de lire la session Supabase Auth
+      try {
+        const sb = getSB();
+        sb.auth.getSession().then(({ data }) => {
+          const email = data?.session?.user?.email;
+          if (email) {
+            const acronym = EMAIL_TO_ACRONYM[email.toLowerCase()] || email.split('@')[0].toUpperCase().slice(0, 4);
+            window._lockUser = acronym;
+          } else {
+            // Pas de session active — fallback anonyme
+            window._lockUser = 'Invité';
+          }
+        }).catch(() => { window._lockUser = 'Invité'; });
+      } catch(e) {
+        window._lockUser = 'Invité';
+      }
+
+      // Retourner une valeur provisoire pendant la résolution async
+      // (sera mis à jour dès que la promesse se résout)
+      return window._lockUser || '…';
+    }
+
+    // Résoudre le nom dès que possible au chargement
+    async function initLockUser() {
+      try {
+        const sb = getSB();
+        const { data } = await sb.auth.getSession();
+        const email = data?.session?.user?.email;
+        if (email) {
+          window._lockUser = EMAIL_TO_ACRONYM[email.toLowerCase()] || email.split('@')[0].toUpperCase().slice(0, 4);
+        } else {
+          window._lockUser = 'Invité';
+        }
+      } catch(e) {
+        window._lockUser = 'Invité';
+      }
+    }
+
+    function lockKey(sheet, r, c) { return `lock||${sheet}||${r}||${c}`; }
+    function isLockedByMe(sheet,r,c) { const lk=lockKey(sheet,r,c); return window._locks[lk] && window._locks[lk].owner===getLockUser(); }
+    function isLockedByOther(sheet,r,c) { const lk=lockKey(sheet,r,c); return window._locks[lk] && window._locks[lk].owner!==getLockUser(); }
+
+    window.toggleLock = async function(sheet, r, c) {
+      const lk = lockKey(sheet, r, c);
+      if (isLockedByOther(sheet,r,c)) { showToast(`Verrouillé par ${window._locks[lk].owner}`); return; }
+      if (isLockedByMe(sheet,r,c)) { delete window._locks[lk]; }
+      else { window._locks[lk] = { owner: getLockUser(), lockedAt: new Date().toISOString() }; }
+      applyLockUI();
+      await pushLocks();
+    };
+
+    async function pushLocks() {
+      try {
+        const sb = getSB();
+        const { data } = await sb.from('checklist_states').select('checks').eq('id', SB_ROW_ID).single();
+        const current = data ? (data.checks || {}) : {};
+        await sb.from('checklist_states').update({ checks: { ...current, locks: window._locks } }).eq('id', SB_ROW_ID);
+      } catch(e) { console.error('Lock sync error:', e); }
+    }
+
+    function applyLockUI() {
+      document.querySelectorAll('[data-lock-key]').forEach(wrap => {
+        const lk = wrap.dataset.lockKey;
+        const lock = window._locks[lk];
+        const btn = wrap.querySelector('.field-lock');
+        const ownerEl = wrap.querySelector('.lock-owner');
+        wrap.classList.remove('locked','locked-by-other');
+        if (!lock) {
+          if (btn) btn.textContent = '\u{1F513}';
+          if (ownerEl) ownerEl.textContent = '';
+        } else if (lock.owner === getLockUser()) {
+          wrap.classList.add('locked');
+          if (btn) btn.textContent = '\u{1F512}';
+          if (ownerEl) ownerEl.textContent = 'Verrouillé par vous';
+        } else {
+          wrap.classList.add('locked-by-other');
+          if (btn) btn.textContent = '\u{1F512}';
+          if (ownerEl) ownerEl.textContent = '\u{1F512} ' + lock.owner;
+        }
+      });
+    }
+
+    function fieldLockBtn(sheet,r,c) {
+      const lk = lockKey(sheet,r,c);
+      return `<button class="field-lock" title="Verrouiller/déverrouiller" onclick="toggleLock('${sheet}',${r},${c})">🔓</button><span class="lock-owner"></span>`;
+    }
+
     function field(sheet, r, c, label, options={}) {
       options = normalizeOptions(options);
       if (!isEditable(sheet, r, c)) return '';
@@ -1177,14 +1340,16 @@ details.project-detail{
       const formula = typeof raw === 'string' && raw.startsWith('=');
       const value = esc(formatInput(raw, options));
       const unit = options.unit ? `<span class="unit">${esc(options.unit)}</span>` : '';
-      return `<label class="field ${formula ? 'formula' : ''}"><span>${esc(label)}</span><input class="finance-input" value="${value}" data-sheet="${esc(sheet)}" data-row="${r}" data-col="${c}" />${unit}</label>`;
+      const lk = lockKey(sheet, r, c);
+      return `<div class="field-wrap${formula ? ' formula' : ''}" data-lock-key="${lk}">${fieldLockBtn(sheet,r,c)}<label class="field"><span>${esc(label)}</span><input class="finance-input" value="${value}" data-sheet="${esc(sheet)}" data-row="${r}" data-col="${c}" />${unit}</label></div>`;
     }
     function microField(sheet, r, c, label, options={}) {
       options = normalizeOptions(options);
       if (!isEditable(sheet, r, c)) return '';
       const raw = rawCell(sheet, r, c);
       const value = esc(formatInput(raw, options));
-      return `<label class="micro-field"><span title="${esc(label)}">${esc(label)}</span><input class="finance-input" value="${value}" data-sheet="${esc(sheet)}" data-row="${r}" data-col="${c}" /></label>`;
+      const lk = lockKey(sheet, r, c);
+      return `<div class="micro-wrap" data-lock-key="${lk}"><button class="field-lock" title="Verrouiller/déverrouiller" onclick="toggleLock('${sheet}',${r},${c})">🔓</button><label class="micro-field"><span title="${esc(label)}">${esc(label)}</span><input class="finance-input" value="${value}" data-sheet="${esc(sheet)}" data-row="${r}" data-col="${c}" /></label></div>`;
     }
     function pctWidth(value, max) {
       if (!Number.isFinite(value) || !Number.isFinite(max) || max <= 0) return 0;
@@ -1707,12 +1872,19 @@ details.project-detail{
 
       const sb = getSB();
 
+      // Résoudre l'identité utilisateur depuis la session Supabase Auth
+      await initLockUser();
+
       // ── Appliquer l'état distant ──────────────────────────────────────────
       async function applyRemoteState(checks) {
         if (!checks) return;
         const remoteOverrides = checks.workbook_overrides || {};
         const remoteScenarios = checks.scenarios || {};
         const remoteActive   = checks.active_scenario || 'Base';
+        const remoteLocks    = checks.locks || {};
+
+        // Mettre à jour les verrous
+        window._locks = remoteLocks;
 
         window._cachedScenarios = remoteScenarios;
 
@@ -1738,6 +1910,7 @@ details.project-detail{
 
         refreshScenarioSelect();
         renderDashboard();
+        applyLockUI();
         document.getElementById('last-save-status').textContent = `Synchronisé — simulation : ${activeScenario}`;
         setSyncStatus('ok');
       }

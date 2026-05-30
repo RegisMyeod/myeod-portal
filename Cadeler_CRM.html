@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MyEOD — Cadeler A/S</title>
+<style>
+@font-face { font-family:'MazzardM'; src:url('MazzardM-Thin.woff2') format('woff2'); font-weight:100; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-Light.woff2') format('woff2'); font-weight:300; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-Regular.woff2') format('woff2'); font-weight:400; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-Italic.woff2') format('woff2'); font-weight:400; font-style:italic; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-Medium.woff2') format('woff2'); font-weight:500; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-SemiBold.woff2') format('woff2'); font-weight:600; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-ExtraBold.woff2') format('woff2'); font-weight:800; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-Black.woff2') format('woff2'); font-weight:900; }
+:root {
+  --gold:#b08a2a; --gold-dim:#8a6a1a; --gold-faint:rgba(176,138,42,0.06);
+  --teal:#0e7070; --teal-dim:#0a5050; --teal-faint:rgba(14,112,112,0.06);
+  --wind:#0f5e3a; --wind-faint:rgba(15,94,58,0.07);
+  --sky:#1a5276; --sky-faint:rgba(26,82,118,0.06);
+  --orange:#d4880a; --blue:#2a6099; --red:#c0392b; --green:#1e7a3a;
+  --white:#ffffff; --black:#0a0a0a;
+  --gray-50:#f8f8f8; --gray-100:#f0f0f0; --gray-200:#e0e0e0;
+  --gray-400:#9a9a9a; --gray-600:#555555;
+  --border:#e0e0e0; --text:#1a1a1a; --text-dim:#444444; --text-muted:#888888;
+  --font:'MazzardM',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#fff;color:var(--text);font-family:var(--font);font-size:11px;line-height:1.6;}
+.myeod-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;border-bottom:1px solid var(--gray-200);background:#fff;position:sticky;top:0;z-index:100;}
+.myeod-header-logo{height:72px;}.myeod-header-logo svg{height:100%;width:auto;display:block;}
+.myeod-header-right{display:flex;align-items:center;gap:1rem;}
+.btn-nav-back{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;font-family:var(--font);font-size:.9rem;font-weight:700;color:var(--gray-600);background:none;border:1px solid var(--gray-200);border-radius:2px;cursor:pointer;transition:border-color .2s,color .2s;}
+.btn-nav-back:hover{border-color:var(--black);color:var(--black);}
+.page{max-width:1280px;margin:0 auto;padding:28px 40px 80px;}
+.nav-tabs{display:flex;gap:0;border-bottom:2px solid var(--gray-200);margin-bottom:28px;}
+.nav-tab{padding:9px 20px;font-family:var(--font);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;transition:color .15s,border-color .15s;}
+.nav-tab:hover{color:var(--text-dim);}
+.nav-tab.active{color:var(--wind);border-bottom-color:var(--wind);}
+.tab-content{display:none;}.tab-content.active{display:block;}
+.hero{background:var(--gray-50);border:1px solid var(--border);border-radius:4px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.hero-name{font-size:20px;font-weight:700;color:var(--black);margin-bottom:4px;}
+.hero-sub{font-size:11px;color:var(--text-muted);letter-spacing:.04em;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.tag{display:inline-block;padding:3px 10px;border-radius:2px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+.tag-wind{background:var(--wind-faint);color:var(--wind);border:1px solid rgba(15,94,58,.2);}
+.tag-sky{background:var(--sky-faint);color:var(--sky);border:1px solid rgba(26,82,118,.2);}
+.tag-gold{background:var(--gold-faint);color:var(--gold-dim);border:1px solid rgba(176,138,42,.2);}
+.tag-gray{background:var(--gray-100);color:var(--gray-600);border:1px solid var(--border);}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin-bottom:24px;}
+.kpi{background:var(--gray-50);border:1px solid var(--border);border-radius:4px;padding:14px 16px;}
+.kpi-label{font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;}
+.kpi-val{font-size:19px;font-weight:700;color:var(--black);line-height:1.1;}
+.kpi-sub{font-size:9.5px;color:var(--text-muted);margin-top:3px;}
+.kpi-up{color:var(--green);}
+.kpi-accent{border-left:3px solid var(--wind);}
+.section{margin-bottom:28px;}
+.section-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);border-bottom:1px solid var(--border);padding-bottom:7px;margin-bottom:14px;}
+.section-title span{color:var(--wind);}
+.data-table{width:100%;border-collapse:collapse;font-size:10.5px;}
+.data-table th{text-align:left;font-weight:700;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);padding:7px 10px;background:var(--gray-50);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.data-table td{padding:8px 10px;border-bottom:1px solid var(--gray-100);vertical-align:top;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:var(--gray-50);}
+.data-table td:first-child{font-weight:600;color:var(--text-dim);}
+.badge{display:inline-block;padding:2px 8px;border-radius:2px;font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
+.b-green{background:#d4edda;color:#1e5c2e;}.b-blue{background:#d0e4f7;color:#1a4a7a;}
+.b-amber{background:#fef3cd;color:#7a4a00;}.b-gray{background:var(--gray-100);color:var(--gray-600);}
+.b-wind{background:var(--wind-faint);color:var(--wind);}.b-sky{background:var(--sky-faint);color:var(--sky);}
+.b-gold{background:var(--gold-faint);color:var(--gold-dim);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.info-card{background:var(--gray-50);border:1px solid var(--border);border-radius:4px;padding:14px 16px;margin-bottom:12px;}
+.info-card-title{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--wind);margin-bottom:10px;}
+.info-row{display:flex;gap:8px;margin-bottom:5px;align-items:flex-start;}
+.info-key{min-width:110px;font-size:10px;font-weight:600;color:var(--text-muted);}
+.info-val{font-size:10.5px;color:var(--text-dim);flex:1;}
+.vessel-card{background:#fff;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:8px;}
+.vessel-header{background:var(--wind-faint);border-bottom:1px solid rgba(15,94,58,.15);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;}
+.vessel-name{font-size:11.5px;font-weight:700;color:var(--wind);}
+.vessel-body{padding:12px 16px;}
+.vessel-specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px 16px;}
+.vessel-spec{font-size:10px;color:var(--text-dim);}
+.vessel-spec strong{font-weight:600;color:var(--text);}
+.vessel-card.a-class{border-left:3px solid var(--wind);}
+.vessel-card.p-class{border-left:3px solid var(--sky);}
+.vessel-card.m-class{border-left:3px solid var(--gold-dim);}
+.vessel-card.legacy{border-left:3px solid var(--gray-400);}
+.proj-card{background:#fff;border:1px solid var(--border);border-radius:4px;margin-bottom:10px;overflow:hidden;}
+.proj-header{padding:10px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);}
+.proj-title{font-size:11.5px;font-weight:700;color:var(--black);flex:1;}
+.proj-body{padding:12px 16px;}
+.proj-row{display:flex;gap:8px;margin-bottom:5px;}
+.proj-key{min-width:120px;font-size:10px;font-weight:600;color:var(--text-muted);}
+.proj-val{font-size:10.5px;color:var(--text-dim);flex:1;}
+.proj-card.en-cours{border-left:3px solid var(--wind);}
+.proj-card.upcoming{border-left:3px solid var(--sky);}
+.proj-card.future{border-left:3px solid var(--gray-400);}
+.bar-item{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.bar-yr{min-width:56px;font-size:10px;font-weight:600;color:var(--text-muted);text-align:right;}
+.bar-track{flex:1;background:var(--gray-100);border-radius:2px;height:16px;overflow:hidden;}
+.bar-fill{height:100%;display:flex;align-items:center;padding:0 8px;font-size:9.5px;font-weight:700;color:#fff;}
+.timeline{position:relative;padding-left:20px;}
+.timeline::before{content:'';position:absolute;left:5px;top:0;bottom:0;width:1px;background:var(--border);}
+.tl-item{position:relative;margin-bottom:14px;}
+.tl-dot{position:absolute;left:-18px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--wind);border:2px solid #fff;box-shadow:0 0 0 1px var(--wind);}
+.tl-dot.sky{background:var(--sky);box-shadow:0 0 0 1px var(--sky);}
+.tl-dot.gold{background:var(--gold);box-shadow:0 0 0 1px var(--gold);}
+.tl-dot.gray{background:var(--gray-400);box-shadow:0 0 0 1px var(--gray-400);}
+.tl-year{font-size:10px;font-weight:700;color:var(--wind);margin-bottom:2px;}
+.tl-year.sky{color:var(--sky);}
+.tl-year.gold{color:var(--gold);}
+.tl-text{font-size:10.5px;color:var(--text-dim);line-height:1.6;}
+.region-block{background:var(--gray-50);border:1px solid var(--border);border-radius:4px;padding:12px 14px;}
+.region-title{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);margin-bottom:7px;}
+.region-items{font-size:10.5px;color:var(--text-muted);line-height:1.7;}
+.region-items strong{color:var(--text-dim);font-weight:600;}
+.page-footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.footer-brand{font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);}
+.footer-meta{font-size:9.5px;color:var(--text-muted);}
+@media print{.no-print{display:none!important;}body{background:#fff;}.nav-tabs{display:none;}.tab-content{display:block!important;}}
+@media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr;}.hero{flex-direction:column;}}
+@media(max-width:600px){.myeod-header{padding:.9rem 1rem;}.myeod-header-logo{height:54px;}.page{padding:16px 16px 40px;}.kpi-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<header class="myeod-header">
+  <div class="myeod-header-logo">
+    <svg id="Calque_1" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 262.15 96.47"><defs><style>.cls-1{fill:#1e1717;}</style></defs><path class="cls-1" d="M117.46,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM114.76,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M121.64,66l1.92,2.55h-.51l-1.65-2.22-1.08,1.44-.58.77h-.5l1.9-2.55-1.75-2.33h.51l1.48,2,.79-1.03.72-.97h.51l-1.77,2.33Z"/><path class="cls-1" d="M128.51,63.91c.37.21.66.51.87.89.21.38.31.82.31,1.31s-.1.92-.31,1.31-.5.68-.87.89c-.37.21-.8.32-1.27.32s-.89-.1-1.25-.31c-.37-.21-.64-.49-.83-.84v3.44h-.42v-7.26h.4v1.09c.18-.36.45-.64.83-.85.37-.21.8-.32,1.27-.32s.9.11,1.27.32ZM128.28,67.98c.31-.18.56-.43.73-.75.17-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.18-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75s-.26.7-.26,1.12.09.79.26,1.12c.18.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M134.61,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM131.91,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M140.28,63.89l-.19.36c-.24-.14-.52-.22-.82-.22s-.58.09-.84.27c-.25.18-.45.42-.6.73-.14.31-.22.65-.22,1.02v2.51h-.42v-4.89h.4v1.09c.17-.36.4-.63.7-.84.29-.2.62-.3.98-.3.39,0,.72.09,1,.27Z"/><path class="cls-1" d="M144.26,68.38c-.36.18-.69.27-1,.27-.49,0-.84-.13-1.04-.39s-.3-.65-.3-1.17v-3.04h-1.05v-.39h1.05v-1.44l.42-.04v1.48h1.69v.39h-1.69v3.04c0,.39.06.68.19.88s.37.3.73.3c.11,0,.25-.02.41-.07s.3-.1.44-.17l.16.35Z"/><path class="cls-1" d="M149.11,68.32c-.38-.22-.68-.52-.89-.9-.21-.39-.32-.82-.32-1.3s.11-.92.32-1.3c.21-.39.51-.69.89-.9s.81-.33,1.28-.33.91.11,1.29.33.68.52.89.9c.21.39.32.82.32,1.3s-.11.91-.32,1.3c-.21.39-.51.69-.89.9-.38.22-.81.33-1.29.33s-.9-.11-1.28-.33ZM151.46,67.97c.32-.18.57-.44.75-.77.18-.33.27-.69.27-1.09s-.09-.77-.27-1.09c-.18-.33-.43-.58-.75-.77-.32-.18-.67-.28-1.07-.28s-.75.09-1.07.28c-.32.18-.56.44-.74.77-.18.33-.27.69-.27,1.09s.09.77.27,1.09c.18.33.43.58.74.77s.67.28,1.07.28.75-.09,1.07-.28Z"/><path class="cls-1" d="M158.24,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"/><path class="cls-1" d="M168.02,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM166.61,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M173.27,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM170.57,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M182.93,64.16c.34.37.51.89.51,1.55v2.85h-.42v-2.83c0-.55-.13-.98-.4-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.85.24s-.45.37-.59.65c-.14.27-.21.58-.21.92v2.75h-.42v-2.83c0-.55-.13-.98-.39-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.84.24-.25.16-.45.37-.59.65-.14.27-.21.58-.21.92v2.75h-.42v-4.89h.4v.92c.18-.31.41-.55.71-.73s.62-.26.96-.26c.44,0,.82.1,1.12.31s.52.51.65.89c.17-.38.42-.67.74-.89.32-.21.68-.32,1.08-.32.6,0,1.07.19,1.41.56Z"/><path class="cls-1" d="M189.84,63.67v4.89h-.4v-1.09c-.19.36-.47.65-.85.85-.37.21-.79.31-1.26.31s-.9-.11-1.27-.32c-.37-.21-.66-.51-.86-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.86-.89.37-.21.79-.32,1.27-.32s.89.11,1.26.32c.37.21.65.5.84.86v-1.1h.41ZM188.43,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M195.5,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"/><path class="cls-1" d="M202.44,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM201.03,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><polygon class="cls-1" points="72.23 42.73 72.11 42.9 72.03 43 71.95 42.9 71.83 42.73 61.05 27.8 59.71 27.8 59.71 52.29 60.79 52.29 60.79 29.98 60.79 29.5 60.79 29.21 60.96 29.45 61.23 29.83 71.98 44.65 72.12 44.65 82.86 29.8 83.14 29.41 83.31 29.18 83.31 29.47 83.31 29.94 83.31 52.29 84.35 52.29 84.35 27.8 83.01 27.8 72.23 42.73"/><polygon class="cls-1" points="111.97 27.8 102.01 50.45 101.87 50.78 101.78 50.98 101.69 50.78 101.56 50.45 99.23 44.91 91.91 27.8 90.81 27.8 101.19 52.04 101.22 52.1 101.23 52.14 101.22 52.17 101.19 52.23 94.12 68.67 95.22 68.67 113.07 27.8 111.97 27.8"/><polygon class="cls-1" points="42.39 28.9 41.61 28.05 28.25 39.6 28.25 40.35 41.61 51.97 42.39 51.11 29.97 40.31 29.58 39.97 29.97 39.63 42.39 28.9"/><polygon class="cls-1" points="220.54 28.05 219.76 28.9 232.18 39.7 232.57 40.04 232.18 40.38 219.76 51.11 220.54 51.97 233.9 40.41 233.9 39.66 220.54 28.05"/><path class="cls-1" d="M120.78,40.78c.22,2.98,1.23,5.34,3.03,7.07,1.79,1.73,4.12,2.6,6.97,2.6,1.76,0,3.44-.35,5.05-1.06,1.6-.7,2.84-1.63,3.7-2.79l1.44,1.2c-1.12,1.41-2.58,2.52-4.37,3.34-1.79.82-3.73,1.23-5.82,1.23-2.31,0-4.37-.53-6.2-1.59-1.83-1.06-3.25-2.52-4.28-4.4-1.03-1.87-1.54-4-1.54-6.37s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.32,4.23-4.37s3.87-1.59,6.18-1.59,4.46.49,6.27,1.47c1.81.98,3.2,2.35,4.18,4.11.98,1.76,1.47,3.8,1.47,6.1,0,.61-.02,1.07-.05,1.39h-17.93l.03-1.87h15.99c0-1.83-.43-3.44-1.27-4.85-.85-1.41-2.02-2.51-3.51-3.29-1.49-.78-3.21-1.18-5.17-1.18-2.79,0-5.08.86-6.87,2.57-1.79,1.71-2.8,3.97-3.03,6.75-.1.82,0,1.87,0,1.87Z"/><path class="cls-1" d="M154.04,50.72c-1.84-1.06-3.28-2.52-4.33-4.4-1.04-1.87-1.56-3.98-1.56-6.32s.52-4.45,1.56-6.32c1.04-1.87,2.48-3.34,4.33-4.4,1.84-1.06,3.92-1.59,6.22-1.59s4.43.53,6.27,1.59,3.28,2.52,4.33,4.4c1.04,1.87,1.56,3.98,1.56,6.32s-.52,4.45-1.56,6.32c-1.04,1.87-2.48,3.34-4.33,4.4s-3.93,1.59-6.27,1.59-4.38-.53-6.22-1.59ZM165.46,49.04c1.54-.9,2.75-2.14,3.63-3.73.88-1.59,1.32-3.36,1.32-5.31s-.44-3.72-1.32-5.31c-.88-1.59-2.09-2.83-3.63-3.73-1.54-.9-3.27-1.35-5.19-1.35s-3.65.45-5.19,1.35c-1.54.9-2.74,2.14-3.6,3.73-.86,1.59-1.3,3.36-1.3,5.31s.43,3.72,1.3,5.31c.86,1.59,2.07,2.83,3.6,3.73,1.54.9,3.27,1.35,5.19,1.35s3.65-.45,5.19-1.35Z"/><path class="cls-1" d="M202.44,18.23v33.64h-1.92l-.05-5.24c-.9,1.73-2.25,3.1-4.06,4.11-1.81,1.01-3.85,1.51-6.13,1.51s-4.32-.52-6.13-1.56c-1.81-1.04-3.22-2.49-4.23-4.35-1.01-1.86-1.51-3.97-1.51-6.34s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.31,4.23-4.35,1.81-1.04,3.85-1.56,6.13-1.56s4.31.5,6.1,1.49c1.79.99,3.14,2.36,4.04,4.09v-15.09h2.02ZM195.59,49.09c1.52-.86,2.71-2.08,3.56-3.65.85-1.57,1.27-3.38,1.27-5.43s-.43-3.86-1.27-5.43c-.85-1.57-2.04-2.79-3.56-3.65-1.52-.87-3.24-1.3-5.17-1.3s-3.69.43-5.19,1.3c-1.51.86-2.68,2.08-3.53,3.65s-1.27,3.38-1.27,5.43.42,3.86,1.27,5.43c.85,1.57,2.03,2.79,3.53,3.65,1.51.87,3.24,1.3,5.19,1.3s3.64-.43,5.17-1.3Z"/></svg>
+  </div>
+  <div class="myeod-header-right">
+    <div style="text-align:right;">
+      <div style="font-family:'MazzardM',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#1a1a1a;">Cadeler A/S</div>
+      <div style="font-family:'MazzardM',sans-serif;font-size:.55rem;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a;margin-top:2px;">Fiche Client CRM — Mise à jour mai 2026</div>
+    </div>
+    <button type="button" class="btn-nav-back no-print" onclick="goBackToPreviousPage()" title="Retour" aria-label="Retour">←</button>
+  </div>
+</header>
+
+<div class="page">
+  <div class="hero">
+    <div>
+      <div class="hero-name">Cadeler A/S</div>
+      <div class="hero-sub">OSLO : CADLR &nbsp;·&nbsp; NYSE : CDLR &nbsp;·&nbsp; COPENHAGUE, DANEMARK &nbsp;·&nbsp; FONDÉE 2008 &nbsp;·&nbsp; CEO : MIKKEL GLEERUP</div>
+      <div class="hero-tags">
+        <span class="tag tag-wind">Plus grande flotte WTIV mondiale (12 nav. en 2027)</span>
+        <span class="tag tag-sky">Backlog 2,7 Md€ (mai 2026)</span>
+        <span class="tag tag-gold">CA 2025 : 620 M€ (+149%)</span>
+        <span class="tag tag-gray">~800–1 000 collaborateurs</span>
+        <span class="tag tag-gray">Europe · Asie-Pacifique · Amérique du Nord</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <div style="text-align:center;padding:10px 20px;background:var(--wind-faint);border:1px solid rgba(15,94,58,.2);border-radius:4px;">
+        <div style="font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--wind);margin-bottom:4px;">CA 2026e</div>
+        <div style="font-size:20px;font-weight:800;color:var(--wind);">845–944 M€</div>
+        <div style="font-size:9px;color:var(--wind);">Guidance officielle 2026</div>
+      </div>
+      <div style="text-align:center;padding:10px 20px;background:var(--sky-faint);border:1px solid rgba(26,82,118,.2);border-radius:4px;">
+        <div style="font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sky);margin-bottom:4px;">EBITDA 2026e</div>
+        <div style="font-size:20px;font-weight:800;color:var(--sky);">420–510 M€</div>
+        <div style="font-size:9px;color:var(--sky);">Guidance officielle 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-tabs no-print">
+    <button class="nav-tab active" onclick="showTab('finances')">Finances</button>
+    <button class="nav-tab" onclick="showTab('flotte')">Flotte WIV</button>
+    <button class="nav-tab" onclick="showTab('projets')">Projets 2026–2028</button>
+    <button class="nav-tab" onclick="showTab('presence')">Présence mondiale</button>
+    <button class="nav-tab" onclick="showTab('strategie')">Stratégie & Nexra</button>
+  </div>
+
+  <!-- TAB FINANCES -->
+  <div id="tab-finances" class="tab-content active">
+    <div class="kpi-grid">
+      <div class="kpi kpi-accent"><div class="kpi-label">CA 2025</div><div class="kpi-val">620 M€</div><div class="kpi-sub kpi-up">▲ +149% vs 2024 (249 M€)</div></div>
+      <div class="kpi kpi-accent"><div class="kpi-label">EBITDA 2025</div><div class="kpi-val">425 M€</div><div class="kpi-sub kpi-up">▲ vs 126 M€ en 2024</div></div>
+      <div class="kpi"><div class="kpi-label">Résultat net 2025</div><div class="kpi-val">280 M€</div><div class="kpi-sub kpi-up">▲ vs 65 M€ en 2024</div></div>
+      <div class="kpi"><div class="kpi-label">Actifs totaux fin 2025</div><div class="kpi-val">3 417 M€</div><div class="kpi-sub kpi-up">▲ +76% — investissements navires</div></div>
+      <div class="kpi"><div class="kpi-label">Backlog (mai 2026)</div><div class="kpi-val">2,7 Md€</div><div class="kpi-sub">82% lié à projets FID confirmés</div></div>
+      <div class="kpi"><div class="kpi-label">Capitalisation boursière</div><div class="kpi-val">~2,3 Md$</div><div class="kpi-sub">350 M actions — NYSE CDLR / Oslo CADLR</div></div>
+      <div class="kpi"><div class="kpi-label">PP&E fin 2025</div><div class="kpi-val">2,9 Md€</div><div class="kpi-sub">vs 1,7 Md€ en 2024 — navires</div></div>
+      <div class="kpi"><div class="kpi-label">Liquidités fin 2025</div><div class="kpi-val">343 M€</div><div class="kpi-sub">Cash + lignes de crédit confirmées</div></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="section">
+        <div class="section-title"><span>▸</span> Évolution du chiffre d'affaires (2022–2026e)</div>
+        <div style="margin:.75rem 0">
+          <div class="bar-item"><div class="bar-yr">2022</div><div class="bar-track"><div class="bar-fill" style="width:14%;background:#5a9e72;">~85 M€</div></div></div>
+          <div class="bar-item"><div class="bar-yr">2023</div><div class="bar-track"><div class="bar-fill" style="width:22%;background:#3d8a5c;">~135 M€</div></div></div>
+          <div class="bar-item"><div class="bar-yr">2024</div><div class="bar-track"><div class="bar-fill" style="width:40%;background:#2a7044;">249 M€</div></div></div>
+          <div class="bar-item"><div class="bar-yr">2025</div><div class="bar-track"><div class="bar-fill" style="width:66%;background:#1a5e35;">620 M€ (+149%)</div></div></div>
+          <div class="bar-item"><div class="bar-yr">2026e min</div><div class="bar-track"><div class="bar-fill" style="width:90%;background:#0f5e3a;">845 M€ guidance</div></div></div>
+          <div class="bar-item"><div class="bar-yr">2026e max</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#b08a2a;">944 M€ guidance</div></div></div>
+        </div>
+        <p style="font-size:9.5px;color:var(--text-muted);line-height:1.6;">La croissance 2025 est portée par le doublement de la flotte opérationnelle (5 → 10 navires), un taux d'utilisation élevé et la montée en puissance des nouvelles classes A et P. Le backlog a progressé de 907 M€ (2022) à 2,8 Md€ (mars 2026).</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><span>▸</span> Tableau de synthèse financière</div>
+        <table class="data-table">
+          <thead><tr><th>Indicateur</th><th>2023</th><th>2024</th><th>2025</th></tr></thead>
+          <tbody>
+            <tr><td>Chiffre d'affaires</td><td>~135 M€</td><td>249 M€</td><td>620 M€</td></tr>
+            <tr><td>EBITDA</td><td>n.d.</td><td>126 M€</td><td>425 M€</td></tr>
+            <tr><td>Résultat net</td><td>n.d.</td><td>65 M€</td><td>280 M€</td></tr>
+            <tr><td>Actifs totaux</td><td>n.d.</td><td>~1 940 M€</td><td>3 417 M€</td></tr>
+            <tr><td>PP&amp;E (navires)</td><td>n.d.</td><td>1 700 M€</td><td>2 900 M€</td></tr>
+            <tr><td>Capitaux propres</td><td>n.d.</td><td>1 234 M€</td><td>1 504 M€</td></tr>
+            <tr><td>Backlog</td><td>~1 500 M€</td><td>2 300 M€</td><td>2 800 M€ (mars 2026)</td></tr>
+            <tr><td>Navires en opération</td><td>5</td><td>5→7</td><td>10</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:14px;">
+          <div class="section-title"><span>▸</span> Répartition du backlog par zone (mars 2026)</div>
+          <table class="data-table">
+            <thead><tr><th>Zone</th><th>Part</th><th>Projets clés</th></tr></thead>
+            <tbody>
+              <tr><td>Europe</td><td><strong>87%</strong></td><td>Sofia, Baltic Power, He Dreiht, East Anglia III, Hornsea 3, Inch Cape, BC-Wind</td></tr>
+              <tr><td>Asie-Pacifique</td><td><strong>8%</strong></td><td>Greater Changhua, Formosa 4, O&M Taiwan, Japon (Wind Zaratan)</td></tr>
+              <tr><td>Amérique du Nord</td><td><strong>5%</strong></td><td>Revolution Wind, Sunrise Wind, Vineyard Wind (terminé)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB FLOTTE -->
+  <div id="tab-flotte" class="tab-content">
+    <div class="section">
+      <div class="section-title"><span>▸</span> Flotte Wind Installation Vessels (WIV) — 10 navires opérationnels, 2 à livrer</div>
+      <p style="font-size:10.5px;color:var(--text-dim);margin-bottom:14px;line-height:1.6;">Cadeler exploite la plus grande flotte de jack-up WIV au monde. Avec la livraison de Wind Ace (H2 2026) et Wind Apex (H1 2027), la flotte atteindra 12 unités. Les navires se répartissent en 4 classes : A-class (fondations + WTG XXL), P-class (WTG 15-20 MW), M-class (WTG standard), et vieilles générations O-class (Wind Orca, Wind Osprey). Chantier : COSCO Qidong (Chine).</p>
+
+      <div style="margin-bottom:10px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--wind);">▸ A-Class — Fondations XXL + WTG (grue &gt;3 300 t)</div>
+      <div class="vessel-card a-class">
+        <div class="vessel-header"><div class="vessel-name">Wind Ally</div><div style="display:flex;gap:6px;"><span class="badge b-wind">Livré sept. 2025</span><span class="badge b-green">Opérationnel</span></div></div>
+        <div class="vessel-body">
+          <div class="vessel-specs">
+            <div class="vessel-spec"><strong>Grue principale :</strong> &gt;3 300 t à 39 m</div>
+            <div class="vessel-spec"><strong>Surface pont :</strong> 5 600 m²</div>
+            <div class="vessel-spec"><strong>Charge utile :</strong> &gt;18 000 t</div>
+            <div class="vessel-spec"><strong>Capacité :</strong> 6 monopieux XXL/voyage</div>
+            <div class="vessel-spec"><strong>Chantier :</strong> COSCO Qidong, Chine</div>
+            <div class="vessel-spec"><strong>Conception :</strong> GustoMSC, NOV, Kongsberg, Huisman, MAN</div>
+            <div class="vessel-spec"><strong>1er projet :</strong> Hornsea 3 (Ørsted) — fondations monopieux</div>
+            <div class="vessel-spec"><strong>Capacité équipage :</strong> n.d.</div>
+          </div>
+          <p style="font-size:9.5px;color:var(--text-muted);margin-top:8px;">Premier navire de la classe A — livré avant programme. 1re fois que Cadeler réalise le scope complet T&I fondations. 2ème et 3ème coups : Wind Ace (H2 2026) et Wind Apex (H1 2027).</p>
+        </div>
+      </div>
+      <div class="vessel-card a-class">
+        <div class="vessel-header"><div class="vessel-name">Wind Ace</div><div style="display:flex;gap:6px;"><span class="badge b-gold">Livraison Q3 2026</span><span class="badge b-amber">94% construit — essais mer mai 2026</span></div></div>
+        <div class="vessel-body">
+          <div class="vessel-specs">
+            <div class="vessel-spec"><strong>Grue principale :</strong> 3 300 t (à confirmer)</div>
+            <div class="vessel-spec"><strong>Surface pont :</strong> 5 600 m²</div>
+            <div class="vessel-spec"><strong>Charge utile :</strong> &gt;17 600 t</div>
+            <div class="vessel-spec"><strong>Design :</strong> Identique à Wind Ally</div>
+            <div class="vessel-spec"><strong>1er projet :</strong> East Anglia Two (après livraison)</div>
+          </div>
+        </div>
+      </div>
+      <div class="vessel-card a-class">
+        <div class="vessel-header"><div class="vessel-name">Wind Apex</div><div style="display:flex;gap:6px;"><span class="badge b-sky">Livraison H1 2027</span><span class="badge b-gray">En construction</span></div></div>
+        <div class="vessel-body">
+          <div class="vessel-specs">
+            <div class="vessel-spec"><strong>Surface pont :</strong> 5 600 m²</div>
+            <div class="vessel-spec"><strong>Charge utile :</strong> &gt;17 000 t</div>
+            <div class="vessel-spec"><strong>Particularité :</strong> Design hybride fondations/WTG — conversion seamless</div>
+            <div class="vessel-spec"><strong>11e navire</strong> de la flotte Cadeler</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin:14px 0 10px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sky);">▸ P-Class — WTG 15–20 MW (grue &gt;2 600 t à 47 m)</div>
+      <div class="vessel-card p-class">
+        <div class="vessel-header"><div class="vessel-name">Wind Peak</div><div style="display:flex;gap:6px;"><span class="badge b-sky">Livré août 2024</span><span class="badge b-green">Opérationnel</span></div></div>
+        <div class="vessel-body">
+          <div class="vessel-specs">
+            <div class="vessel-spec"><strong>Grue :</strong> &gt;2 600 t à 47 m</div>
+            <div class="vessel-spec"><strong>Surface pont :</strong> 5 600 m²</div>
+            <div class="vessel-spec"><strong>Charge utile :</strong> &gt;17 600 t</div>
+            <div class="vessel-spec"><strong>Capacité :</strong> 7 ensembles WTG 15 MW / 5 WTG 20 MW</div>
+            <div class="vessel-spec"><strong>Équipage :</strong> 130 personnes</div>
+            <div class="vessel-spec"><strong>Carburant :</strong> Prête dual-fuel méthanol vert</div>
+            <div class="vessel-spec"><strong>Projets :</strong> Sofia (RWE, 100 × SG 14 MW)</div>
+          </div>
+        </div>
+      </div>
+      <div class="vessel-card p-class">
+        <div class="vessel-header"><div class="vessel-name">Wind Pace</div><div style="display:flex;gap:6px;"><span class="badge b-sky">Livré mars 2025</span><span class="badge b-green">Opérationnel</span></div></div>
+        <div class="vessel-body">
+          <div class="vessel-specs">
+            <div class="vessel-spec"><strong>Grue :</strong> &gt;2 600 t à 47 m</div>
+            <div class="vessel-spec"><strong>Identique à Wind Peak</strong></div>
+            <div class="vessel-spec"><strong>Projets :</strong> Vineyard Wind USA (Q2 2025–Q1 2026), East Anglia THREE (2026)</div>
+            <div class="vessel-spec"><strong>Carburant :</strong> Prête dual-fuel méthanol vert</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin:14px 0 10px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-dim);">▸ M-Class & O-Class — Flotte expérimentée</div>
+      <table class="data-table">
+        <thead><tr><th>Navire</th><th>Classe</th><th>Capacités principales</th><th>Missions 2025–2026</th><th>Statut</th></tr></thead>
+        <tbody>
+          <tr><td>Wind Maker</td><td>M-class</td><td>WTG installation + fondations, grue &gt;1 500 t</td><td>Taiwan — O&M campaigns (Wind Maker, 2025-2026)</td><td><span class="badge b-green">Opérationnel</span></td></tr>
+          <tr><td>Wind Mover</td><td>M-class</td><td>WTG installation, transport grande capacité</td><td>Baltic Power (Vestas 15 MW, Pologne)</td><td><span class="badge b-green">Opérationnel</span></td></tr>
+          <tr><td>Wind Keeper</td><td>Acquis 2025</td><td>WTG installation, contrat long terme 5,5 ans</td><td>He Dreiht (Vestas, Allemagne) — contrat exclusif long terme</td><td><span class="badge b-green">Opérationnel</span></td></tr>
+          <tr><td>Wind Orca</td><td>O-class (origine)</td><td>Fondations + WTG — grue renforcée</td><td>Hornsea 3 — fondations T&I (avec Wind Ally)</td><td><span class="badge b-green">Opérationnel</span></td></tr>
+          <tr><td>Wind Osprey</td><td>O-class</td><td>WTG installation standard</td><td>East Anglia THREE — turbines (ScottishPower, 95 WTG)</td><td><span class="badge b-green">Opérationnel</span></td></tr>
+          <tr><td>Wind Zaratan</td><td>Ancienne génération</td><td>WTG installation, O&M, fondations support</td><td>Transition 2026 : upgrades + O&M Asie + retour Europe</td><td><span class="badge b-amber">Transition 2026</span></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:9.5px;color:var(--text-muted);margin-top:8px;line-height:1.6;">Nexra, la plateforme O&M de Cadeler, est actuellement équipée pour Wind Maker (Taiwan) et Wind Zaratan (Japon) pour des campagnes O&M en 2026. Le Wind Keeper opère sous un contrat "up to 5,5 ans" exclusif sur He Dreiht.</p>
+    </div>
+  </div>
+
+  <!-- TAB PROJETS -->
+  <div id="tab-projets" class="tab-content">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
+      <span style="font-size:10px;font-weight:700;color:var(--text-muted);">Légende :</span>
+      <span class="badge b-wind">Actif 2026</span>
+      <span class="badge b-sky">2026 — démarrage</span>
+      <span class="badge b-gold">Upcoming 2027+</span>
+      <span class="badge b-gray">Long terme</span>
+    </div>
+
+    <div class="proj-card en-cours">
+      <div class="proj-header"><div class="proj-title">Hornsea 3 — Fondations & Turbines · Mer du Nord (UK)</div><span class="badge b-wind">Actif 2026</span><span class="badge b-green">En cours d'installation</span></div>
+      <div class="proj-body">
+        <div class="grid-2">
+          <div>
+            <div class="proj-row"><div class="proj-key">Client</div><div class="proj-val">Ørsted</div></div>
+            <div class="proj-row"><div class="proj-key">Capacité du parc</div><div class="proj-val">2,9 GW — plus grand parc offshore au monde quand finalisé</div></div>
+            <div class="proj-row"><div class="proj-key">Scope Cadeler</div><div class="proj-val"><strong>Full T&I fondations</strong> (monopieux XXL) + installation 50% des WTGs. Scope fondations = première fois pour Cadeler.</div></div>
+          </div>
+          <div>
+            <div class="proj-row"><div class="proj-key">Navires déployés</div><div class="proj-val">Wind Ally (fondations) + Wind Orca (fondations). 3 navires HTV en affrètement pour transport.</div></div>
+            <div class="proj-row"><div class="proj-key">Statut mai 2026</div><div class="proj-val">1er round-trip complété. Premiers monopieux commissionnés. ~50 monopieux transportés vers port de marshalling. Validation proof of concept.</div></div>
+            <div class="proj-row"><div class="proj-key">Enjeu</div><div class="proj-val">Projet le plus stratégique de Cadeler — démontre la capacité full-scope fondations. Les leçons capturées alimentent East Anglia Two.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-card en-cours">
+      <div class="proj-header"><div class="proj-title">East Anglia THREE — 95 WTG · Mer du Nord Sud (UK)</div><span class="badge b-wind">Actif 2026</span><span class="badge b-green">En cours</span></div>
+      <div class="proj-body">
+        <div class="proj-row"><div class="proj-key">Client</div><div class="proj-val">ScottishPower Renewables</div></div>
+        <div class="proj-row"><div class="proj-key">Capacité</div><div class="proj-val">1,4 GW — 95 turbines Siemens Gamesa</div></div>
+        <div class="proj-row"><div class="proj-key">Valeur contrat</div><div class="proj-val">Juste au-dessus de 100 M€</div></div>
+        <div class="proj-row"><div class="proj-key">Navires</div><div class="proj-val">Wind Osprey + Wind Pace (de retour des USA)</div></div>
+        <div class="proj-row"><div class="proj-key">Calendrier</div><div class="proj-val">Début 2026 → fin 2026</div></div>
+      </div>
+    </div>
+
+    <div class="proj-card en-cours">
+      <div class="proj-header"><div class="proj-title">Sofia — 100 WTG SG 14 MW · UK (RWE)</div><span class="badge b-wind">Actif 2025–2026</span><span class="badge b-green">Turbines en installation</span></div>
+      <div class="proj-body">
+        <div class="proj-row"><div class="proj-key">Client</div><div class="proj-val">RWE — 1,4 GW</div></div>
+        <div class="proj-row"><div class="proj-key">Navire</div><div class="proj-val">Wind Peak — installe 100 × SG 14 MW WTGs</div></div>
+        <div class="proj-row"><div class="proj-key">Scope</div><div class="proj-val">Transport et installation des 100 WTGs pour Siemens Gamesa. Un des plus grands parcs offshore en construction au monde.</div></div>
+      </div>
+    </div>
+
+    <div class="proj-card en-cours">
+      <div class="proj-header"><div class="proj-title">Baltic Power — 76 Vestas 15 MW · Mer Baltique (Pologne)</div><span class="badge b-wind">Actif 2025–2026</span><span class="badge b-green">Turbines en cours</span></div>
+      <div class="proj-body">
+        <div class="proj-row"><div class="proj-key">Client</div><div class="proj-val">Ørsted / PKN Orlen</div></div>
+        <div class="proj-row"><div class="proj-key">Capacité</div><div class="proj-val">1,2 GW — 1er parc offshore polonais (alimentation &gt;1,5 M foyers)</div></div>
+        <div class="proj-row"><div class="proj-key">Navire</div><div class="proj-val">Wind Mover + Wind Osprey. 1ère Vestas 15 MW installée en juillet 2025.</div></div>
+      </div>
+    </div>
+
+    <div class="proj-card en-cours">
+      <div class="proj-header"><div class="proj-title">He Dreiht — WTG Vestas · Mer du Nord (Allemagne)</div><span class="badge b-wind">Actif 2026</span><span class="badge b-green">Long terme Wind Keeper</span></div>
+      <div class="proj-body">
+        <div class="proj-row"><div class="proj-key">Client</div><div class="proj-val">Entwicklungsgesellschaft He Dreiht / Vestas</div></div>
+        <div class="proj-row"><div class="proj-key">Navire</div><div class="proj-val">Wind Keeper — contrat exclusif "up to 5,5 ans"</div></div>
+        <div class="proj-row"><div class="proj-key">Enjeu</div><div class="proj-val">Contrat long terme = visibilité revenus. Démontre la confiance des clients dans Cadeler pour des engagements pluriannuels.</div></div>
+      </div>
+    </div>
+
+    <div class="proj-card upcoming">
+      <div class="proj-header"><div class="proj-title">Inch Cape — Installation WTG · Mer du Nord (Écosse)</div><span class="badge b-sky">2026–2027</span><span class="badge b-blue">Planifié</span></div>
+      <div class="proj-body">
+        <div class="proj-row"><div class="proj-key">Client</div><div class="proj-val">Red Rock Renewables / EDP Renewables</div></div>
+        <div class="proj-row"><div class="proj-key">Scope</div><div class="proj-val">Transport et installation des WTGs. Contrat dans le backlog Cadeler.</div></div>
+      </div>
+    </div>
+
+    <div class="proj-card upcoming">
+      <div class="proj-header"><div class="proj-title">East Anglia Two — Fondations & WTG · UK</div><span class="badge b-gold">2027+</span><span class="badge b-gold">Wind Ace — après livraison</span></div>
+      <div class="proj-body">
+        <div class="proj-row"><div class="proj-key">Client</div><div class="proj-val">ScottishPower Renewables</div></div>
+        <div class="proj-row"><div class="proj-key">Navire envisagé</div><div class="proj-val">Wind Ace — mobilisé après livraison Q3 2026. Application des leçons Hornsea 3.</div></div>
+        <div class="proj-row"><div class="proj-key">Scope</div><div class="proj-val">Full-scope fondations + WTG — 2e projet d'envergure A-class fondations.</div></div>
+      </div>
+    </div>
+
+    <div class="proj-card upcoming">
+      <div class="proj-header"><div class="proj-title">BC-Wind — 390 MW · Mer Baltique (Pologne)</div><span class="badge b-gold">2026–2027</span></div>
+      <div class="proj-body">
+        <div class="proj-row"><div class="proj-key">Client</div><div class="proj-val">Ocean Winds — contrat WTG T&I signé sept. 2025</div></div>
+        <div class="proj-row"><div class="proj-key">Localisation</div><div class="proj-val">Mer Baltique, Pologne — 390 MW</div></div>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-header"><div class="proj-title">Taiwan — Greater Changhua, Formosa 4, O&M · Asie-Pacifique</div><span class="badge b-wind">Multi-projets actifs</span></div>
+      <div class="proj-body">
+        <div class="proj-row"><div class="proj-key">Navires</div><div class="proj-val">Wind Maker (O&M + WTG) · Wind Zaratan (O&M Japon après upgrades 2026)</div></div>
+        <div class="proj-row"><div class="proj-key">Nexra contrat</div><div class="proj-val">Nexra — contrat O&M ferme Taiwan signé fév. 2026, &gt;20 M€, mars–juin 2026</div></div>
+        <div class="proj-row"><div class="proj-key">Backlog Asie-Pac</div><div class="proj-val">8% du backlog total (~216 M€). Accord fournisseur préféré signé pour T&I monopieux + TP sur grand parc européen.</div></div>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-header"><div class="proj-title">Amérique du Nord — Revolution Wind, Sunrise Wind, Vineyard Wind</div><span class="badge b-sky">USA — actifs & à venir</span></div>
+      <div class="proj-body">
+        <div class="proj-row"><div class="proj-key">Vineyard Wind</div><div class="proj-val">Wind Pace déployée Q2 2025–Q1 2026 — terminé. 2e projet Cadeler en eaux américaines.</div></div>
+        <div class="proj-row"><div class="proj-key">Revolution Wind</div><div class="proj-val">Dans le backlog — contrat à exécuter. Côte Est USA.</div></div>
+        <div class="proj-row"><div class="proj-key">Sunrise Wind</div><div class="proj-val">Dans le backlog — contrat à exécuter.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB PRÉSENCE -->
+  <div id="tab-presence" class="tab-content">
+    <div class="section">
+      <div class="section-title"><span>▸</span> Implantations géographiques & présence opérationnelle</div>
+      <div class="grid-2" style="margin-bottom:14px;">
+        <div class="region-block" style="border-left:3px solid var(--wind);">
+          <div class="region-title">🇩🇰 Danemark — Siège social (Copenhague)</div>
+          <div class="region-items">
+            <strong>Adresse :</strong> Kalvebod Brygge 43 (anciennement Arne Jacobsens Allé 7), 1560 Copenhague V.<br>
+            <strong>Rôle :</strong> Siège corporate, direction générale (CEO Mikkel Gleerup), finance, développement business, opérations fleet management.<br>
+            <strong>Cotation :</strong> Cadeler A/S — Oslo Bors (CADLR) + NYSE (CDLR). Actionnaire principal : BW Group (Scorpio Holdings).<br>
+            <strong>Histoire :</strong> Fondée en 2008 comme Blue Ocean Ships A/S. Acquisition par Swire Group (2010–2020). Renommée Cadeler. Fusion avec Eneti Inc. (déc. 2023) — doublement de la flotte.
+          </div>
+        </div>
+        <div class="region-block" style="border-left:3px solid var(--sky);">
+          <div class="region-title">🇬🇧 Royaume-Uni — Bureau opérationnel (Norwich)</div>
+          <div class="region-items">
+            <strong>Rôle :</strong> Support opérationnel pour les projets en Mer du Nord et Mer d'Irlande. Interface client Ørsted, RWE, ScottishPower, Vattenfall en UK.<br>
+            <strong>Projets locaux :</strong> Hornsea 3, Sofia, East Anglia THREE, Inch Cape, East Anglia Two (2027+).<br>
+            <strong>Port d'attache :</strong> Rotterdam (NL) utilisé comme base principale pour mobilisation navires Mer du Nord.
+          </div>
+        </div>
+        <div class="region-block" style="border-left:3px solid var(--gold-dim);">
+          <div class="region-title">🇹🇼 Taiwan — Bureau Asie-Pacifique (Taipei)</div>
+          <div class="region-items">
+            <strong>Rôle :</strong> Hub pour les marchés Taiwan, Japon, Corée du Sud. Interface avec Ørsted Taiwan, CPCRC, wpd, Swancor.<br>
+            <strong>Projets actifs :</strong> Greater Changhua (Ørsted), Formosa 4, O&M campaigns (Nexra) — Wind Maker on-site.<br>
+            <strong>Nexra :</strong> Contrat O&M ferme Taiwan signé fév. 2026 (&gt;20 M€). Nexra campagne Japon Wind Zaratan prévue 2026.
+          </div>
+        </div>
+        <div class="region-block" style="border-left:3px solid var(--blue);">
+          <div class="region-title">🇺🇸 États-Unis — Présence projets (côte Est)</div>
+          <div class="region-items">
+            <strong>Projets :</strong> Vineyard Wind (terminé), Revolution Wind, Sunrise Wind dans le backlog.<br>
+            <strong>Navires US :</strong> Wind Pace déployée sur Vineyard Wind (Q2 2025 – Q1 2026). Retour Europe pour EA3.<br>
+            <strong>Marché :</strong> 5% du backlog. Marché en développement — cadre réglementaire (Jones Act, IRA) complexe mais porteur à moyen terme.
+          </div>
+        </div>
+        <div class="region-block" style="border-left:3px solid var(--green);">
+          <div class="region-title">🇯🇵 Japon — Marchés émergents</div>
+          <div class="region-items">
+            <strong>Projets :</strong> Wind Zaratan — campagne O&M Japon 2026 (2-3 mois via Nexra).<br>
+            <strong>Potentiel :</strong> Le Japon vise 45 GW d'éolien offshore d'ici 2040. Marché stratégique long terme pour Cadeler.
+          </div>
+        </div>
+        <div class="region-block" style="border-left:3px solid var(--gray-400);">
+          <div class="region-title">🇵🇱 🇩🇪 Europe du Nord & Baltique</div>
+          <div class="region-items">
+            <strong>Pologne :</strong> Baltic Power (1er parc offshore polonais 1,2 GW — Wind Mover), BC-Wind 390 MW (Ocean Winds 2026+).<br>
+            <strong>Allemagne :</strong> He Dreiht — Wind Keeper en opération longue durée (5,5 ans).<br>
+            <strong>Scandinavie :</strong> Projets norvégiens et suédois dans le pipeline long terme.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span>▸</span> Profil corporate & actionnariat</div>
+      <div class="grid-2">
+        <div class="info-card">
+          <div class="info-card-title">Données corporate</div>
+          <div class="info-row"><div class="info-key">Fondée</div><div class="info-val">2008 (Blue Ocean Ships A/S)</div></div>
+          <div class="info-row"><div class="info-key">CEO</div><div class="info-val"><strong>Mikkel Gleerup</strong></div></div>
+          <div class="info-row"><div class="info-key">Effectifs</div><div class="info-val">~800–1 000 (donné 798 fin 2025 selon Pitchbook, ~1 000 selon d'autres sources)</div></div>
+          <div class="info-row"><div class="info-key">Cotations</div><div class="info-val">Oslo Bors : CADLR · NYSE : CDLR</div></div>
+          <div class="info-row"><div class="info-key">Cap. boursière</div><div class="info-val">~2,3 Md$ (fév. 2026) — 350 M actions</div></div>
+          <div class="info-row"><div class="info-key">Actions</div><div class="info-val">350 millions d'actions en circulation</div></div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-title">Historique clé</div>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-year" style="color:var(--gray-400)">2008</div><div class="tl-text">Fondation comme Blue Ocean Ships A/S.</div></div>
+            <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-year" style="color:var(--gray-400)">2010</div><div class="tl-text">Acquisition par Swire Group (Swire Pacific Offshore).</div></div>
+            <div class="tl-item"><div class="tl-dot sky"></div><div class="tl-year sky">2020</div><div class="tl-text">IPO sur Oslo Bors. Renommée Cadeler A/S.</div></div>
+            <div class="tl-item"><div class="tl-dot sky"></div><div class="tl-year sky">2023</div><div class="tl-text">Introduction NYSE (CDLR). Fusion avec Eneti Inc. — doublement de la flotte de base.</div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2024</div><div class="tl-text">Livraison Wind Peak (août). Démarrage programme newbuilds A-class et M-class.</div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2025</div><div class="tl-text">Doublement flotte (5 → 10 navires). CA +149%. Création Nexra (O&M). Livraison Wind Ally en avance sur programme.</div></div>
+            <div class="tl-item"><div class="tl-dot gold"></div><div class="tl-year gold">2026</div><div class="tl-text">Livraison Wind Ace (Q3). Hornsea 3 full-scope fondations. Nexra en développement.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB STRATEGIE -->
+  <div id="tab-strategie" class="tab-content">
+    <div class="section">
+      <div class="section-title"><span>▸</span> Axes stratégiques 2025–2030</div>
+      <table class="data-table">
+        <thead><tr><th>Thème</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Expansion flotte → 12 navires (mid-2027)</td><td>Plan d'expansion complété avec Wind Ace (H2 2026) et Wind Apex (H1 2027). 12 navires = plus grande et plus capable flotte WIV mondiale en capacité de chargement. Chantier : COSCO Qidong (Chine).</td></tr>
+          <tr><td>Full-scope fondations (nouveau)</td><td>Avec Wind Ally, Cadeler entre pour la première fois dans le marché du transport &amp; installation complet de fondations monopieux XXL. Marché additionnel estimé à plusieurs milliards € par an en Europe seule.</td></tr>
+          <tr><td>Nexra — O&M Platform</td><td>Lancée en 2025, Nexra est la plateforme dédiée à l'O&M (Operations &amp; Maintenance) des parcs éoliens offshore. Permet d'allonger la relation client au-delà de l'installation. Premiers contrats signés : Taiwan (&gt;20 M€) et Japon (2026). Potentiel de revenus récurrents.</td></tr>
+          <tr><td>Durabilité — Dual-fuel méthanol</td><td>Navires P-class préparés pour conversion dual-fuel méthanol vert. Capture et stockage d'énergie excédentaire. Objectif : réduire l'empreinte carbone des opérations d'installation (significative vs diesel).</td></tr>
+          <tr><td>Diversification géographique</td><td>Ancrage Europe (87% backlog) mais croissance active en Asie-Pacifique (+Taiwan, Japon) et USA. Accord fournisseur préféré pour grand parc européen. Cadeler se positionne pour les marchés émergents (Corée, Australie, Méditerranée).</td></tr>
+          <tr><td>Intégration Eneti (2023–2025)</td><td>La fusion avec Eneti a apporté 5 navires supplémentaires (Wind Zaratan, Wind Orca, Wind Osprey, Wind Maker, Wind Mover). Synergies en cours de capture — équipes, processes, approvisionnement.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span>▸</span> Positionnement concurrentiel éolien offshore installation</div>
+      <table class="data-table">
+        <thead><tr><th>Critère</th><th>Cadeler</th><th>DEME / GeoSea</th><th>Jan De Nul</th><th>Van Oord</th></tr></thead>
+        <tbody>
+          <tr><td>Nb navires WIV</td><td><span class="badge b-wind">12 (mid-2027)</span></td><td>8–10</td><td>6–8</td><td>6–7</td></tr>
+          <tr><td>Grue max (WTG)</td><td><span class="badge b-wind">&gt;3 300 t (A-class)</span></td><td>~3 000 t</td><td>~2 500 t</td><td>~2 000 t</td></tr>
+          <tr><td>Scope fondations XXL</td><td><span class="badge b-wind">Oui — Hornsea 3</span></td><td>Oui</td><td>Oui</td><td>Partiel</td></tr>
+          <tr><td>O&M dédié</td><td>Nexra (2025+)</td><td>Oui (DEME Offshore)</td><td>Oui</td><td>Oui</td></tr>
+          <tr><td>USA</td><td>Oui (Vineyard Wind, Revolution, Sunrise)</td><td>Oui (DEME Offshore US)</td><td>Non (en cours)</td><td>Non</td></tr>
+          <tr><td>Asie-Pacifique</td><td><span class="badge b-wind">Oui — Taiwan, Japon</span></td><td>Partiel</td><td>Partiel</td><td>Partiel</td></tr>
+          <tr><td>Modèle de revenus</td><td>T&I + O&M (Nexra)</td><td>EPC + O&M + subsea</td><td>EPCI + subsea</td><td>T&I + subsea</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span>▸</span> Risques identifiés</div>
+      <table class="data-table">
+        <thead><tr><th>Risque</th><th>Niveau</th><th>Commentaire</th></tr></thead>
+        <tbody>
+          <tr><td>Exécution Hornsea 3 — 1er scope fondations</td><td><span class="badge b-amber">Modéré</span></td><td>Complexité élevée (XXL monopieux), 1ère fois. Q1 2026 = proof of concept en cours. Timing risk identifié.</td></tr>
+          <tr><td>Livraison Wind Ace (Q3 2026)</td><td><span class="badge b-blue">Suivi</span></td><td>94% complété, essais mer mai 2026. Retard = impact EA2. Jusqu'ici Cadeler = track record de livraisons dans les temps.</td></tr>
+          <tr><td>Concentration Europe (87% backlog)</td><td><span class="badge b-blue">Suivi</span></td><td>Dépendance aux réglementations et approbations UE/UK. Risque permitting, retards de projets clients.</td></tr>
+          <tr><td>Dette &amp; levier financier</td><td><span class="badge b-amber">Modéré</span></td><td>Programme newbuild massif (2,9 Md€ PP&E). Dette importante — sensibilité aux taux et liquidité. Fonds levés juin 2025 (761 M$).</td></tr>
+          <tr><td>Marché USA — cadre réglementaire</td><td><span class="badge b-amber">Modéré</span></td><td>Jones Act, incertitudes IRA. Marché à 5% backlog seulement. Risque sur Revolution Wind / Sunrise Wind.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span>▸</span> Opportunités de collaboration MyEOD / IC × Cadeler</div>
+      <table class="data-table">
+        <thead><tr><th>Opportunité</th><th>Périmètre</th><th>Interlocuteur</th><th>Potentiel</th></tr></thead>
+        <tbody>
+          <tr><td>Documentation technique navires</td><td>Revues documentaires des navires A-class (Wind Ally, Ace, Apex) — plans, procédures, manuels d'opération</td><td>Fleet Engineering — Copenhague</td><td><span class="badge b-amber">À qualifier</span></td></tr>
+          <tr><td>Hornsea 3 — support documentation</td><td>Rapports d'installation, procédures offshore, coordination avec Ørsted</td><td>Project team UK (Norwich)</td><td><span class="badge b-green">Actif — 2026</span></td></tr>
+          <tr><td>Nexra O&M — ingénierie</td><td>Développement du service Nexra : études d'intégrité, procédures maintenance, rapports techniques parcs</td><td>Nexra team — Copenhague</td><td><span class="badge b-amber">À développer</span></td></tr>
+          <tr><td>Taiwan / Asie-Pacifique</td><td>Support documentaire et ingénierie pour campagnes O&M et WTG installation en Asie</td><td>Bureau Taipei</td><td><span class="badge b-blue">Long terme</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-brand">MyEOD · Ingénieurs Créatifs · CRM Intelligence</div>
+    <div class="footer-meta">Sources : Rapport annuel Cadeler 2025 (24 mars 2026) · Q1 2026 Earnings (mai 2026) · cadeler.com · BusinessWire · Windtech International · Offshore Magazine · Investing.com · Mise à jour : mai 2026</div>
+  </div>
+</div>
+
+<script>
+function showTab(id){document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');event.target.classList.add('active');}
+function goBackToPreviousPage(){const f='index.html#clients';try{if(window.history.length>1){window.history.back();window.setTimeout(function(){window.location.href=f;},450);return;}}catch(e){}window.location.href=f;}
+</script>
+</body>
+</html>

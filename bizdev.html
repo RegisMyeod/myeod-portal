@@ -815,6 +815,688 @@ body > .myeod-header .btn-nav-back:focus-visible{
 </header>
 
 <main class="myeod-page">
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SECTION CLIENTS & PROSPECTS CRM — persistance Supabase partagée
+     ═══════════════════════════════════════════════════════════════════ -->
+<style>
+/* ─── CRM CLIENTS STRIP ─── */
+#crm-strip {
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 18px 2.5rem 20px;
+}
+.crm-strip-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.crm-strip-title {
+  font-family: 'MazzardM', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #9a9a9a;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.crm-strip-title::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  background: var(--gold);
+  border-radius: 1px;
+}
+.crm-strip-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+#crm-search {
+  font-family: 'MazzardM', sans-serif;
+  font-size: 10px;
+  padding: 5px 10px;
+  border: 1px solid #e0e0e0;
+  background: #f8f8f8;
+  color: #1a1a1a;
+  outline: none;
+  width: 180px;
+  transition: border-color .2s;
+}
+#crm-search:focus { border-color: var(--gold-dim); }
+#crm-search::placeholder { color: #b0b0b0; }
+.crm-btn {
+  font-family: 'MazzardM', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1px solid #e0e0e0;
+  background: transparent;
+  color: #555;
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+  white-space: nowrap;
+}
+.crm-btn:hover { border-color: var(--gold-dim); color: var(--gold-dim); }
+.crm-sync-badge {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .07em;
+  padding: 3px 9px;
+  border-radius: 2px;
+  transition: all .3s;
+}
+.crm-sync-badge.syncing { background: rgba(212,136,10,.1); color: var(--orange); border: 1px solid rgba(212,136,10,.3); }
+.crm-sync-badge.ok      { background: rgba(30,132,73,.1);  color: var(--green);  border: 1px solid rgba(30,132,73,.3);  }
+.crm-sync-badge.err     { background: rgba(192,57,43,.1);  color: var(--red);    border: 1px solid rgba(192,57,43,.3);  }
+.crm-sync-badge.hidden  { opacity: 0; pointer-events: none; }
+
+/* ─── TILES GRID ─── */
+#crm-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+@media (max-width: 1100px) { #crm-tiles { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px)  { #crm-tiles { grid-template-columns: 1fr; } }
+
+/* ─── SINGLE TILE ─── */
+.crm-tile {
+  position: relative;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  background: #fafafa;
+  padding: 14px 16px 12px;
+  cursor: pointer;
+  transition: box-shadow .18s, border-color .18s, background .18s;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 112px;
+  overflow: hidden;
+}
+.crm-tile:hover {
+  box-shadow: 0 2px 12px rgba(176,138,42,.12);
+  border-color: var(--gold-dim);
+  background: #fff;
+}
+.crm-tile.add-tile {
+  border-style: dashed;
+  border-color: #ccc;
+  background: transparent;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: default;
+}
+.crm-tile.add-tile:hover {
+  border-color: var(--gold-dim);
+  box-shadow: none;
+  background: var(--gold-faint);
+}
+.crm-tile::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 1px 0 0 1px;
+  background: var(--tile-accent, #e0e0e0);
+}
+.crm-tile-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.crm-tile-name {
+  font-family: 'MazzardM', sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.2;
+}
+.crm-tile-badge {
+  flex-shrink: 0;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 2px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.badge-prospect   { background: rgba(212,136,10,.08); color: var(--orange); border-color: rgba(212,136,10,.3); }
+.badge-client     { background: rgba(30,132,73,.08);  color: var(--green);  border-color: rgba(30,132,73,.3);  }
+.badge-partenaire { background: rgba(42,96,153,.08);  color: var(--blue);   border-color: rgba(42,96,153,.3);  }
+.crm-tile-sector {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #9a9a9a;
+}
+.crm-tile-desc {
+  font-size: 10px;
+  color: #555;
+  line-height: 1.5;
+  flex: 1;
+}
+.crm-tile-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 6px;
+  border-top: 1px solid #efefef;
+  gap: 6px;
+}
+.crm-tile-link  { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-dim); text-decoration: none; }
+.crm-tile-link:hover { color: var(--gold); }
+.crm-tile-actions { display: flex; gap: 5px; align-items: center; }
+.crm-tile-meta  { font-size: 9px; color: #b0b0b0; }
+.crm-tile-del {
+  background: transparent;
+  border: none;
+  color: #ccc;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+  transition: color .15s;
+}
+.crm-tile-del:hover { color: var(--red); }
+
+/* ─── ADD TILE ─── */
+.add-tile-icon  { font-size: 22px; color: #ccc; line-height: 1; transition: color .2s; }
+.add-tile-label { font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #bbb; transition: color .2s; }
+.crm-tile.add-tile:hover .add-tile-icon,
+.crm-tile.add-tile:hover .add-tile-label { color: var(--gold-dim); }
+
+/* ─── NO RESULT ─── */
+.crm-no-result { grid-column: 1/-1; font-size: 11px; color: #b0b0b0; font-style: italic; padding: 16px 0; text-align: center; }
+.crm-loading   { grid-column: 1/-1; font-size: 10px; color: #b0b0b0; letter-spacing: .08em; text-transform: uppercase; padding: 16px 0; text-align: center; }
+
+/* ─── MODAL ─── */
+#crm-add-modal {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.88);
+  display: none; align-items: center; justify-content: center;
+  z-index: 500; padding: 20px;
+}
+#crm-add-modal.open { display: flex; }
+.crm-modal-box {
+  background: #fff; border: 1px solid #e0e0e0;
+  padding: 26px 28px; width: 100%; max-width: 460px;
+  max-height: 90vh; overflow-y: auto;
+}
+.crm-modal-title { font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 18px; }
+.crm-modal-field { margin-bottom: 12px; }
+.crm-modal-label { display: block; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #888; margin-bottom: 4px; }
+.crm-modal-input, .crm-modal-select, .crm-modal-textarea {
+  width: 100%; font-family: 'MazzardM', sans-serif; font-size: 11px;
+  padding: 7px 9px; border: 1px solid #e0e0e0;
+  background: #f8f8f8; color: #1a1a1a; outline: none; transition: border-color .2s;
+}
+.crm-modal-input:focus,
+.crm-modal-select:focus,
+.crm-modal-textarea:focus { border-color: var(--gold-dim); }
+.crm-modal-textarea { resize: vertical; min-height: 60px; }
+.crm-modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.crm-modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
+.crm-modal-btn {
+  font-family: 'MazzardM', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 8px 18px; border: 1px solid; cursor: pointer; transition: all .15s;
+}
+.crm-modal-btn.primary  { background: var(--gold); border-color: var(--gold); color: #0a0a0a; }
+.crm-modal-btn.primary:hover { background: var(--gold-dim); border-color: var(--gold-dim); }
+.crm-modal-btn.secondary { background: transparent; border-color: #ccc; color: #555; }
+.crm-modal-btn.secondary:hover { border-color: #888; color: #1a1a1a; }
+
+/* ─── CONFIRM DELETE ─── */
+#crm-conf-modal {
+  position: fixed; inset: 0; background: rgba(0,0,0,.9);
+  display: none; align-items: center; justify-content: center; z-index: 600;
+}
+#crm-conf-modal.open { display: flex; }
+.crm-conf-box { background: #fff5f5; border: 1px solid var(--red); padding: 22px 28px; text-align: center; max-width: 280px; }
+</style>
+
+<!-- ══ SECTION DOM ══ -->
+<section id="crm-strip">
+  <div class="crm-strip-head">
+    <div class="crm-strip-title">Clients &amp; Prospects — Fiches CRM</div>
+    <div class="crm-strip-controls">
+      <input id="crm-search" type="search" placeholder="Rechercher…"
+             oninput="crmFilter(this.value)" autocomplete="off" />
+      <button class="crm-btn" onclick="crmShuffle()" title="Ordre aléatoire">⇄ Aléatoire</button>
+      <span id="crm-sync" class="crm-sync-badge hidden">—</span>
+    </div>
+  </div>
+  <div id="crm-tiles">
+    <div class="crm-loading">Chargement…</div>
+  </div>
+</section>
+
+<!-- ══ ADD MODAL ══ -->
+<div id="crm-add-modal">
+  <div class="crm-modal-box">
+    <div class="crm-modal-title">Ajouter un client / prospect</div>
+    <div class="crm-modal-row">
+      <div class="crm-modal-field">
+        <label class="crm-modal-label">Société *</label>
+        <input id="cm-name" class="crm-modal-input" type="text" placeholder="Ex : TechnipFMC" />
+      </div>
+      <div class="crm-modal-field">
+        <label class="crm-modal-label">Type</label>
+        <select id="cm-type" class="crm-modal-select">
+          <option value="prospect">Prospect</option>
+          <option value="client">Client</option>
+          <option value="partenaire">Partenaire</option>
+        </select>
+      </div>
+    </div>
+    <div class="crm-modal-row">
+      <div class="crm-modal-field">
+        <label class="crm-modal-label">Secteur</label>
+        <input id="cm-sector" class="crm-modal-input" type="text" placeholder="Ex : EPCI Subsea" />
+      </div>
+      <div class="crm-modal-field">
+        <label class="crm-modal-label">Couleur accent</label>
+        <select id="cm-color" class="crm-modal-select">
+          <option value="#b08a2a">Or (défaut)</option>
+          <option value="#0a4a6e">Bleu océan</option>
+          <option value="#0f5e3a">Vert éolien</option>
+          <option value="#0e7070">Teal</option>
+          <option value="#1a5276">Navy</option>
+          <option value="#7d3c98">Violet</option>
+          <option value="#c0392b">Rouge</option>
+          <option value="#d4880a">Orange</option>
+        </select>
+      </div>
+    </div>
+    <div class="crm-modal-field">
+      <label class="crm-modal-label">Description courte</label>
+      <textarea id="cm-desc" class="crm-modal-textarea"
+        placeholder="Ex : Leader mondial installation éolien offshore…"></textarea>
+    </div>
+    <div class="crm-modal-field">
+      <label class="crm-modal-label">Fichier fiche CRM — nom exact du fichier HTML</label>
+      <input id="cm-file" class="crm-modal-input" type="text"
+        placeholder="Ex : Cadeler_CRM.html" />
+      <div style="font-size:9px;color:#b0b0b0;margin-top:3px">
+        Le fichier doit être dans le même répertoire que bizdev.html
+      </div>
+    </div>
+    <div class="crm-modal-row">
+      <div class="crm-modal-field">
+        <label class="crm-modal-label">KAM référent</label>
+        <input id="cm-kam" class="crm-modal-input" type="text" placeholder="Ex : RMO" />
+      </div>
+      <div class="crm-modal-field">
+        <label class="crm-modal-label">Dernière interaction</label>
+        <input id="cm-date" class="crm-modal-input" type="date" />
+      </div>
+    </div>
+    <div class="crm-modal-actions">
+      <button class="crm-modal-btn secondary" onclick="crmCloseModal()">Annuler</button>
+      <button class="crm-modal-btn primary" onclick="crmSaveNew()">Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONFIRM DELETE MODAL ══ -->
+<div id="crm-conf-modal">
+  <div class="crm-conf-box">
+    <div style="font-size:12px;color:var(--red);margin-bottom:9px;font-weight:700">Supprimer cette fiche ?</div>
+    <div style="font-size:10px;color:#888;margin-bottom:16px">Cette action est irréversible<br>et visible par tous les utilisateurs.</div>
+    <div style="display:flex;gap:8px;justify-content:center">
+      <button class="crm-modal-btn secondary" style="padding:6px 14px"
+              onclick="crmConfClose()">Annuler</button>
+      <button class="crm-modal-btn" style="background:var(--red);border-color:var(--red);color:#fff;padding:6px 14px"
+              onclick="crmConfDo()">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   CRM CLIENTS — Supabase shared persistence
+   Table : crm_clients
+   Colonnes : id (uuid), name, type, sector, desc, file,
+              kam, last_date, accent, sort_order, created_at
+   ═══════════════════════════════════════════════════════════════ */
+
+const CRM_TABLE = 'crm_clients';
+
+/* ── Seed data : ces 3 fiches sont insérées en base si elle est vide ── */
+const CRM_SEED = [
+  {
+    name: 'SBM Offshore N.V.',
+    type: 'client',
+    sector: 'FPSO Owner-Operator',
+    description: 'N°1 mondial des FPSOs en L&O. Backlog 31,1 Md$. 16 unités en flotte. Partenaire actif sur projets deepwater.',
+    file: 'SBM_Offshore_CRM.html',
+    kam: 'RMO',
+    last_date: '2026-05-07',
+    accent: '#b08a2a',
+    sort_order: 1
+  },
+  {
+    name: 'CoreMarine',
+    type: 'prospect',
+    sector: 'Ingénierie marine offshore',
+    description: 'Digital-first engineering partner. Spécialiste mouillage deepwater & FOW. Lead contractor FLNG Argentine 2026.',
+    file: 'CoreMarine_CRM.html',
+    kam: 'PPI',
+    last_date: '2026-04-15',
+    accent: '#0a4a6e',
+    sort_order: 2
+  },
+  {
+    name: 'Cadeler A/S',
+    type: 'prospect',
+    sector: 'Installation éolien offshore',
+    description: 'Plus grande flotte WIV mondiale (12 nav. 2027). CA 2025 : 620 M€ +149%. Backlog 2,7 Md€.',
+    file: 'Cadeler_CRM.html',
+    kam: 'JMA',
+    last_date: '2026-03-24',
+    accent: '#0f5e3a',
+    sort_order: 3
+  }
+];
+
+/* ── State ── */
+var crmData        = [];     // live data from Supabase
+var crmShuffled    = null;   // shuffled id list, null = natural order
+var crmPendingDel  = null;   // id pending confirmation
+
+/* ── Supabase client : réutilise UNIQUEMENT l'instance sb déclarée plus bas.
+      Aucune création d'instance supplémentaire → zéro warning GoTrueClient. ── */
+
+/* ── Sync badge ── */
+function crmSetSync(state, msg) {
+  var el = document.getElementById('crm-sync');
+  if (!el) return;
+  el.className = 'crm-sync-badge ' + state;
+  el.textContent = msg;
+  if (state === 'ok') {
+    setTimeout(function(){ el.className = 'crm-sync-badge hidden'; }, 2500);
+  }
+}
+
+/* ── Badge HTML ── */
+function crmBadge(type) {
+  var map = {
+    client:     ['CLIENT',     'badge-client'],
+    prospect:   ['PROSPECT',   'badge-prospect'],
+    partenaire: ['PARTENAIRE', 'badge-partenaire']
+  };
+  var t = map[type] || ['', 'badge-prospect'];
+  return '<span class="crm-tile-badge ' + t[1] + '">' + t[0] + '</span>';
+}
+
+function crmFmtDate(d) {
+  if (!d) return '';
+  try { return new Date(d + 'T00:00:00').toLocaleDateString('fr-FR', {day:'2-digit',month:'short',year:'numeric'}); }
+  catch(e) { return d; }
+}
+
+/* ── Render ── */
+function crmRender(q) {
+  var container = document.getElementById('crm-tiles');
+  if (!container) return;
+
+  var list = crmShuffled
+    ? crmShuffled.map(function(id){ return crmData.find(function(c){ return c.id === id; }); }).filter(Boolean)
+    : crmData.slice().sort(function(a,b){ return (a.sort_order||0)-(b.sort_order||0); });
+
+  q = (q || '').toLowerCase().trim();
+  if (q) {
+    list = list.filter(function(c){
+      return (c.name+c.sector+c.description+c.kam+c.type).toLowerCase().indexOf(q) !== -1;
+    });
+  }
+
+  var html = '';
+  if (!list.length && q) {
+    html = '<div class="crm-no-result">Aucun résultat pour « ' + q + ' »</div>';
+  } else {
+    list.forEach(function(c) {
+      var href = c.file ? c.file : '#';
+      var clickAttr = c.file ? '' : 'onclick="return false;"';
+      html += '<a class="crm-tile" href="' + href + '" ' + clickAttr
+        + ' style="--tile-accent:' + (c.accent || '#b08a2a') + '"'
+        + ' title="Ouvrir la fiche ' + c.name + '">'
+        + '<div class="crm-tile-top">'
+        +   '<div class="crm-tile-name">' + c.name + '</div>'
+        +   crmBadge(c.type)
+        + '</div>'
+        + '<div class="crm-tile-sector">' + (c.sector || '') + '</div>'
+        + '<div class="crm-tile-desc">' + (c.description || '') + '</div>'
+        + '<div class="crm-tile-footer">'
+        +   '<span class="crm-tile-link">Voir la fiche →</span>'
+        +   '<div class="crm-tile-actions">'
+        +     '<span class="crm-tile-meta">KAM&nbsp;: ' + (c.kam || '—') + (c.last_date ? ' · ' + crmFmtDate(c.last_date) : '') + '</span>'
+        +     '<button class="crm-tile-del" onclick="crmAskDel(event,\'' + c.id + '\')" title="Supprimer">✕</button>'
+        +   '</div>'
+        + '</div>'
+        + '</a>';
+    });
+  }
+
+  if (!q) {
+    html += '<div class="crm-tile add-tile" onclick="crmOpenModal()" title="Ajouter un nouveau client">'
+      + '<div class="add-tile-icon">＋</div>'
+      + '<div class="add-tile-label">Nouveau client</div>'
+      + '</div>';
+  }
+
+  container.innerHTML = html;
+}
+
+/* ── Load from Supabase ── */
+async function crmLoadFromSupabase() {
+  var client = sb;
+  if (!client) {
+    crmFallback('Supabase non disponible');
+    return;
+  }
+  try {
+    var res = await client.from(CRM_TABLE).select('*').order('sort_order', {ascending: true});
+    if (res.error) {
+      var msg = res.error.message || res.error.code || JSON.stringify(res.error);
+      // Table inexistante → afficher le seed en mode local
+      if (msg.indexOf('does not exist') !== -1 || res.error.code === '42P01' || res.error.code === 'PGRST200') {
+        console.warn('CRM table not found — running in local mode:', msg);
+        crmFallback('Table non créée — mode local');
+        return;
+      }
+      throw new Error(msg);
+    }
+    if (!res.data || res.data.length === 0) {
+      await crmSeedDefaults(client);
+    } else {
+      crmData = res.data;
+      crmRender('');
+    }
+  } catch(err) {
+    var errMsg = err && err.message ? err.message : JSON.stringify(err);
+    console.error('CRM load error:', errMsg);
+    crmSetSync('err', 'Erreur : ' + errMsg.slice(0, 60));
+    crmFallback(errMsg);
+  }
+}
+
+/* ── Fallback : afficher le seed localement sans persistance ── */
+function crmFallback(reason) {
+  console.warn('CRM fallback mode —', reason);
+  crmData = CRM_SEED.map(function(c, i) {
+    return Object.assign({}, c, { id: 'local_' + i });
+  });
+  crmRender('');
+  crmSetSync('err', '⚠ Mode local');
+}
+
+/* ── Seed defaults si table vide ── */
+async function crmSeedDefaults(client) { /* client = sb, passed by caller */
+  try {
+    crmSetSync('syncing', 'Initialisation…');
+    var res = await client.from(CRM_TABLE).insert(CRM_SEED).select();
+    if (res.error) throw res.error;
+    crmData = res.data;
+    crmRender('');
+    crmSetSync('ok', '✓ Initialisé');
+  } catch(err) {
+    var errMsg = err && err.message ? err.message : JSON.stringify(err);
+    console.error('CRM seed error:', errMsg);
+    crmFallback(errMsg);
+  }
+}
+
+/* ── Shuffle ── */
+function crmShuffle() {
+  var ids = crmData.map(function(c){ return c.id; });
+  for (var i = ids.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = ids[i]; ids[i] = ids[j]; ids[j] = tmp;
+  }
+  crmShuffled = ids;
+  document.getElementById('crm-search').value = '';
+  crmRender('');
+}
+
+/* ── Filter ── */
+function crmFilter(val) {
+  crmShuffled = null;
+  crmRender(val);
+}
+
+/* ── Open / close modal ── */
+function crmOpenModal() {
+  ['cm-name','cm-sector','cm-desc','cm-file','cm-kam'].forEach(function(id){
+    var el = document.getElementById(id); if (el) el.value = '';
+  });
+  var d = document.getElementById('cm-date');
+  if (d) d.value = new Date().toISOString().slice(0,10);
+  document.getElementById('crm-add-modal').classList.add('open');
+}
+function crmCloseModal() {
+  document.getElementById('crm-add-modal').classList.remove('open');
+}
+document.getElementById('crm-add-modal').addEventListener('click', function(e){
+  if (e.target === this) crmCloseModal();
+});
+
+/* ── Save new client → Supabase ── */
+async function crmSaveNew() {
+  var name = document.getElementById('cm-name').value.trim();
+  if (!name) { alert('Le nom de la société est requis.'); return; }
+
+  var maxOrder = crmData.reduce(function(m,c){ return Math.max(m, c.sort_order||0); }, 0);
+  var rec = {
+    name:       name,
+    type:       document.getElementById('cm-type').value,
+    sector:     document.getElementById('cm-sector').value.trim(),
+    description: document.getElementById('cm-desc').value.trim(),
+    file:       document.getElementById('cm-file').value.trim(),
+    kam:        document.getElementById('cm-kam').value.trim(),
+    last_date:  document.getElementById('cm-date').value || null,
+    accent:     document.getElementById('cm-color').value,
+    sort_order: maxOrder + 1
+  };
+
+  crmCloseModal();
+  crmSetSync('syncing', 'Sauvegarde…');
+
+  var client = sb;
+  try {
+    var res = await client.from(CRM_TABLE).insert([rec]).select();
+    if (res.error) throw res.error;
+    crmData.push(res.data[0]);
+    crmShuffled = null;
+    crmRender('');
+    crmSetSync('ok', '✓ Sauvegardé');
+  } catch(err) {
+    var errMsg = err && err.message ? err.message : JSON.stringify(err);
+    console.error('CRM insert error:', errMsg);
+    crmSetSync('err', '✕ Erreur sauvegarde');
+    alert('Erreur lors de la sauvegarde :\n' + errMsg);
+  }
+}
+
+/* ── Delete ── */
+function crmAskDel(e, id) {
+  e.preventDefault();
+  e.stopPropagation();
+  crmPendingDel = id;
+  document.getElementById('crm-conf-modal').classList.add('open');
+}
+function crmConfClose() {
+  crmPendingDel = null;
+  document.getElementById('crm-conf-modal').classList.remove('open');
+}
+async function crmConfDo() {
+  var id = crmPendingDel;
+  crmConfClose();
+  if (!id) return;
+
+  // Suppression optimiste : retrait immédiat de l'UI
+  crmData = crmData.filter(function(c){ return c.id !== id; });
+  crmRender(document.getElementById('crm-search').value);
+  crmSetSync('syncing', 'Suppression…');
+
+  var client = sb;
+  try {
+    // Les IDs "local_x" sont des seeds sans UUID réel
+    if (!id.toString().startsWith('local_')) {
+      var res = await client.from(CRM_TABLE).delete().eq('id', id);
+      if (res.error) throw res.error;
+    }
+    crmSetSync('ok', '✓ Supprimé');
+  } catch(err) {
+    var errMsg = err && err.message ? err.message : JSON.stringify(err);
+    console.error('CRM delete error:', errMsg);
+    crmSetSync('err', '✕ ' + errMsg.slice(0, 50));
+  }
+}
+document.getElementById('crm-conf-modal').addEventListener('click', function(e){
+  if (e.target === this) crmConfClose();
+});
+
+/* ── Init : attendre que sb (instance unique) soit déclaré plus bas dans la page ── */
+function crmInit() {
+  if (typeof sb !== 'undefined') {
+    crmLoadFromSupabase();
+  } else {
+    // sb pas encore déclaré (déclaré plus bas dans le fichier) → réessayer dans 100ms
+    setTimeout(crmInit, 100);
+  }
+}
+// Démarrer après le chargement complet du DOM pour que sb soit déclaré
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', crmInit);
+} else {
+  crmInit();
+}
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     END SECTION CLIENTS & PROSPECTS CRM
+     ═══════════════════════════════════════════════════════════════════ -->
+
 <section class="myeod-section myeod-hero">
 <div>
 <div class="myeod-kicker">Portail collaborateurs · Développement commercial</div>

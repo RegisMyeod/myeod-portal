@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MyEOD — SBM Offshore</title>
+<style>
+/* === FONTS === */
+@font-face { font-family:'MazzardM'; src:url('MazzardM-Thin.woff2') format('woff2'); font-weight:100; font-style:normal; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-ExtraLight.woff2') format('woff2'); font-weight:200; font-style:normal; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-ExtraLightItalic.woff2') format('woff2'); font-weight:200; font-style:italic; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-Light.woff2') format('woff2'); font-weight:300; font-style:normal; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-LightItalic.woff2') format('woff2'); font-weight:300; font-style:italic; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-Regular.woff2') format('woff2'); font-weight:400; font-style:normal; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-Italic.woff2') format('woff2'); font-weight:400; font-style:italic; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-Medium.woff2') format('woff2'); font-weight:500; font-style:normal; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-MediumItalic.woff2') format('woff2'); font-weight:500; font-style:italic; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-SemiBold.woff2') format('woff2'); font-weight:600; font-style:normal; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-SemiBoldItalic.woff2') format('woff2'); font-weight:600; font-style:italic; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-BoldItalic.woff2') format('woff2'); font-weight:700; font-style:italic; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-ExtraBold.woff2') format('woff2'); font-weight:800; font-style:normal; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-ExtraBoldItalic.woff2') format('woff2'); font-weight:800; font-style:italic; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-Black.woff2') format('woff2'); font-weight:900; font-style:normal; }
+@font-face { font-family:'MazzardM'; src:url('MazzardM-BlackItalic.woff2') format('woff2'); font-weight:900; font-style:italic; }
+
+/* === TOKENS === */
+:root {
+  --gold:#b08a2a; --gold-dim:#8a6a1a; --gold-faint:rgba(176,138,42,0.06);
+  --teal:#0e7070; --teal-dim:#0a5050; --teal-faint:rgba(14,112,112,0.06);
+  --orange:#d4880a; --blue:#2a6099; --red:#c0392b; --green:#1e7a3a; --purple:#7d3c98;
+  --p1:#c0392b; --p2:#d4880a; --p3:#1e7a3a;
+  --white:#ffffff; --black:#0a0a0a;
+  --gray-50:#f8f8f8; --gray-100:#f0f0f0; --gray-200:#e0e0e0;
+  --gray-400:#9a9a9a; --gray-600:#555555;
+  --border:#e0e0e0; --border-hi:#cccccc;
+  --text:#1a1a1a; --text-dim:#444444; --text-muted:#888888;
+  --font:'MazzardM',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#ffffff;color:var(--text);font-family:var(--font);font-size:11px;line-height:1.6;}
+
+/* === HEADER === */
+.myeod-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;border-bottom:1px solid var(--gray-200);background:var(--white);position:sticky;top:0;z-index:100;}
+.myeod-header-logo{height:72px;}
+.myeod-header-logo svg{height:100%;width:auto;display:block;}
+.myeod-header-right{display:flex;align-items:center;gap:1rem;}
+.btn-nav-back{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;font-family:var(--font);font-size:.9rem;font-weight:700;color:var(--gray-600);background:none;border:1px solid var(--gray-200);border-radius:2px;cursor:pointer;transition:border-color .2s,color .2s;}
+.btn-nav-back:hover{border-color:var(--black);color:var(--black);}
+
+/* === LAYOUT === */
+.page{max-width:1280px;margin:0 auto;padding:28px 40px 80px;}
+
+/* === NAV TABS === */
+.nav-tabs{display:flex;gap:0;border-bottom:2px solid var(--gray-200);margin-bottom:28px;}
+.nav-tab{padding:9px 20px;font-family:var(--font);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;transition:color .15s,border-color .15s;}
+.nav-tab:hover{color:var(--text-dim);}
+.nav-tab.active{color:var(--teal);border-bottom-color:var(--teal);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* === HERO BANNER === */
+.hero{background:var(--gray-50);border:1px solid var(--border);border-radius:4px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.hero-left{}
+.hero-name{font-size:20px;font-weight:700;color:var(--black);letter-spacing:-.01em;margin-bottom:4px;}
+.hero-sub{font-size:11px;color:var(--text-muted);letter-spacing:.04em;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.tag{display:inline-block;padding:3px 10px;border-radius:2px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+.tag-teal{background:var(--teal-faint);color:var(--teal);border:1px solid rgba(14,112,112,.2);}
+.tag-gold{background:var(--gold-faint);color:var(--gold-dim);border:1px solid rgba(176,138,42,.2);}
+.tag-gray{background:var(--gray-100);color:var(--gray-600);border:1px solid var(--border);}
+.hero-right{display:flex;gap:12px;flex-wrap:wrap;}
+
+/* === KPI CARDS === */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:24px;}
+.kpi{background:var(--gray-50);border:1px solid var(--border);border-radius:4px;padding:14px 16px;}
+.kpi-label{font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;}
+.kpi-val{font-size:19px;font-weight:700;color:var(--black);line-height:1.1;}
+.kpi-sub{font-size:9.5px;color:var(--text-muted);margin-top:3px;}
+.kpi-up{color:var(--green);}
+.kpi-accent{border-left:3px solid var(--gold);}
+
+/* === SECTION BLOCKS === */
+.section{margin-bottom:28px;}
+.section-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);border-bottom:1px solid var(--border);padding-bottom:7px;margin-bottom:14px;}
+.section-title span{color:var(--teal);}
+
+/* === TABLES === */
+.data-table{width:100%;border-collapse:collapse;font-size:10.5px;}
+.data-table th{text-align:left;font-weight:700;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);padding:7px 10px;background:var(--gray-50);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.data-table td{padding:8px 10px;border-bottom:1px solid var(--gray-100);vertical-align:top;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:var(--gray-50);}
+.data-table td:first-child{font-weight:600;color:var(--text-dim);}
+
+/* === BADGES === */
+.badge{display:inline-block;padding:2px 8px;border-radius:2px;font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
+.b-green{background:#d4edda;color:#1e5c2e;}
+.b-blue{background:#d0e4f7;color:#1a4a7a;}
+.b-amber{background:#fef3cd;color:#7a4a00;}
+.b-red{background:#fde0dc;color:#7a1a1a;}
+.b-gray{background:var(--gray-100);color:var(--gray-600);}
+.b-teal{background:var(--teal-faint);color:var(--teal-dim);}
+.b-gold{background:var(--gold-faint);color:var(--gold-dim);}
+
+/* === GRID 2-COL === */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+
+/* === INFO CARDS === */
+.info-card{background:var(--gray-50);border:1px solid var(--border);border-radius:4px;padding:14px 16px;}
+.info-card-title{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+.info-row{display:flex;gap:8px;margin-bottom:5px;align-items:flex-start;}
+.info-key{min-width:110px;font-size:10px;font-weight:600;color:var(--text-muted);}
+.info-val{font-size:10.5px;color:var(--text-dim);flex:1;}
+
+/* === VESSEL CARD === */
+.vessel-card{background:var(--white);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:10px;}
+.vessel-card-header{background:var(--gray-50);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;}
+.vessel-card-name{font-size:11.5px;font-weight:700;color:var(--black);}
+.vessel-card-body{padding:12px 16px;}
+.vessel-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px 16px;}
+.vessel-meta-item{font-size:10px;color:var(--text-dim);}
+.vessel-meta-item strong{font-weight:600;color:var(--text);}
+
+/* === PROJECT CARD === */
+.proj-card{background:var(--white);border:1px solid var(--border);border-radius:4px;margin-bottom:10px;overflow:hidden;}
+.proj-card-header{padding:10px 16px 10px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);}
+.proj-card-title{font-size:11.5px;font-weight:700;color:var(--black);flex:1;}
+.proj-card-body{padding:12px 16px;}
+.proj-row{display:flex;gap:8px;margin-bottom:5px;}
+.proj-key{min-width:120px;font-size:10px;font-weight:600;color:var(--text-muted);}
+.proj-val{font-size:10.5px;color:var(--text-dim);flex:1;}
+.proj-card.active-constr{border-left:3px solid var(--blue);}
+.proj-card.active-feed{border-left:3px solid var(--gold);}
+.proj-card.active-tender{border-left:3px solid var(--orange);}
+.proj-card.future{border-left:3px solid var(--gray-400);}
+
+/* === PROGRESS BAR (finances) === */
+.bar-section{margin-bottom:20px;}
+.bar-item{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.bar-yr{min-width:56px;font-size:10px;font-weight:600;color:var(--text-muted);text-align:right;}
+.bar-track{flex:1;background:var(--gray-100);border-radius:2px;height:16px;overflow:hidden;}
+.bar-fill{height:100%;display:flex;align-items:center;padding:0 8px;font-size:9.5px;font-weight:700;color:var(--white);transition:width .3s;}
+.bar-label-right{min-width:80px;font-size:10px;font-weight:600;color:var(--text-dim);}
+
+/* === REGION GRID === */
+.region-block{background:var(--gray-50);border:1px solid var(--border);border-radius:4px;padding:12px 14px;}
+.region-title{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);margin-bottom:7px;}
+.region-items{font-size:10.5px;color:var(--text-muted);line-height:1.7;}
+.region-items strong{color:var(--text-dim);font-weight:600;}
+
+/* === FOOTER LEGEND === */
+.page-footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.footer-brand{font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);}
+.footer-meta{font-size:9.5px;color:var(--text-muted);}
+
+/* === TIMELINE === */
+.timeline{position:relative;padding-left:20px;}
+.timeline::before{content:'';position:absolute;left:5px;top:0;bottom:0;width:1px;background:var(--border);}
+.tl-item{position:relative;margin-bottom:14px;}
+.tl-dot{position:absolute;left:-18px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--teal);border:2px solid var(--white);box-shadow:0 0 0 1px var(--teal);}
+.tl-dot.gold{background:var(--gold);box-shadow:0 0 0 1px var(--gold);}
+.tl-dot.blue{background:var(--blue);box-shadow:0 0 0 1px var(--blue);}
+.tl-dot.gray{background:var(--gray-400);box-shadow:0 0 0 1px var(--gray-400);}
+.tl-year{font-size:10px;font-weight:700;color:var(--teal);margin-bottom:2px;}
+.tl-year.gold{color:var(--gold);}
+.tl-year.gray{color:var(--gray-400);}
+.tl-text{font-size:10.5px;color:var(--text-dim);line-height:1.6;}
+
+/* === PRINT === */
+@media print{.no-print{display:none!important;} body{background:#fff;color:#111;} .nav-tabs{display:none;} .tab-content{display:block!important;}}
+@media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr;} .hero{flex-direction:column;}}
+@media(max-width:600px){.myeod-header{padding:.9rem 1rem;} .myeod-header-logo{height:54px;} .page{padding:16px 16px 40px;} .kpi-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ HEADER ═══ -->
+<header class="myeod-header">
+  <div class="myeod-header-logo">
+    <svg id="Calque_1" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 262.15 96.47"><defs><style>.cls-1{fill:#1e1717;}</style></defs><path class="cls-1" d="M117.46,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM114.76,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M121.64,66l1.92,2.55h-.51l-1.65-2.22-1.08,1.44-.58.77h-.5l1.9-2.55-1.75-2.33h.51l1.48,2,.79-1.03.72-.97h.51l-1.77,2.33Z"/><path class="cls-1" d="M128.51,63.91c.37.21.66.51.87.89.21.38.31.82.31,1.31s-.1.92-.31,1.31-.5.68-.87.89c-.37.21-.8.32-1.27.32s-.89-.1-1.25-.31c-.37-.21-.64-.49-.83-.84v3.44h-.42v-7.26h.4v1.09c.18-.36.45-.64.83-.85.37-.21.8-.32,1.27-.32s.9.11,1.27.32ZM128.28,67.98c.31-.18.56-.43.73-.75.17-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.18-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75s-.26.7-.26,1.12.09.79.26,1.12c.18.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M134.61,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.32-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM131.91,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M140.28,63.89l-.19.36c-.24-.14-.52-.22-.82-.22s-.58.09-.84.27c-.25.18-.45.42-.6.73-.14.31-.22.65-.22,1.02v2.51h-.42v-4.89h.4v1.09c.17-.36.4-.63.7-.84.29-.2.62-.3.98-.3.39,0,.72.09,1,.27Z"/><path class="cls-1" d="M144.26,68.38c-.36.18-.69.27-1,.27-.49,0-.84-.13-1.04-.39s-.3-.65-.3-1.17v-3.04h-1.05v-.39h1.05v-1.44l.42-.04v1.48h1.69v.39h-1.69v3.04c0,.39.06.68.19.88s.37.3.73.3c.11,0,.25-.02.41-.07s.3-.1.44-.17l.16.35Z"/><path class="cls-1" d="M149.11,68.32c-.38-.22-.68-.52-.89-.9-.21-.39-.32-.82-.32-1.3s.11-.92.32-1.3c.21-.39.51-.69.89-.9s.81-.33,1.28-.33.91.11,1.29.33.68.52.89.9c.21.39.32.82.32,1.3s-.11.91-.32,1.3c-.21.39-.51.69-.89.9-.38.22-.81.33-1.29.33s-.9-.11-1.28-.33ZM151.46,67.97c.32-.18.57-.44.75-.77.18-.33.27-.69.27-1.09s-.09-.77-.27-1.09c-.18-.33-.43-.58-.75-.77-.32-.18-.67-.28-1.07-.28s-.75.09-1.07.28c-.32.18-.56.44-.74.77-.18.33-.27.69-.27,1.09s.09.77.27,1.09c.18.33.43.58.74.77s.67.28,1.07.28.75-.09,1.07-.28Z"/><path class="cls-1" d="M158.24,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"/><path class="cls-1" d="M168.02,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM166.61,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M173.27,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM170.57,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M182.93,64.16c.34.37.51.89.51,1.55v2.85h-.42v-2.83c0-.55-.13-.98-.4-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.85.24s-.45.37-.59.65c-.14.27-.21.58-.21.92v2.75h-.42v-2.83c0-.55-.13-.98-.39-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.84.24-.25.16-.45.37-.59.65-.14.27-.21.58-.21.92v2.75h-.42v-4.89h.4v.92c.18-.31.41-.55.71-.73s.62-.26.96-.26c.44,0,.82.1,1.12.31s.52.51.65.89c.17-.38.42-.67.74-.89.32-.21.68-.32,1.08-.32.6,0,1.07.19,1.41.56Z"/><path class="cls-1" d="M189.84,63.67v4.89h-.4v-1.09c-.19.36-.47.65-.85.85-.37.21-.79.31-1.26.31s-.9-.11-1.27-.32c-.37-.21-.66-.51-.86-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.86-.89.37-.21.79-.32,1.27-.32s.89.11,1.26.32c.37.21.65.5.84.86v-1.1h.41ZM188.43,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M195.5,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"/><path class="cls-1" d="M202.44,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM201.03,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><polygon class="cls-1" points="72.23 42.73 72.11 42.9 72.03 43 71.95 42.9 71.83 42.73 61.05 27.8 59.71 27.8 59.71 52.29 60.79 52.29 60.79 29.98 60.79 29.5 60.79 29.21 60.96 29.45 61.23 29.83 71.98 44.65 72.12 44.65 82.86 29.8 83.14 29.41 83.31 29.18 83.31 29.47 83.31 29.94 83.31 52.29 84.35 52.29 84.35 27.8 83.01 27.8 72.23 42.73"/><polygon class="cls-1" points="111.97 27.8 102.01 50.45 101.87 50.78 101.78 50.98 101.69 50.78 101.56 50.45 99.23 44.91 91.91 27.8 90.81 27.8 101.19 52.04 101.22 52.1 101.23 52.14 101.22 52.17 101.19 52.23 94.12 68.67 95.22 68.67 113.07 27.8 111.97 27.8"/><polygon class="cls-1" points="42.39 28.9 41.61 28.05 28.25 39.6 28.25 40.35 41.61 51.97 42.39 51.11 29.97 40.31 29.58 39.97 29.97 39.63 42.39 28.9"/><polygon class="cls-1" points="220.54 28.05 219.76 28.9 232.18 39.7 232.57 40.04 232.18 40.38 219.76 51.11 220.54 51.97 233.9 40.41 233.9 39.66 220.54 28.05"/><path class="cls-1" d="M120.78,40.78c.22,2.98,1.23,5.34,3.03,7.07,1.79,1.73,4.12,2.6,6.97,2.6,1.76,0,3.44-.35,5.05-1.06,1.6-.7,2.84-1.63,3.7-2.79l1.44,1.2c-1.12,1.41-2.58,2.52-4.37,3.34-1.79.82-3.73,1.23-5.82,1.23-2.31,0-4.37-.53-6.2-1.59-1.83-1.06-3.25-2.52-4.28-4.4-1.03-1.87-1.54-4-1.54-6.37s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.32,4.23-4.37s3.87-1.59,6.18-1.59,4.46.49,6.27,1.47c1.81.98,3.2,2.35,4.18,4.11.98,1.76,1.47,3.8,1.47,6.1,0,.61-.02,1.07-.05,1.39h-17.93l.03-1.87h15.99c0-1.83-.43-3.44-1.27-4.85-.85-1.41-2.02-2.51-3.51-3.29-1.49-.78-3.21-1.18-5.17-1.18-2.79,0-5.08.86-6.87,2.57-1.79,1.71-2.8,3.97-3.03,6.75-.1.82,0,1.87,0,1.87Z"/><path class="cls-1" d="M154.04,50.72c-1.84-1.06-3.28-2.52-4.33-4.4-1.04-1.87-1.56-3.98-1.56-6.32s.52-4.45,1.56-6.32c1.04-1.87,2.48-3.34,4.33-4.4,1.84-1.06,3.92-1.59,6.22-1.59s4.43.53,6.27,1.59,3.28,2.52,4.33,4.4c1.04,1.87,1.56,3.98,1.56,6.32s-.52,4.45-1.56,6.32c-1.04,1.87-2.48,3.34-4.33,4.4s-3.93,1.59-6.27,1.59-4.38-.53-6.22-1.59ZM165.46,49.04c1.54-.9,2.75-2.14,3.63-3.73.88-1.59,1.32-3.36,1.32-5.31s-.44-3.72-1.32-5.31c-.88-1.59-2.09-2.83-3.63-3.73-1.54-.9-3.27-1.35-5.19-1.35s-3.65.45-5.19,1.35c-1.54.9-2.74,2.14-3.6,3.73-.86,1.59-1.3,3.36-1.3,5.31s.43,3.72,1.3,5.31c.86,1.59,2.07,2.83,3.6,3.73,1.54.9,3.27,1.35,5.19,1.35s3.65-.45,5.19-1.35Z"/><path class="cls-1" d="M202.44,18.23v33.64h-1.92l-.05-5.24c-.9,1.73-2.25,3.1-4.06,4.11-1.81,1.01-3.85,1.51-6.13,1.51s-4.32-.52-6.13-1.56c-1.81-1.04-3.22-2.49-4.23-4.35-1.01-1.86-1.51-3.97-1.51-6.34s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.31,4.23-4.35,1.81-1.04,3.85-1.56,6.13-1.56s4.31.5,6.1,1.49c1.79.99,3.14,2.36,4.04,4.09v-15.09h2.02ZM195.59,49.09c1.52-.86,2.71-2.08,3.56-3.65.85-1.57,1.27-3.38,1.27-5.43s-.43-3.86-1.27-5.43c-.85-1.57-2.04-2.79-3.56-3.65-1.52-.87-3.24-1.3-5.17-1.3s-3.69.43-5.19,1.3c-1.51.86-2.68,2.08-3.53,3.65s-1.27,3.38-1.27,5.43.42,3.86,1.27,5.43c.85,1.57,2.03,2.79,3.53,3.65,1.51.87,3.24,1.3,5.19,1.3s3.64-.43,5.17-1.3Z"/></svg>
+  </div>
+  <div class="myeod-header-right">
+    <div style="text-align:right;">
+      <div style="font-family:'MazzardM',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#1a1a1a;">SBM Offshore N.V.</div>
+      <div style="font-family:'MazzardM',sans-serif;font-size:.55rem;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a;margin-top:2px;">Fiche Client CRM — Mise à jour mai 2026</div>
+    </div>
+    <button type="button" class="btn-nav-back no-print" onclick="goBackToPreviousPage()" title="Retour" aria-label="Retour">←</button>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════ PAGE ═══ -->
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-name">SBM Offshore N.V.</div>
+      <div class="hero-sub">EURONEXT AMSTERDAM : SBMO &nbsp;·&nbsp; SCHIPHOL, PAYS-BAS &nbsp;·&nbsp; FONDÉE 1965 &nbsp;·&nbsp; CEO : ØIVIND TANGEN</div>
+      <div class="hero-tags">
+        <span class="tag tag-teal">FPSO Owner-Operator #1 mondial</span>
+        <span class="tag tag-gold">Backlog 31,1 Md$ (mai 2026)</span>
+        <span class="tag tag-gray">~7 900 collaborateurs</span>
+        <span class="tag tag-gray">16 unités en flotte</span>
+        <span class="tag tag-gray">Secteur : Pétrole & Gaz Offshore</span>
+        <span class="tag tag-teal">AEX Index (depuis mars 2026)</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div style="text-align:center;padding:10px 20px;background:var(--gold-faint);border:1px solid rgba(176,138,42,.2);border-radius:4px;">
+        <div style="font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:4px;">Guidance CA 2026</div>
+        <div style="font-size:22px;font-weight:800;color:var(--gold-dim);">&gt; 6,9 Md$</div>
+        <div style="font-size:9px;color:var(--gold-dim);">Directional Revenue</div>
+      </div>
+      <div style="text-align:center;padding:10px 20px;background:var(--teal-faint);border:1px solid rgba(14,112,112,.2);border-radius:4px;">
+        <div style="font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-dim);margin-bottom:4px;">EBITDA 2026</div>
+        <div style="font-size:22px;font-weight:800;color:var(--teal-dim);">~1,8 Md$</div>
+        <div style="font-size:9px;color:var(--teal-dim);">Baseline guidance</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="nav-tabs no-print">
+    <button class="nav-tab active" onclick="showTab('finances')">Finances</button>
+    <button class="nav-tab" onclick="showTab('flotte')">Flotte FPSO</button>
+    <button class="nav-tab" onclick="showTab('navires')">Normand Installer</button>
+    <button class="nav-tab" onclick="showTab('presence')">Présence mondiale</button>
+    <button class="nav-tab" onclick="showTab('projets')">Projets 2026–2030</button>
+    <button class="nav-tab" onclick="showTab('strategie')">Stratégie & Innovation</button>
+  </div>
+
+  <!-- ══════════════════ TAB : FINANCES ══════════════════ -->
+  <div id="tab-finances" class="tab-content active">
+
+    <div class="kpi-grid">
+      <div class="kpi kpi-accent">
+        <div class="kpi-label">CA Directional 2025</div>
+        <div class="kpi-val">5,1 Md$</div>
+        <div class="kpi-sub kpi-up">▲ Au-dessus de la guidance</div>
+      </div>
+      <div class="kpi kpi-accent">
+        <div class="kpi-label">CA IFRS consolidé 2025</div>
+        <div class="kpi-val">5,9 Md$</div>
+        <div class="kpi-sub kpi-up">▲ +23% vs 2024 (IFRS)</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">EBITDA Directional 2025</div>
+        <div class="kpi-val">1,7 Md$</div>
+        <div class="kpi-sub">Au-dessus de la guidance</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Résultat net 2025 (IFRS)</div>
+        <div class="kpi-val">922 M$</div>
+        <div class="kpi-sub kpi-up">▲ +515% vs 2024</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Backlog Directional</div>
+        <div class="kpi-val">31,1 Md$</div>
+        <div class="kpi-sub">Net cash backlog : 8,4 Md$</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Retour actionnaires/action</div>
+        <div class="kpi-val">2,57 $</div>
+        <div class="kpi-sub kpi-up">▲ +57% vs 2024 — record historique</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Dette nette Directional</div>
+        <div class="kpi-val">3,2 Md$</div>
+        <div class="kpi-sub">-43% après cession ONE GUYANA (Q1 2026)</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Capitalisation boursière</div>
+        <div class="kpi-val">~6,1 Md$</div>
+        <div class="kpi-sub">Cours ~36,55 € (fév. 2026)</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="section">
+        <div class="section-title"><span>▸</span> Évolution du chiffre d'affaires Directional (2021–2026e)</div>
+        <div class="bar-section">
+          <div class="bar-item">
+            <div class="bar-yr">2021</div>
+            <div class="bar-track"><div class="bar-fill" style="width:32%;background:#6B9DC8;">~2,2 Md$</div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-yr">2022</div>
+            <div class="bar-track"><div class="bar-fill" style="width:38%;background:#4A86B8;">~2,6 Md$</div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-yr">2023</div>
+            <div class="bar-track"><div class="bar-fill" style="width:65%;background:#2A6FA8;">4,5 Md$ <span style="font-weight:400">(+38%)</span></div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-yr">2024</div>
+            <div class="bar-track"><div class="bar-fill" style="width:88%;background:#185FAA;">6,1 Md$ <span style="font-weight:400">(+35%)</span></div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-yr">2025</div>
+            <div class="bar-track"><div class="bar-fill" style="width:74%;background:#0C4490;">5,1 Md$ <span style="font-weight:400">(*Directional)</span></div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-yr">2026e</div>
+            <div class="bar-track"><div class="bar-fill" style="width:100%;background:#b08a2a;">&gt; 6,9 Md$ guidance</div></div>
+          </div>
+        </div>
+        <p style="font-size:9.5px;color:var(--text-muted);line-height:1.6;">* Le chiffre Directional traite tous les contrats de location comme des operating leases et consolide les co-investissements au prorata. Le CA IFRS 2024 a atteint ~6,1 Md$ grâce aux cessions de FPSOs (Prosperity, Liza Destiny). La guidance 2026 est révisée à la hausse le 7 mai 2026 (vs 6,5 Md$ initial).</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><span>▸</span> Tableau de synthèse financière comparative</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Indicateur</th>
+              <th>2023</th>
+              <th>2024</th>
+              <th>2025</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>CA Directional</td><td>4,5 Md$</td><td>6,1 Md$</td><td>5,1 Md$</td></tr>
+            <tr><td>L&O Directional</td><td>1,95 Md$</td><td>2,37 Md$</td><td>n.d.</td></tr>
+            <tr><td>Turnkey Directional</td><td>2,58 Md$</td><td>3,74 Md$</td><td>n.d.</td></tr>
+            <tr><td>EBITDA Directional</td><td>1,3 Md$</td><td>1,9 Md$ (+44%)</td><td>1,7 Md$</td></tr>
+            <tr><td>Résultat net (IFRS)</td><td>491 M$</td><td>~150 M$</td><td>922 M$</td></tr>
+            <tr><td>Actifs totaux</td><td>17,2 Md$</td><td>~15 Md$</td><td>n.d.</td></tr>
+            <tr><td>Backlog Directional</td><td>30,3 Md$</td><td>~30 Md$</td><td>31,1 Md$</td></tr>
+            <tr><td>Retour/action</td><td>~0,85 $</td><td>1,63 $</td><td>2,57 $ ↑</td></tr>
+            <tr><td>Uptime flotte moy.</td><td>98,2%</td><td>&gt;98%</td><td>&gt;98%</td></tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:14px;">
+          <div class="section-title"><span>▸</span> Programme de retour aux actionnaires 2026</div>
+          <table class="data-table">
+            <tbody>
+              <tr><td>Rachat d'actions</td><td>270 M$ (EUR 227 M) — programme en cours, ~18% réalisé (mai 2026)</td></tr>
+              <tr><td>Dividende 2025</td><td>100 M$ (EUR 0,5009/action, versé 13 mai 2026)</td></tr>
+              <tr><td>Dividende H1 2026</td><td>100 M$ (proposé)</td></tr>
+              <tr><td>Engagement 2025–2031</td><td>Minimum 2,1 Md$ de retours cumulés aux actionnaires</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ TAB : FLOTTE FPSO ══════════════════ -->
+  <div id="tab-flotte" class="tab-content">
+    <div class="section">
+      <div class="section-title"><span>▸</span> Flotte opérationnelle — 16 unités (15 FPSOs + 1 semi-submersible) — mai 2026</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>FPSO / Unité</th><th>Zone / Champ</th><th>Client opérateur</th><th>Modèle</th><th>Statut</th><th>Note</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Liza Unity</td><td>Guyana – Stabroek Block</td><td>ExxonMobil Guyana</td><td>Fast4Ward® (coque achetée par ExxonMobil fin 2023)</td><td><span class="badge b-green">Opérationnel</span></td><td>Contrat O&M SBM 10 ans. Notation ABS SUSTAIN-2.</td></tr>
+          <tr><td>Almirante Tamandaré</td><td>Brésil – Búzios (BM-C-32)</td><td>Petrobras</td><td>Fast4Ward® MPF B</td><td><span class="badge b-green">1er pétrole 15 fév. 2025</span></td><td>L&O. Coque MPF B. Démarrage flawless.</td></tr>
+          <tr><td>Alexandre de Gusmão</td><td>Brésil – Búzios</td><td>Petrobras</td><td>Fast4Ward® MPF</td><td><span class="badge b-green">1er pétrole 24 mai 2025</span></td><td>L&O. Final Acceptance obtenu.</td></tr>
+          <tr><td>Sepetiba</td><td>Brésil – Mero (Santos Basin)</td><td>Petrobras (TotalEnergies, Shell, CNPC…)</td><td>Fast4Ward® MPF C (3e Fast4Ward)</td><td><span class="badge b-green">En production (2024)</span></td><td>SBM a cédé 13,5% à CMFL (oct. 2024).</td></tr>
+          <tr><td>Cidade de Paraty</td><td>Brésil – Santos Basin</td><td>Petrobras</td><td>Conversion</td><td><span class="badge b-green">Opérationnel</span></td><td>Sale-leaseback 400 M$ signé.</td></tr>
+          <tr><td>Cidade de Ilhabela</td><td>Brésil – Santos Basin</td><td>Petrobras</td><td>Conversion</td><td><span class="badge b-green">Opérationnel</span></td><td>Lease & Operate long terme.</td></tr>
+          <tr><td>Cidade de Maricá</td><td>Brésil – Santos Basin</td><td>Petrobras</td><td>Conversion</td><td><span class="badge b-green">Opérationnel</span></td><td>Lease & Operate.</td></tr>
+          <tr><td>Cidade de Saquarema</td><td>Brésil – Santos Basin</td><td>Petrobras</td><td>Conversion</td><td><span class="badge b-green">Opérationnel</span></td><td>Lease & Operate.</td></tr>
+          <tr><td>N'Goma</td><td>Angola – Offshore deepwater</td><td>Eni / Azule Energy</td><td>Newbuild</td><td><span class="badge b-green">Opérationnel</span></td><td>Intérêts Sonangol rachetés par SBM mi-2024.</td></tr>
+          <tr><td>Mondo</td><td>Angola – Offshore</td><td>Eni / Azule Energy</td><td>Conversion</td><td><span class="badge b-green">Opérationnel</span></td><td>Idem — acquisition intérêts.</td></tr>
+          <tr><td>Saxi Batuque</td><td>Angola – Offshore</td><td>Eni / Azule Energy</td><td>Conversion</td><td><span class="badge b-green">Opérationnel</span></td><td>Idem — acquisition intérêts.</td></tr>
+          <tr><td>Serpentina</td><td>Guinée Équatoriale</td><td>Ophir / Marathon</td><td>Conversion</td><td><span class="badge b-green">Opérationnel</span></td><td>Vieux actif en fin de vie économique.</td></tr>
+          <tr><td>Cidade de Anchieta</td><td>Brésil – Espirito Santo</td><td>Petrobras</td><td>Conversion</td><td><span class="badge b-green">Opérationnel</span></td><td>Contrat L&O.</td></tr>
+          <tr><td>FPSO Capixaba</td><td>Brésil – Espirito Santo</td><td>Petrobras</td><td>Conversion</td><td><span class="badge b-gray">Désarmement / recyclage</span></td><td>Départ Brésil ~2024 vers chantier danois HJ Hansen (recyclage 97%).</td></tr>
+          <tr style="background:rgba(192,57,43,.04);"><td>FPSO Aseng</td><td>Guinée Équatoriale</td><td>—</td><td>Conversion</td><td><span class="badge b-gray">Cédé — fin 2025</span></td><td>SPA signé pour cession totale des entités L&O.</td></tr>
+          <tr style="background:rgba(192,57,43,.04);"><td>FPU Thunder Hawk (semi-sub)</td><td>Golfe du Mexique</td><td>—</td><td>Semi-submersible</td><td><span class="badge b-gray">Sorti flotte — fin 2025</span></td><td>Cession ou fin de contrat Q4 2025.</td></tr>
+          <tr style="background:rgba(192,57,43,.04);"><td>FPSO ONE GUYANA</td><td>Guyana – Stabroek</td><td>ExxonMobil Guyana</td><td>Fast4Ward® MPF C</td><td><span class="badge b-gray">Cédé — fév. 2026</span></td><td>Cession complète à ExxonMobil fév. 2026. Produit utilisé pour désendettement.</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:9.5px;color:var(--text-muted);margin-top:8px;line-height:1.6;">Les 3 lignes en fond rosé sont des unités récemment sorties de la flotte opérée. Elles restent dans le portefeuille contractuel de SBM (O&M ou autres) selon les accords spécifiques.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span>▸</span> Programme Fast4Ward® — Coques MPF (Multi-Purpose Floater) en cours</div>
+      <table class="data-table">
+        <thead><tr><th>Coque</th><th>Chantier (Chine)</th><th>Statut</th><th>Destination / Projet</th></tr></thead>
+        <tbody>
+          <tr><td>MPF A</td><td>COSCO CIMC</td><td><span class="badge b-green">Livrée 2025</span></td><td>FPSO Alexandre de Gusmão (Brésil)</td></tr>
+          <tr><td>MPF B</td><td>BOMESC</td><td><span class="badge b-green">Livrée 2024</span></td><td>FPSO Almirante Tamandaré (Brésil)</td></tr>
+          <tr><td>MPF C</td><td>Waigaoqiao</td><td><span class="badge b-green">Livrée 2025</span></td><td>FPSO ONE GUYANA (Guyana) — cédé fév. 2026</td></tr>
+          <tr><td>MPF D</td><td>À confirmer (COSCO/CMHI/Waigaoqiao)</td><td><span class="badge b-blue">En construction 2025–2027</span></td><td>Projet Longtail — ExxonMobil Guyana (FEED attribué avr. 2026)</td></tr>
+          <tr><td>MPF E</td><td>À confirmer</td><td><span class="badge b-amber">Commandée — 2026</span></td><td>Appels d'offres actifs (Sergipe-Alagoas probable)</td></tr>
+          <tr><td>MPF F</td><td>À confirmer</td><td><span class="badge b-amber">Commandée — mai 2026</span></td><td>Activité de tender en cours — marché robuste</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:9.5px;color:var(--text-muted);margin-top:8px;line-height:1.6;">SBM dispose d'options contractuelles sur des coques supplémentaires dans trois chantiers chinois : Shanghai Waigaoqiao Shipbuilding, China Merchants Heavy Industry (CMHI) et COSCO Shipping Heavy Industry. Le programme Fast4Ward® standardise la conception et réduit les délais de 20 à 25% par rapport aux projets traditionnels.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════ TAB : NORMAND INSTALLER ══════════════════ -->
+  <div id="tab-navires" class="tab-content">
+
+    <div class="section">
+      <div class="section-title"><span>▸</span> OCV Normand Installer — Navire d'installation deepwater</div>
+      <div class="grid-2">
+        <div>
+          <div class="info-card" style="margin-bottom:12px;">
+            <div class="info-card-title">Identité du navire</div>
+            <div class="info-row"><div class="info-key">Nom</div><div class="info-val"><strong>Normand Installer</strong></div></div>
+            <div class="info-row"><div class="info-key">Type</div><div class="info-val">Offshore Construction Vessel (OCV / CSV)</div></div>
+            <div class="info-row"><div class="info-key">IMO</div><div class="info-val">9328819</div></div>
+            <div class="info-row"><div class="info-key">MMSI</div><div class="info-val">257583000</div></div>
+            <div class="info-row"><div class="info-key">Indicatif d'appel</div><div class="info-val">LAEO6</div></div>
+            <div class="info-row"><div class="info-key">Pavillon</div><div class="info-val">Norvège</div></div>
+            <div class="info-row"><div class="info-key">Port d'attache</div><div class="info-val">Norvège</div></div>
+          </div>
+          <div class="info-card" style="margin-bottom:12px;">
+            <div class="info-card-title">Propriété & Exploitation</div>
+            <div class="info-row"><div class="info-key">Propriétaires</div><div class="info-val">Co-détenu : <strong>SBM Offshore</strong> &amp; <strong>Solstad Offshore ASA</strong></div></div>
+            <div class="info-row"><div class="info-key">Affréteur</div><div class="info-val">SBM Offshore (contrat exclusif continu depuis 2006)</div></div>
+            <div class="info-row"><div class="info-key">Constructeur</div><div class="info-val">Ulstein Verft AS — Ulsteinvik, Norvège</div></div>
+            <div class="info-row"><div class="info-key">Livraison</div><div class="info-val">2006</div></div>
+            <div class="info-row"><div class="info-key">Concepteur</div><div class="info-val">Wärtsilä Ship Design</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="info-card" style="margin-bottom:12px;">
+            <div class="info-card-title">Caractéristiques techniques principales</div>
+            <div class="info-row"><div class="info-key">Longueur hors tout</div><div class="info-val">123,6 m</div></div>
+            <div class="info-row"><div class="info-key">Propulsion</div><div class="info-val">Diesel-électrique : 2× Wärtsilä 16V32 + 2× Wärtsilä 8L32</div></div>
+            <div class="info-row"><div class="info-key">Positionnement</div><div class="info-val">DP2 (Dynamic Positioning classe 2)</div></div>
+            <div class="info-row"><div class="info-key">Grue offshore</div><div class="info-val">250 t de capacité</div></div>
+            <div class="info-row"><div class="info-key">A-frame arrière</div><div class="info-val">250 t de capacité</div></div>
+            <div class="info-row"><div class="info-key">Treuil d'ancrage</div><div class="info-val">500 t — le plus grand Rolls-Royce fourni à l'époque</div></div>
+            <div class="info-row"><div class="info-key">Moonpool</div><div class="info-val">Oui — pour opérations sous-marines</div></div>
+            <div class="info-row"><div class="info-key">Pont de travail</div><div class="info-val">~2 500 m² (deux niveaux)</div></div>
+            <div class="info-row"><div class="info-key">Hélideck</div><div class="info-val">Oui</div></div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-title">Mission & Périmètre opérationnel</div>
+            <div style="font-size:10.5px;color:var(--text-dim);line-height:1.7;">
+              Le Normand Installer est le bras armé de SBM pour l'intégralité du cycle EPCIO en eaux profondes : pré-installation de systèmes de mouillage (ancres, lignes, chaînes), installation de flotteurs (FPSOs, FSOs, FOW), hook-up risers, riser pull-in, IMR (Inspection Maintenance Repair), et installation de bouées CALM/SPM. Avec plus de <strong>40 FPSOs installés en deepwater</strong>, SBM se positionne comme leader incontesté du secteur. Le navire intervient pour les actifs propres de SBM mais aussi pour des clients tiers (Petrobras, Shell/BNAG, Saipem…).
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span>▸</span> Historique des opérations récentes du Normand Installer (2023–2025)</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2023 — Fin d'année</div>
+          <div class="tl-text">Installation des <strong>3 flotteurs éoliens offshore du projet Provence Grand Large</strong> (France) pour le compte d'EDF Renewables et Maple Power. Mise en service complète des turbines en 2024 — première production débutée.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot blue"></div>
+          <div class="tl-year tl-year gold">2024 — Q1/Q2</div>
+          <div class="tl-text"><strong>Pré-installation du système de mouillage du FPSO ONE GUYANA</strong> (Guyana, Stabroek Block). Opération deepwater complexe incluant la pose et le positionnement des ancres et lignes avant l'arrivée du FPSO.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot blue"></div>
+          <div class="tl-year">2024 — Q2/Q3</div>
+          <div class="tl-text"><strong>Installation des lignes de mouillage et hook-up du FPSO Almirante Tamandaré</strong> (Brésil, champ Búzios). Opération menée en coordination avec le chantier chinois pour le transit et la mise en place du FPSO sur son système d'ancrage définitif.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot gold"></div>
+          <div class="tl-year gold">2024 — Q3</div>
+          <div class="tl-text"><strong>Remplacement des top chains de mouillage du FPSO Bonga</strong> (Nigeria, Shell BNAG). Mission IMR tierce — illustration de la capacité de SBM à offrir ses services d'installation à des opérateurs extérieurs.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2024</div>
+          <div class="tl-text"><strong>Riser pull-in sur FPSO Sepetiba</strong> (Brésil, Santos Basin) — opération de connexion des risers de production sur le système de mouillage du FPSO déjà en place.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot gold"></div>
+          <div class="tl-year gold">2024 — Contrat</div>
+          <div class="tl-text">Attribution d'un <strong>contrat T&amp;I (Transport &amp; Installation) complet pour les mouillages deepwater du projet Raia</strong> (Brésil, Petrobras) — premier contrat T&amp;I deepwater standalone remporté par SBM Offshore sur appel d'offres externe.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2024</div>
+          <div class="tl-text">Support au <strong>projet Gas-to-Energy en Guyana</strong> — opérations diverses de hook-up liées à l'infrastructure gaz.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span>▸</span> Succession du Normand Installer — Nouveau navire annoncé (2026)</div>
+      <div class="vessel-card" style="border-left:3px solid var(--gold);">
+        <div class="vessel-card-header">
+          <div class="vessel-card-name">Futur OCV de remplacement — Annonce Q1 2026 Trading Update (7 mai 2026)</div>
+          <span class="badge b-gold">Planification en cours — fin de décennie</span>
+        </div>
+        <div class="vessel-card-body">
+          <p style="font-size:10.5px;color:var(--text-dim);line-height:1.7;margin-bottom:10px;">SBM Offshore a officiellement annoncé lors de son Q1 2026 Trading Update qu'il travaille avec Solstad Offshore au <strong>remplacement du Normand Installer vers la fin de la décennie</strong> (estimation : 2028–2031). Le CEO Øivind Tangen a confirmé que le Normand Installer approche de la fin d'une vie "longue et fructueuse" et que le nouveau navire intégrera les enseignements de 20 ans d'exploitation offshore.</p>
+          <div class="vessel-meta">
+            <div class="vessel-meta-item"><strong>Horizon ciblé :</strong> Fin de la décennie (~2028–2031)</div>
+            <div class="vessel-meta-item"><strong>Partenaire :</strong> Solstad Offshore (JV maintenu)</div>
+            <div class="vessel-meta-item"><strong>Objectifs :</strong> Fiabilité accrue + scopes EPCIO élargis</div>
+            <div class="vessel-meta-item"><strong>Chantier :</strong> Non annoncé</div>
+            <div class="vessel-meta-item"><strong>Coût :</strong> Non divulgué</div>
+            <div class="vessel-meta-item"><strong>Capacités visées :</strong> DP3 attendu, grue ≥ 400 t, intégration digitale</div>
+          </div>
+          <p style="font-size:9.5px;color:var(--text-muted);margin-top:10px;line-height:1.6;">Citation exacte CEO : <em>"We are also working towards the replacement of our joint-venture owned installation vessel towards the end of the decade. A new vessel will enable us to maintain our full lifecycle EPCIO offering and to create additional competitive advantages through improved reliability and the integration of more offshore installation work scopes."</em></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ TAB : PRÉSENCE MONDIALE ══════════════════ -->
+  <div id="tab-presence" class="tab-content">
+    <div class="section">
+      <div class="section-title"><span>▸</span> Implantations et bureaux — Réseau mondial (16+ localisations)</div>
+      <div class="grid-3" style="margin-bottom:16px;">
+        <div class="region-block">
+          <div class="region-title">🇳🇱 Siège social & Corporate — Pays-Bas</div>
+          <div class="region-items">
+            <strong>Schiphol, Amsterdam :</strong> Siège social de SBM Offshore N.V. (holding coté Euronext). Management Board. Fonctions corporate (Finance, Juridique, IR).<br>
+            <strong>Schiedam :</strong> Entité légale principale (SBM Offshore N.V. registered seat). Historiquement centre d'ingénierie.
+          </div>
+        </div>
+        <div class="region-block">
+          <div class="region-title">🇲🇨 Monaco & France — Technologie & Ingénierie</div>
+          <div class="region-items">
+            <strong>Monaco :</strong> Centre stratégique de technologie, ingénierie deepwater et opérations. Historiquement le QG opérationnel de SBM. Siège de Single Buoy Moorings Inc. (filiale Imodco).<br>
+            <strong>Carros (06) :</strong> Bureau d'ingénierie et R&D France.<br>
+            <strong>Marly (CH) :</strong> Bureau suisse (coordination EMEA).
+          </div>
+        </div>
+        <div class="region-block">
+          <div class="region-title">🇺🇸 États-Unis — Bureau Americas</div>
+          <div class="region-items">
+            <strong>Houston, Texas :</strong> SBM Offshore USA Inc. — 1255 Enclave Parkway, Houston TX 77077. Interface clients Americas (ExxonMobil, TotalEnergies, BHP…). Support commercial et développement de projets.<br>
+            <strong>Golfe du Mexique :</strong> Zone opérationnelle (ex-Thunder Hawk).
+          </div>
+        </div>
+        <div class="region-block">
+          <div class="region-title">🇧🇷 Brésil — Hub opérationnel majeur</div>
+          <div class="region-items">
+            <strong>Rio de Janeiro :</strong> Bureau principal Brésil. Gestion des contrats Petrobras. Coordination flotte Santos Basin (5 FPSOs).<br>
+            <strong>Vitória (ES) :</strong> Shorebase pour FPSOs Espirito Santo (Capixaba, Cidade de Anchieta).<br>
+            <strong>Santos :</strong> Shorebase Santos Basin (Paraty, Ilhabela, Maricá, Saquarema, Sepetiba).
+          </div>
+        </div>
+        <div class="region-block">
+          <div class="region-title">🇬🇾 Guyana — Hub Stabroek en croissance</div>
+          <div class="region-items">
+            <strong>Georgetown :</strong> Bureau opérationnel. Support aux FPSOs Stabroek Block (Liza Unity). Coordination avec ExxonMobil Guyana. Support projet Gas-to-Energy.<br>
+            <strong>Suriname (Paramaribo) :</strong> Présence en déploiement pour le projet GranMorgu (TotalEnergies, premier pétrole 2028).
+          </div>
+        </div>
+        <div class="region-block">
+          <div class="region-title">🌍 Afrique subsaharienne</div>
+          <div class="region-items">
+            <strong>Luanda, Angola :</strong> Shorebase Angola. Support FPSOs N'Goma, Mondo, Saxi Batuque (Azule Energy / Eni).<br>
+            <strong>Malabo, Guinée Équatoriale :</strong> Ex-support FPSO Aseng (cédé fin 2025) et Serpentina.<br>
+            <strong>Nigeria :</strong> Opérations ponctuelles (ex. : chaînes de mouillage Bonga/Shell).
+          </div>
+        </div>
+        <div class="region-block">
+          <div class="region-title">🌏 Asie — Construction & Engineering</div>
+          <div class="region-items">
+            <strong>Singapour :</strong> Hub régional Asie-Pacifique. Coordination chantiers et procurement.<br>
+            <strong>Kuala Lumpur, Malaisie :</strong> Bureau régional. Ex-support FPSO Kikeh.<br>
+            <strong>Bangalore, Inde :</strong> Centre d'ingénierie offshore (engineering services).<br>
+            <strong>Shanghai / Shenzhen, Chine :</strong> Supervision des chantiers de construction Fast4Ward® (Waigaoqiao, CMHI, COSCO).
+          </div>
+        </div>
+        <div class="region-block">
+          <div class="region-title">🇦🇪 Moyen-Orient & Mexique</div>
+          <div class="region-items">
+            <strong>Dubaï, UAE :</strong> Bureau commercial régional MENA. Développement de projets et relations clients.<br>
+            <strong>Mexique :</strong> Projet Trion FSO (Pemex/BHP) — contrat lease &amp; operate 20 ans. Déploiement opérationnel prévu ~2028.
+          </div>
+        </div>
+        <div class="region-block">
+          <div class="region-title">🇲🇽 Futur — Namibie & autres</div>
+          <div class="region-items">
+            <strong>Namibie :</strong> Marché en cours d'identification pour FPSOs deepwater (TotalEnergies Venus, Orange Basin). SBM Offshore identifié comme candidat stratégique prioritaire.<br>
+            <strong>Autres marchés :</strong> Méditerranée, Mer du Nord (IMR et technologies Imodco/bouées CALM).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span>▸</span> Personnel — Effectifs et répartition</div>
+      <div class="grid-2">
+        <div class="info-card">
+          <div class="info-card-title">Données RH globales (fin 2024)</div>
+          <div class="info-row"><div class="info-key">Effectif total</div><div class="info-val"><strong>~7 892 collaborateurs</strong></div></div>
+          <div class="info-row"><div class="info-key">Offshore (FPSOs)</div><div class="info-val">Majorité — rotation 4/4 ou 5/5 semaines</div></div>
+          <div class="info-row"><div class="info-key">Onshore (bureaux)</div><div class="info-val">Ingénierie, opérations, corporate</div></div>
+          <div class="info-row"><div class="info-key">Principaux pays</div><div class="info-val">Pays-Bas, Brésil, Guyana, Monaco, Singapour, Angola</div></div>
+          <div class="info-row"><div class="info-key">Uptime opérationnel</div><div class="info-val">97–99% (moyenne flotte 2016–2025)</div></div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-title">Gouvernance & Leadership (2026)</div>
+          <div class="info-row"><div class="info-key">CEO</div><div class="info-val"><strong>Øivind Tangen</strong> — nommé 2024, reconduit 4 ans (AGM avr. 2026)</div></div>
+          <div class="info-row"><div class="info-key">Président Conseil de Surveillance</div><div class="info-val">Roeland IJsselmuiden Baan — reconduit 2 ans (AGM 2026)</div></div>
+          <div class="info-row"><div class="info-key">CFO</div><div class="info-val">Douglas Wood</div></div>
+          <div class="info-row"><div class="info-key">CSO</div><div class="info-val">Olivier Icyk (Chief Strategy Officer, rôle créé récemment)</div></div>
+          <div class="info-row"><div class="info-key">Cotation</div><div class="info-val">Euronext Amsterdam (SBMO) — membre AEX depuis mars 2026</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ TAB : PROJETS 2026–2030 ══════════════════ -->
+  <div id="tab-projets" class="tab-content">
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
+      <span style="font-size:10px;font-weight:700;color:var(--text-muted);">Légende :</span>
+      <span><span class="badge b-blue">En construction</span></span>
+      <span><span class="badge b-gold">FEED en cours</span></span>
+      <span><span class="badge b-amber">Appel d'offres actif</span></span>
+      <span><span class="badge b-gray">Exploration / Futur</span></span>
+      <span><span class="badge b-green">En production</span></span>
+    </div>
+
+    <!-- FPSO JAGUAR -->
+    <div class="proj-card active-constr">
+      <div class="proj-card-header">
+        <div class="proj-card-title">FPSO Jaguar — Projet Whiptail · Guyana</div>
+        <span class="badge b-blue">En construction</span>
+        <span class="badge b-teal">First oil ~2027</span>
+      </div>
+      <div class="proj-card-body">
+        <div class="grid-2">
+          <div>
+            <div class="proj-row"><div class="proj-key">Client opérateur</div><div class="proj-val">ExxonMobil Guyana Limited (45%) · Hess Corporation (30%) · CNOOC (25%)</div></div>
+            <div class="proj-row"><div class="proj-key">Localisation</div><div class="proj-val">Stabroek Block — 6e développement, ~200 km offshore Georgetown</div></div>
+            <div class="proj-row"><div class="proj-key">Modèle commercial</div><div class="proj-val">Turnkey build · Transfert propriété à ExxonMobil avant installation · SBM O&M 10 ans (OMEA)</div></div>
+            <div class="proj-row"><div class="proj-key">Financement projet</div><div class="proj-val">1,5 Md$ finalisé — novembre 2024</div></div>
+          </div>
+          <div>
+            <div class="proj-row"><div class="proj-key">Calendrier FID</div><div class="proj-val">Avr. 2024 — FID + approbations gouvernementales obtenues</div></div>
+            <div class="proj-row"><div class="proj-key">Coque Fast4Ward®</div><div class="proj-val">MPF dédié — construction avancée en Chine</div></div>
+            <div class="proj-row"><div class="proj-key">Particularités</div><div class="proj-val">Nouveau modèle commercial SBM : propriété transférée. Extension OMEA 10 ans incluant la gestion intégrée de la flotte Guyana. Démarrage du chantier Q2 2024.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRANMORGU -->
+    <div class="proj-card active-constr">
+      <div class="proj-card-header">
+        <div class="proj-card-title">FPSO GranMorgu — Block 58 · Suriname</div>
+        <span class="badge b-blue">En construction</span>
+        <span class="badge b-teal">First oil 2028</span>
+      </div>
+      <div class="proj-card-body">
+        <div class="grid-2">
+          <div>
+            <div class="proj-row"><div class="proj-key">Client opérateur</div><div class="proj-val">TotalEnergies EP Suriname B.V. (50%) · APA Corporation · Staatsolie Maatschappij Suriname (≤20%)</div></div>
+            <div class="proj-row"><div class="proj-key">Localisation</div><div class="proj-val">Block 58 — 1er développement, ~150 km offshore Paramaribo · Profondeur ~400 m</div></div>
+            <div class="proj-row"><div class="proj-key">Capacité production</div><div class="proj-val">Jusqu'à <strong>220 000 bopd</strong> · Gaz : 500 MMcfd · Stockage : 2 Mbbl</div></div>
+            <div class="proj-row"><div class="proj-key">FID</div><div class="proj-val">1er octobre 2024</div></div>
+            <div class="proj-row"><div class="proj-key">Investissement total</div><div class="proj-val">~10,5–12,2 Md$ (projet global)</div></div>
+          </div>
+          <div>
+            <div class="proj-row"><div class="proj-key">Partenaires FPSO</div><div class="proj-val">SBM Offshore (construction, installation, O&M) + Technip Energies (topsides + modules)</div></div>
+            <div class="proj-row"><div class="proj-key">Contrats liés</div><div class="proj-val">TechnipFMC (EPCI subsea, ~1 Md$) · Saipem (SURF EPCI, ~1,9 Md$)</div></div>
+            <div class="proj-row"><div class="proj-key">Technologie</div><div class="proj-val"><strong>Drive tout-électrique</strong> · Zéro torchage routinier · Réinjection gaz totale · Récupération chaleur · Refroidissement eau de mer profonde · Système permanent détection méthane</div></div>
+            <div class="proj-row"><div class="proj-key">Enjeu stratégique</div><div class="proj-val">1er grand projet deepwater du Suriname. SBM = 1er opérateur FPSO dans ce nouveau bassin. Ressources récupérables &gt; 750 M bbl.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FSO TRION -->
+    <div class="proj-card active-constr">
+      <div class="proj-card-header">
+        <div class="proj-card-title">FSO Trion — Champ Trion · Mexique</div>
+        <span class="badge b-blue">En cours — contrat signé</span>
+        <span class="badge b-teal">First oil ~2028</span>
+      </div>
+      <div class="proj-card-body">
+        <div class="grid-2">
+          <div>
+            <div class="proj-row"><div class="proj-key">Client opérateur</div><div class="proj-val">Pemex / BHP (partenariat)</div></div>
+            <div class="proj-row"><div class="proj-key">Localisation</div><div class="proj-val">Golfe du Mexique profond — Champ Trion</div></div>
+            <div class="proj-row"><div class="proj-key">Type d'actif</div><div class="proj-val">FSO (Floating Storage and Offloading) — stockage et déchargement</div></div>
+          </div>
+          <div>
+            <div class="proj-row"><div class="proj-key">Modèle commercial</div><div class="proj-val">Contrat de <strong>lease &amp; operate 20 ans</strong></div></div>
+            <div class="proj-row"><div class="proj-key">Enjeu stratégique</div><div class="proj-val">1er actif SBM au Mexique. Accès à un nouveau bassin pour une durée très longue. Gouvernement mexicain impliqué via Pemex.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LONGTAIL -->
+    <div class="proj-card active-feed">
+      <div class="proj-card-header">
+        <div class="proj-card-title">FPSO Longtail — Stabroek Block · Guyana (7e développement)</div>
+        <span class="badge b-gold">FEED en cours</span>
+        <span class="badge b-gray">First oil ~2029–2030</span>
+      </div>
+      <div class="proj-card-body">
+        <div class="grid-2">
+          <div>
+            <div class="proj-row"><div class="proj-key">Client opérateur</div><div class="proj-val">ExxonMobil Guyana Limited</div></div>
+            <div class="proj-row"><div class="proj-key">Localisation</div><div class="proj-val">Stabroek Block — 7e développement deepwater</div></div>
+            <div class="proj-row"><div class="proj-key">Statut FEED</div><div class="proj-val">FEED attribué par ExxonMobil — mars/avril 2026</div></div>
+          </div>
+          <div>
+            <div class="proj-row"><div class="proj-key">Coque Fast4Ward®</div><div class="proj-val">MPF D pré-allouée (annoncé Q1 2026 Trading Update)</div></div>
+            <div class="proj-row"><div class="proj-key">Condition</div><div class="proj-val">Soumis à FID ExxonMobil + approbations gouvernementales Guyana</div></div>
+            <div class="proj-row"><div class="proj-key">Particularités</div><div class="proj-val">Intégration traitement gaz et infrastructure d'export — valorisation du gaz en plus du pétrole. Modèle OMEA similaire à Jaguar.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERGIPE-ALAGOAS -->
+    <div class="proj-card active-tender">
+      <div class="proj-card-header">
+        <div class="proj-card-title">2 FPSOs Sergipe-Alagoas — Brésil (offshore)</div>
+        <span class="badge b-amber">Appels d'offres actifs</span>
+        <span class="badge b-gray">First oil ~2029–2031</span>
+      </div>
+      <div class="proj-card-body">
+        <div class="grid-2">
+          <div>
+            <div class="proj-row"><div class="proj-key">Client présumé</div><div class="proj-val">Petrobras (probable) — offshore Brésil NE</div></div>
+            <div class="proj-row"><div class="proj-key">Localisation</div><div class="proj-val">Bassin de Sergipe-Alagoas — offshore Brésil nord-est</div></div>
+            <div class="proj-row"><div class="proj-key">Nombre d'unités</div><div class="proj-val">2 FPSOs à forte capacité traitement gaz</div></div>
+          </div>
+          <div>
+            <div class="proj-row"><div class="proj-key">Coques pré-ordonnées</div><div class="proj-val">3 coques MPF (E, F + option) commandées pour soutenir ces tenders</div></div>
+            <div class="proj-row"><div class="proj-key">Particularité technique</div><div class="proj-val">Capacité de traitement gaz substantielle dans les deux cas — FPSO "gas-heavy". Exigences techniques élevées (compresseurs, traitement condensats).</div></div>
+            <div class="proj-row"><div class="proj-key">Positionnement SBM</div><div class="proj-val">SBM en compétition active. Coques pré-ordonnées = avantage délai de livraison vs concurrence (MODEC, BW Offshore, Yinson).</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAMIBIE -->
+    <div class="proj-card future">
+      <div class="proj-card-header">
+        <div class="proj-card-title">Projets Namibie — Orange Basin & autres</div>
+        <span class="badge b-gray">Exploration / Développement futur</span>
+        <span class="badge b-gray">Post-2030</span>
+      </div>
+      <div class="proj-card-body">
+        <div class="proj-row"><div class="proj-key">Contexte</div><div class="proj-val">La Namibie émerge comme un nouveau bassin deepwater majeur. TotalEnergies (Venus), Shell et QatarEnergy ont réalisé des découvertes significatives dans le bassin Orange. Premier FPSO local estimé en service post-2030.</div></div>
+        <div class="proj-row"><div class="proj-key">Position SBM</div><div class="proj-val">SBM Offshore a été identifié par des sources sectorielles (Upstream) comme un candidat prioritaire pour les futurs FPSO namibiens. Discussions et études préliminaires en cours.</div></div>
+        <div class="proj-row"><div class="proj-key">Clients potentiels</div><div class="proj-val">TotalEnergies, Shell, QatarEnergy, Galp — partenaires Namibie</div></div>
+      </div>
+    </div>
+
+    <!-- PIPELINE COQUES MPF -->
+    <div class="section" style="margin-top:20px;">
+      <div class="section-title"><span>▸</span> Synthèse pipeline Fast4Ward® — Vue d'ensemble 2025–2031</div>
+      <table class="data-table">
+        <thead><tr><th>Horizon</th><th>Projet / Unité</th><th>Localisation</th><th>Modèle</th><th>Statut SBM</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge b-green">En production</span></td><td>FPSO Almirante Tamandaré</td><td>Brésil – Búzios</td><td>L&O Petrobras</td><td>Démarré fév. 2025 — flux stable</td></tr>
+          <tr><td><span class="badge b-green">En production</span></td><td>FPSO Alexandre de Gusmão</td><td>Brésil – Búzios</td><td>L&O Petrobras</td><td>Démarré mai 2025 — flux stable</td></tr>
+          <tr><td><span class="badge b-blue">2027</span></td><td>FPSO Jaguar (Whiptail)</td><td>Guyana – Stabroek</td><td>Turnkey + O&M 10 ans</td><td>Construction avancée, financement 1,5 Md$ bouclé</td></tr>
+          <tr><td><span class="badge b-blue">2028</span></td><td>FPSO GranMorgu</td><td>Suriname – Block 58</td><td>Turnkey + O&M long terme</td><td>Construction démarrée, FID oct. 2024</td></tr>
+          <tr><td><span class="badge b-blue">2028</span></td><td>FSO Trion</td><td>Mexique – Golfe</td><td>L&O 20 ans</td><td>Contrat signé, construction planifiée</td></tr>
+          <tr><td><span class="badge b-amber">2029–2030</span></td><td>FPSO Longtail</td><td>Guyana – Stabroek</td><td>Turnkey + OMEA</td><td>FEED attribué avr. 2026 — MPF D pré-allouée</td></tr>
+          <tr><td><span class="badge b-amber">2029–2031</span></td><td>2 FPSOs Sergipe-Alagoas</td><td>Brésil NE</td><td>À définir</td><td>Tender actif — MPF E/F + options commandées</td></tr>
+          <tr><td><span class="badge b-gray">Post-2030</span></td><td>Projets Namibie</td><td>Namibie</td><td>À définir</td><td>Pré-développement / identification</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════════════ TAB : STRATÉGIE & INNOVATION ══════════════════ -->
+  <div id="tab-strategie" class="tab-content">
+
+    <div class="grid-2">
+      <div class="section">
+        <div class="section-title"><span>▸</span> Axes stratégiques 2025–2030</div>
+        <table class="data-table">
+          <thead><tr><th>Thème</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Intelligence artificielle & Digital</td>
+              <td>Alliance exclusive avec SLB pour un écosystème IA dédié à l'optimisation de la production offshore, la gestion des actifs FPSO, l'uptime et la réduction des coûts opérationnels. Déploiement de la plateforme Cognite (industrial AI & data) sur l'ensemble de la flotte. Plateforme propriétaire SBM+.</td>
+            </tr>
+            <tr>
+              <td>NearZero® &amp; emissionZERO®</td>
+              <td>FPSOs zéro torchage routinier (GranMorgu), capture carbone (partenariat MHI certifié ABS), récupération chaleur résiduelle, drive tout-électrique. Cible : net-zéro scope 1 &amp; 2 en 2030, réduction 50% GHG intensité scope 3. Programme emissionZERO® visant à offrir des FPSOs near-zero émissions.</td>
+            </tr>
+            <tr>
+              <td>Éolien offshore flottant</td>
+              <td>JV Ekwil (SBM + Technip Energies) — plateforme Float4Wind TLP (Tension-Leg Platform). Approbation de principe ClassNK (Japon) — décembre 2025. Projet pilote Provence Grand Large (3 flotteurs) en production depuis 2024. Objectif : livraison complète flotteurs + systèmes de mouillage.</td>
+            </tr>
+            <tr>
+              <td>Eau douce flottante</td>
+              <td>MoU signé avec Veolia (janvier 2026) pour développer des unités de production d'eau douce flottantes (FPU) produisant jusqu'à 100 000 m³/jour. Diversification vers les services essentiels.</td>
+            </tr>
+            <tr>
+              <td>Diversification géographique</td>
+              <td>Suriname (1er FPSO opérateur, GranMorgu 2028), Mexique (1er actif SBM, FSO Trion), Namibie (identification en cours). Réduction de la dépendance Brésil/Guyana.</td>
+            </tr>
+            <tr>
+              <td>Nouveau navire d'installation</td>
+              <td>Remplacement du Normand Installer planifié fin de décennie (~2028–2031) en JV avec Solstad Offshore. Nouveau navire avec périmètre EPCIO élargi, fiabilité améliorée et intégration digitale poussée.</td>
+            </tr>
+            <tr>
+              <td>Retours actionnaires</td>
+              <td>Engagement minimum 2,1 Md$ de retours cumulés jusqu'en 2031. Programme rachat 270 M$ en cours (2026). Dividende 200 M$ (2025 + H1 2026). Réintégration AEX mars 2026 = visibilité institutionnelle accrue.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><span>▸</span> Positionnement concurrentiel</div>
+        <table class="data-table">
+          <thead><tr><th>Critère</th><th>Position SBM</th><th>Principaux concurrents</th></tr></thead>
+          <tbody>
+            <tr><td>Taille flotte L&O</td><td><span class="badge b-green">N°1 mondial — 15 unités</span></td><td>MODEC (14), BW Offshore (7), Yinson (8+)</td></tr>
+            <tr><td>CA annuel</td><td>~5,9 Md$ IFRS 2025</td><td>MODEC (~2 Md$), BW Offshore (~1 Md$)</td></tr>
+            <tr><td>Backlog</td><td>31,1 Md$ Directional</td><td>MODEC ~15 Md$, Yinson ~6 Md$</td></tr>
+            <tr><td>Uptime flotte</td><td>97–99% historique</td><td>Secteur : 94–97% moyenne</td></tr>
+            <tr><td>Navire d'installation propre</td><td><span class="badge b-teal">Oui — Normand Installer (unique)</span></td><td>Aucun concurrent ne possède d'équivalent intégré</td></tr>
+            <tr><td>Programme Fast4Ward®</td><td><span class="badge b-teal">Coques pré-ordonnées (4 en cours)</span></td><td>MODEC a un programme similaire (MadOS)</td></tr>
+            <tr><td>Marchés clés</td><td>Guyana, Brésil, Angola, Suriname, Mexique</td><td>MODEC : Brésil, Ghana, MODEC Afrique</td></tr>
+            <tr><td>Innovation technologique</td><td>emissionZERO®, NearZero®, IA SLB/Cognite, FOW (Ekwil)</td><td>BW Zero, MODEC Green, Yinson Green</td></tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:16px;" class="section-title"><span>▸</span> Risques identifiés & facteurs de vigilance</div>
+        <table class="data-table">
+          <thead><tr><th>Risque</th><th>Niveau</th><th>Commentaire</th></tr></thead>
+          <tbody>
+            <tr><td>Concentration client Petrobras</td><td><span class="badge b-amber">Modéré</span></td><td>~5 FPSOs sur contrats Petrobras — dépendance à la politique brésilienne</td></tr>
+            <tr><td>Exécution multi-projets simultanés</td><td><span class="badge b-amber">Modéré</span></td><td>3 projets en construction + 4 coques MPF ordonnées — charge chantiers et supervision élevée</td></tr>
+            <tr><td>Volatilité cours du pétrole</td><td><span class="badge b-amber">Modéré</span></td><td>Backlog long terme protège mais nouveaux projets sensibles si prix &lt;50$/bbl</td></tr>
+            <tr><td>Normand Installer vieillissant</td><td><span class="badge b-blue">Suivi</span></td><td>20 ans en 2026 — fiabilité sous surveillance, remplacement planifié</td></tr>
+            <tr><td>Risque géopolitique</td><td><span class="badge b-blue">Suivi</span></td><td>Angola (stabilité), Guyana/Venezuela, Suriname (1er développement)</td></tr>
+            <tr><td>Corruption historique (Brésil)</td><td><span class="badge b-blue">Résolu</span></td><td>Provisions accordées, procédures clôturées — conformité renforcée</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span>▸</span> Opportunités de business MyEOD / IC — Axes de collaboration</div>
+      <table class="data-table">
+        <thead><tr><th>Opportunité</th><th>Périmètre potentiel</th><th>Interlocuteur SBM</th><th>Probabilité</th></tr></thead>
+        <tbody>
+          <tr><td>Ingénierie navires / Normand Installer</td><td>Études techniques, inspection, support à la conception du navire de remplacement</td><td>Direction Installation Engineering — Monaco / Schiedam</td><td><span class="badge b-amber">À développer</span></td></tr>
+          <tr><td>Projets FPSO — études & consulting</td><td>Due diligence, revues documentaires, review de plans (TRION292IN001…), HAZID/HAZOP</td><td>Project Engineering — Monaco / Schiphol</td><td><span class="badge b-blue">En cours (DIC26SBM…)</span></td></tr>
+          <tr><td>Installation deepwater</td><td>Support T&I (Raia, Longtail), études de faisabilité mouillage, analyse de risques</td><td>Installation Services — Monaco</td><td><span class="badge b-amber">À développer</span></td></tr>
+          <tr><td>GranMorgu — phase offshore 2027–2028</td><td>Assistance technique offshore Suriname, coordinateurs, HSE, documentation</td><td>GranMorgu Project team — Singapour / Monaco</td><td><span class="badge b-amber">Opportunité 2027+</span></td></tr>
+          <tr><td>Éolien offshore flottant (Ekwil)</td><td>Études conception, documentation technique, TLP et mouillage</td><td>Ekwil JV / FOW team</td><td><span class="badge b-gray">Long terme</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="page-footer">
+    <div class="footer-brand">MyEOD · Ingénieurs Créatifs · CRM Intelligence</div>
+    <div class="footer-meta">Sources : FY2025 SBM Offshore (26 fév. 2026) · Q1 2026 Trading Update (7 mai 2026) · Annual Report 2024 · Communiqués projets GranMorgu, Jaguar, Longtail · Wikipedia · Wartsila · VesselFinder · Offshore Magazine · Mise à jour : mai 2026</div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+function goBackToPreviousPage() {
+  const fallback = 'index.html#clients';
+  try {
+    if (window.history.length > 1) {
+      window.history.back();
+      window.setTimeout(function() { window.location.href = fallback; }, 450);
+      return;
+    }
+  } catch(e) {}
+  window.location.href = fallback;
+}
+</script>
+</body>
+</html>

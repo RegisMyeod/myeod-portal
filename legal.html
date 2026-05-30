@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyEOD — Pages légales</title>
+  <title>MyEOD — Pages légales / Legal Pages</title>
   <style>
     @font-face{font-family:'MazzardM';src:url('MazzardM-Thin.woff2') format('woff2');font-weight:100;font-style:normal;}
     @font-face{font-family:'MazzardM';src:url('MazzardM-ExtraLight.woff2') format('woff2');font-weight:200;font-style:normal;}
@@ -666,24 +666,72 @@
       .legal-table th,.legal-table td{display:block;width:100%;}
     }
 
+  
+
+    /* === BILINGUAL LEGAL PAGE === */
+    [data-lang-panel]{display:none;}
+    html[lang="fr"] [data-lang-panel="fr"],
+    html[lang="en"] [data-lang-panel="en"]{display:block;}
+    .simple-nav button.lang-switch{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:34px;
+      padding:.55rem .72rem;
+      margin-left:.35rem;
+      border:1px solid var(--gray-200);
+      background:var(--white);
+      color:var(--black);
+      font-family:var(--font);
+      font-size:.62rem;
+      font-weight:800;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      cursor:pointer;
+      transition:border-color .18s ease,color .18s ease,background .18s ease;
+      min-width:68px;
+    }
+    .simple-nav button.lang-switch:hover,
+    .simple-nav button.lang-switch:focus-visible{
+      border-color:var(--black);
+      background:var(--black);
+      color:var(--white);
+      outline:none;
+    }
+
   </style>
+
+  <script>
+    (function(){
+      try{
+        var params = new URLSearchParams(window.location.search);
+        var requested = (params.get('lang') || '').toLowerCase();
+        var saved = (localStorage.getItem('myeod_lang') || '').toLowerCase();
+        var lang = requested === 'en' || requested === 'fr' ? requested : (saved === 'en' || saved === 'fr' ? saved : 'fr');
+        document.documentElement.lang = lang;
+      }catch(e){
+        document.documentElement.lang = 'fr';
+      }
+    })();
+  </script>
 </head>
 
 <body>
   <header class="myeod-header">
-    <a class="myeod-header-logo" href="index.html" aria-label="Accueil MyEOD">
+    <a class="myeod-header-logo" href="index.html" aria-label="Accueil MyEOD" data-link="home" data-i18n-aria-label="logoAria">
       <svg id="Calque_1" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 262.15 96.47"><defs><style> .cls-1 { fill: #1e1717; } </style></defs><path class="cls-1" d="M117.46,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM114.76,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M121.64,66l1.92,2.55h-.51l-1.65-2.22-1.08,1.44-.58.77h-.5l1.9-2.55-1.75-2.33h.51l1.48,2,.79-1.03.72-.97h.51l-1.77,2.33Z"/><path class="cls-1" d="M128.51,63.91c.37.21.66.51.87.89.21.38.31.82.31,1.31s-.1.92-.31,1.31-.5.68-.87.89c-.37.21-.8.32-1.27.32s-.89-.1-1.25-.31c-.37-.21-.64-.49-.83-.84v3.44h-.42v-7.26h.4v1.09c.18-.36.45-.64.83-.85.37-.21.8-.32,1.27-.32s.9.11,1.27.32ZM128.28,67.98c.31-.18.56-.43.73-.75.17-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.18-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75s-.26.7-.26,1.12.09.79.26,1.12c.18.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M134.61,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM131.91,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M140.28,63.89l-.19.36c-.24-.14-.52-.22-.82-.22s-.58.09-.84.27c-.25.18-.45.42-.6.73-.14.31-.22.65-.22,1.02v2.51h-.42v-4.89h.4v1.09c.17-.36.4-.63.7-.84.29-.2.62-.3.98-.3.39,0,.72.09,1,.27Z"/><path class="cls-1" d="M144.26,68.38c-.36.18-.69.27-1,.27-.49,0-.84-.13-1.04-.39s-.3-.65-.3-1.17v-3.04h-1.05v-.39h1.05v-1.44l.42-.04v1.48h1.69v.39h-1.69v3.04c0,.39.06.68.19.88s.37.3.73.3c.11,0,.25-.02.41-.07s.3-.1.44-.17l.16.35Z"/><path class="cls-1" d="M149.11,68.32c-.38-.22-.68-.52-.89-.9-.21-.39-.32-.82-.32-1.3s.11-.92.32-1.3c.21-.39.51-.69.89-.9s.81-.33,1.28-.33.91.11,1.29.33.68.52.89.9c.21.39.32.82.32,1.3s-.11.91-.32,1.3c-.21.39-.51.69-.89.9-.38.22-.81.33-1.29.33s-.9-.11-1.28-.33ZM151.46,67.97c.32-.18.57-.44.75-.77.18-.33.27-.69.27-1.09s-.09-.77-.27-1.09c-.18-.33-.43-.58-.75-.77-.32-.18-.67-.28-1.07-.28s-.75.09-1.07.28c-.32.18-.56.44-.74.77-.18.33-.27.69-.27,1.09s.09.77.27,1.09c.18.33.43.58.74.77s.67.28,1.07.28.75-.09,1.07-.28Z"/><path class="cls-1" d="M158.24,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"/><path class="cls-1" d="M168.02,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM166.61,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M173.27,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM170.57,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M182.93,64.16c.34.37.51.89.51,1.55v2.85h-.42v-2.83c0-.55-.13-.98-.4-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.85.24s-.45.37-.59.65c-.14.27-.21.58-.21.92v2.75h-.42v-2.83c0-.55-.13-.98-.39-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.84.24-.25.16-.45.37-.59.65-.14.27-.21.58-.21.92v2.75h-.42v-4.89h.4v.92c.18-.31.41-.55.71-.73s.62-.26.96-.26c.44,0,.82.1,1.12.31s.52.51.65.89c.17-.38.42-.67.74-.89.32-.21.68-.32,1.08-.32.6,0,1.07.19,1.41.56Z"/><path class="cls-1" d="M189.84,63.67v4.89h-.4v-1.09c-.19.36-.47.65-.85.85-.37.21-.79.31-1.26.31s-.9-.11-1.27-.32c-.37-.21-.66-.51-.86-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.86-.89.37-.21.79-.32,1.27-.32s.89.11,1.26.32c.37.21.65.5.84.86v-1.1h.41ZM188.43,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M195.5,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"/><path class="cls-1" d="M202.44,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM201.03,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><polygon class="cls-1" points="72.23 42.73 72.11 42.9 72.03 43 71.95 42.9 71.83 42.73 61.05 27.8 59.71 27.8 59.71 52.29 60.79 52.29 60.79 29.98 60.79 29.5 60.79 29.21 60.96 29.45 61.23 29.83 71.98 44.65 72.12 44.65 82.86 29.8 83.14 29.41 83.31 29.18 83.31 29.47 83.31 29.94 83.31 52.29 84.35 52.29 84.35 27.8 83.01 27.8 72.23 42.73"/><polygon class="cls-1" points="111.97 27.8 102.01 50.45 101.87 50.78 101.78 50.98 101.69 50.78 101.56 50.45 99.23 44.91 91.91 27.8 90.81 27.8 101.19 52.04 101.22 52.1 101.23 52.14 101.22 52.17 101.19 52.23 94.12 68.67 95.22 68.67 113.07 27.8 111.97 27.8"/><polygon class="cls-1" points="42.39 28.9 41.61 28.05 28.25 39.6 28.25 40.35 41.61 51.97 42.39 51.11 29.97 40.31 29.58 39.97 29.97 39.63 42.39 28.9"/><polygon class="cls-1" points="220.54 28.05 219.76 28.9 232.18 39.7 232.57 40.04 232.18 40.38 219.76 51.11 220.54 51.97 233.9 40.41 233.9 39.66 220.54 28.05"/><path class="cls-1" d="M120.78,40.78c.22,2.98,1.23,5.34,3.03,7.07,1.79,1.73,4.12,2.6,6.97,2.6,1.76,0,3.44-.35,5.05-1.06,1.6-.7,2.84-1.63,3.7-2.79l1.44,1.2c-1.12,1.41-2.58,2.52-4.37,3.34-1.79.82-3.73,1.23-5.82,1.23-2.31,0-4.37-.53-6.2-1.59-1.83-1.06-3.25-2.52-4.28-4.4-1.03-1.87-1.54-4-1.54-6.37s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.32,4.23-4.37s3.87-1.59,6.18-1.59,4.46.49,6.27,1.47c1.81.98,3.2,2.35,4.18,4.11.98,1.76,1.47,3.8,1.47,6.1,0,.61-.02,1.07-.05,1.39h-17.93l.03-1.87h15.99c0-1.83-.43-3.44-1.27-4.85-.85-1.41-2.02-2.51-3.51-3.29-1.49-.78-3.21-1.18-5.17-1.18-2.79,0-5.08.86-6.87,2.57-1.79,1.71-2.8,3.97-3.03,6.75-.1.82,0,1.87,0,1.87Z"/><path class="cls-1" d="M154.04,50.72c-1.84-1.06-3.28-2.52-4.33-4.4-1.04-1.87-1.56-3.98-1.56-6.32s.52-4.45,1.56-6.32c1.04-1.87,2.48-3.34,4.33-4.4,1.84-1.06,3.92-1.59,6.22-1.59s4.43.53,6.27,1.59,3.28,2.52,4.33,4.4c1.04,1.87,1.56,3.98,1.56,6.32s-.52,4.45-1.56,6.32c-1.04,1.87-2.48,3.34-4.33,4.4s-3.93,1.59-6.27,1.59-4.38-.53-6.22-1.59ZM165.46,49.04c1.54-.9,2.75-2.14,3.63-3.73.88-1.59,1.32-3.36,1.32-5.31s-.44-3.72-1.32-5.31c-.88-1.59-2.09-2.83-3.63-3.73-1.54-.9-3.27-1.35-5.19-1.35s-3.65.45-5.19,1.35c-1.54.9-2.74,2.14-3.6,3.73-.86,1.59-1.3,3.36-1.3,5.31s.43,3.72,1.3,5.31c.86,1.59,2.07,2.83,3.6,3.73,1.54.9,3.27,1.35,5.19,1.35s3.65-.45,5.19-1.35Z"/><path class="cls-1" d="M202.44,18.23v33.64h-1.92l-.05-5.24c-.9,1.73-2.25,3.1-4.06,4.11-1.81,1.01-3.85,1.51-6.13,1.51s-4.32-.52-6.13-1.56c-1.81-1.04-3.22-2.49-4.23-4.35-1.01-1.86-1.51-3.97-1.51-6.34s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.31,4.23-4.35,1.81-1.04,3.85-1.56,6.13-1.56s4.31.5,6.1,1.49c1.79.99,3.14,2.36,4.04,4.09v-15.09h2.02ZM195.59,49.09c1.52-.86,2.71-2.08,3.56-3.65.85-1.57,1.27-3.38,1.27-5.43s-.43-3.86-1.27-5.43c-.85-1.57-2.04-2.79-3.56-3.65-1.52-.87-3.24-1.3-5.17-1.3s-3.69.43-5.19,1.3c-1.51.86-2.68,2.08-3.53,3.65s-1.27,3.38-1.27,5.43.42,3.86,1.27,5.43c.85,1.57,2.03,2.79,3.53,3.65,1.51.87,3.24,1.3,5.19,1.3s3.64-.43,5.17-1.3Z"/></svg>
     </a>
-    <nav class="simple-nav" aria-label="Navigation principale">
-      <a href="services.html">Services</a>
-      <a href="acces-client.html">Clients</a>
-      <a href="acces-collaborateurs.html">Collaborateurs</a>
-      <a class="lang-switch" href="legal-en.html" aria-label="English version">FR / EN</a>
+    <nav class="simple-nav" aria-label="Navigation principale" data-i18n-aria-label="mainNavAria">
+      <a href="services.html" data-link="services" data-i18n="navServices">Services</a>
+      <a href="acces-client.html" data-link="clients" data-i18n="navClients">Clients</a>
+      <a href="acces-collaborateurs.html" data-link="collaborators" data-i18n="navCollaborators">Collaborateurs</a>
+      <button class="lang-switch" id="lang-toggle" type="button" aria-label="English version">EN</button>
     </nav>
   </header>
 
   <main>
-    <section class="section hero legal-hero">
+    <div data-lang-panel="fr">
+<section class="section hero legal-hero">
       <div>
         <div class="kicker">MyEOD · Informations légales</div>
         <h1>Pages légales.</h1>
@@ -846,9 +894,176 @@
         <p class="legal-note"><strong>Pièce justificative.</strong> Pour certaines demandes liées aux données personnelles, une preuve d'identité pourra être demandée uniquement lorsque cela est nécessaire pour éviter une divulgation non autorisée.</p>
       </section>
     </div>
+    </div>
+    <div data-lang-panel="en">
+<section class="section hero legal-hero">
+      <div>
+        <div class="kicker">MyEOD · Legal Information</div>
+        <h1>Legal pages.</h1>
+        <p class="lead">
+          A single page covering legal notice / impressum, data protection,
+          cookies, terms of use, complaints and contact information.
+        </p>
+        <p class="legal-small">Last updated: 26 May 2026</p>
+      </div>
+      <aside class="hero-panel" aria-label="Legal information summary">
+        <div class="panel-title">
+          <div class="panel-label">Contents</div>
+          <div class="panel-main">France · Switzerland<br>MyEOD showcase website</div>
+        </div>
+        <p>Footer links point directly to the sections below.</p>
+        <nav class="legal-panel-list" aria-label="Legal page contents">
+          <a class="legal-panel-link" href="#legal-notice-impressum"><span>Legal notice / Impressum</span><span>→</span></a>
+          <a class="legal-panel-link" href="#data-protection"><span>Data protection</span><span>→</span></a>
+          <a class="legal-panel-link" href="#cookies"><span>Cookies</span><span>→</span></a>
+          <a class="legal-panel-link" href="#terms-of-use"><span>Terms of use</span><span>→</span></a>
+          <a class="legal-panel-link" href="#complaints-mediation"><span>Complaints / Mediation</span><span>→</span></a>
+          <a class="legal-panel-link" href="#contact-en"><span>Contact</span><span>→</span></a>
+        </nav>
+      </aside>
+    </section>
+
+    <div class="legal-wrap">
+      <section class="legal-section" id="legal-notice-impressum">
+        <div class="kicker">01 — Legal notice / Impressum</div>
+        <h2>Website publisher.</h2>
+        <p>
+          This website is a showcase site published for the brand <strong>MyEOD — My Expert On Demand</strong>,
+          represented by <strong>Ingénieurs Créatifs</strong>.
+        </p>
+        <div class="legal-grid">
+          <div class="legal-card"><strong>Brand</strong><span>MyEOD — My Expert On Demand</span></div>
+          <div class="legal-card"><strong>Operating company</strong><span>Ingénieurs Créatifs</span></div>
+          <div class="legal-card"><strong>Territories</strong><span>France · Switzerland</span></div>
+          <div class="legal-card"><strong>Nature of the site</strong><span>Showcase website, service presentation, contact form.</span></div>
+          <div class="legal-card"><strong>France address</strong><span>Ingénieurs Créatifs<br>12 B rue Joseph Perrier<br>34110 Frontignan<br>France</span></div>
+          <div class="legal-card"><strong>Switzerland address</strong><span class="todo">Entity being incorporated</span></div>
+          <div class="legal-card"><strong>France registration</strong><span>SIRET: 78896865900029<br>VAT number: FR65788968659</span></div>
+          <div class="legal-card"><strong>Switzerland registration</strong><span>UID / CHE / Commercial Register: <span class="todo">Entity being incorporated</span></span></div>
+          <div class="legal-card"><strong>Publication director</strong><span>Régis Mortier, President of Ingénieurs Créatifs</span></div>
+          <div class="legal-card"><strong>Hosting</strong><span>OVH SAS<br>2 rue Kellermann — 59100 Roubaix — France<br><a href="https://www.ovhcloud.com" style="color:inherit;text-decoration:underline;">www.ovhcloud.com</a></span></div>
+        </div>
+        <h3>Intellectual property.</h3>
+        <p>
+          The content of this site, including texts, graphic elements, logos, presentations, visuals, names,
+          brands, interfaces and layout, is protected by applicable intellectual property rights.
+          Any unauthorised reproduction, representation, adaptation or reuse is prohibited.
+        </p>
+        <h3>Liability.</h3>
+        <p>
+          Ingénieurs Créatifs endeavours to provide accurate and up-to-date information. However, the content
+          published on this site is provided for informational purposes only and does not constitute a firm offer,
+          nor legal, tax, financial or technical advice binding the company without a specific written agreement.
+        </p>
+        <p class="legal-note"><strong>Field to validate before publication.</strong> Legal identifiers, addresses, hosting provider, publication director and definitive contact details must be completed before going live.</p>
+      </section>
+
+      <section class="legal-section" id="data-protection">
+        <div class="kicker">02 — Data protection</div>
+        <h2>Personal data.</h2>
+        <p>
+          Ingénieurs Créatifs processes personal data collected via the MyEOD website solely to enable
+          contact requests, qualification of enquiries and follow-up of professional exchanges.
+        </p>
+        <table class="legal-table">
+          <tr><th>Data controller</th><td>Ingénieurs Créatifs, for the MyEOD brand — 12 B rue Joseph Perrier, 34110 Frontignan, France. Contact: <a href="mailto:privacy@myexpertondemand.com" style="color:inherit;text-decoration:underline;">privacy@myexpertondemand.com</a></td></tr>
+          <tr><th>Data collected</th><td>Identity, company, role, email, phone number, subject of the request, message content and technical data strictly necessary for the operation of the site.</td></tr>
+          <tr><th>Purposes</th><td>Responding to enquiries, preparing a commercial exchange, qualifying a need, ensuring administrative follow-up and retaining proof of necessary exchanges.</td></tr>
+          <tr><th>Legal bases</th><td>Consent upon voluntary submission of the form, pre-contractual measures where the request concerns an assignment, legitimate interest in responding to and securing exchanges.</td></tr>
+          <tr><th>Retention period</th><td>Duration necessary to process the request, then limited archiving. As a practical guideline, commercial enquiries may be retained for up to three years after the last contact, unless a different legal obligation applies.</td></tr>
+          <tr><th>Recipients</th><td>Authorised Ingénieurs Créatifs / MyEOD teams and technical service providers strictly necessary for the operation of the site.</td></tr>
+          <tr><th>Transfers</th><td>Any transfers outside France, Switzerland or the European Union will be governed by appropriate safeguards where required by applicable regulations.</td></tr>
+          <tr><th>Rights</th><td>Access, rectification, erasure, restriction, objection, portability where applicable, withdrawal of consent and complaint to the competent authority.</td></tr>
+        </table>
+        <h3>Competent authorities.</h3>
+        <ul class="legal-list">
+          <li>France / European Union: Commission Nationale de l'Informatique et des Libertés — CNIL.</li>
+          <li>Switzerland: Federal Data Protection and Information Commissioner — FDPIC / PFPDT.</li>
+        </ul>
+        <p class="legal-note"><strong>Contact form.</strong> No online payment or public account creation is planned in this version of the showcase site. If such features are added, this section must be updated accordingly.</p>
+      </section>
+
+      <section class="legal-section" id="cookies">
+        <div class="kicker">03 — Cookies</div>
+        <h2>Cookies and preferences.</h2>
+        <p>
+          The site may use cookies or trackers that are strictly necessary for its operation. Audience measurement,
+          personalisation or marketing cookies may only be set after clear notice and, where required, with the
+          user's prior consent.
+        </p>
+        <table class="legal-table">
+          <tr><th>Necessary</th><td>Cookies essential to the operation, security, display and storage of technical preferences.</td></tr>
+          <tr><th>Audience measurement</th><td>The statistics tool included in the OVH hosting plan is used. It operates by analysing server logs and does not set any cookie on the visitor's device. No prior consent is required for this type of processing. The data analysed (pages visited, referrers, traffic volume) remains on OVH servers and is not transmitted to third parties or combined with other processing activities.</td></tr>
+          <tr><th>OVH technical cookie</th><td>OVH sets a technical cookie called <code>SERVERID</code>, strictly necessary for load balancing between servers. This cookie is exempt from the consent requirement as a technically necessary tracker.</td></tr>
+          <tr><th>Marketing / social media</th><td>Not planned by default. Any marketing tracker must be listed and subject to prior consent where required.</td></tr>
+          <tr><th>Preference management</th><td>A cookie banner and preference management module should be implemented if non-necessary trackers are used.</td></tr>
+        </table>
+        <p class="legal-note"><strong>Technical integration required.</strong> The "Cookies" link in the footer points to this section. If a consent management platform is added, this link may open the preferences panel directly.</p>
+      </section>
+
+      <section class="legal-section" id="terms-of-use">
+        <div class="kicker">04 — Terms of use</div>
+        <h2>Terms of use.</h2>
+        <p>
+          Accessing the MyEOD website implies acceptance of these terms of use. The purpose of the site is to
+          present the MyEOD brand, its associated activities and to enable contact.
+        </p>
+        <h3>No online sales.</h3>
+        <p>
+          This is a showcase website. It does not constitute an online sales platform and does not, as it stands,
+          enable the automatic conclusion of a service contract. Any assignment, offer, demonstration, subscription
+          or service will be subject to a quotation, commercial proposal or specific contract.
+        </p>
+        <h3>Permitted use.</h3>
+        <ul class="legal-list">
+          <li>Users agree to use the site in a fair, lawful manner consistent with its purpose.</li>
+          <li>Users may not attempt any unauthorised access, alteration, mass copying, automated extraction or disruption of the site.</li>
+          <li>Links to third-party sites are provided for informational purposes; MyEOD does not exercise ongoing control over such sites.</li>
+        </ul>
+        <h3>Availability.</h3>
+        <p>
+          Ingénieurs Créatifs may modify, suspend or interrupt all or part of the site for maintenance, security
+          or development reasons, without this giving rise to any right to compensation.
+        </p>
+      </section>
+
+      <section class="legal-section" id="complaints-mediation">
+        <div class="kicker">05 — Complaints / Mediation</div>
+        <h2>Complaints and amicable resolution.</h2>
+        <p>
+          Any complaint relating to the site, a contact request or published information may be sent to
+          Ingénieurs Créatifs / MyEOD via the contact details provided in the contact section.
+        </p>
+        <table class="legal-table">
+          <tr><th>Initial complaint</th><td>Send a written message describing the subject, the date, the claimant's contact details and any elements useful for the assessment.</td></tr>
+          <tr><th>Processing time</th><td>MyEOD endeavours to acknowledge receipt and respond within a reasonable timeframe depending on the complexity of the request.</td></tr>
+          <tr><th>Mediation — France</th><td>Not applicable. The site is addressed exclusively to professional clients (B2B) and is not subject to consumer mediation schemes.</td></tr>
+          <tr><th>Switzerland</th><td>The parties favour amicable resolution. Competent jurisdictions and applicable law will be specified in the relevant contracts or commercial terms.</td></tr>
+        </table>
+        <p class="legal-note"><strong>B2B showcase site.</strong> This section is formulated as a practical entry point. Mandatory mediation mechanisms depend on the exact nature of the relationship, the client and the contract concerned.</p>
+      </section>
+
+      <section class="legal-section" id="contact-en">
+        <div class="kicker">06 — Contact</div>
+        <h2>Legal contact and data-related requests.</h2>
+        <p>
+          General enquiries, complaints, requests to exercise rights and site-related requests may be sent
+          via the contact form or by email.
+        </p>
+        <div class="legal-grid">
+          <div class="legal-card"><strong>General email</strong><span><a href="mailto:contact@myexpertondemand.com" style="color:inherit;text-decoration:underline;">contact@myexpertondemand.com</a></span></div>
+          <div class="legal-card"><strong>Data protection email</strong><span><a href="mailto:privacy@myexpertondemand.com" style="color:inherit;text-decoration:underline;">privacy@myexpertondemand.com</a></span></div>
+          <div class="legal-card"><strong>Postal address — France</strong><span>Ingénieurs Créatifs<br>12 B rue Joseph Perrier<br>34110 Frontignan<br>France</span></div>
+          <div class="legal-card"><strong>Postal address — Switzerland</strong><span class="todo">Entity being incorporated</span></div>
+        </div>
+        <p class="legal-note"><strong>Identity verification.</strong> For certain data-related requests, proof of identity may be requested solely where necessary to prevent unauthorised disclosure.</p>
+      </section>
+    </div>
+    </div>
   </main>
 
-  <footer class="myeod-footer" role="contentinfo">
+  <div data-lang-panel="fr">
+<footer class="myeod-footer" role="contentinfo">
   <div class="myeod-footer-inner">
     <div class="myeod-footer-brand">
       <div class="myeod-footer-title">My Expert On Demand</div>
@@ -874,5 +1089,204 @@
     </div>
   </div>
 </footer>
+  </div>
+  <div data-lang-panel="en">
+<footer class="myeod-footer" role="contentinfo">
+  <div class="myeod-footer-inner">
+    <div class="myeod-footer-brand">
+      <div class="myeod-footer-title">My Expert On Demand</div>
+      <div class="myeod-footer-meta">
+        <span>A brand represented by Ingénieurs Créatifs</span>
+        <span class="myeod-footer-countries">France · Switzerland</span>
+      </div>
+    </div>
+    <nav class="myeod-footer-links" aria-label="Footer links">
+      <a href="services-en.html">Services</a>
+      <a href="acces-client-en.html">Client access</a>
+      <a href="acces-collaborateurs.html?lang=en">Collaborator access</a>
+      <a href="legal.html?lang=en#legal-notice-impressum">Legal notice / Impressum</a>
+      <a href="legal.html?lang=en#data-protection">Data protection</a>
+      <a href="legal.html?lang=en#cookies">Cookies</a>
+      <a href="legal.html?lang=en#terms-of-use">Terms of use</a>
+      <a href="legal.html?lang=en#complaints-mediation">Complaints / Mediation</a>
+      <a href="legal.html?lang=en#contact-en">Contact</a>
+    </nav>
+    <div class="myeod-footer-bottom">
+      <span>© 2026 MyEOD</span>
+      <span>All rights reserved</span>
+    </div>
+  </div>
+</footer>
+  </div>
+
+  <script>
+    (function(){
+      const STORAGE_KEY = 'myeod_lang';
+      const I18N = {
+        fr: {
+          pageTitle: 'MyEOD — Pages légales',
+          logoAria: 'Accueil MyEOD',
+          mainNavAria: 'Navigation principale',
+          navServices: 'Services',
+          navClients: 'Clients',
+          navCollaborators: 'Collaborateurs',
+          languageSwitchAria: 'English version'
+        },
+        en: {
+          pageTitle: 'MyEOD — Legal Pages',
+          logoAria: 'MyEOD Home',
+          mainNavAria: 'Main navigation',
+          navServices: 'Services',
+          navClients: 'Clients',
+          navCollaborators: 'Collaborators',
+          languageSwitchAria: 'Version française'
+        }
+      };
+
+      const LINKS = {
+        fr: {
+          home: 'index.html',
+          services: 'services.html',
+          clients: 'acces-client.html',
+          collaborators: 'acces-collaborateurs.html'
+        },
+        en: {
+          home: 'index-en.html',
+          services: 'services-en.html',
+          clients: 'acces-client-en.html',
+          collaborators: 'acces-collaborateurs.html?lang=en'
+        }
+      };
+
+      const HASH_TO_EN = {
+        'mentions-legales-impressum': 'legal-notice-impressum',
+        'protection-donnees': 'data-protection',
+        'preferences': 'cookies',
+        'conditions-generales': 'terms-of-use',
+        'reclamation-mediation': 'complaints-mediation',
+        'contact': 'contact-en'
+      };
+      const HASH_TO_FR = {
+        'legal-notice-impressum': 'mentions-legales-impressum',
+        'data-protection': 'protection-donnees',
+        'cookies': 'preferences',
+        'terms-of-use': 'conditions-generales',
+        'complaints-mediation': 'reclamation-mediation',
+        'contact-en': 'contact'
+      };
+
+      function normalizeLanguage(lang){
+        return String(lang || '').toLowerCase().startsWith('en') ? 'en' : 'fr';
+      }
+
+      function getCurrentLanguage(){
+        return normalizeLanguage(document.documentElement.lang || 'fr');
+      }
+
+      function getInitialLanguage(){
+        const params = new URLSearchParams(window.location.search);
+        const fromQuery = params.get('lang');
+        if(fromQuery) return normalizeLanguage(fromQuery);
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if(saved === 'en' || saved === 'fr') return saved;
+        return normalizeLanguage(navigator.language || 'fr');
+      }
+
+      function currentHash(){
+        return window.location.hash ? decodeURIComponent(window.location.hash.slice(1)) : '';
+      }
+
+      function mapHash(hash, fromLang, toLang){
+        const id = String(hash || '').replace(/^#/, '');
+        if(!id) return '';
+        if(fromLang === toLang){
+          if(toLang === 'en' && id === 'contact') return 'contact-en';
+          if(toLang === 'fr' && id === 'contact-en') return 'contact';
+          return id;
+        }
+        if(toLang === 'en') return HASH_TO_EN[id] || id;
+        return HASH_TO_FR[id] || id;
+      }
+
+      function pageUrl(lang, hash){
+        return 'legal.html' + (lang === 'en' ? '?lang=en' : '') + (hash ? '#' + hash : '');
+      }
+
+      function text(key){
+        const lang = getCurrentLanguage();
+        return (I18N[lang] && I18N[lang][key]) || I18N.fr[key] || key;
+      }
+
+      function updateHeader(){
+        const lang = getCurrentLanguage();
+        document.title = text('pageTitle');
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          el.textContent = text(el.dataset.i18n);
+        });
+        document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
+          el.setAttribute('aria-label', text(el.dataset.i18nAriaLabel));
+        });
+        document.querySelectorAll('[data-link]').forEach(el => {
+          const href = LINKS[lang] && LINKS[lang][el.dataset.link];
+          if(href) el.setAttribute('href', href);
+        });
+
+        const switcher = document.getElementById('lang-toggle');
+        if(switcher){
+          const nextLang = lang === 'fr' ? 'en' : 'fr';
+          const nextHash = mapHash(currentHash(), lang, nextLang);
+          switcher.textContent = nextLang.toUpperCase();
+          switcher.setAttribute('aria-label', text('languageSwitchAria'));
+          switcher.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
+          switcher.dataset.targetLang = nextLang;
+          switcher.dataset.targetHash = nextHash;
+        }
+      }
+
+      function scrollToHash(hash){
+        if(!hash) return;
+        window.requestAnimationFrame(() => {
+          const target = document.getElementById(hash);
+          if(target) target.scrollIntoView({behavior: 'auto', block: 'start'});
+        });
+      }
+
+      function applyLanguage(lang, options = {}){
+        const previous = getCurrentLanguage();
+        const next = normalizeLanguage(lang);
+        const hash = mapHash(options.hash || currentHash(), previous, next);
+        document.documentElement.lang = next;
+        localStorage.setItem(STORAGE_KEY, next);
+        updateHeader();
+
+        if(options.updateUrl){
+          history.replaceState({lang: next}, '', pageUrl(next, hash));
+        }
+        if(options.scroll) scrollToHash(hash);
+      }
+
+      document.addEventListener('DOMContentLoaded', function(){
+        const initial = getInitialLanguage();
+        const initialHash = mapHash(currentHash(), initial, initial);
+        document.documentElement.lang = initial;
+        updateHeader();
+        if(currentHash() !== initialHash){
+          history.replaceState({lang: initial}, '', pageUrl(initial, initialHash));
+        }
+        if(initialHash) scrollToHash(initialHash);
+
+        const switcher = document.getElementById('lang-toggle');
+        if(switcher){
+          switcher.addEventListener('click', function(){
+            const targetLang = switcher.dataset.targetLang || (getCurrentLanguage() === 'fr' ? 'en' : 'fr');
+            applyLanguage(targetLang, {updateUrl: true, scroll: true});
+          });
+        }
+      });
+
+      window.addEventListener('hashchange', updateHeader);
+    })();
+  </script>
 </body>
 </html>

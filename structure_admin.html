@@ -468,9 +468,8 @@ a{color:inherit;text-decoration:none;}
   justify-content:space-between !important;
   gap:1rem !important;
   padding:1rem 2.5rem !important;
-  background:rgba(255,255,255,.96) !important;
+  background:#ffffff !important;
   border-bottom:1px solid var(--gray-200) !important;
-  backdrop-filter:blur(10px) !important;
 }
 .myeod-header-logo{
   height:72px !important;
@@ -1513,7 +1512,7 @@ const DEFAULT_DOCS = [
 {id:27,cat:"admin",prio:3,name:"Registre des qualifications — Équipe",nameEn:"Team Qualifications Register",icon:"🏅",
   desc:"Tableau consolidé des certifications, formations et habilitations de l'équipe : BOSIET, HUET, médecales UKOOA, droits drones, etc. Dates d'expiration.",
   owner:"CCA",statusFr:"wip",statusEn:"wip",refFr:"",refEn:"",notes:"BOSIET JMA valide 2028 · BOSIET PPI à renouveler"},
-{id:69,cat:"admin",prio:1,name:"Standards Droits Humains (SDH)",nameEn:"Human Rights Policy (HRP)",icon:"⚖️",
+{id:69,cat:"operationnel",prio:1,name:"Standards Droits Humains (SDH)",nameEn:"Human Rights Policy (HRP)",icon:"⚖️",
   desc:"Document déclarant l'engagement d'INGENIEURS CREATIFS / MY EOD envers les Principes directeurs des Nations Unies (UNGP) et les conventions de l'OIT : dignité, esclavage moderne, travail des enfants, conditions de travail, salaire décent, temps de travail, liberté d'association, mécanismes de réclamation. Applicable à tous collaborateurs, consultants, fournisseurs et partenaires. Convention Collective SYNTEC — Code NAF 7022Z.",
   owner:"CCA",statusFr:"done",statusEn:"done",refFr:"IC25-SDH_fr-v2.docx",refEn:"IC25-HRP_en-v2.docx",notes:"Fondé sur UNGP ONU · Réf. FR : IC25-SDH_fr-v2 · Réf. EN : IC25-HRP_en-v2"},
 {id:28,cat:"financier",prio:1,name:"Template Devis — <My>BRiDGE",nameEn:"<My>BRiDGE Quote Template",icon:"💰",
@@ -1641,17 +1640,35 @@ const DEFAULT_DOCS = [
   owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Condition : unanimité associés + max 10 ETP · À archiver avec les PV"},
 {id:68,cat:"suisse",prio:3,name:"Obligations employeur — AVS/LPP/LAA",nameEn:"Employer Obligations — AVS/LPP/LAA",icon:"🛡️",
   desc:"Si salariés : affiliation AVS/AI/APG/AC, assurance-accidents LAA, certificats de salaire, fiches de salaire, LPP selon seuils. À mettre en place avant le premier contrat de travail.",
-  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Traiter avant engagement premiers salariés · Caisse de compensation cantonale"}
+  owner:"JMA + CCA",statusFr:"todo",statusEn:"na",refFr:"",refEn:"",notes:"Traiter avant engagement premiers salariés · Caisse de compensation cantonale"},
+
+// ── CORPUS QUALITÉ OPÉRATIONNEL (session CCH 31/05/2026) ────────────────────
+{id:70,cat:"operationnel",prio:1,name:"Manuel Qualité",nameEn:"Quality Manual",icon:"🏅",
+  desc:"Document parent du corpus qualité MyEOD. Définit les principes qualité, la politique d'adoption systématique du QMS client, la gestion des compétences experts, et les processus de non-conformité, gestion du changement et amélioration continue. Document de référence à présenter aux clients et partenaires comme preuve de maturité qualité.",
+  owner:"RMO",statusFr:"na",statusEn:"done",refFr:"",refEn:"260531-QM-EN-v3.docx",notes:"v3 finale · Parent du corpus · Référence : EMP [260531-EMP-EN-v2] · MOC [260531-MOC-EN-v2] · NCAP [260531-NCAP-EN-v2] · DDCP [260531-DDCP-EN-v2]"},
+{id:71,cat:"operationnel",prio:1,name:"Plan de Management de l'Ingénierie",nameEn:"Engineering Management Plan",icon:"⚙️",
+  desc:"Définit les principes, processus et responsabilités gouvernant la gestion des activités d'ingénierie sous la marque MyEOD. Couvre l'exécution engineering, les interfaces disciplinaires, la gestion des livrables (MDR), les revues de conception, le reporting d'avancement et l'autorité engineering. Intègre les références croisées vers QM, MOC, NCAP et DDCP.",
+  owner:"RMO + PPI + JMA",statusFr:"na",statusEn:"done",refFr:"",refEn:"260531-EMP-EN-v2.docx",notes:"v2 finale · Réf. croisées : QM [v3] · MOC [v2] · NCAP [v2] · DDCP [v2]"},
+{id:72,cat:"operationnel",prio:1,name:"Procédure de Gestion des Modifications",nameEn:"Management of Change Procedure",icon:"🔄",
+  desc:"Processus en 7 étapes pour identifier, évaluer, approuver et documenter tout changement au scope, aux documents approuvés, aux méthodes d'exécution ou aux obligations contractuelles. Inclut la matrice de classification Low/Medium/High, les délais de notification (14j/30j), la gestion des disputes et le processus MOC Register. Adoption systématique du système MOC client.",
+  owner:"RMO + JMA",statusFr:"na",statusEn:"done",refFr:"",refEn:"260531-MOC-EN-v2.docx",notes:"v2 finale · Réf. croisées : QM [v3] · EMP [v2] · NCAP [v2] · DDCP [v2]"},
+{id:73,cat:"operationnel",prio:1,name:"Procédure Non-Conformités & Actions Correctives",nameEn:"Non-Conformance & Corrective Action Procedure",icon:"⚠️",
+  desc:"Processus complet de gestion des non-conformités : identification et containment, formulaire NCR en 3 parties (Description / Actions / Close-out), analyse des causes racines par méthode 5-Why, Corrective Action Report (CAR) en 5 stades, autorité stop-work inconditionnelle, délais de réponse (5j standard / 48h urgent). Maintien du NCR Register et CAR Log.",
+  owner:"RMO + PPI",statusFr:"na",statusEn:"done",refFr:"",refEn:"260531-NCAP-EN-v2.docx",notes:"v2 finale · Réf. croisées : QM [v3] · EMP [v2] · MOC [v2] · DDCP [v2]"},
+{id:74,cat:"operationnel",prio:1,name:"Procédure Contrôle Documents & Données",nameEn:"Document & Data Control Procedure",icon:"📂",
+  desc:"Fondation documentaire du corpus qualité MyEOD. Gouverne le cycle de vie des documents (8 étapes), le MDR (13 champs de métadonnées), les transmittals, la numérotation DNS, la maîtrise des révisions et la rétention (10 ans engineering / 5 ans PM-NCR-MOC). Intègre le positionnement BRiDGE comme couche d'intelligence documentaire au-dessus de l'EDMS client (traceabilité croisée, dashboards statut, knowledge aggregation, intégration VI, handover intelligence).",
+  owner:"RMO",statusFr:"na",statusEn:"done",refFr:"",refEn:"260531-DDCP-EN-v2.docx",notes:"v2 finale · Fondation technique du corpus · Réf. croisées : QM [v3] · EMP [v2] · MOC [v2] · NCAP [v2]"}
 ]
 
-const SK_DOCS = 'myeod_docs_v4';
+const SK_DOCS = 'myeod_docs_v5';
 
 const CAT_CONFIG = {
-  commercial: {label:'Documents Commerciaux',    icon:'🤝', color:'var(--teal)',   desc:'Proposals · NDA · MSA · SOW · Fiches services · Case studies'},
-  admin:      {label:'Documents Administratifs', icon:'🏢', color:'var(--orange)', desc:'Contrats équipe · Convention IC · Procédures · Charte · HSE · Juridique'},
-  financier:  {label:'Documents Financiers',     icon:'💰', color:'var(--gold)',   desc:'Devis · Factures · CGV · Trésorerie · Grille tarifaire · Dépenses'},
-  rh:         {label:'RH & Consultants Externes',icon:'👤', color:'var(--purple)', desc:'Dossiers consultants · HSE/BOSIET · Médical · Assurances · Suivi validités'},
-  suisse:     {label:'Documents Légaux Suisse',  icon:'🇨🇭', color:'#c0392b',      desc:'Sàrl Suisse · Constitution · Registres · Comptabilité · Fiscalité · Cantons JU & NE'},
+  commercial:   {label:'Documents Commerciaux',       icon:'🤝', color:'var(--teal)',   desc:'Proposals · NDA · MSA · SOW · Fiches services · Case studies'},
+  admin:        {label:'Documents Administratifs',    icon:'🏢', color:'var(--orange)', desc:'Contrats équipe · Convention IC · Procédures · Charte · HSE · Juridique'},
+  financier:    {label:'Documents Financiers',        icon:'💰', color:'var(--gold)',   desc:'Devis · Factures · CGV · Trésorerie · Grille tarifaire · Dépenses'},
+  rh:           {label:'RH & Consultants Externes',   icon:'👤', color:'var(--purple)', desc:'Dossiers consultants · HSE/BOSIET · Médical · Assurances · Suivi validités'},
+  suisse:       {label:'Documents Légaux Suisse',     icon:'🇨🇭', color:'#c0392b',      desc:'Sàrl Suisse · Constitution · Registres · Comptabilité · Fiscalité · Cantons JU & NE'},
+  operationnel: {label:'Corpus Qualité Opérationnel', icon:'🏅', color:'var(--teal-dim)', desc:'Quality Manual · EMP · MOC · NCAP · DDCP · SDH — corpus officiel MyEOD v1 · session CCH 31/05/2026'},
 };
 
 const PRIO_COLORS = {1:'var(--p1)',2:'var(--p2)',3:'var(--p3)'};
@@ -1677,7 +1694,7 @@ let editId = null;
 
 let docs=[];
 
-const LS_DOCS = 'myeod_admin_v4'; // bumped: v4 added SDH/HRP id:69
+const LS_DOCS = 'myeod_admin_v5'; // bumped: v5 added corpus qualité opérationnel ids:70-74
 
 function load(){
   loadDocFiles();
@@ -1882,7 +1899,7 @@ function render(){
 
   // Progress bars — count as done if both FR+EN complete
   let globalDone=0, globalWip=0, globalTotal=0;
-  ['commercial','admin','financier','rh','suisse'].forEach(cat=>{
+  ['commercial','admin','financier','rh','suisse','operationnel'].forEach(cat=>{
     const all  = docs.filter(d=>d.cat===cat);
     const done = all.filter(isFullyDone).length;
     const wip  = all.filter(d=>!isFullyDone(d)&&(d.statusFr==='wip'||d.statusEn==='wip')).length;
@@ -1914,7 +1931,7 @@ function render(){
   }
 
   let html = '';
-  ['commercial','admin','financier','rh','suisse'].forEach(cat=>{
+  ['commercial','admin','financier','rh','suisse','operationnel'].forEach(cat=>{
     const catDocs = filtered.filter(d=>d.cat===cat);
     if(!catDocs.length) return;
     const cfg = CAT_CONFIG[cat];

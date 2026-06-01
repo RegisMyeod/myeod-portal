@@ -1070,7 +1070,7 @@ img.myeod-header-logo{
 <div>
 <div class="myeod-kicker">Admin · Structuration documentaire</div>
 <h1>Documents administratifs.</h1>
-<p class="myeod-lead">Un espace de pilotage pour suivre les documents internes, leurs statuts FR/EN, leurs priorités et leurs pièces associées.</p>
+
 <div class="myeod-hero-actions">
 <a class="myeod-btn" href="#structure-pilotage">Voir le pilotage</a>
 <a class="myeod-btn secondary" href="#doc-list">Ouvrir la liste</a>
@@ -1800,7 +1800,7 @@ async function load() {
     (data || []).forEach(r => { _dbTimestamps[r.id] = r.updated_at; });
 
     showSync('ok', docs.length + ' documents chargés ✓');
-    setupRealtime(sb);
+    // Realtime is set up only after auth — see initAuth()
   } catch(e) {
     showSync('err', 'Erreur chargement : ' + (e.message || e));
     // Fallback to DEFAULT_DOCS
@@ -1915,17 +1915,28 @@ function conflictKeepServer() {
 
 // ── Supabase Realtime subscription ───────────────────────────────────────────
 function setupRealtime(sb) {
-  if (_realtimeSub) { sb.removeChannel(_realtimeSub); _realtimeSub = null; }
-  _realtimeSub = sb.channel('admin_docs_changes')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'admin_docs' },
-      (payload) => {
-        const myEmail = _sbSession ? _sbSession.user.email : null;
-        const changedBy = payload.new ? payload.new.updated_by : null;
-        // Ignore own changes
-        if (myEmail && changedBy === myEmail) return;
-        showBanner();
-      })
-    .subscribe();
+  if (!sb || !_sbSession) return; // guard: auth required for realtime
+  if (_realtimeSub) { try { sb.removeChannel(_realtimeSub); } catch(e){} _realtimeSub = null; }
+  try {
+    _realtimeSub = sb.channel('admin_docs_changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'admin_docs' },
+        (payload) => {
+          const myEmail = _sbSession ? _sbSession.user.email : null;
+          const changedBy = payload.new ? payload.new.updated_by : null;
+          // Ignore own changes
+          if (myEmail && changedBy === myEmail) return;
+          showBanner();
+        })
+      .subscribe((status) => {
+        if (status === 'CHANNEL_ERROR') {
+          console.warn('[Realtime] channel error — realtime disabled');
+          _realtimeSub = null;
+        }
+      });
+  } catch(e) {
+    console.warn('[Realtime] setup failed:', e.message || e);
+    _realtimeSub = null;
+  }
 }
 
 function showBanner() {
@@ -2337,6 +2348,7 @@ async function initAuth() {
     updateAuthUI(data.session.user);
     await loadDocFilesFromDB();
     await load(); // reload docs now that we're authenticated
+    setupRealtime(sb); // start listening only after confirmed auth
   }
   // Listen for auth changes
   sb.auth.onAuthStateChange(async (event, session) => {
@@ -2344,8 +2356,11 @@ async function initAuth() {
     if (session) {
       updateAuthUI(session.user);
       await loadDocFilesFromDB();
+      setupRealtime(sb); // restart realtime on new session
     } else {
       updateAuthUI(null);
+      // Tear down realtime on logout
+      if (_realtimeSub) { try { sb.removeChannel(_realtimeSub); } catch(e){} _realtimeSub = null; }
     }
     render();
   });

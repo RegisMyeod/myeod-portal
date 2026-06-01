@@ -1042,6 +1042,7 @@ img.myeod-header-logo{
 <a href="acces-collaborateurs.html">Collaborateurs</a>
 </nav>
 <button aria-label="Retour" class="btn-nav-back" onclick="goBackToPreviousPage()" title="Retour" type="button">←</button>
+<button class="btn btn-ghost" id="btn-sync" onclick="syncFromDB()" style="min-height:34px;display:inline-flex;align-items:center;gap:5px;font-size:8px;letter-spacing:.1em;" title="Recharger depuis la base">⟳ Sync</button>
 </div>
 </header>
 <div id="login-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:500;align-items:center;justify-content:center;padding:20px;">
@@ -1433,8 +1434,7 @@ img.myeod-header-logo{
 <script>
 
 
-let _st;
-function showSync(state,msg){const el=document.getElementById('sync-status');el.className=state;el.textContent=msg;clearTimeout(_st);if(state==='ok')_st=setTimeout(()=>el.className='hidden',2500);}
+// showSync defined in DB engine below
 
 const DEFAULT_DOCS = [
 {id:1,cat:"commercial",prio:1,name:"Capabilities Statement MyEOD",nameEn:"MyEOD Capabilities Statement",icon:"📄",
@@ -1698,49 +1698,244 @@ const SL_EN = {
 let editId = null;
 
 
-let docs=[];
+// ═══════════════════════════════════════════════════════════════════════════
+// SUPABASE DATABASE ENGINE — shared state across all users
+// Table: admin_docs (id, cat, prio, name, name_en, icon, doc_desc, owner,
+//                    status_fr, status_en, ref_fr, ref_en, notes,
+//                    updated_at, updated_by)
+// ═══════════════════════════════════════════════════════════════════════════
 
-const LS_DOCS = 'myeod_admin_v5'; // bumped: v5 added corpus qualité opérationnel ids:70-74
+let docs = [];
+let _dbTimestamps = {}; // { [id]: updated_at } — last known server state
+let _pendingConflict = null; // { localDoc, serverDoc }
+let _realtimeSub = null;
 
-function load(){
+// ── Map JS doc fields ↔ DB columns ──────────────────────────────────────────
+function docToRow(d, userEmail) {
+  return {
+    id:          d.id,
+    cat:         d.cat,
+    prio:        d.prio,
+    name:        d.name        || '',
+    name_en:     d.nameEn      || '',
+    icon:        d.icon        || '📄',
+    doc_desc:    d.desc        || '',
+    owner:       d.owner       || '',
+    status_fr:   d.statusFr    || 'todo',
+    status_en:   d.statusEn    || 'todo',
+    ref_fr:      d.refFr       || '',
+    ref_en:      d.refEn       || '',
+    notes:       d.notes       || '',
+    updated_at:  new Date().toISOString(),
+    updated_by:  userEmail     || null
+  };
+}
+
+function rowToDoc(r) {
+  return {
+    id:       r.id,
+    cat:      r.cat,
+    prio:     r.prio,
+    name:     r.name,
+    nameEn:   r.name_en,
+    icon:     r.icon || '📄',
+    desc:     r.doc_desc,
+    owner:    r.owner,
+    statusFr: r.status_fr,
+    statusEn: r.status_en,
+    refFr:    r.ref_fr,
+    refEn:    r.ref_en,
+    notes:    r.notes
+  };
+}
+
+// ── Sync indicator (replaces local stub) ─────────────────────────────────────
+let _st;
+function showSync(state, msg) {
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  el.className = state;
+  el.textContent = msg;
+  clearTimeout(_st);
+  if (state === 'ok') _st = setTimeout(() => el.className = 'hidden', 2500);
+}
+
+// ── Seed DB from DEFAULT_DOCS (one-shot, first user only) ────────────────────
+async function seedDB(sb) {
+  showSync('syncing', 'Initialisation de la base…');
+  const email = _sbSession ? _sbSession.user.email : null;
+  const rows = DEFAULT_DOCS.map(d => docToRow(d, email));
+  const { error } = await sb.from('admin_docs').upsert(rows, { onConflict: 'id', ignoreDuplicates: true });
+  if (error) { showSync('err', 'Seed échoué : ' + error.message); return false; }
+  showSync('ok', 'Base initialisée ✓');
+  return true;
+}
+
+// ── Load all docs from Supabase ───────────────────────────────────────────────
+async function load() {
   loadDocFiles();
-  // Always start from DEFAULT_DOCS (source of truth for structure),
-  // then overlay saved customizations (status, refs, notes, owner) by id.
-  docs = JSON.parse(JSON.stringify(DEFAULT_DOCS));
-  try{
-    const saved = localStorage.getItem(LS_DOCS);
-    if(saved){
-      const savedDocs = JSON.parse(saved);
-      savedDocs.forEach(s=>{
-        const d = docs.find(x=>x.id===s.id);
-        if(d){
-          // Overlay only user-editable fields — name/nameEn/desc/cat always from DEFAULT_DOCS
-          ['statusFr','statusEn','refFr','refEn','owner','notes','prio']
-            .forEach(k=>{ if(s[k]!==undefined) d[k]=s[k]; });
-        } else {
-          // Custom doc added by user — keep it
-          docs.push(s);
-        }
-      });
+  const sb = getSB();
+  if (!sb) {
+    // Offline fallback: DEFAULT_DOCS
+    docs = JSON.parse(JSON.stringify(DEFAULT_DOCS));
+    render();
+    return;
+  }
+  showSync('syncing', 'Chargement…');
+  try {
+    const { data, error } = await sb.from('admin_docs').select('*').order('id');
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      // Empty table → seed then reload
+      await seedDB(sb);
+      const { data: seeded } = await sb.from('admin_docs').select('*').order('id');
+      docs = (seeded || DEFAULT_DOCS).map ? (seeded || []).map(rowToDoc) : JSON.parse(JSON.stringify(DEFAULT_DOCS));
+      if (!seeded) docs = JSON.parse(JSON.stringify(DEFAULT_DOCS));
+    } else {
+      docs = data.map(rowToDoc);
     }
-  }catch(e){}
+
+    // Cache timestamps for conflict detection
+    (data || []).forEach(r => { _dbTimestamps[r.id] = r.updated_at; });
+
+    showSync('ok', docs.length + ' documents chargés ✓');
+    setupRealtime(sb);
+  } catch(e) {
+    showSync('err', 'Erreur chargement : ' + (e.message || e));
+    // Fallback to DEFAULT_DOCS
+    docs = JSON.parse(JSON.stringify(DEFAULT_DOCS));
+  }
   render();
 }
 
-function persistDoc(d){
-  const i=docs.findIndex(x=>x.id===d.id);
-  if(i>=0)docs[i]=d; else docs.push(d);
-  try{localStorage.setItem(LS_DOCS,JSON.stringify(docs));}
-  catch(e){console.warn('localStorage:',e);}
+// ── Manual sync button ────────────────────────────────────────────────────────
+async function syncFromDB() {
+  const btn = document.getElementById('btn-sync');
+  if (btn) { btn.textContent = '⟳ Sync…'; btn.disabled = true; }
+  hideBanner();
+  await load();
+  if (btn) { btn.textContent = '⟳ Sync'; btn.disabled = false; }
 }
 
-function removeDoc(id){
-  docs=docs.filter(d=>d.id!==id);
-  try{localStorage.setItem(LS_DOCS,JSON.stringify(docs));}
-  catch(e){console.warn('localStorage:',e);}
+// ── Persist single doc to Supabase (upsert) ───────────────────────────────────
+async function persistDoc(d) {
+  const i = docs.findIndex(x => x.id === d.id);
+  if (i >= 0) docs[i] = d; else docs.push(d);
+
+  const sb = getSB();
+  if (!sb) return;
+
+  const email = _sbSession ? _sbSession.user.email : null;
+  const row = docToRow(d, email);
+  showSync('syncing', 'Sauvegarde…');
+
+  try {
+    const { error } = await sb.from('admin_docs').upsert(row, { onConflict: 'id' });
+    if (error) throw error;
+    _dbTimestamps[d.id] = row.updated_at;
+    showSync('ok', 'Sauvegardé ✓');
+  } catch(e) {
+    showSync('err', 'Erreur sauvegarde : ' + (e.message || e));
+    console.warn('[persistDoc]', e);
+  }
 }
 
-function showSync(state,msg){ /* local mode */ }
+// ── Remove doc from Supabase ──────────────────────────────────────────────────
+async function removeDoc(id) {
+  docs = docs.filter(d => d.id !== id);
+  const sb = getSB();
+  if (!sb) return;
+  showSync('syncing', 'Suppression…');
+  try {
+    const { error } = await sb.from('admin_docs').delete().eq('id', id);
+    if (error) throw error;
+    delete _dbTimestamps[id];
+    showSync('ok', 'Supprimé ✓');
+  } catch(e) {
+    showSync('err', 'Erreur suppression : ' + (e.message || e));
+  }
+}
+
+// ── Conflict detection: compare local edited_at vs server before saving ───────
+async function checkConflict(localDoc) {
+  const sb = getSB();
+  if (!sb) return false;
+  try {
+    const { data } = await sb.from('admin_docs').select('id,updated_at,updated_by').eq('id', localDoc.id).single();
+    if (!data) return false;
+    const knownTs  = _dbTimestamps[localDoc.id];
+    const serverTs = data.updated_at;
+    if (knownTs && serverTs && serverTs !== knownTs) {
+      // Fetch full server doc for display
+      const { data: full } = await sb.from('admin_docs').select('*').eq('id', localDoc.id).single();
+      _pendingConflict = { localDoc, serverDoc: full ? rowToDoc(full) : null, serverTs, updatedBy: data.updated_by };
+      return true;
+    }
+  } catch(e) { console.warn('[checkConflict]', e); }
+  return false;
+}
+
+function showConflictModal(conflict) {
+  const msg = document.getElementById('conflict-msg');
+  if (msg) {
+    const who = conflict.updatedBy || 'un autre utilisateur';
+    const when = conflict.serverTs ? new Date(conflict.serverTs).toLocaleString('fr-FR') : '';
+    msg.innerHTML = 'Ce document a été modifié par <strong>' + who + '</strong>'
+      + (when ? ' le <strong>' + when + '</strong>' : '')
+      + '.<br>Vos modifications et la version serveur sont en conflit.';
+  }
+  document.getElementById('conflict-modal').style.display = 'flex';
+}
+
+function conflictKeepMine() {
+  document.getElementById('conflict-modal').style.display = 'none';
+  if (_pendingConflict) {
+    const d = _pendingConflict.localDoc;
+    _pendingConflict = null;
+    // Force overwrite
+    _dbTimestamps[d.id] = null;
+    persistDoc(d);
+    render();
+  }
+}
+
+function conflictKeepServer() {
+  document.getElementById('conflict-modal').style.display = 'none';
+  if (_pendingConflict && _pendingConflict.serverDoc) {
+    const s = _pendingConflict.serverDoc;
+    _pendingConflict = null;
+    const i = docs.findIndex(x => x.id === s.id);
+    if (i >= 0) docs[i] = s; else docs.push(s);
+    render();
+    showSync('ok', 'Version serveur chargée ✓');
+  }
+  _pendingConflict = null;
+}
+
+// ── Supabase Realtime subscription ───────────────────────────────────────────
+function setupRealtime(sb) {
+  if (_realtimeSub) { sb.removeChannel(_realtimeSub); _realtimeSub = null; }
+  _realtimeSub = sb.channel('admin_docs_changes')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'admin_docs' },
+      (payload) => {
+        const myEmail = _sbSession ? _sbSession.user.email : null;
+        const changedBy = payload.new ? payload.new.updated_by : null;
+        // Ignore own changes
+        if (myEmail && changedBy === myEmail) return;
+        showBanner();
+      })
+    .subscribe();
+}
+
+function showBanner() {
+  const b = document.getElementById('realtime-banner');
+  if (b) b.style.display = 'block';
+}
+function hideBanner() {
+  const b = document.getElementById('realtime-banner');
+  if (b) b.style.display = 'none';
+}
 
 
 const EXPERT_MAP = {
@@ -2042,7 +2237,7 @@ function openAdd(){
   updateEnUploadVisibility();
 }
 function closeModal(){document.getElementById('modal-ov').classList.remove('open');}
-function saveDoc(){
+async function saveDoc(){
   const name=document.getElementById('doc-name').value.trim();
   if(!name){alert('Nom FR requis');return;}
   const d={
@@ -2059,18 +2254,40 @@ function saveDoc(){
     notes:document.getElementById('doc-notes').value.trim(),
     icon:'📄',
   };
-  if(editId){const i=docs.findIndex(x=>x.id===editId);if(i>=0)docs[i]=d;}else docs.push(d);
-  persistDoc(d);closeModal();render();
-}
-function deleteDoc(){
-  if(!editId||!confirm('Supprimer ce document ?'))return;
-  removeDoc(editId);docs=docs.filter(d=>d.id!==editId);closeModal();render();
-}
-function resetDocs(){
-  if(!confirm('Réinitialiser tous les documents ? Les modifications seront perdues.'))return;
-  docs=JSON.parse(JSON.stringify(DEFAULT_DOCS));
-  try{localStorage.setItem(LS_DOCS,JSON.stringify(docs));}catch(e){}
+  // Conflict detection for existing docs
+  if(editId){
+    const hasConflict = await checkConflict(d);
+    if(hasConflict){
+      _pendingConflict.localDoc = d;
+      showConflictModal(_pendingConflict);
+      closeModal();
+      return;
+    }
+    const i=docs.findIndex(x=>x.id===editId);if(i>=0)docs[i]=d;
+  } else {
+    docs.push(d);
+  }
+  await persistDoc(d);
+  closeModal();
   render();
+}
+async function deleteDoc(){
+  if(!editId||!confirm('Supprimer ce document ?'))return;
+  await removeDoc(editId);docs=docs.filter(d=>d.id!==editId);closeModal();render();
+}
+async function resetDocs(){
+  if(!confirm('Réinitialiser tous les documents ? Les modifications serveur seront perdues.'))return;
+  const sb = getSB();
+  if(sb){
+    showSync('syncing','Réinitialisation…');
+    // Delete all rows then reseed
+    await sb.from('admin_docs').delete().neq('id',0);
+    await seedDB(sb);
+    await load();
+  } else {
+    docs=JSON.parse(JSON.stringify(DEFAULT_DOCS));
+    render();
+  }
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -2119,6 +2336,7 @@ async function initAuth() {
     _sbSession = data.session;
     updateAuthUI(data.session.user);
     await loadDocFilesFromDB();
+    await load(); // reload docs now that we're authenticated
   }
   // Listen for auth changes
   sb.auth.onAuthStateChange(async (event, session) => {
@@ -2329,9 +2547,10 @@ async function registerUpload(docId, lang, fmt, storagePath, filename) {
   }
   const d = docs.find(x => x.id === docId);
   if (d) {
-    if (lang === 'fr' && !d.refFr) { d.refFr = filename; persistDoc(d); }
-    if (lang === 'en' && !d.refEn) { d.refEn = filename; persistDoc(d); }
+    if (lang === 'fr' && !d.refFr) { d.refFr = filename; await persistDoc(d); }
+    if (lang === 'en' && !d.refEn) { d.refEn = filename; await persistDoc(d); }
   }
+  // Keep doc_files cache in localStorage (files metadata, not doc state)
   try { localStorage.setItem('myeod_doc_files_v1', JSON.stringify(DOC_FILES)); } catch(e){}
   await persistFileToDB(docId, lang, fmt, storagePath, filename);
 }
@@ -2467,6 +2686,30 @@ document.addEventListener('DOMContentLoaded', function() {
   if (typeof window.initUploadWidget === 'function') window.initUploadWidget();
 });
 </script>
+
+<!-- ── CONFLICT MODAL ─────────────────────────────────────────────────────── -->
+<div id="conflict-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:600;align-items:center;justify-content:center;padding:20px;">
+<div style="background:#fff;max-width:460px;width:100%;padding:26px 28px;border:1px solid var(--gray-200);">
+<div style="font-family:var(--font);font-size:1rem;font-weight:700;color:var(--orange);margin-bottom:8px;">⚠ Conflit détecté</div>
+<div style="font-size:10px;color:var(--text-dim);line-height:1.7;margin-bottom:16px;" id="conflict-msg">
+Ce document a été modifié par un autre utilisateur pendant que vous l'éditiez.
+</div>
+<div style="font-size:9px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;">Que voulez-vous faire ?</div>
+<div style="display:flex;gap:8px;justify-content:flex-end;">
+<button class="btn btn-ghost" onclick="conflictKeepServer()">Charger la version serveur</button>
+<button class="btn btn-gold" onclick="conflictKeepMine()">Garder mes modifications</button>
+</div>
+</div>
+</div>
+
+<!-- ── REALTIME BANNER ───────────────────────────────────────────────────── -->
+<div id="realtime-banner" style="display:none;position:fixed;bottom:52px;right:16px;z-index:998;
+  background:rgba(14,112,112,.1);border:1px solid var(--teal);color:var(--teal);
+  font-size:9px;padding:6px 14px;font-family:var(--font);letter-spacing:.1em;
+  cursor:pointer;" onclick="syncFromDB()" title="Cliquer pour recharger">
+  🔔 Modifications disponibles — cliquer pour Sync
+</div>
+
 <script>
 // Restore session
 document.addEventListener('DOMContentLoaded', function() {

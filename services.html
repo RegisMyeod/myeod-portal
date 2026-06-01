@@ -836,7 +836,7 @@ button.lang-switch{background:none;border:none;cursor:pointer;font-family:inheri
 <div style="font-family:'MazzardM',sans-serif;font-size:0.55rem;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:#9a9a9a;margin-top:2px;">Offres MyEOD</div>
 </div>
 <button aria-label="Retour" class="btn-nav-back" onclick="goBackToPreviousPage()" data-i18n-title-attr="back_title" title="Retour" type="button">←</button>
-<button class="lang-switch" id="lang-btn" onclick="toggleLang()" type="button" aria-label="English version">FR / EN</button></div>
+<button class="lang-switch" id="lang-btn" onclick="toggleLanguage()" type="button" aria-label="English version">FR / EN</button></div>
 </header>
 <main>
 <section class="section hero">
@@ -951,50 +951,49 @@ button.lang-switch{background:none;border:none;cursor:pointer;font-family:inheri
 </div>
 </section>
 <section class="section" id="offres">
-<div class="kicker">Nos offres</div>
-<h2>Des briques de service activables selon votre contexte.</h2>
+<div class="kicker"><span data-i18n="s_kicker2">Nos offres</span></div>
+<h2><span data-i18n="s_h2_off">Des briques de service activables selon votre contexte.</span></h2>
 <p class="lead">
-        Chaque offre répond à un usage distinct : structuration de données projet, intelligence visuelle,
-        renfort d'expertise, déploiement sous marque client ou production média industrielle.
+        <span data-i18n="s_off_lead">Chaque offre peut être activée seule, combinée à d'autres ou intégrée sous marque client.</span>
       </p>
 <a aria-label="Découvrir BRiDGE" class="module-row service-offer" href="service-bridge.html">
 <div>
 <div class="card-meta">Offre 01</div>
-<h3>BRiDGE</h3>
+<h3><span data-i18n="s_bridge_h">BRiDGE</span></h3>
 </div>
-<p>Experts, technologies et IA pour accompagner les équipes client du concept au decommissioning : advisory, DCC, Data Lake, QC, GIS, SIMOPS et reporting.</p>
+<p><span data-i18n="s_bridge_p">Experts, technologies et IA pour accompagner les équipes client du concept au decommissioning : advisory, DCC, Data Lake, QC, GIS, SIMOPS et reporting.</span></p>
 <div class="module-price service-arrow">Découvrir →</div>
 </a>
 <a aria-label="Découvrir Visual Intelligence" class="module-row service-offer" href="service-visual-intelligence.html">
 <div>
 <div class="card-meta">Offre 02</div>
-<h3>Visual Intelligence</h3>
+<h3><span data-i18n="s_vi_h">Visual Intelligence</span></h3>
 </div>
-<p>Drone, photogrammétrie, nuages de points, orthophotos, détection IA et rapports visuels pour sites industriels, offshore et construction.</p>
+<p><span data-i18n="s_vi_p">Drone, photogrammétrie, nuages de points, orthophotos, détection IA et rapports visuels pour sites industriels, offshore et construction.</span></p>
 <div class="module-price service-arrow">Découvrir →</div>
 </a>
 <a aria-label="Découvrir Staffing Augmenté" class="module-row service-offer" href="service-staffing-augmente.html">
 <div>
 <div class="card-meta">Offre 03</div>
-<h3>Staffing Augmenté</h3>
+<h3><span data-i18n="s_sa_h">Staffing Augmenté</span></h3>
 </div>
-<p>Experts mobilisables avec toolbox BRiDGE : survey, PMT, GIS, DCC, HSE, installation et support opérations.</p>
+<p><span data-i18n="s_sa_p">Experts mobilisables avec toolbox BRiDGE : survey, PMT, GIS, DCC, HSE, installation et support opérations.</span></p>
 <div class="module-price service-arrow">Découvrir →</div>
 </a>
 <a aria-label="Découvrir Marque Blanche" class="module-row service-offer" href="service-marque-blanche.html">
 <div>
 <div class="card-meta">Offre 04</div>
-<h3>Marque Blanche</h3>
+<h3><span data-i18n="s_wl_h">Marque Blanche</span></h3>
 </div>
-<p>Déploiement des expertises MyEOD sous identité client pour opérateurs, EPCI, contractors, survey companies et partenaires.</p>
+<p><span data-i18n="s_wl_p">Déploiement des expertises MyEOD sous identité client pour opérateurs, EPCI, contractors, survey companies et partenaires.</span></p>
 <div class="module-price service-arrow">Découvrir →</div>
 </a>
 <a aria-label="Découvrir Médias &amp; reportages industriels" class="module-row service-offer" href="service-medias-reportages.html">
 <div>
 <div class="card-meta">Offre 05</div>
-<h3>Médias &amp; reportages industriels</h3>
+<h3><span data-i18n="s_mi_h">Médias &amp; reportages industriels</span></h3>
 </div>
-<p>Photos, vidéos, maquettes et reportages institutionnels énergie/construction, par équipes HSE mobilisables worldwide.</p>
+<p><span data-i18n="s_mi_p">Photos, vidéos, maquettes et reportages institutionnels énergie/construction, par équipes HSE mobilisables worldwide.</span></p>
 <div class="module-price service-arrow">Découvrir →</div>
 </a>
 </section>
@@ -1158,27 +1157,27 @@ button.lang-switch{background:none;border:none;cursor:pointer;font-family:inheri
 <div id="contact-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,10,10,.55);backdrop-filter:blur(4px);overflow-y:auto;">
   <div style="background:#fff;max-width:640px;margin:5vh auto;padding:2.5rem 2rem;border-radius:2px;position:relative;font-family:'MazzardM',sans-serif;">
     <button onclick="document.getElementById('contact-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#555;">&times;</button>
-    <h2 style="font-size:1rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;">Parlons de votre projet</h2>
-    <p style="font-size:.72rem;color:#888;margin-bottom:1.6rem;">Un expert MyEOD vous recontactera dès que possible.</p>
-    <div id="contact-success" style="display:none;padding:1.2rem;background:#f0faf4;border:1px solid #1e7a3a;color:#1e7a3a;font-size:.8rem;border-radius:2px;margin-bottom:1rem;">
+    <h2 style="font-size:1rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;" data-i18n="contact_title">Parlons de votre projet</h2>
+    <p style="font-size:.72rem;color:#888;margin-bottom:1.6rem;" data-i18n="contact_subtitle">Un expert MyEOD vous recontactera dès que possible.</p>
+    <div id="contact-success" style="display:none;padding:1.2rem;background:#f0faf4;border:1px solid #1e7a3a;color:#1e7a3a;font-size:.8rem;border-radius:2px;margin-bottom:1rem;" data-i18n="contact_success">
       ✓ Votre message a bien été envoyé. Nous reviendrons vers vous très prochainement.
     </div>
     <div id="contact-error" style="display:none;padding:1.2rem;background:#fdf0f0;border:1px solid #c0392b;color:#c0392b;font-size:.8rem;border-radius:2px;margin-bottom:1rem;"></div>
     <div id="contact-form-wrap">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.9rem 1.2rem;">
-        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Nom *</label><input id="cf-nom" type="text" required style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
-        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Prénom *</label><input id="cf-prenom" type="text" required style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
-        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Entreprise</label><input id="cf-entreprise" type="text" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
-        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Téléphone</label><input id="cf-tel" type="tel" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
-        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Email *</label><input id="cf-email" type="email" required style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
-        <div><label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Pays</label><input id="cf-pays" type="text" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+        <div><label data-i18n="contact_name" style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Nom *</label><input id="cf-nom" type="text" required style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+        <div><label data-i18n="contact_firstname" style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Prénom *</label><input id="cf-prenom" type="text" required style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+        <div><label data-i18n="contact_company" style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Entreprise</label><input id="cf-entreprise" type="text" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+        <div><label data-i18n="contact_phone" style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Téléphone</label><input id="cf-tel" type="tel" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+        <div><label data-i18n="contact_email" style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Email *</label><input id="cf-email" type="email" required style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
+        <div><label data-i18n="contact_country" style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Pays</label><input id="cf-pays" type="text" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;"/></div>
       </div>
       <div style="margin-top:.9rem;">
-        <label style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Votre besoin</label>
-        <p style="font-size:.72rem;color:#888;margin-bottom:.4rem;line-height:1.5;">Faites nous part de l'urgence de votre besoin et de quelques éléments nous permettant de définir qui pourra le mieux vous renseigner — et l'un de nos experts vous recontactera dès que possible.</p>
+        <label data-i18n="contact_need" style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:.3rem;">Votre besoin</label>
+        <p data-i18n="contact_need_desc" style="font-size:.72rem;color:#888;margin-bottom:.4rem;line-height:1.5;">Faites nous part de l'urgence de votre besoin et de quelques éléments nous permettant de définir qui pourra le mieux vous renseigner — et l'un de nos experts vous recontactera dès que possible.</p>
         <textarea id="cf-message" rows="5" style="width:100%;border:1px solid #ddd;padding:.55rem .7rem;font-family:'MazzardM',sans-serif;font-size:.8rem;border-radius:2px;resize:vertical;"></textarea>
       </div>
-      <button onclick="submitContactFR()" style="margin-top:1.2rem;width:100%;background:#0a0a0a;color:#fff;border:none;padding:.75rem 1rem;font-family:'MazzardM',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:2px;">Envoyer ma demande</button>
+      <button id="cf-submit" onclick="submitContactFR()" style="margin-top:1.2rem;width:100%;background:#0a0a0a;color:#fff;border:none;padding:.75rem 1rem;font-family:'MazzardM',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:2px;" data-i18n="contact_submit">Envoyer ma demande</button>
     </div>
   </div>
 </div>
@@ -1319,6 +1318,254 @@ const I18N = {
   "back_title": [
     "Retour",
     "Back"
+  ],
+  "s_kicker2": [
+    "Offres",
+    "Offers"
+  ],
+  "s_h2_off": [
+    "Des briques de service activables selon votre contexte.",
+    "Service components deployable according to your context."
+  ],
+  "s_off_lead": [
+    "Chaque offre peut être activée seule, combinée à d'autres ou intégrée sous marque client.",
+    "Each offer can be activated alone, combined with others, or deployed under client branding."
+  ],
+  "s_bridge_h": [
+    "BRiDGE",
+    "BRiDGE"
+  ],
+  "s_bridge_p": [
+    "Experts, technologies et IA pour accompagner les équipes client du concept au decommissioning : advisory, DCC, Data Lake, QC, GIS, SIMOPS et reporting.",
+    "Experts, technologies and AI to support client teams from concept to decommissioning: advisory, DCC, Data Lake, QC, GIS, SIMOPS and reporting."
+  ],
+  "s_vi_h": [
+    "Visual Intelligence",
+    "Visual Intelligence"
+  ],
+  "s_vi_p": [
+    "Drone, photogrammétrie, nuages de points, orthophotos, détection IA et rapports visuels pour sites industriels, offshore et construction.",
+    "Drone, photogrammetry, point clouds, orthophotos, AI detection and visual reports for industrial, offshore and construction sites."
+  ],
+  "s_sa_h": [
+    "Staffing Augmenté",
+    "Augmented Staffing"
+  ],
+  "s_sa_p": [
+    "Experts mobilisables avec toolbox BRiDGE : survey, PMT, GIS, DCC, HSE, installation et support opérations.",
+    "Deployable experts with BRiDGE toolbox: survey, PMT, GIS, DCC, HSE, installation and operations support."
+  ],
+  "s_wl_h": [
+    "Marque Blanche",
+    "White Label"
+  ],
+  "s_wl_p": [
+    "Déploiement des expertises MyEOD sous identité client pour opérateurs, EPCI, contractors, survey companies et partenaires.",
+    "Deployment of MyEOD expertise under client identity for operators, EPCI, contractors, survey companies and partners."
+  ],
+  "s_mi_h": [
+    "Médias & reportages industriels",
+    "Media & Industrial Reportage"
+  ],
+  "s_mi_p": [
+    "Photos, vidéos, maquettes et reportages institutionnels énergie/construction, par équipes HSE mobilisables worldwide.",
+    "Photos, videos, mockups and institutional energy/construction reports, by HSE teams deployable worldwide."
+  ],
+  "s_kicker_act": [
+    "Mode d'activation",
+    "Activation model"
+  ],
+  "s_h2_act": [
+    "D'une demande ponctuelle à une réponse structurée.",
+    "From an ad-hoc request to a structured response."
+  ],
+  "s_act_disp": [
+    "Des interventions dispersées",
+    "Dispersed interventions"
+  ],
+  "s_act_list": [
+    "Un service lisible et activable",
+    "A clear and deployable service"
+  ],
+  "s_kicker_mob": [
+    "Mobilisation",
+    "Deployment"
+  ],
+  "s_h2_mob": [
+    "Une mobilisation simple, rapide et cadrée.",
+    "Simple, fast and structured deployment."
+  ],
+  "s_mob_desc": [
+    "Un processus en cinq étapes pour transformer votre besoin en réponse opérationnelle documentée et cadrée.",
+    "A five-step process to transform your need into a documented and structured operational response."
+  ],
+  "s_mob_brief": [
+    "Brief",
+    "Brief"
+  ],
+  "s_mob_brief_sub": [
+    "Besoin · contexte · risques",
+    "Need · context · risks"
+  ],
+  "s_mob_cadrage": [
+    "Cadrage",
+    "Scoping"
+  ],
+  "s_mob_cadrage_sub": [
+    "Offre · périmètre · livrables",
+    "Offer · scope · deliverables"
+  ],
+  "s_mob_mob": [
+    "Mobilisation",
+    "Mobilization"
+  ],
+  "s_mob_mob_sub": [
+    "Experts · outils · planning",
+    "Experts · tools · planning"
+  ],
+  "s_mob_prod": [
+    "Production",
+    "Production"
+  ],
+  "s_mob_prod_sub": [
+    "Terrain · données · documents",
+    "Field · data · documents"
+  ],
+  "s_mob_trans": [
+    "Transmission",
+    "Handover"
+  ],
+  "s_mob_trans_sub": [
+    "Outputs · REX · continuité",
+    "Outputs · lessons learned · continuity"
+  ],
+  "s_kicker_off": [
+    "Offres & contextes",
+    "Offers & Contexts"
+  ],
+  "s_h2_ctx": [
+    "Choisir l'offre adaptée à votre enjeu immédiat.",
+    "Choose the offer suited to your immediate challenge."
+  ],
+  "s_ctx_desc": [
+    "Un service peut être activé seul, combiné ou intégré sous marque client.",
+    "A service can be activated alone, combined or integrated under client branding."
+  ],
+  "s_kicker_env": [
+    "Environnements",
+    "Environments"
+  ],
+  "s_h2_env": [
+    "Des environnements industriels exigeants.",
+    "Demanding industrial environments."
+  ],
+  "s_env_off_h": [
+    "Offshore & subsea",
+    "Offshore & subsea"
+  ],
+  "s_env_off_p": [
+    "Survey, installation, LBL/USBL, SIMOPS, reporting, QC et documentation projet.",
+    "Survey, installation, LBL/USBL, SIMOPS, reporting, QC and project documentation."
+  ],
+  "s_env_en_h": [
+    "Énergie & infrastructures",
+    "Energy & Infrastructure"
+  ],
+  "s_env_en_p": [
+    "Support aux opérateurs, EPC/EPCI, contractors, PMO/PMC et exploitants.",
+    "Support for operators, EPC/EPCI, contractors, PMO/PMC and owners."
+  ],
+  "s_env_con_h": [
+    "Construction & sites",
+    "Construction & Sites"
+  ],
+  "s_env_con_p": [
+    "Suivi visuel, photogrammétrie, rapports terrain, contrôle d'avancement et communication projet.",
+    "Visual monitoring, photogrammetry, field reports, progress tracking and project communication."
+  ],
+  "s_env_corp_h": [
+    "Corporate & partenaires",
+    "Corporate & Partners"
+  ],
+  "s_env_corp_p": [
+    "Marque blanche, reportages, supports décisionnels et contenus institutionnels techniques.",
+    "White label, reportage, decision support and technical institutional content."
+  ],
+  "s_kicker_ic": [
+    "Partenariat",
+    "Partnership"
+  ],
+  "s_ic_title": [
+    "Avec Ingénieurs Créatifs, depuis 2012, partout dans le monde, sur terre et sur mer, nous avons, accompagné vos projets. <strong>Merci pour votre confiance</strong>",
+    "With Ingénieurs Créatifs, since 2012, everywhere in the world, on land and at sea, we have supported your projects. <strong>Thank you for your trust</strong>"
+  ],
+  "s_kicker_cta": [
+    "Contact",
+    "Contact"
+  ],
+  "s_h2_cta": [
+    "Venez discuter de vos besoins avec l'un de nos experts",
+    "Come discuss your needs with one of our experts"
+  ],
+  "s_cta_desc": [
+    "Nous vous orientons vers l'expert le plus pertinent selon votre contexte, votre urgence et vos contraintes projet.",
+    "We guide you to the most relevant expert based on your context, urgency and project constraints."
+  ],
+  "s_cta_btn": [
+    "Venez discuter de vos besoins avec l'un de nos experts",
+    "Discuss your needs with an expert"
+  ],
+  "contact_title": [
+    "Parlons de votre projet",
+    "Let's discuss your project"
+  ],
+  "contact_subtitle": [
+    "Un expert MyEOD vous recontactera dès que possible.",
+    "A MyEOD expert will contact you as soon as possible."
+  ],
+  "contact_success": [
+    "✓ Votre message a bien été envoyé. Nous reviendrons vers vous très prochainement.",
+    "✓ Your message has been sent successfully. We will contact you very soon."
+  ],
+  "contact_error_required": [
+    "Merci de renseigner au minimum : Nom, Prénom et Email.",
+    "Please provide at least: Last name, First name and Email."
+  ],
+  "contact_need_desc": [
+    "Faites nous part de l'urgence de votre besoin et de quelques éléments nous permettant de définir qui pourra le mieux vous renseigner — et l'un de nos experts vous recontactera dès que possible.",
+    "Tell us about the urgency of your need and provide some information to help us identify the right expert — and we'll contact you as soon as possible."
+  ],
+  "contact_submit": [
+    "Envoyer ma demande",
+    "Send my request"
+  ],
+  "contact_name": [
+    "Nom",
+    "Last name"
+  ],
+  "contact_firstname": [
+    "Prénom",
+    "First name"
+  ],
+  "contact_company": [
+    "Entreprise",
+    "Company"
+  ],
+  "contact_phone": [
+    "Téléphone",
+    "Phone"
+  ],
+  "contact_email": [
+    "Email",
+    "Email"
+  ],
+  "contact_country": [
+    "Pays",
+    "Country"
+  ],
+  "contact_need": [
+    "Votre besoin",
+    "Your need"
   ]
 };
 let currentLang = (function(){

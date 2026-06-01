@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" id="html-root">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>MyEOD — Médias & reportages industriels</title>
+<title data-i18n="mr_title">MyEOD — Médias & reportages industriels</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 
@@ -604,7 +604,7 @@ p{
 <section class="access-band" id="mots-cles">
 <div class="section compact">
 <div class="kicker">Périmètre</div>
-<h2>Domaines et mots-clés du service.</h2>
+<h2 data-i18n="mr_h2_01">Domaines et mots-clés du service.</h2>
 <p class="lead">MyEOD est une marque représentée par IC / Ingénieurs Créatifs</p>
 <div aria-label="Mots-clés du service" class="chip-grid">
 <span class="chip">Photo</span>
@@ -620,7 +620,7 @@ p{
 </section>
 <section class="section compact" id="contenu-service">
 <div class="kicker">Cadre d’intervention</div>
-<h2>Une offre structurée en axes opérationnels.</h2>
+<h2 data-i18n="mr_h2_02">Une offre structurée en axes opérationnels.</h2>
 <div class="card-grid">
 <article class="service-card">
 <div class="service-card-num">01 —</div>
@@ -832,7 +832,7 @@ p{
 </style>
 <section class="section compact" id="galerie-thematiques">
 <div class="kicker">Galerie · Sélection photographique</div>
-<h2>Nos thématiques photographiques.</h2>
+<h2 data-i18n="mr_h2_03">Nos thématiques photographiques.</h2>
 <p style="color:var(--gray-600);font-size:1rem;line-height:1.78;max-width:680px;margin-top:.6rem;">Une sélection d’images organisée par univers — du grand reportage international aux archives, en passant par le noir et blanc, les énergies renouvelables et l’industrie offshore.</p>
 <div class="thematic-grid" id="thematic-grid">
 <div aria-label="Galerie Abroad" class="thematic-tile" data-theme="abroad" role="button" tabindex="0">
@@ -924,6 +924,55 @@ p{
 <span class="lb-strip-loading" id="lb-strip-loading">Chargement...</span>
 </div>
 </div>
+<script>
+const I18N = {
+  "mr_h2_0": ["Domaines et mots-clés du service.", "Domaines et mots-clés du service."],
+  "mr_h2_1": ["Une offre structurée en axes opérationnels.", "Une offre structurée en axes opérationnels."],
+  "mr_h2_2": ["Nos thématiques photographiques.", "Nos thématiques photographiques."],
+  "mr_h2_3": ["Venez discuter de vos besoins avec l'un de nos experts", "Come discuss your needs with one of our experts"],
+  "mr_h2_4": ["Service domains and keywords.", "Service domains and keywords."],
+  "mr_h2_5": ["A service structured around operational pillars.", "A service structured around operational pillars."],
+  "mr_h2_6": ["Our photographic themes.", "Our photographic themes."],
+  "mr_h2_7": ["Come and discuss your needs with one of our experts", "Come and discuss your needs with one of our experts"],
+  "mr_h2_8": ["Parlons de votre projet", "Parlons de votre projet"],
+  "mr_h3_9": ["Formats produits", "Formats produits"],
+  "mr_h3_10": ["Spécialisation énergie &amp; construction", "Spécialisation énergie &amp; construction"],
+  "mr_h3_11": ["Mobilisation internationale", "Mobilisation internationale"],
+  "mr_h3_12": ["Output formats", "Output formats"],
+  "mr_h3_13": ["Energy &amp; construction expertise", "Energy &amp; construction expertise"],
+  "mr_h3_14": ["International mobilisation", "International mobilisation"],
+  "mr_title": ["MyEOD — Médias & reportages industriels", "MyEOD — Médias & reportages industriels"],
+  "mr_lead_15": ["Des contenus visuels sobres, techniques et institutionnels, produits par des équipes capables d’évoluer dans les environnements énergie et construction.", "Des contenus visuels sobres, techniques et institutionnels, produits par des équipes capables d’évoluer dans les environnements énergie et construction."],
+  "mr_lead_16": ["MyEOD est une marque représentée par IC / Ingénieurs Créatifs", "MyEOD est une marque représentée par IC / Ingénieurs Créatifs"],
+  "mr_lead_17": ["Sober, technical and institutional visual content, produced by teams capable of operating in energy and construction environments.", "Sober, technical and institutional visual content, produced by teams capable of operating in energy and construction environments."],
+  "mr_lead_18": ["MyEOD is a brand represented by IC / Ingénieurs Créatifs", "MyEOD is a brand represented by IC / Ingénieurs Créatifs"]
+};
+
+let currentLang = (function(){
+  const s = localStorage.getItem('myeod-lang');
+  if (s==='fr'||s==='en') return s;
+  return navigator.language&&navigator.language.toLowerCase().startsWith('fr')?'fr':'en';
+})();
+function applyLang(lang){
+  const idx = lang==='fr'?0:1;
+  document.getElementById('html-root').setAttribute('lang', lang);
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(I18N[k]) el.textContent=I18N[k][idx];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-html');
+    if(I18N[k]) el.innerHTML=I18N[k][idx];
+  });
+  const btn=document.getElementById('lang-btn');
+  if(btn){btn.textContent=lang==='fr'?'FR / EN':'EN / FR';
+    btn.setAttribute('aria-label',lang==='fr'?'English version':'Version française');}
+  localStorage.setItem('myeod-lang',lang);
+  currentLang=lang;
+}
+function toggleLanguage(){applyLang(currentLang==='fr'?'en':'fr');}
+document.addEventListener('DOMContentLoaded',()=>applyLang(currentLang));
+</script>
 <script>
 (function(){
 'use strict';
@@ -1379,7 +1428,7 @@ if(document.readyState==='loading'){
 })();
 </script>
 <section class="cta" id="contact">
-<h2>Venez discuter de vos besoins avec l'un de nos experts</h2>
+<h2 data-i18n="mr_h2_04">Venez discuter de vos besoins avec l'un de nos experts</h2>
 <p>Nous vous orientons vers l'expert le plus pertinent selon votre contexte, votre urgence et vos contraintes projet.</p>
 <button class="btn" onclick="openContactModal()">Venez discuter de vos besoins avec l'un de nos experts</button>
 </section>
@@ -1412,7 +1461,7 @@ if(document.readyState==='loading'){
 <section class="access-band" id="mots-cles-en">
 <div class="section compact">
 <div class="kicker">Scope</div>
-<h2>Service domains and keywords.</h2>
+<h2 data-i18n="mr_h2_05">Service domains and keywords.</h2>
 <p class="lead">MyEOD is a brand represented by IC / Ingénieurs Créatifs</p>
 <div aria-label="Service keywords" class="chip-grid">
 <span class="chip">Photo</span>
@@ -1428,7 +1477,7 @@ if(document.readyState==='loading'){
 </section>
 <section class="section compact" id="contenu-service-en">
 <div class="kicker">Scope of work</div>
-<h2>A service structured around operational pillars.</h2>
+<h2 data-i18n="mr_h2_06">A service structured around operational pillars.</h2>
 <div class="card-grid">
 <article class="service-card">
 <div class="service-card-num">01 —</div>
@@ -1640,7 +1689,7 @@ if(document.readyState==='loading'){
 </style>
 <section class="section compact" id="galerie-thematiques-en">
 <div class="kicker">Gallery · Photo selection</div>
-<h2>Our photographic themes.</h2>
+<h2 data-i18n="mr_h2_07">Our photographic themes.</h2>
 <p style="color:var(--gray-600);font-size:1rem;line-height:1.78;max-width:680px;margin-top:.6rem;">A selection of images organised by theme — from international reportage to archives, through black &amp; white, renewables and the offshore industry.</p>
 <div class="thematic-grid" id="thematic-grid-en">
 <div aria-label="Abroad gallery" class="thematic-tile" data-theme="abroad" role="button" tabindex="0">
@@ -2187,7 +2236,7 @@ if(document.readyState==='loading'){
 })();
 </script>
 <section class="cta" id="contact-en">
-<h2>Come and discuss your needs with one of our experts</h2>
+<h2 data-i18n="mr_h2_08">Come and discuss your needs with one of our experts</h2>
 <p>We will direct you to the most relevant expert according to your context, urgency and project constraints.</p>
 <button class="btn" onclick="openContactModal()">Discuss your needs with an expert</button>
 </section>
@@ -2248,7 +2297,7 @@ if(document.readyState==='loading'){
 <div id="contact-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,10,10,.55);backdrop-filter:blur(4px);overflow-y:auto;">
   <div style="background:#fff;max-width:640px;margin:5vh auto;padding:2.5rem 2rem;border-radius:2px;position:relative;font-family:'MazzardM',sans-serif;">
     <button aria-label="Fermer" id="contact-close" onclick="closeContactModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#555;" type="button">&times;</button>
-    <h2 id="contact-title" style="font-size:1rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;">Parlons de votre projet</h2>
+    <h2 id="contact-title" style="font-size:1rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;" data-i18n="mr_h2_09">Parlons de votre projet</h2>
     <p id="contact-subtitle" style="font-size:.72rem;color:#888;margin-bottom:1.6rem;">Un expert MyEOD revient vers vous rapidement.</p>
     <div id="contact-success" style="display:none;padding:1.2rem;background:#f0faf4;border:1px solid #1e7a3a;color:#1e7a3a;font-size:.8rem;border-radius:2px;margin-bottom:1rem;">✓ Votre message a bien été préparé. Nous revenons vers vous très rapidement.</div>
     <div id="contact-error" style="display:none;padding:1.2rem;background:#fdf0f0;border:1px solid #c0392b;color:#c0392b;font-size:.8rem;border-radius:2px;margin-bottom:1rem;"></div>
@@ -2321,7 +2370,7 @@ if(document.readyState==='loading'){
   },
   "en": {
     "title": "MyEOD — Industrial media & reporting",
-    "homeHref": "index-en.html",
+    "homeHref": "index.html",
     "homeLabel": "Back to MyEOD home",
     "servicesHref": "services.html",
     "bridgeHref": "service-bridge.html?lang=en",
@@ -2379,7 +2428,11 @@ if(document.readyState==='loading'){
     const url = new URL(window.location.href);
     if (lang === 'en') url.searchParams.set('lang', 'en');
     else url.searchParams.delete('lang');
-    window.history.replaceState({}, '', url.pathname + url.search + url.hash);
+    try {
+
+      window.history.replaceState({}, '',  url.pathname + url.search + url.hash);
+
+    } catch(e) {}
   }
 
   function normalizeHashForLanguage(lang) {
@@ -2390,7 +2443,11 @@ if(document.readyState==='loading'){
     if (document.getElementById(targetHash) && targetHash !== hash) {
       const url = new URL(window.location.href);
       url.hash = targetHash;
-      window.history.replaceState({}, '', url.pathname + url.search + url.hash);
+      try {
+
+        window.history.replaceState({}, '',  url.pathname + url.search + url.hash);
+
+      } catch(e) {}
     }
   }
 

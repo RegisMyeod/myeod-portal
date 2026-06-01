@@ -551,7 +551,7 @@ p{
 <a href="index.html"><span data-i18n="vi_nav_home">Accueil</span></a>
 <a href="services.html" data-i18n="vi_nav_services">Services</a>
 <a href="service-bridge.html">BRiDGE</a>
-<button class="lang-switch" id="lang-btn" onclick="toggleLang()" type="button" aria-label="Version française">FR / EN</button></nav>
+<button class="lang-switch" id="lang-btn" onclick="toggleLang()" type="button" aria-label="Version française" data-i18n="langbtn">FR / EN</button></nav>
 <button aria-label="Back" class="btn-nav-back" onclick="goBackToPreviousPage()" data-i18n-title-attr="back_title" title="Retour" type="button">←</button>
 </div>
 </header>
@@ -669,6 +669,38 @@ p{
 </div>
 </footer>
 <script>
+const I18N = {
+  "vi_h3_0": ["Acquisition terrain", "Acquisition terrain"],
+  "vi_lead_1": ["Des inspections visuelles augmentées pour transformer photos, vidéos, scans et observations terrain en supports opérationnels.", "Des inspections visuelles augmentées pour transformer photos, vidéos, scans et observations terrain en supports opérationnels."],
+  "vi_langbtn": ["FR / EN", "FR / EN"]
+};
+
+let currentLang = (function(){
+  const s = localStorage.getItem('myeod-lang');
+  if (s==='fr'||s==='en') return s;
+  return navigator.language&&navigator.language.toLowerCase().startsWith('fr')?'fr':'en';
+})();
+function applyLang(lang){
+  const idx = lang==='fr'?0:1;
+  document.getElementById('html-root').setAttribute('lang', lang);
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(I18N[k]) el.textContent=I18N[k][idx];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-html');
+    if(I18N[k]) el.innerHTML=I18N[k][idx];
+  });
+  const btn=document.getElementById('lang-btn');
+  if(btn){btn.textContent=lang==='fr'?'FR / EN':'EN / FR';
+    btn.setAttribute('aria-label',lang==='fr'?'English version':'Version française');}
+  localStorage.setItem('myeod-lang',lang);
+  currentLang=lang;
+}
+function toggleLanguage(){applyLang(currentLang==='fr'?'en':'fr');}
+document.addEventListener('DOMContentLoaded',()=>applyLang(currentLang));
+</script>
+<script>
 function goAccueil(){ window.location.href = 'index.html'; }
 function goBackToPreviousPage() {
   window.location.href = 'services.html';
@@ -677,142 +709,9 @@ function goBackToPreviousPage() {
 
 <script>
 const I18N = {
-  "vi_title": [
-    "MyEOD — Visual Intelligence",
-    "MyEOD — Visual Intelligence"
-  ],
-  "vi_nav_home": [
-    "Accueil",
-    "Home"
-  ],
-  "vi_nav_services": [
-    "Services",
-    "Services"
-  ],
-  "vi_kicker": [
-    "Service 02 · Offre MyEOD",
-    "Service 02 · MyEOD offer"
-  ],
-  "vi_h1": [
-    "Visual Intelligence.<br/>Capturer, modéliser, comprendre",
-    "Visual Intelligence.<br/>Capture, model, understand"
-  ],
-  "vi_lead": [
-    "Des inspections visuelles augmentées pour transformer photos, vidéos, scans et fichiers terrain en livrables exploitables, traçables et transmissibles.",
-    "Des inspections visuelles augmentées pour transformer photos, vidéos, scans et fichiers terrain en livrables exploitables, traçables et transmissibles."
-  ],
-  "vi_btn1": [
-    "Voir le détail",
-    "View details"
-  ],
-  "vi_btn2": [
-    "Retour aux offres",
-    "Back to offers"
-  ],
-  "vi_panel_label": [
-    "Synthèse",
-    "Overview"
-  ],
-  "vi_panel_main": [
-    "Visual Intelligence",
-    "Visual Intelligence"
-  ],
-  "vi_panel_p": [
-    "La Visual Intelligence MyEOD combine expertise terrain, outils de capture avancés et production documentaire structurée pour produire des livrables exploitables au-delà du simple rapport photo.",
-    "La Visual Intelligence MyEOD combine expertise terrain, outils de capture avancés et production documentaire structurée pour produire des livrables exploitables au-delà du simple rapport photo."
-  ],
-  "vi_fact1_l": [
-    "Offre",
-    "Offer"
-  ],
-  "vi_fact2_l": [
-    "Axes",
-    "Focus areas"
-  ],
-  "vi_fact3_l": [
-    "Mots-clés",
-    "Keywords"
-  ],
-  "vi_kicker_scope": [
-    "Périmètre",
-    "Scope"
-  ],
-  "vi_h2_scope": [
-    "Domaines et mots-clés du service.",
-    "Service domains and keywords."
-  ],
-  "vi_lead2": [
-    "MyEOD est une marque représentée par IC / Ingénieurs Créatifs",
-    "MyEOD is a brand represented by IC / Ingénieurs Créatifs"
-  ],
-  "vi_kicker_frame": [
-    "Cadre d'intervention",
-    "Intervention framework"
-  ],
-  "vi_h2_frame": [
-    "Une offre structurée en axes opérationnels.",
-    "An offer structured around operational focus areas."
-  ],
-  "vi_h3_1": [
-    "Capture & Documentation visuelle",
-    "Capture & Documentation visuelle"
-  ],
-  "vi_li1_1": [
-    "Photographie technique, 360°, drone, vidéo time-lapse, inspection ROV et capture lidar mobile.",
-    "Photographie technique, 360°, drone, vidéo time-lapse, inspection ROV et capture lidar mobile."
-  ],
-  "vi_li1_2": [
-    "Production d'albums annotés, orthophotos géoréférencées, mosaïques et reports d'inspection normés.",
-    "Production d'albums annotés, orthophotos géoréférencées, mosaïques et reports d'inspection normés."
-  ],
-  "vi_li1_3": [
-    "Protocoles calibrés terrain, en accord avec les exigences qualité client et les normes sectorielles applicables.",
-    "Protocoles calibrés terrain, en accord avec les exigences qualité client et les normes sectorielles applicables."
-  ],
-  "vi_h3_2": [
-    "Visual Intelligence & Analyse",
-    "Visual Intelligence & Analyse"
-  ],
-  "vi_li2_1": [
-    "Traitement et analyse d'images pour inspection, détection d'anomalies, mesure et modélisation 3D.",
-    "Traitement et analyse d'images pour inspection, détection d'anomalies, mesure et modélisation 3D."
-  ],
-  "vi_li2_2": [
-    "Intégration de données visuelles dans les systèmes d'information projet (GIS, BIM, DMS, EDMS).",
-    "Intégration de données visuelles dans les systèmes d'information projet (GIS, BIM, DMS, EDMS)."
-  ],
-  "vi_li2_3": [
-    "Production de rapports structurés, navigables et exportables en formats standards.",
-    "Production de rapports structurés, navigables et exportables en formats standards."
-  ],
-  "vi_h3_3": [
-    "Déploiement & Opérations terrain",
-    "Déploiement & Opérations terrain"
-  ],
-  "vi_li3_1": [
-    "Mobilisation d'équipes légères, rapidement opérationnelles, sur des environnements offshore, industriels ou de construction.",
-    "Mobilisation d'équipes légères, rapidement opérationnelles, sur des environnements offshore, industriels ou de construction."
-  ],
-  "vi_li3_2": [
-    "Interfaces terrain directes avec les équipes client, HSE et inspection.",
-    "Interfaces terrain directes avec les équipes client, HSE et inspection."
-  ],
-  "vi_li3_3": [
-    "Livrables transmis en temps réel ou à J+1, selon les contraintes de connectivité et de sécurité.",
-    "Livrables transmis en temps réel ou à J+1, selon les contraintes de connectivité et de sécurité."
-  ],
-  "vi_quote": [
-    "Objectif : transformer la donnée visuelle terrain en actif opérationnel transmissible.",
-    "Objectif : transformer la donnée visuelle terrain en actif opérationnel transmissible."
-  ],
-  "vi_h2_struct": [
-    "Structurer une mission avec MyEOD.",
-    "Structurer une mission avec MyEOD."
-  ],
-  "back_title": [
-    "Retour",
-    "Back"
-  ]
+  "vi_h3_0": ["Acquisition terrain", "Acquisition terrain"],
+  "vi_lead_1": ["Des inspections visuelles augmentées pour transformer photos, vidéos, scans et observations terrain en supports opérationnels.", "Des inspections visuelles augmentées pour transformer photos, vidéos, scans et observations terrain en supports opérationnels."],
+  "vi_langbtn": ["FR / EN", "FR / EN"]
 };
 let currentLang = (function(){
   const s = localStorage.getItem('myeod-lang');

@@ -554,7 +554,7 @@ button.lang-switch{background:none;border:none;cursor:pointer;font-family:inheri
 <a href="index.html">Accueil</a>
 <a href="services.html">Services</a>
 <a href="service-bridge.html">BRiDGE</a>
-<button class="lang-switch" id="lang-btn" onclick="toggleLang()" type="button" aria-label="English version">FR / EN</button></nav>
+<button class="lang-switch" id="lang-btn" onclick="toggleLang()" type="button" aria-label="English version" data-i18n="langbtn">FR / EN</button></nav>
 <button aria-label="Retour" class="btn-nav-back" onclick="goBackToPreviousPage()" data-i18n-title-attr="back_title" title="Retour" type="button">←</button>
 </div>
 </header>
@@ -635,7 +635,7 @@ button.lang-switch{background:none;border:none;cursor:pointer;font-family:inheri
 <div class="quote-block"><span data-i18n="st_quote">Objectif : transformer un renfort humain en capacité projet augmentée, documentée et immédiatement productive.</span></div>
 </section>
 <section class="cta" id="contact">
-<h2>Venez discuter de vos besoins avec l'un de nos experts</h2>
+<h2 data-i18n="sa_h2_01">Venez discuter de vos besoins avec l'un de nos experts</h2>
 <p>Nous vous orientons vers l'expert le plus pertinent selon votre contexte, votre urgence et vos contraintes projet.</p>
 <button class="btn" onclick="openContactModal()">Venez discuter de vos besoins avec l'un de nos experts</button>
 </section>
@@ -667,6 +667,38 @@ button.lang-switch{background:none;border:none;cursor:pointer;font-family:inheri
 </div>
 </footer>
 <script>
+const I18N = {
+  "sa_h2_0": ["Venez discuter de vos besoins avec l'un de nos experts", "Come discuss your needs with one of our experts"],
+  "sa_h2_1": ["Parlons de votre projet", "Parlons de votre projet"],
+  "sa_langbtn": ["FR / EN", "FR / EN"]
+};
+
+let currentLang = (function(){
+  const s = localStorage.getItem('myeod-lang');
+  if (s==='fr'||s==='en') return s;
+  return navigator.language&&navigator.language.toLowerCase().startsWith('fr')?'fr':'en';
+})();
+function applyLang(lang){
+  const idx = lang==='fr'?0:1;
+  document.getElementById('html-root').setAttribute('lang', lang);
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(I18N[k]) el.textContent=I18N[k][idx];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-html');
+    if(I18N[k]) el.innerHTML=I18N[k][idx];
+  });
+  const btn=document.getElementById('lang-btn');
+  if(btn){btn.textContent=lang==='fr'?'FR / EN':'EN / FR';
+    btn.setAttribute('aria-label',lang==='fr'?'English version':'Version française');}
+  localStorage.setItem('myeod-lang',lang);
+  currentLang=lang;
+}
+function toggleLanguage(){applyLang(currentLang==='fr'?'en':'fr');}
+document.addEventListener('DOMContentLoaded',()=>applyLang(currentLang));
+</script>
+<script>
 function goHome(){ window.location.href = 'index.html'; }
 function goBackToPreviousPage() {
   window.location.href = 'services.html';
@@ -677,7 +709,7 @@ function goBackToPreviousPage() {
 <div id="contact-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,10,10,.55);backdrop-filter:blur(4px);overflow-y:auto;">
   <div style="background:#fff;max-width:640px;margin:5vh auto;padding:2.5rem 2rem;border-radius:2px;position:relative;font-family:'MazzardM',sans-serif;">
     <button onclick="document.getElementById('contact-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#555;">&times;</button>
-    <h2 style="font-size:1rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;">Parlons de votre projet</h2>
+    <h2 style="font-size:1rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;" data-i18n="sa_h2_02">Parlons de votre projet</h2>
     <p style="font-size:.72rem;color:#888;margin-bottom:1.6rem;">Un expert MyEOD vous recontactera dès que possible.</p>
     <div id="contact-success" style="display:none;padding:1.2rem;background:#f0faf4;border:1px solid #1e7a3a;color:#1e7a3a;font-size:.8rem;border-radius:2px;margin-bottom:1rem;">
       ✓ Votre message a bien été envoyé. Nous reviendrons vers vous très prochainement.
@@ -727,130 +759,9 @@ function submitContactFR(){
 
 <script>
 const I18N = {
-  "st_title": [
-    "MyEOD — Staffing Augmenté",
-    "MyEOD — Augmented Staffing"
-  ],
-  "st_kicker": [
-    "Service 03 · Offre MyEOD",
-    "Service 03 · MyEOD offer"
-  ],
-  "st_h1": [
-    "Staffing Augmenté.\nExperts outillés, livrables renforcés",
-    "Augmented Staffing.\nEquipped experts, stronger deliverables"
-  ],
-  "st_lead": [
-    "Des profils terrain ou projet qui ne se limitent pas à tenir un poste : ils produisent, structurent et transmettent une connaissance exploitable.",
-    "Field or project profiles that do more than fill a position: they produce, structure and hand over usable knowledge."
-  ],
-  "st_btn1": [
-    "Voir le détail",
-    "View details"
-  ],
-  "st_btn2": [
-    "Retour aux offres",
-    "Back to offers"
-  ],
-  "st_panel_label": [
-    "Synthèse",
-    "Overview"
-  ],
-  "st_panel_main": [
-    "Staffing Augmenté",
-    "Augmented Staffing"
-  ],
-  "st_panel_p": [
-    "Le staffing augmenté MyEOD associe des experts expérimentés à la toolbox BRiDGE pour sécuriser une phase critique, absorber un pic de charge ou renforcer une équipe client. Chaque mobilisation vise un résultat opérationnel et documentaire mesurable.",
-    "MyEOD augmented staffing combines experienced experts with the BRiDGE toolbox to secure a critical phase, absorb a workload peak or reinforce a client team. Each mobilization targets a measurable operational and documentary result."
-  ],
-  "st_fact1_l": [
-    "Offre",
-    "Offer"
-  ],
-  "st_fact2_l": [
-    "Axes",
-    "Focus areas"
-  ],
-  "st_fact3_l": [
-    "Mots-clés",
-    "Keywords"
-  ],
-  "st_kicker_scope": [
-    "Périmètre",
-    "Scope"
-  ],
-  "st_h2_scope": [
-    "Domaines et mots-clés du service.",
-    "Service domains and keywords."
-  ],
-  "st_lead2": [
-    "MyEOD est une marque représentée par IC / Ingénieurs Créatifs",
-    "MyEOD is a brand represented by IC / Ingénieurs Créatifs"
-  ],
-  "st_kicker_frame": [
-    "Cadre d'intervention",
-    "Intervention framework"
-  ],
-  "st_h2_frame": [
-    "Une offre structurée en axes opérationnels.",
-    "An offer structured around operational focus areas."
-  ],
-  "st_h3_1": [
-    "Profils mobilisables",
-    "Mobilizable profiles"
-  ],
-  "st_li1_1": [
-    "Survey Expert, Survey Rep, PMT, GIS Specialist, DCC et coordinateurs installation/construction.",
-    "Survey Expert, Survey Rep, PMT, GIS Specialist, DCC and installation/construction coordinators."
-  ],
-  "st_li1_2": [
-    "Renforts expérimentés pour deepwater, LNG, éolien offshore, construction marine, yards et projets industriels complexes.",
-    "Experienced reinforcement for deepwater, LNG, offshore wind, marine construction, yards and complex industrial projects."
-  ],
-  "st_li1_3": [
-    "Mobilisation courte, moyenne ou longue durée selon fenêtres opérationnelles, contraintes visa, HSE et planning.",
-    "Short-, medium- or long-term mobilization depending on operational windows, visa constraints, HSE and planning."
-  ],
-  "st_h3_2": [
-    "Apport BRiDGE intégré",
-    "Integrated BRiDGE contribution"
-  ],
-  "st_li2_1": [
-    "Mise en place de routines DPR, QC, data management, suivi documentaire et reporting dès l'arrivée sur mission.",
-    "Implementation of DPR, QC, data management, document tracking and reporting routines from arrival on mission."
-  ],
-  "st_li2_2": [
-    "Captation structurée des écarts, décisions, événements clés, données survey, installation ou construction.",
-    "Structured capture of deviations, decisions, key events, survey, installation or construction data."
-  ],
-  "st_li2_3": [
-    "Production de livrables exploitables au-delà de la simple présence d'un expert sur site.",
-    "Production of usable deliverables beyond the mere presence of an expert on site."
-  ],
-  "st_h3_3": [
-    "Valeur opérationnelle",
-    "Operational value"
-  ],
-  "st_li3_1": [
-    "Sécurisation des interfaces client, contractor, opérateur, engineering et terrain.",
-    "Securing interfaces between client, contractor, operator, engineering and field."
-  ],
-  "st_li3_2": [
-    "Réduction des pertes d'information entre rotations, disciplines et phases projet.",
-    "Reduction of information loss between rotations, disciplines and project phases."
-  ],
-  "st_li3_3": [
-    "Montée en qualité des livrables même lorsque l'équipe client manque temporairement de ressources senior.",
-    "Improved deliverable quality even when the client team temporarily lacks senior resources."
-  ],
-  "st_quote": [
-    "Objectif : transformer un renfort humain en capacité projet augmentée, documentée et immédiatement productive.",
-    "Objective: turn human reinforcement into augmented, documented and immediately productive project capacity."
-  ],
-  "back_title": [
-    "Retour",
-    "Back"
-  ]
+  "sa_h2_0": ["Venez discuter de vos besoins avec l'un de nos experts", "Come discuss your needs with one of our experts"],
+  "sa_h2_1": ["Parlons de votre projet", "Parlons de votre projet"],
+  "sa_langbtn": ["FR / EN", "FR / EN"]
 };
 let currentLang = (function(){
   const s = localStorage.getItem('myeod-lang');

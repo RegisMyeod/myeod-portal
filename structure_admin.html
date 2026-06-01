@@ -1136,6 +1136,12 @@ img.myeod-header-logo{
 <div class="prog-pct" id="pp-ch" style="color:#c0392b">0%</div>
 <div class="prog-count" id="pc-ch">—</div>
 </div>
+<div class="progress-row">
+<div class="prog-lbl">🏅 Corpus Qualité</div>
+<div class="prog-bar-bg"><div class="prog-bar" id="pb-qual" style="background:var(--teal-dim);width:0%"></div></div>
+<div class="prog-pct" id="pp-qual" style="color:var(--teal-dim)">0%</div>
+<div class="prog-count" id="pc-qual">—</div>
+</div>
 </div>
 </div>
 <div class="structure-panel">
@@ -1904,7 +1910,7 @@ function render(){
     const done = all.filter(isFullyDone).length;
     const wip  = all.filter(d=>!isFullyDone(d)&&(d.statusFr==='wip'||d.statusEn==='wip')).length;
     const pct  = all.length ? Math.round((done + wip*0.5)/all.length*100) : 0;
-    const id   = {commercial:'com',admin:'adm',financier:'fin',rh:'rh',suisse:'ch'}[cat];
+    const id   = {commercial:'com',admin:'adm',financier:'fin',rh:'rh',suisse:'ch',operationnel:'qual'}[cat];
     const pb   = document.getElementById('pb-'+id);
     const pc   = document.getElementById('pc-'+id);
     const pp   = document.getElementById('pp-'+id);

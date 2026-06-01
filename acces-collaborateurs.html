@@ -740,6 +740,78 @@
       -webkit-appearance:none;
       border-radius:0;
     }
+
+    /* ── Mot de passe oublié ── */
+    .forgot-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.3rem;
+      margin:.55rem auto 0;
+      padding:.25rem 0;
+      border:0;
+      background:transparent;
+      color:var(--gray-400);
+      font-family:var(--font);
+      font-size:.63rem;
+      font-weight:700;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+      cursor:pointer;
+      text-decoration:none;
+      transition:color .2s;
+      width:100%;
+      text-align:center;
+    }
+    .forgot-link:hover,
+    .forgot-link:focus-visible{
+      color:var(--black);
+      outline:none;
+    }
+    .forgot-divider{
+      display:flex;
+      align-items:center;
+      gap:.75rem;
+      margin:.85rem 0 .35rem;
+      color:var(--gray-300);
+      font-size:.6rem;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+    }
+    .forgot-divider::before,
+    .forgot-divider::after{
+      content:"";
+      flex:1;
+      height:1px;
+      background:var(--gray-200);
+    }
+    .success-msg{
+      font-size:.82rem;
+      color:#1a7a3c;
+      background:#f0faf4;
+      border:1px solid #b6e8cc;
+      border-radius:var(--radius);
+      padding:.75rem 1rem;
+      margin-top:.8rem;
+      text-align:center;
+      min-height:1.2em;
+    }
+    #forgot-pwd-screen{
+      width:min(1120px,calc(100% - 40px));
+      margin:0 auto;
+      padding:5rem 0;
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);
+      align-items:center;
+      gap:4rem;
+    }
+    #forgot-pwd-screen.hidden{display:none !important;}
+    @media(max-width:900px){
+      #forgot-pwd-screen{grid-template-columns:1fr;min-height:auto;gap:2.5rem;}
+    }
+    @media(max-width:640px){
+      #forgot-pwd-screen{width:min(100% - 28px,1120px);padding:3.2rem 0;}
+    }
 </style>
 </head>
 <body>
@@ -752,8 +824,9 @@
 <a data-i18n="navHome" data-link="home" href="index.html">Accueil</a>
 <a data-i18n="navServices" data-link="services" href="services.html">Services</a>
 <a data-i18n="navClients" data-link="clients" href="acces-client.html">Clients</a>
-<button aria-label="English version" class="lang-switch" data-i18n-aria-label="languageSwitchAria" id="lang-toggle" type="button">EN</button></nav>
+</nav>
 <button aria-label="Retour" class="btn-nav-back" data-i18n-aria-label="backAria" data-i18n-title-attr="backTitle" onclick="goBackToPreviousPage()" title="Retour" type="button">←</button>
+<button aria-label="English version" class="lang-switch" data-i18n-aria-label="languageSwitchAria" id="lang-toggle" type="button">EN</button>
 </div>
 </header>
 <div class="visible collab-page" id="app">
@@ -761,9 +834,7 @@
 <div class="login-copy">
 <div class="kicker" data-i18n="loginKicker">Accès collaborateurs · Portail interne</div>
 <h1 data-i18n="loginHeading">Connexion au portail MyEOD.</h1>
-<p class="lead" data-i18n="loginLead">
-          Retrouvez les espaces Admin, IT, BizDev, Opérations, Documents et Planning après authentification.
-        </p>
+
 </div>
 <div class="login-box">
 <div class="login-form">
@@ -777,7 +848,8 @@
 <input autocomplete="current-password" data-i18n-placeholder="passwordPlaceholder" id="login-password" placeholder="••••••••" type="password"/>
 </div>
 <button class="btn-primary" data-i18n="btnLogin" id="btn-login">Connexion</button>
-<button class="login-back-link" data-i18n="btnLoginBack" id="btn-login-back" type="button">← Retour à l'accueil</button>
+<div class="forgot-divider" data-i18n="forgotDivider">ou</div>
+<button class="forgot-link" data-i18n="btnForgotPwd" id="btn-forgot-pwd" type="button">Mot de passe oublié ?</button>
 <p class="error-msg" id="login-error"></p>
 </div>
 </div>
@@ -806,6 +878,30 @@
 </div>
 <button class="btn-primary" data-i18n="btnChangePwd" id="btn-change-pwd">Valider et accéder au portail</button>
 <p class="error-msg" id="pwd-error"></p>
+</div>
+</section>
+<section class="hidden" id="forgot-pwd-screen">
+<div class="login-copy">
+<div class="kicker" data-i18n="forgotKicker">Sécurité · Réinitialisation</div>
+<h1 data-i18n="forgotHeading">Réinitialisez votre mot de passe.</h1>
+<p class="lead" data-i18n="forgotLead">
+          Saisissez votre adresse email de collaborateur. Vous recevrez un lien de réinitialisation valable 60 minutes.
+        </p>
+</div>
+<div class="login-box">
+<p class="login-title" data-i18n="forgotTitle">Mot de passe oublié</p>
+<p class="pwd-notice" data-i18n-html="forgotNotice">
+          Renseignez l'email associé à votre compte MyEOD.<br/>
+          Un lien sécurisé vous sera envoyé <strong>par email</strong>.
+        </p>
+<div class="form-group">
+<label data-i18n="labelEmail" for="forgot-email">Email</label>
+<input autocomplete="email" data-i18n-placeholder="emailPlaceholder" id="forgot-email" placeholder="prenom.nom@myexpertondemand.com" type="email"/>
+</div>
+<button class="btn-primary" data-i18n="btnSendReset" id="btn-send-reset">Envoyer le lien de réinitialisation</button>
+<p class="error-msg" id="forgot-error"></p>
+<div class="success-msg hidden" id="forgot-success" data-i18n="forgotSuccess">Email envoyé ! Vérifiez votre boîte de réception.</div>
+<button class="forgot-link" data-i18n="btnBackToLogin" id="btn-back-to-login" type="button">← Retour à la connexion</button>
 </div>
 </section>
 <section class="hidden" id="dashboard">
@@ -909,6 +1005,18 @@ const I18N = {
     passwordPlaceholder: '••••••••',
     btnLogin: 'Connexion',
     btnLoginBack: '← Retour à l’accueil',
+    btnForgotPwd: 'Mot de passe oublié ?',
+    forgotDivider: 'ou',
+    forgotKicker: 'Sécurité · Réinitialisation',
+    forgotHeading: 'Réinitialisez votre mot de passe.',
+    forgotLead: 'Saisissez votre adresse email de collaborateur. Vous recevrez un lien de réinitialisation valable 60 minutes.',
+    forgotTitle: 'Mot de passe oublié',
+    forgotNotice: 'Renseignez l’email associé à votre compte MyEOD.<br>Un lien sécurisé vous sera envoyé <strong>par email</strong>.',
+    btnSendReset: 'Envoyer le lien de réinitialisation',
+    forgotSuccess: '✓ Email envoyé ! Vérifiez votre boîte de réception (et vos spams).',
+    forgotErrEmail: 'Veuillez saisir une adresse email valide.',
+    forgotErrFailed: 'Impossible d’envoyer l’email. Vérifiez l’adresse ou réessayez.',
+    btnBackToLogin: '← Retour à la connexion',
     pwdKicker: 'Sécurité · Première connexion',
     pwdHeading: 'Définissez votre mot de passe.',
     pwdLead: 'Pour protéger l’accès au portail interne, un mot de passe personnel est requis lors de la première connexion.',
@@ -976,6 +1084,18 @@ const I18N = {
     passwordPlaceholder: '••••••••',
     btnLogin: 'Connection',
     btnLoginBack: '← Back to home',
+    btnForgotPwd: 'Forgot password?',
+    forgotDivider: 'or',
+    forgotKicker: 'Security · Reset',
+    forgotHeading: 'Reset your password.',
+    forgotLead: 'Enter your collaborator email address. You will receive a reset link valid for 60 minutes.',
+    forgotTitle: 'Forgot password',
+    forgotNotice: 'Enter the email linked to your MyEOD account.<br>A secure link will be sent to you <strong>by email</strong>.',
+    btnSendReset: 'Send reset link',
+    forgotSuccess: '✓ Email sent! Check your inbox (and spam folder).',
+    forgotErrEmail: 'Please enter a valid email address.',
+    forgotErrFailed: 'Unable to send the email. Check the address or try again.',
+    btnBackToLogin: '← Back to login',
     pwdKicker: 'Security · First sign-in',
     pwdHeading: 'Set your password.',
     pwdLead: 'To protect access to the internal portal, a personal password is required on first sign-in.',
@@ -1052,7 +1172,7 @@ const LINKS = {
   }
 };
 
-const SCREENS = ['login-screen','change-pwd-screen','dashboard'];
+const SCREENS = ['login-screen','change-pwd-screen','forgot-pwd-screen','dashboard'];
 let currentLang = 'fr';
 let _currentUserName = '';
 let _currentFirstName = '';
@@ -1140,6 +1260,7 @@ function goMenu(){
 
 function goBackOneStep(){
   if (!document.getElementById('change-pwd-screen')?.classList.contains('hidden')) { showScreen('login-screen'); return; }
+  if (!document.getElementById('forgot-pwd-screen')?.classList.contains('hidden')) { showScreen('login-screen'); return; }
   if (window.history.length > 1) window.history.back(); else goMenu();
 }
 
@@ -1221,6 +1342,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('login-password')?.addEventListener('keydown', e => {
     if (e.key === 'Enter') document.getElementById('btn-login')?.click();
+  });
+
+  document.getElementById('btn-forgot-pwd')?.addEventListener('click', () => {
+    const emailField = document.getElementById('login-email');
+    const forgotEmail = document.getElementById('forgot-email');
+    if (forgotEmail && emailField) forgotEmail.value = emailField.value.trim();
+    const errEl = document.getElementById('forgot-error');
+    const successEl = document.getElementById('forgot-success');
+    if (errEl) errEl.textContent = '';
+    if (successEl) successEl.classList.add('hidden');
+    showScreen('forgot-pwd-screen');
+  });
+
+  document.getElementById('btn-back-to-login')?.addEventListener('click', () => {
+    const errEl = document.getElementById('forgot-error');
+    const successEl = document.getElementById('forgot-success');
+    if (errEl) errEl.textContent = '';
+    if (successEl) successEl.classList.add('hidden');
+    showScreen('login-screen');
+  });
+
+  document.getElementById('btn-send-reset')?.addEventListener('click', async () => {
+    const email = document.getElementById('forgot-email').value.trim();
+    const errEl = document.getElementById('forgot-error');
+    const successEl = document.getElementById('forgot-success');
+    const btn = document.getElementById('btn-send-reset');
+    if (errEl) errEl.textContent = '';
+    if (successEl) successEl.classList.add('hidden');
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if (errEl) errEl.textContent = t('forgotErrEmail'); return;
+    }
+    if (!sb) { if (errEl) errEl.textContent = t('errAuthUnavailable'); return; }
+    btn.disabled = true;
+    btn.style.opacity = '.6';
+    const { error } = await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/acces-collaborateurs.html'
+    });
+    btn.disabled = false;
+    btn.style.opacity = '';
+    if (error) {
+      if (errEl) errEl.textContent = t('forgotErrFailed');
+    } else {
+      if (successEl) { successEl.textContent = t('forgotSuccess'); successEl.classList.remove('hidden'); }
+      document.getElementById('forgot-email').value = '';
+    }
+  });
+
+  document.getElementById('forgot-email')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('btn-send-reset')?.click();
   });
 
   document.getElementById('btn-login-back')?.addEventListener('click', goMenu);

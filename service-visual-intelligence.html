@@ -587,10 +587,8 @@ p{
 <a href="service-bridge.html">BRiDGE</a>
 </nav>
 <button aria-label="Back" class="btn-nav-back" onclick="goBackToPreviousPage()" data-i18n-title-attr="back_title" title="Retour" type="button">←</button>
-      <button class="lang-switch" id="lang-btn" onclick="toggleLanguage()" type="button" aria-label="Changer la langue">
-        <span class="lang-text">EN</span>
-        <span class="lang-separator">/</span>
-        <span class="lang-text">FR</span>
+      <button class="lang-switch" id="lang-btn" onclick="toggleLanguage()" type="button" aria-label="Switch to English">
+        <span id="lang-btn-label">EN</span>
       </button>
 </div>
 </header>
@@ -599,7 +597,7 @@ p{
 <div>
 <div class="kicker"><span data-i18n="vi_kicker">Service 02 · Offre MyEOD</span></div>
 <h1><span data-i18n-html="vi_h1">Visual Intelligence.<br/>Capturer, modéliser, comprendre</span></h1>
-<p class="lead">Des inspections visuelles augmentées pour transformer photos, vidéos, scans et observations terrain en supports opérationnels.</p>
+<p class="lead"><span data-i18n="vi_lead_1">Des inspections visuelles augmentées pour transformer photos, vidéos, scans et observations terrain en supports opérationnels.</span></p>
 <div class="hero-actions">
 <a class="btn" href="#contenu-service"><span data-i18n="vi_btn1">Voir le détail</span></a>
 <a class="btn secondary" href="services.html"><span data-i18n="vi_btn2">Retour aux offres</span></a>
@@ -645,7 +643,7 @@ p{
 <div class="card-grid">
 <article class="service-card">
 <div class="service-card-num">01 —</div>
-<h3>Acquisition terrain</h3>
+<h3><span data-i18n="vi_h3_0">Acquisition terrain</span></h3>
 <ul>
 <li><span data-i18n="vi_fix_4">Drone, caméra 4K, thermographie, inspection visuelle, relevés photo et vidéo selon les contraintes site.</span></li>
 <li><span data-i18n="vi_fix_5">Topographie de précision, levés LiDAR terrestres et aériens, mobile mapping pour la capture 3D continue de sites, corridors et infrastructures.</span></li>
@@ -657,7 +655,7 @@ p{
 <div class="service-card-num">02 —</div>
 <h3><span data-i18n="vi_fix_8">Traitement et analyse</span></h3>
 <ul>
-<li>Traitement Pix4D, Metashape ou équivalent pour modèles 3D, orthophotos et nuages de points.</li>
+<li><span data-i18n="vi_fix_8b">Traitement Pix4D, Metashape ou équivalent pour modèles 3D, orthophotos et nuages de points.</span></li>
 <li><span data-i18n="vi_fix_9">Traitement des nuages de points LiDAR et données mobile mapping : nettoyage, classification, extraction de primitives géométriques et MNT/MNS topographiques.</span></li>
 <li><span data-i18n="vi_fix_10">Détection et classification d'anomalies, éléments, écarts visibles et points d'attention terrain.</span></li>
 <li><span data-i18n="vi_fix_11">Croisement avec données projet, plans, repères, KPIs ou historiques dans BRiDGE.</span></li>
@@ -669,7 +667,7 @@ p{
 <ul>
 <li><span data-i18n="vi_fix_13">Rapports visuels structurés, dashboards, cartographies, exports image/vidéo et supports de revue.</span></li>
 <li><span data-i18n="vi_fix_14">État des installations, comparaisons temporelles, suivi d'avancement et appui opérationnel.</span></li>
-<li>Archivage dans le Data Lake BRiDGE pour conserver la mémoire visuelle exploitable.</li>
+<li><span data-i18n="vi_fix_16">Archivage dans le Data Lake BRiDGE pour conserver la mémoire visuelle exploitable.</span></li>
 </ul>
 </article>
 </div>
@@ -678,7 +676,7 @@ p{
 <section class="cta">
 <h2><span data-i18n="vi_h2_struct">Structurer une mission avec MyEOD.</span></h2>
 
-<a class="btn" href="acces-client.html">Accès clients</a>
+<a class="btn" href="acces-client.html"><span data-i18n="vi_cta_btn">Accès clients</span></a>
 </section>
 </main>
 <footer class="myeod-footer" role="contentinfo">
@@ -709,9 +707,87 @@ p{
 </footer>
 <script>
 const I18N = {
-  "vi_h3_0": ["Acquisition terrain", "Acquisition terrain"],
-  "vi_lead_1": ["Des inspections visuelles augmentées pour transformer photos, vidéos, scans et observations terrain en supports opérationnels.", "Des inspections visuelles augmentées pour transformer photos, vidéos, scans et observations terrain en supports opérationnels."],
-  "vi_langbtn": ["FR / EN", "FR / EN"]
+  /* ── Navigation ── */
+  "vi_nav_home":        ["Accueil",   "Home"],
+  "vi_nav_services":    ["Services",  "Services"],
+
+  /* ── Hero ── */
+  "vi_kicker":   ["Service 02 · Offre MyEOD", "Service 02 · MyEOD Offering"],
+  "vi_h1":       ["Visual Intelligence.<br/>Capturer, modéliser, comprendre",
+                  "Visual Intelligence.<br/>Capture, model, understand"],
+  "vi_lead_1":   ["Des inspections visuelles augmentées pour transformer photos, vidéos, scans et observations terrain en supports opérationnels.",
+                  "Enhanced visual inspections that transform photos, videos, scans and field observations into operational deliverables."],
+  "vi_btn1":     ["Voir le détail",    "See the details"],
+  "vi_btn2":     ["Retour aux offres", "Back to services"],
+
+  /* ── Hero panel ── */
+  "vi_panel_label": ["Synthèse", "Overview"],
+  "vi_panel_p2": [
+    "La Visual Intelligence regroupe l'acquisition terrain, la photogrammétrie, la topographie, le LiDAR, le mobile mapping, le traitement 3D, l'analyse visuelle et la restitution structurée. Le service s'adresse aux opérateurs, propriétaires d'actifs, EPCI, yards, maîtres d'ouvrage et équipes HSE/engineering qui ont besoin d'une lecture rapide, documentée et partageable de l'état réel d'un site, d'une structure ou d'un chantier. MyEOD intervient en direct ou mobilise un réseau de sous-traitants qualifiés sélectionnés selon les exigences projet — les données collectées sont systématiquement traitées, structurées et intégrées dans nos outils par nos équipes.",
+    "Visual Intelligence encompasses field acquisition, photogrammetry, surveying, LiDAR, mobile mapping, 3D processing, visual analysis and structured reporting. The service is aimed at operators, asset owners, public bodies, yards, project owners and HSE/engineering teams that need a fast, documented and shareable read of the actual condition of a site, structure or worksite. MyEOD intervenes directly or mobilises a network of qualified subcontractors selected according to project requirements — all collected data is systematically processed, structured and integrated into our tools by our teams."
+  ],
+  "vi_fact1_l": ["Offre",      "Offering"],
+  "vi_fact2_l": ["Axes",       "Pillars"],
+  "vi_fact3_l": ["Mots-clés",  "Keywords"],
+
+  /* ── Scope section ── */
+  "vi_kicker_scope": ["Périmètre",                          "Scope"],
+  "vi_h2_scope":     ["Domaines et mots-clés du service.",  "Service domains and keywords."],
+  "vi_lead2":        ["MyEOD est une marque représentée par IC / Ingénieurs Créatifs",
+                      "MyEOD is a brand represented by IC / Ingénieurs Créatifs"],
+
+  /* ── Chips ── */
+  "vi_fix_0": ["Thermographie",    "Thermography"],
+  "vi_fix_1": ["Photogrammétrie",  "Photogrammetry"],
+  "vi_fix_2": ["Nuages de points", "Point clouds"],
+  "vi_fix_3": ["Topographie",      "Surveying"],
+
+  /* ── Operational framework ── */
+  "vi_kicker_frame": ["Cadre d'intervention",                          "Operational framework"],
+  "vi_h2_frame":     ["Une offre structurée en axes opérationnels.",   "An offering structured around operational pillars."],
+
+  /* Card 01 */
+  "vi_h3_0":   ["Acquisition terrain", "Field acquisition"],
+  "vi_fix_4":  ["Drone, caméra 4K, thermographie, inspection visuelle, relevés photo et vidéo selon les contraintes site.",
+                "Drone, 4K camera, thermography, visual inspection, photo and video surveys adapted to site constraints."],
+  "vi_fix_5":  ["Topographie de précision, levés LiDAR terrestres et aériens, mobile mapping pour la capture 3D continue de sites, corridors et infrastructures.",
+                "High-precision surveying, terrestrial and aerial LiDAR scanning, mobile mapping for continuous 3D capture of sites, corridors and infrastructure."],
+  "vi_fix_6":  ["Interventions préparées avec règles HSE, permis, accès, confidentialité et coordination locale.",
+                "Missions prepared in compliance with HSE rules, permits, access requirements, confidentiality and local coordination."],
+  "vi_fix_7":  ["Collecte adaptée aux environnements énergie, offshore, construction, yard et bâtiment industriel.",
+                "Data collection adapted to energy, offshore, construction, yard and industrial building environments."],
+
+  /* Card 02 */
+  "vi_fix_8":  ["Traitement et analyse", "Processing and analysis"],
+  "vi_fix_9":  ["Traitement des nuages de points LiDAR et données mobile mapping : nettoyage, classification, extraction de primitives géométriques et MNT/MNS topographiques.",
+                "LiDAR point cloud and mobile mapping data processing: cleaning, classification, extraction of geometric primitives and topographic DTM/DSM."],
+  "vi_fix_10": ["Détection et classification d'anomalies, éléments, écarts visibles et points d'attention terrain.",
+                "Detection and classification of anomalies, elements, visible discrepancies and field attention points."],
+  "vi_fix_11": ["Croisement avec données projet, plans, repères, KPIs ou historiques dans BRiDGE.",
+                "Cross-referencing with project data, plans, benchmarks, KPIs or historical records in BRiDGE."],
+
+  /* Card 03 */
+  "vi_fix_12": ["Restitution client", "Client deliverables"],
+  "vi_fix_13": ["Rapports visuels structurés, dashboards, cartographies, exports image/vidéo et supports de revue.",
+                "Structured visual reports, dashboards, mapping outputs, image/video exports and review materials."],
+  "vi_fix_14": ["État des installations, comparaisons temporelles, suivi d'avancement et appui opérationnel.",
+                "Facility condition reports, time-based comparisons, progress tracking and operational support."],
+
+  /* Quote */
+  "vi_fix_15": ["Objectif : rendre visible, mesurable et partageable ce que le terrain révèle.",
+                "Objective: make what the field reveals visible, measurable and shareable."],
+
+  /* CTA */
+  "vi_h2_struct": ["Structurer une mission avec MyEOD.", "Structure a mission with MyEOD."],
+  "vi_cta_btn":   ["Accès clients", "Client access"],
+
+  /* Card 02 extra */
+  "vi_fix_8b": ["Traitement Pix4D, Metashape ou équivalent pour modèles 3D, orthophotos et nuages de points.",
+                "Processing with Pix4D, Metashape or equivalent for 3D models, orthophotos and point clouds."],
+
+  /* Card 03 extra */
+  "vi_fix_16": ["Archivage dans le Data Lake BRiDGE pour conserver la mémoire visuelle exploitable.",
+                "Archiving in the BRiDGE Data Lake to retain an exploitable visual memory."]
 };
 
 let currentLang = (function(){
@@ -731,8 +807,11 @@ function applyLang(lang){
     if(I18N[k]) el.innerHTML=I18N[k][idx];
   });
   const btn=document.getElementById('lang-btn');
-  if(btn){btn.textContent=lang==='fr'?'FR / EN':'EN / FR';
-    btn.setAttribute('aria-label',lang==='fr'?'English version':'Version française');}
+  const lbl=document.getElementById('lang-btn-label');
+  if(btn){
+    if(lbl) lbl.textContent = lang==='fr' ? 'EN' : 'FR';
+    btn.setAttribute('aria-label', lang==='fr' ? 'Switch to English' : 'Passer en français');
+  }
   localStorage.setItem('myeod-lang',lang);
   currentLang=lang;
 }
@@ -746,12 +825,6 @@ function goBackToPreviousPage() {
 }
 </script>
 
-<script>
 
-
-
-function toggleLang(){applyLang(currentLang==='fr'?'en':'fr');}
-document.addEventListener('DOMContentLoaded',()=>applyLang(currentLang));
-</script>
 </body>
 </html>

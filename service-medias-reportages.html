@@ -571,7 +571,12 @@ p{
       <a id="nav-services" href="services.html">Services</a>
       <a id="nav-bridge" href="service-bridge.html">BRiDGE</a>
       <button aria-label="Retour" class="btn-nav-back" id="back-button" onclick="goBackToPreviousPage()" title="Retour" type="button">←</button>
-      <button class="lang-switch" id="lang-btn" onclick="toggleLanguage()" type="button" aria-label="English version">FR / EN</button>
+      <button class="lang-switch" id="lang-btn" onclick="toggleLanguage()" type="button" aria-label="Changer la langue">
+        <span class="lang-text">EN</span>
+        <span class="lang-separator">/</span>
+        <span class="lang-text">FR</span>
+      </button>
+      
     </nav>
   </div>
 </header>
@@ -1686,7 +1691,41 @@ if(document.readyState==='loading'){
   .gallery-lb-stage{padding:1rem 2.8rem;}
   .gallery-lb-nav{width:36px;height:56px;font-size:1.2rem;}
 }
-</style>
+
+    /* Language Switcher */
+    .lang-switch {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      padding: .55rem .75rem;
+      border-radius: 4px;
+      font-family: var(--font-mono, monospace);
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      transition: all 150ms;
+      white-space: nowrap;
+    }
+    .lang-switch:hover,
+    .lang-switch:focus-visible {
+      background: #e8e8e8;
+      border-color: #999;
+      outline: none;
+    }
+    .lang-text {
+      letter-spacing: .05em;
+    }
+    .lang-separator {
+      opacity: .6;
+      font-size: .75rem;
+    }
+    .simple-nav .lang-switch {
+      margin-left: auto;
+    }
+
+  </style>
 <section class="section compact" id="galerie-thematiques-en">
 <div class="kicker">Gallery · Photo selection</div>
 <h2 data-i18n="mr_h2_07">Our photographic themes.</h2>
@@ -2428,11 +2467,7 @@ if(document.readyState==='loading'){
     const url = new URL(window.location.href);
     if (lang === 'en') url.searchParams.set('lang', 'en');
     else url.searchParams.delete('lang');
-    try {
-
-      window.history.replaceState({}, '',  url.pathname + url.search + url.hash);
-
-    } catch(e) {}
+    window.history.replaceState({}, '', url.pathname + url.search + url.hash);
   }
 
   function normalizeHashForLanguage(lang) {
@@ -2443,11 +2478,7 @@ if(document.readyState==='loading'){
     if (document.getElementById(targetHash) && targetHash !== hash) {
       const url = new URL(window.location.href);
       url.hash = targetHash;
-      try {
-
-        window.history.replaceState({}, '',  url.pathname + url.search + url.hash);
-
-      } catch(e) {}
+      window.history.replaceState({}, '', url.pathname + url.search + url.hash);
     }
   }
 
@@ -2486,7 +2517,7 @@ if(document.readyState==='loading'){
 
     const backButton = document.getElementById('back-button');
     if (backButton) { backButton.setAttribute('aria-label', copy.backLabel); backButton.setAttribute('title', copy.backLabel); }
-    const langToggle = document.getElementById('lang-btn');
+    const langToggle = document.getElementById('lang-toggle');
     if (langToggle) { langToggle.textContent = copy.toggleText; langToggle.setAttribute('aria-label', copy.toggleLabel); }
     updateContactCopy(lang);
   }

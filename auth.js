@@ -305,6 +305,106 @@ async function handleResetPasswordSubmit(event, lang = 'fr') {
 }
 
 /**
+ * Créer une demande de réinitialisation mot de passe (ticket)
+ */
+async function createPasswordResetRequest(reason = '', lang = 'fr') {
+  try {
+    const user = await window.MyEODAuth.getCurrentUser();
+    
+    if (!user) {
+      return { success: false, error: 'Utilisateur non authentifié' };
+    }
+
+    // Insérer le ticket dans Supabase
+    const { data, error } = await window.MyEODAuth.supabase
+      .from('password_reset_requests')
+      .insert({
+        user_id: user.id,
+        user_email: user.email,
+        reason: reason || null,
+        status: 'pending',
+        created_at: new Date().toISOString(),
+        language: lang
+      });
+
+    if (error) {
+      console.error('Erreur création ticket:', error.message);
+      return { success: false, error: error.message };
+    }
+
+    // Envoyer notification Slack
+    const slackSuccess = await window.MyEODSlack.notifyPasswordResetRequest(
+      user.email,
+      reason,
+      lang
+    );
+
+    if (!slackSuccess) {
+      console.warn('Notification Slack non envoyée, mais ticket créé');
+    }
+
+    return { success: true, email: user.email };
+  } catch (err) {
+    console.error('Erreur createPasswordResetRequest:', err);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * Gérer la soumission du formulaire "Demander réinitialisation"
+ */
+async function handlePasswordResetRequestSubmit(event, lang = 'fr') {
+  event.preventDefault();
+
+  const reasonInput = document.getElementById('reason');
+  const submitBtn = event.target.querySelector('button[type="submit"]');
+  const messageEl = document.getElementById('reset-message');
+
+  // Désactiver le bouton
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = lang === 'fr' ? 'Envoi en cours...' : 'Sending...';
+  }
+
+  hideLoginError();
+  if (messageEl) messageEl.style.display = 'none';
+
+  const reason = reasonInput ? reasonInput.value.trim() : '';
+  const result = await createPasswordResetRequest(reason, lang);
+
+  if (result.success) {
+    // Afficher message de succès
+    if (messageEl) {
+      messageEl.textContent = lang === 'fr'
+        ? `✅ Demande envoyée ! Christelle vous contactera à ${result.email} pour réinitialiser votre mot de passe.`
+        : `✅ Request sent! Christelle will contact you at ${result.email} to reset your password.`;
+      messageEl.style.display = 'block';
+      messageEl.style.background = '#f0fdf4';
+      messageEl.style.borderColor = '#86efac';
+      messageEl.style.color = '#166534';
+    }
+
+    // Vider le formulaire
+    if (reasonInput) reasonInput.value = '';
+
+    // Redirection après 3 secondes
+    setTimeout(() => {
+      window.location.href = lang === 'fr' 
+        ? 'acces-collaborateurs.html'
+        : 'collaborator-access.html';
+    }, 3000);
+  } else {
+    showLoginError(result.error);
+
+    // Réactiver le bouton
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = lang === 'fr' ? 'Envoyer la demande' : 'Send request';
+    }
+  }
+}
+
+/**
  * Initialiser la page de login au chargement
  */
 document.addEventListener('DOMContentLoaded', async function() {
@@ -337,6 +437,15 @@ document.addEventListener('DOMContentLoaded', async function() {
       handleResetPasswordSubmit(e, lang);
     });
   }
+
+  // Attacher l'événement du formulaire "demande réinitialisation" si présent
+  const resetRequestForm = document.getElementById('reset-request-form');
+  if (resetRequestForm) {
+    resetRequestForm.addEventListener('submit', function(e) {
+      const lang = document.documentElement.lang || 'fr';
+      handlePasswordResetRequestSubmit(e, lang);
+    });
+  }
 });
 
 // Exporter pour utilisation
@@ -350,5 +459,7 @@ window.MyEODLogin = {
   sendPasswordResetEmail,
   handleForgotPasswordSubmit,
   updatePassword,
-  handleResetPasswordSubmit
+  handleResetPasswordSubmit,
+  createPasswordResetRequest,
+  handlePasswordResetRequestSubmit
 };

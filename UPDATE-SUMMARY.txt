@@ -1,0 +1,77 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    📦 MISE À JOUR CSS — Panel décalé                       ║
+║                                                                            ║
+║  Status: ✅ APPLIQUÉ ET TESTÉ                                             ║
+║  Date: 2026-06-04                                                         ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+🎯 PROBLÈME RÉSOLU
+
+Bloc tableau (hero-panel) qui se superposait au titre
+"Des services opérationnels, activables à la demande"
+sur la page services.html
+
+════════════════════════════════════════════════════════════════════════════
+
+✅ SOLUTION APPLIQUÉE
+
+Fichier modifié : styles-shared.css (ligne 269-276)
+
+Changements :
+  • gap : 4rem → 5rem (+1rem d'espace)
+  • grid-template-columns : Ajusté pour meilleur équilibre
+  • margin-right : +2rem (décalage vers la droite)
+
+Résultat :
+  ✓ Panel décalé vers la droite
+  ✓ Pas de superposition avec le titre
+  ✓ Meilleur équilibre visuel
+  ✓ Responsive intact
+
+════════════════════════════════════════════════════════════════════════════
+
+📋 FICHIER À RÉUPLOADER SUR OVH
+
+✅ styles-shared.css (VERSION MISE À JOUR)
+
+C'est le SEUL fichier à remplacer sur OVH (tous les autres restent identiques)
+
+════════════════════════════════════════════════════════════════════════════
+
+🚀 DÉPLOIEMENT
+
+Méthode simple :
+1. Télécharger styles-shared.css depuis /outputs/
+2. Via FTP → Remplacer le fichier existant sur OVH
+3. Vider cache navigateur (Ctrl+Shift+Del)
+4. Tester : https://myexpertondemand.com/services.html
+
+Taille fichier : 15 KB (inchangée)
+
+════════════════════════════════════════════════════════════════════════════
+
+📊 FICHIERS CONCERNÉS
+
+  Affectés par ce changement :
+  ✅ services.html (seule page avec .hero)
+
+  Non affectés (mais utilisent le CSS) :
+  ✓ service-bridge.html
+  ✓ service-visual-intelligence.html
+  ✓ service-staffing-augmente.html
+  ✓ service-marque-blanche.html
+  ✓ service-medias-reportages.html
+
+════════════════════════════════════════════════════════════════════════════
+
+✨ BONUS
+
+Le changement s'applique automatiquement à toutes les pages
+puisqu'elles partagent le CSS centralisé styles-shared.css
+
+════════════════════════════════════════════════════════════════════════════
+
+Status : 🟢 PRÊT POUR DÉPLOIEMENT
+
+Fichier optimisé et testé — Copier-coller sur OVH
+

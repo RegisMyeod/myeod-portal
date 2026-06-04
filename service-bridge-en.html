@@ -1,555 +1,212 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="fr" id="html-root">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>MyEOD — BRiDGE</title>
-<style>
-    @font-face{font-family:'MazzardM';src:url('MazzardM-Thin.woff2') format('woff2');font-weight:100;font-style:normal;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-ExtraLight.woff2') format('woff2');font-weight:200;font-style:normal;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-ExtraLightItalic.woff2') format('woff2');font-weight:200;font-style:italic;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-Light.woff2') format('woff2');font-weight:300;font-style:normal;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-LightItalic.woff2') format('woff2');font-weight:300;font-style:italic;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-Regular.woff2') format('woff2');font-weight:400;font-style:normal;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-Italic.woff2') format('woff2');font-weight:400;font-style:italic;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-Medium.woff2') format('woff2');font-weight:500;font-style:normal;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-MediumItalic.woff2') format('woff2');font-weight:500;font-style:italic;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-SemiBoldItalic.woff2') format('woff2');font-weight:600;font-style:italic;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-BoldItalic.woff2') format('woff2');font-weight:700;font-style:italic;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-ExtraBold.woff2') format('woff2');font-weight:800;font-style:normal;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-ExtraBoldItalic.woff2') format('woff2');font-weight:800;font-style:italic;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-Black.woff2') format('woff2');font-weight:900;font-style:normal;}
-    @font-face{font-family:'MazzardM';src:url('MazzardM-BlackItalic.woff2') format('woff2');font-weight:900;font-style:italic;}
-
-    :root{
-      --black:#0a0a0a;
-      --white:#ffffff;
-      --gray-50:#f8f8f8;
-      --gray-100:#f0f0f0;
-      --gray-200:#e0e0e0;
-      --gray-300:#c7c7c7;
-      --gray-400:#9a9a9a;
-      --gray-500:#777777;
-      --gray-600:#555555;
-      --text:#1a1a1a;
-      --font:'MazzardM',sans-serif;
-      --radius:2px;
-    }
-
-    *{box-sizing:border-box;margin:0;padding:0;}
-    html{scroll-behavior:smooth;}
-    body{min-height:100vh;background:var(--white);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.65;}
-    a{color:inherit;text-decoration:none;}
-    .myeod-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;border-bottom:1px solid var(--gray-200);background:var(--white);position:sticky;top:0;z-index:100;}
-    .myeod-header-logo{height:72px;display:inline-flex;align-items:center;text-decoration:none;color:inherit;}
-    .myeod-header-logo svg{height:100%;width:auto;display:block;}
-    .brand-word{font-size:1.6rem;font-weight:800;letter-spacing:-0.04em;color:var(--black);}
-    .myeod-header-right{display:flex;align-items:center;gap:0.65rem;margin-left:auto;}
-    .btn-nav-back{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;font-family:var(--font);font-size:0.9rem;font-weight:700;color:var(--gray-600);background:none;border:1px solid var(--gray-200);border-radius:2px;cursor:pointer;transition:border-color .2s,color .2s;}
-    .btn-nav-back:hover{border-color:var(--black);color:var(--black);}
-
-    .myeod-footer{width:100%;background:#ffffff;border-top:1px solid var(--gray-100);color:var(--gray-400);font-family:var(--font);padding:1.25rem 2rem 1.35rem;}
-    .myeod-footer-inner{width:min(100%,1120px);margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:0.75rem;text-align:center;}
-    .myeod-footer-brand{display:flex;flex-direction:column;align-items:center;gap:0.24rem;line-height:1.5;}
-    .myeod-footer-title{font-size:0.64rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray-600);}
-    .myeod-footer-meta{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:0.45rem;font-size:0.56rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray-400);}
-    .myeod-footer-countries{display:inline-flex;align-items:center;white-space:nowrap;}
-    .myeod-footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:0.35rem 0.9rem;max-width:980px;padding-top:0.1rem;}
-    .myeod-footer-links a{color:var(--gray-400);text-decoration:none;font-size:0.56rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;transition:color 0.2s;}
-    .myeod-footer-links a:hover,.myeod-footer-links a:focus-visible{color:var(--gray-600);outline:none;}
-    .myeod-footer-bottom{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:0.35rem 0.65rem;font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray-300);}
-
-    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:.72rem 1.05rem;border:1px solid var(--black);background:var(--black);color:var(--white);font-size:.68rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;cursor:pointer;transition:all .18s ease;}
-    .btn:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(0,0,0,.12);}
-    .btn.secondary{background:var(--white);color:var(--black);border-color:var(--gray-200);}
-    .btn.secondary:hover{border-color:var(--black);box-shadow:none;}
-
-    main{overflow:hidden;}
-    .section{width:min(1120px,calc(100% - 40px));margin:0 auto;padding:5.2rem 0;}
-    .section.compact{padding:3.8rem 0;}
-    .hero{min-height:calc(100vh - 76px);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);align-items:center;gap:4rem;padding:5rem 0;}
-    .kicker{margin-bottom:1.1rem;color:var(--gray-500);font-size:.66rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;}
-    h1{max-width:820px;font-size:clamp(2.55rem,6vw,5.6rem);line-height:.96;letter-spacing:-.065em;font-weight:800;color:var(--black);}
-    h2{max-width:820px;margin-bottom:1.25rem;font-size:clamp(1.85rem,3.5vw,3.35rem);line-height:1.02;letter-spacing:-.045em;font-weight:800;color:var(--black);}
-    h3{margin-bottom:.55rem;font-size:1rem;line-height:1.25;letter-spacing:.02em;font-weight:800;color:var(--black);}
-    p{color:var(--gray-600);font-size:1rem;line-height:1.78;}
-    .lead{margin-top:1.45rem;max-width:730px;font-size:1.18rem;line-height:1.75;color:var(--gray-600);}
-    .hero-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2.2rem;}
-    .hero-panel{border:1px solid var(--gray-200);background:var(--gray-50);padding:2rem;}
-    .acronym{margin-bottom:1.4rem;padding-bottom:1.4rem;border-bottom:1px solid var(--gray-200);}
-    .acronym-title{font-size:.72rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--gray-500);}
-    .acronym-line{margin-top:.4rem;font-size:1.34rem;line-height:1.25;letter-spacing:-.02em;color:var(--black);font-weight:800;}
-    .hero-facts{display:grid;gap:.85rem;margin-top:1.5rem;}
-    .fact{display:flex;justify-content:space-between;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--gray-200);}
-    .fact:last-child{border-bottom:0;}
-    .fact-label{color:var(--gray-500);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;}
-    .fact-value{color:var(--black);font-weight:800;text-align:right;}
-    .intro-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:3rem;align-items:start;}
-    .quote-block{border-left:3px solid var(--black);padding:1.2rem 0 1.2rem 1.35rem;color:var(--black);font-size:1.28rem;line-height:1.55;letter-spacing:-.02em;font-weight:600;}
-    .value-chain{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:2rem;background:var(--gray-200);border:1px solid var(--gray-200);}
-    .value-step{min-height:215px;padding:1.45rem;background:var(--white);display:flex;flex-direction:column;gap:.75rem;}
-    .step-num{width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:var(--black);color:var(--white);font-size:.68rem;font-weight:800;letter-spacing:.1em;}
-    .core-band{background:var(--black);color:var(--white);}
-    .core-band .section{padding:5rem 0;}
-    .core-band h2,.core-band h3{color:var(--white);}
-    .core-band p{color:rgba(255,255,255,.72);}
-    .core-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:2rem;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.18);}
-    .core-card{min-height:300px;padding:1.7rem;background:#111111;}
-    .core-card .tag{display:inline-flex;margin-bottom:1rem;padding:.28rem .48rem;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.7);font-size:.6rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;}
-    .module-row{display:grid;grid-template-columns:240px minmax(0,1fr) 150px;gap:1.25rem;align-items:start;padding:1.35rem 0;border-bottom:1px solid var(--gray-200);}
-    .module-row:first-of-type{border-top:1px solid var(--gray-200);}
-    .module-price{text-align:right;font-weight:800;color:var(--black);}
-    .module-row.is-dev .card-meta,.module-row.is-dev h3,.module-row.is-dev p{font-style:italic;}
-    .before-after{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem;}
-    .ba-card{border:1px solid var(--gray-200);padding:1.6rem;background:var(--white);}
-    .ba-card.after{background:var(--gray-50);border-color:var(--black);}
-    .list{display:grid;gap:.65rem;margin-top:1rem;list-style:none;}
-    .list li{position:relative;padding-left:1.2rem;color:var(--gray-600);line-height:1.65;}
-    .list li::before{content:"";position:absolute;left:0;top:.72em;width:5px;height:5px;background:var(--black);}
-    .deployment{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:2rem;align-items:center;border:1px solid var(--gray-200);padding:2rem;background:var(--gray-50);}
-    .device{border:1px solid var(--gray-200);background:var(--white);padding:1.5rem;}
-    .device-line{display:flex;justify-content:space-between;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--gray-200);}
-    .device-line:last-child{border-bottom:0;}
-    .pack{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(280px,.95fr);gap:2rem;margin-top:2rem;border:1px solid var(--gray-200);background:var(--gray-50);padding:2rem;}
-    .pack-items{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem;}
-    .pill{display:inline-flex;align-items:center;border:1px solid var(--gray-200);background:var(--white);padding:.45rem .65rem;color:var(--black);font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;}
-    .discount-band{margin-top:2rem;border:1px solid var(--black);background:var(--white);padding:1.6rem;}
-    .discount-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:1rem;background:var(--gray-200);border:1px solid var(--gray-200);}
-    .discount-card{background:var(--gray-50);padding:1.25rem;min-height:150px;}
-    .discount-card.strong{background:var(--black);}
-    .discount-card.strong h3,.discount-card.strong p,.discount-card.strong .card-meta{color:var(--white);}
-    .card-meta{margin-bottom:.75rem;color:var(--gray-500);font-size:.62rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;}
-    .extensions{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem;}
-    .extension-card{border:1px solid var(--gray-200);padding:1.35rem;min-height:210px;}
-    .lifecycle-dev-band{margin-top:2.4rem;border:1px solid var(--black);background:var(--gray-50);}
-    .lifecycle-dev-head{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:2rem;align-items:start;padding:2rem;border-bottom:1px solid var(--black);background:var(--white);}
-    .lifecycle-status{display:inline-flex;margin-bottom:.9rem;padding:.32rem .55rem;background:var(--black);color:var(--white);font-size:.58rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;}
-    .lifecycle-title{font-size:clamp(1.45rem,2.7vw,2.35rem);line-height:1.03;letter-spacing:-.035em;font-weight:800;color:var(--black);}
-    .lifecycle-dev-head p{font-size:1.02rem;color:var(--gray-600);}
-    .lifecycle-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--gray-200);}
-    .lifecycle-card{position:relative;min-height:190px;padding:1.35rem;background:var(--white);display:flex;flex-direction:column;justify-content:space-between;}
-    .lifecycle-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:var(--black);opacity:.85;}
-    .lifecycle-card h3{margin-top:.25rem;margin-bottom:.6rem;font-size:.92rem;}
-    .lifecycle-card p{font-size:.86rem;line-height:1.65;color:var(--gray-600);}
-    .lifecycle-num{color:var(--gray-400);font-size:.58rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;}
-    .lifecycle-note{padding:1.35rem 2rem;background:var(--black);color:var(--white);}
-    .lifecycle-note p{color:rgba(255,255,255,.74);font-size:.95rem;}
-    .cta{text-align:center;padding:5rem 2rem;background:var(--black);color:var(--white);}
-    .cta h2{margin-left:auto;margin-right:auto;color:var(--white);}
-    .cta p{max-width:720px;margin:0 auto;color:rgba(255,255,255,.72);}
-    .cta .btn{margin-top:2rem;border-color:var(--white);background:var(--white);color:var(--black);}
-
-    @media(max-width:900px){
-      .hero,.intro-grid,.deployment,.pack{grid-template-columns:1fr;}
-      .value-chain,.core-grid,.extensions,.discount-grid,.lifecycle-grid{grid-template-columns:1fr 1fr;}
-      .lifecycle-dev-head{grid-template-columns:1fr;}
-      .module-row{grid-template-columns:1fr;}
-      .module-price{text-align:left;}
-    }
-    @media(max-width:640px){
-      .myeod-header{padding:.9rem 1rem;}
-      .myeod-header-logo{height:54px;}
-      .myeod-footer{padding:1.2rem 1rem 1.35rem;}
-      .myeod-footer-links{gap:0.45rem 0.75rem;}
-      .myeod-footer-meta{gap:0.35rem;}
-      .section{width:min(100% - 28px,1120px);padding:3.5rem 0;}
-      .hero{padding:3.2rem 0;}
-      .value-chain,.core-grid,.before-after,.extensions,.discount-grid,.lifecycle-grid{grid-template-columns:1fr;}
-      .lifecycle-dev-head{padding:1.35rem;}
-      .lifecycle-note{padding:1.25rem;}
-      .lifecycle-card{min-height:165px;}
-      .pack,.deployment{padding:1.3rem;}
-    }
-  
-    .lang-switch{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:34px;
-      padding:.55rem .72rem;
-      border:1px solid var(--gray-200);
-      background:var(--white);
-      color:var(--black);
-      font-family:var(--font);
-      font-size:.62rem;
-      font-weight:800;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      cursor:pointer;
-      transition:border-color .18s ease,color .18s ease,background .18s ease;
-      text-decoration:none;
-      min-width:68px;
-    }
-    .lang-switch:hover,
-    .lang-switch:focus-visible{
-      border-color:var(--black);
-      background:var(--black);
-      color:var(--white);
-      outline:none;
-    }
-</style>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>MyEOD — BRiDGE</title>
+  <link rel="stylesheet" href="styles-shared.css"/>
+  <style>
+    /* Styles spécifiques à BRiDGE */
+    .breadcrumb{padding:1.5rem 2.5rem 0;}
+    .breadcrumb-sep{margin:0 .3rem;}
+  </style>
 </head>
 <body>
-<header class="myeod-header">
-<a aria-label="Back to MyEOD home" class="myeod-header-logo" href="index-en.html">
-<svg data-name="Calque 1" id="Calque_1" viewbox="0 0 262.15 96.47" xmlns="http://www.w3.org/2000/svg"><defs><style> .cls-1 { fill: #1e1717; } </style></defs><path class="cls-1" d="M117.46,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM114.76,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"></path><path class="cls-1" d="M121.64,66l1.92,2.55h-.51l-1.65-2.22-1.08,1.44-.58.77h-.5l1.9-2.55-1.75-2.33h.51l1.48,2,.79-1.03.72-.97h.51l-1.77,2.33Z"></path><path class="cls-1" d="M128.51,63.91c.37.21.66.51.87.89.21.38.31.82.31,1.31s-.1.92-.31,1.31-.5.68-.87.89c-.37.21-.8.32-1.27.32s-.89-.1-1.25-.31c-.37-.21-.64-.49-.83-.84v3.44h-.42v-7.26h.4v1.09c.18-.36.45-.64.83-.85.37-.21.8-.32,1.27-.32s.9.11,1.27.32ZM128.28,67.98c.31-.18.56-.43.73-.75.17-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.18-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75s-.26.7-.26,1.12.09.79.26,1.12c.18.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"></path><path class="cls-1" d="M134.61,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM131.91,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"></path><path class="cls-1" d="M140.28,63.89l-.19.36c-.24-.14-.52-.22-.82-.22s-.58.09-.84.27c-.25.18-.45.42-.6.73-.14.31-.22.65-.22,1.02v2.51h-.42v-4.89h.4v1.09c.17-.36.4-.63.7-.84.29-.2.62-.3.98-.3.39,0,.72.09,1,.27Z"></path><path class="cls-1" d="M144.26,68.38c-.36.18-.69.27-1,.27-.49,0-.84-.13-1.04-.39s-.3-.65-.3-1.17v-3.04h-1.05v-.39h1.05v-1.44l.42-.04v1.48h1.69v.39h-1.69v3.04c0,.39.06.68.19.88s.37.3.73.3c.11,0,.25-.02.41-.07s.3-.1.44-.17l.16.35Z"></path><path class="cls-1" d="M149.11,68.32c-.38-.22-.68-.52-.89-.9-.21-.39-.32-.82-.32-1.3s.11-.92.32-1.3c.21-.39.51-.69.89-.9s.81-.33,1.28-.33.91.11,1.29.33.68.52.89.9c.21.39.32.82.32,1.3s-.11.91-.32,1.3c-.21.39-.51.69-.89.9-.38.22-.81.33-1.29.33s-.9-.11-1.28-.33ZM151.46,67.97c.32-.18.57-.44.75-.77.18-.33.27-.69.27-1.09s-.09-.77-.27-1.09c-.18-.33-.43-.58-.75-.77-.32-.18-.67-.28-1.07-.28s-.75.09-1.07.28c-.32.18-.56.44-.74.77-.18.33-.27.69-.27,1.09s.09.77.27,1.09c.18.33.43.58.74.77s.67.28,1.07.28.75-.09,1.07-.28Z"></path><path class="cls-1" d="M158.24,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"></path><path class="cls-1" d="M168.02,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM166.61,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"></path><path class="cls-1" d="M173.27,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM170.57,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"></path><path class="cls-1" d="M182.93,64.16c.34.37.51.89.51,1.55v2.85h-.42v-2.83c0-.55-.13-.98-.4-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.85.24s-.45.37-.59.65c-.14.27-.21.58-.21.92v2.75h-.42v-2.83c0-.55-.13-.98-.39-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.84.24-.25.16-.45.37-.59.65-.14.27-.21.58-.21.92v2.75h-.42v-4.89h.4v.92c.18-.31.41-.55.71-.73s.62-.26.96-.26c.44,0,.82.1,1.12.31s.52.51.65.89c.17-.38.42-.67.74-.89.32-.21.68-.32,1.08-.32.6,0,1.07.19,1.41.56Z"></path><path class="cls-1" d="M189.84,63.67v4.89h-.4v-1.09c-.19.36-.47.65-.85.85-.37.21-.79.31-1.26.31s-.9-.11-1.27-.32c-.37-.21-.66-.51-.86-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.86-.89.37-.21.79-.32,1.27-.32s.89.11,1.26.32c.37.21.65.5.84.86v-1.1h.41ZM188.43,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"></path><path class="cls-1" d="M195.5,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"></path><path class="cls-1" d="M202.44,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM201.03,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"></path><polygon class="cls-1" points="72.23 42.73 72.11 42.9 72.03 43 71.95 42.9 71.83 42.73 61.05 27.8 59.71 27.8 59.71 52.29 60.79 52.29 60.79 29.98 60.79 29.5 60.79 29.21 60.96 29.45 61.23 29.83 71.98 44.65 72.12 44.65 82.86 29.8 83.14 29.41 83.31 29.18 83.31 29.47 83.31 29.94 83.31 52.29 84.35 52.29 84.35 27.8 83.01 27.8 72.23 42.73"></polygon><polygon class="cls-1" points="111.97 27.8 102.01 50.45 101.87 50.78 101.78 50.98 101.69 50.78 101.56 50.45 99.23 44.91 91.91 27.8 90.81 27.8 101.19 52.04 101.22 52.1 101.23 52.14 101.22 52.17 101.19 52.23 94.12 68.67 95.22 68.67 113.07 27.8 111.97 27.8"></polygon><polygon class="cls-1" points="42.39 28.9 41.61 28.05 28.25 39.6 28.25 40.35 41.61 51.97 42.39 51.11 29.97 40.31 29.58 39.97 29.97 39.63 42.39 28.9"></polygon><polygon class="cls-1" points="220.54 28.05 219.76 28.9 232.18 39.7 232.57 40.04 232.18 40.38 219.76 51.11 220.54 51.97 233.9 40.41 233.9 39.66 220.54 28.05"></polygon><path class="cls-1" d="M120.78,40.78c.22,2.98,1.23,5.34,3.03,7.07,1.79,1.73,4.12,2.6,6.97,2.6,1.76,0,3.44-.35,5.05-1.06,1.6-.7,2.84-1.63,3.7-2.79l1.44,1.2c-1.12,1.41-2.58,2.52-4.37,3.34-1.79.82-3.73,1.23-5.82,1.23-2.31,0-4.37-.53-6.2-1.59-1.83-1.06-3.25-2.52-4.28-4.4-1.03-1.87-1.54-4-1.54-6.37s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.32,4.23-4.37s3.87-1.59,6.18-1.59,4.46.49,6.27,1.47c1.81.98,3.2,2.35,4.18,4.11.98,1.76,1.47,3.8,1.47,6.1,0,.61-.02,1.07-.05,1.39h-17.93l.03-1.87h15.99c0-1.83-.43-3.44-1.27-4.85-.85-1.41-2.02-2.51-3.51-3.29-1.49-.78-3.21-1.18-5.17-1.18-2.79,0-5.08.86-6.87,2.57-1.79,1.71-2.8,3.97-3.03,6.75-.1.82,0,1.87,0,1.87Z"></path><path class="cls-1" d="M154.04,50.72c-1.84-1.06-3.28-2.52-4.33-4.4-1.04-1.87-1.56-3.98-1.56-6.32s.52-4.45,1.56-6.32c1.04-1.87,2.48-3.34,4.33-4.4,1.84-1.06,3.92-1.59,6.22-1.59s4.43.53,6.27,1.59,3.28,2.52,4.33,4.4c1.04,1.87,1.56,3.98,1.56,6.32s-.52,4.45-1.56,6.32c-1.04,1.87-2.48,3.34-4.33,4.4s-3.93,1.59-6.27,1.59-4.38-.53-6.22-1.59ZM165.46,49.04c1.54-.9,2.75-2.14,3.63-3.73.88-1.59,1.32-3.36,1.32-5.31s-.44-3.72-1.32-5.31c-.88-1.59-2.09-2.83-3.63-3.73-1.54-.9-3.27-1.35-5.19-1.35s-3.65.45-5.19,1.35c-1.54.9-2.74,2.14-3.6,3.73-.86,1.59-1.3,3.36-1.3,5.31s.43,3.72,1.3,5.31c.86,1.59,2.07,2.83,3.6,3.73,1.54.9,3.27,1.35,5.19,1.35s3.65-.45,5.19-1.35Z"></path><path class="cls-1" d="M202.44,18.23v33.64h-1.92l-.05-5.24c-.9,1.73-2.25,3.1-4.06,4.11-1.81,1.01-3.85,1.51-6.13,1.51s-4.32-.52-6.13-1.56c-1.81-1.04-3.22-2.49-4.23-4.35-1.01-1.86-1.51-3.97-1.51-6.34s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.31,4.23-4.35,1.81-1.04,3.85-1.56,6.13-1.56s4.31.5,6.1,1.49c1.79.99,3.14,2.36,4.04,4.09v-15.09h2.02ZM195.59,49.09c1.52-.86,2.71-2.08,3.56-3.65.85-1.57,1.27-3.38,1.27-5.43s-.43-3.86-1.27-5.43c-.85-1.57-2.04-2.79-3.56-3.65-1.52-.87-3.24-1.3-5.17-1.3s-3.69.43-5.19,1.3c-1.51.86-2.68,2.08-3.53,3.65s-1.27,3.38-1.27,5.43.42,3.86,1.27,5.43c.85,1.57,2.03,2.79,3.53,3.65,1.51.87,3.24,1.3,5.19,1.3s3.64-.43,5.17-1.3Z"></path></svg>
-</a>
-<div class="myeod-header-right">
-<div style="text-align:right;">
-<div style="font-family:'MazzardM',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#1a1a1a;">BRiDGE</div>
-<div style="font-family:'MazzardM',sans-serif;font-size:0.55rem;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:#9a9a9a;margin-top:2px;">Survey / project data structuring</div>
-</div>
-<button aria-label="Back" class="btn-nav-back" onclick="goBackToPreviousPage()" title="Back" type="button">←</button>
-<a aria-label="Version française" class="lang-switch" href="service-bridge.html">EN / FR</a></div>
-</header>
-<main>
-<section class="section hero">
-<div>
-<div class="kicker">BRiDGE · Survey/project data structuring</div>
-<h1>Transform your survey operations into project data assets.</h1>
-<p class="lead">BRiDGE structures survey/project data from the moment it is produced in the field, turning it into a permanent, traceable and reusable asset throughout the project lifecycle.</p>
-<div class="hero-actions">
-<a class="btn" href="#core">Discover the Core foundation</a>
-<a class="btn secondary" href="#survey">View the Survey modules</a>
-</div>
-</div>
-<aside aria-label="BRiDGE definition" class="hero-panel">
-<div class="acronym">
-<div class="acronym-title">BRiDGE</div>
-<div class="acronym-line">Built-in Remote Intelligence<br/>for Data-Governed Expertise</div>
-</div>
-<p>The Survey modules capture. The Data Lake remembers. Data Management secures reliability. Deliverables, QC, as-built, Life of Field and Decommissioning flow from it.</p>
-<div class="hero-facts">
-<div class="fact"><span class="fact-label">Platform core</span><span class="fact-value">Project Data Lake</span></div>
-<div class="fact"><span class="fact-label">Deployment</span><span class="fact-value">&lt; 15 min</span></div>
-<div class="fact"><span class="fact-label">Footprint</span><span class="fact-value">Read-only</span></div>
-<div class="fact"><span class="fact-label">Systems</span><span class="fact-value">Tool- and sensor-agnostic,<br/>full compatibility.</span></div>
-</div>
-</aside>
-</section>
-<section class="section compact" id="positionnement">
-<div class="intro-grid">
-<div>
-<div class="kicker">Strategic refocus</div>
-<h2>Survey data is the capital.</h2>
-</div>
-<div>
-<p class="quote-block">BRiDGE is a survey/project data structuring platform.</p>
-<p style="margin-top:1.4rem;">Most offshore environments start from the document. BRiDGE starts from raw survey data. Every captured data point is timestamped, classified, versioned, traceable and directly usable. Without BRiDGE, operations produce files. With BRiDGE, they produce an asset.</p>
-</div>
-</div>
-<div aria-label="BRiDGE value chain" class="value-chain">
-<article class="value-step">
-<span class="step-num">01</span>
-<h3>Survey Modules</h3>
-<p>Capture and qualify operational data in real time.</p>
-</article>
-<article class="value-step">
-<span class="step-num">02</span>
-<h3>Data Lake</h3>
-<p>Structures, classifies, versions and preserves every project data item.</p>
-</article>
-<article class="value-step">
-<span class="step-num">03</span>
-<h3>Data Management</h3>
-<p>Guarantees naming, integrity, document consistency, audit trail and project compliance.</p>
-</article>
-<article class="value-step">
-<span class="step-num">04</span>
-<h3>Operation</h3>
-<p>DPR, as-built, QC, DCC, Advisory, Life of Field and Decommissioning are fed by the Data Lake.</p>
-</article>
-</div>
-</section>
-<section class="core-band" id="core">
-<div class="section">
-<div class="kicker">Core · Data Lake · Data Management</div>
-<h2>Core: activation of the Data Lake, not just a subscription.</h2>
-<p class="lead">BRiDGE Core opens the project environment. It configures the Data Lake according to the CRS, QC thresholds and BRiDGE v2 taxonomy. It also activates Data Management: naming, file integrity, document structure and folder consistency according to client requirements.</p>
-<div class="core-grid">
-<article class="core-card">
-<span class="tag">Core module 1</span>
-<h3>Survey Modules</h3>
-<p>Survey modules capture data where it originates: positioning, LBL, USBL, calibrations, QC, SIMOPS and monitoring. Every field operation becomes structured, timestamped and qualified data from ingestion.</p>
-</article>
-<article class="core-card">
-<span class="tag">Core module 2</span>
-<h3>Data Lake</h3>
-<p>The BRiDGE Data Lake is not a shared folder. It is the operational memory of the project: every data item is classified, versioned, historized and queryable in real time.</p>
-</article>
-<article class="core-card">
-<span class="tag">Core module 3</span>
-<h3>Data Management</h3>
-<p>Data Management ensures that data remains clean, consistent and defensible: naming, integrity, structure, maturity, audit trail, document consistency and project compliance.</p>
-</article>
-</div>
-</div>
-</section>
-<section class="section" id="survey">
-<div class="kicker">Operational engine</div>
-<h2>Survey modules feed the Data Lake.</h2>
-<p class="lead">Each module is not only a control function: it is a qualified data source for the project Data Lake.</p>
-<div class="module-row">
-<div>
-<div class="card-meta">Positioning QC</div>
-<h3>Independent cross-check of positioning outputs</h3>
-</div>
-<p>Validation of crosslines, repeatability, USBL/GNSS deltas and acceptance criteria. GREEN/AMBER/RED alerts configured against your specifications. Every alert and validation enters the Data Lake with full timestamping and traceability.</p>
-<div class="module-price">€3,000 excl. VAT / month</div>
-</div>
-<div class="module-row">
-<div>
-<div class="card-meta">Mob &amp; Calibration</div>
-<h3>Independent validation at mobilization</h3>
-</div>
-<p>Verification of sensor offsets, analysis of USBL residuals, comparison of redundant measurements and systematic expert review before the first operational cast. Validated certificates become the project’s Data Lake reference.</p>
-<div class="module-price">€3,500 excl. VAT / month</div>
-</div>
-<div class="module-row">
-<div>
-<div class="card-meta">Acoustic LBL</div>
-<h3>A second set of eyes on acoustic positioning</h3>
-</div>
-<p>Independent review of LBL outputs, baseline cross-checks, detection of suspect transponders and validation of SVP profiles. Every validation decision is capitalized in the project Data Lake.</p>
-<div class="module-price">€3,000 excl. VAT / month</div>
-</div>
-<div class="module-row">
-<div>
-<div class="card-meta">SIMOPS / COMOPS</div>
-<h3>Structured multi-vessel context</h3>
-</div>
-<p>Monitoring of simultaneous operations and proximity contexts. Events, decisions and operational windows are historized for analysis, documentary defense and lessons learned.</p>
-<div class="module-price">€5,000 excl. VAT / month</div>
-</div>
-<div class="module-row is-dev">
-<div>
-<div class="card-meta">MRU Monitoring</div>
-<h3>Motion conditions visible from shore — under development</h3>
-</div>
-<p>MRU data ingestion via Edge Device, real-time transmission to shore dashboard, automatic alerts on installation criteria and complete HSE audit trail in the Data Lake. Module under development.</p>
-<div class="module-price">To be defined</div>
-</div>
-</section>
-<section class="section compact">
-<div class="kicker">Impact</div>
-<h2>From disposable file to data asset.</h2>
-<div class="before-after">
-<article class="ba-card">
-<div class="card-meta">Before BRiDGE</div>
-<h3>Files</h3>
-<ul class="list">
-<li>Exports scattered across shared folders.</li>
-<li>Duplicated, overwritten or context-orphaned data.</li>
-<li>QC and decisions that are hard to defend several weeks after the operation.</li>
-<li>Deliverables produced through re-entry or manual consolidation.</li>
-</ul>
-</article>
-<article class="ba-card after">
-<div class="card-meta">With BRiDGE</div>
-<h3>A project asset</h3>
-<ul class="list">
-<li>Classified, versioned, traceable and queryable data.</li>
-<li>Usable audit trail in the event of an operational or documentary dispute.</li>
-<li>Deliverables fed by Data Lake aggregation.</li>
-<li>Reusable capital for as-built, Life of Field and future campaigns.</li>
-</ul>
-</article>
-</div>
-</section>
-<section class="section compact">
-<div class="deployment">
-<div>
-<div class="kicker">Technical differentiation</div>
-<h2>Zero footprint. Zero IT approval. Zero system modification.</h2>
-<p>BRiDGE connects to the existing survey network via a preconfigured Edge Device. It remains agnostic to the tools and sensors already in place, without intrusive installation or modification of the acquisition chain. It reads, transmits and structures data. These functionalities and hardware components are currently under development, with prototyping in progress. We are looking for interested projects to beta-test these new features on a controlled scope before industrialization.</p>
-</div>
-<div class="device">
-<div class="device-line"><strong>Connection</strong><span>RJ45 · read-only</span></div>
-<div class="device-line"><strong>Power</strong><span>USB-C · low consumption</span></div>
-<div class="device-line"><strong>Deployment</strong><span>&lt; 15 minutes</span></div>
-<div class="device-line"><strong>IT</strong><span>Plug &amp; Play</span></div>
-<div class="device-line"><strong>Flow</strong><span>Encrypted toward an isolated project environment</span></div>
-<div class="device-line"><strong>Status</strong><span>Features &amp; hardware under development</span></div>
-<div class="device-line"><strong>Beta</strong><span>Pilot projects sought</span></div>
-</div>
-</div>
-</section>
-<section class="section compact">
-<div class="kicker">Entry offer</div>
-<h2>Recommended profile: Survey Only.</h2>
-<p class="lead">To start with BRiDGE on an immediately operational scope, Survey Only combines the Core foundation, the Data Lake, Data Management and critical Survey modules.</p>
-<div class="pack">
-<div>
-<h3>Survey Only = Core + Data Lake + Data Management + Critical Survey modules</h3>
-<div class="pack-items">
-<span class="pill">Core foundation</span>
-<span class="pill">Geodesy &amp; CRS</span>
-<span class="pill">Positioning QC</span>
-<span class="pill">Mob &amp; Calibration</span>
-<span class="pill">Acoustic LBL</span>
-</div>
-</div>
-<div>
-<p>Indicative monthly fee:<strong>€13,500 – €17,000 excl. VAT / month</strong>.<br/>Estimated value of one avoided event:<strong>€500,000 – €1,500,000 excl. VAT</strong>.<br/>Coverage ratio:<strong>x50 to x70</strong>.
-          </p>
-</div>
-</div>
-</section>
-<section class="section compact">
-<div class="kicker">Extensions · Industrial roadmap</div>
-<h2>BRiDGE extends its Data Lake across the entire industrial lifecycle.</h2>
-<p class="lead">Extensions are no longer presented as simple peripheral functions: they become a structuring development path. BRiDGE is currently developing complementary modules to connect survey/project data to the key phases of industrial projects, from tendering through to decommissioning.</p>
-<div aria-label="Complementary BRiDGE modules under development" class="lifecycle-dev-band">
-<div class="lifecycle-dev-head">
-<div>
-<span class="lifecycle-status">Under development</span>
-<div class="lifecycle-title">Complementary modules to cover the entire project lifecycle.</div>
-</div>
-<p>Objective: make BRiDGE a data continuity layer between commercial, technical, operational and asset phases. The modules are being designed and prototyped, with projects sought to contribute to the first use cases and field tests.</p>
-</div>
-<div class="lifecycle-grid">
-<article class="lifecycle-card">
-<div>
-<div class="lifecycle-num">Phase 01</div>
-<h3>Tendering</h3>
-<p>Structuring assumptions, constraints, risks, tender data and lessons learned that can be mobilized from the offer stage.</p>
-</div>
-</article>
-<article class="lifecycle-card">
-<div>
-<div class="lifecycle-num">Phase 02</div>
-<h3>Engineering</h3>
-<p>Connection between field data, technical databases, project references, CRS, interfaces and design requirements.</p>
-</div>
-</article>
-<article class="lifecycle-card">
-<div>
-<div class="lifecycle-num">Phase 03</div>
-<h3>Procurement</h3>
-<p>Support for tracking critical supplies, supplier files, document compliance and equipment traceability.</p>
-</div>
-</article>
-<article class="lifecycle-card">
-<div>
-<div class="lifecycle-num">Phase 04</div>
-<h3>Commissioning</h3>
-<p>Capitalization of tests, validations, punch items, commissioning files and compliance evidence before operational handover.</p>
-</div>
-</article>
-<article class="lifecycle-card">
-<div>
-<div class="lifecycle-num">Phase 05</div>
-<h3>Asset Management</h3>
-<p>Transformation of the project Data Lake into an usable asset base for monitoring, inspections, modifications and technical arbitration.</p>
-</div>
-</article>
-<article class="lifecycle-card">
-<div>
-<div class="lifecycle-num">Phase 06</div>
-<h3>Life of Field Monitoring</h3>
-<p>Maintenance of as-maintained data, historized and comparable to initial campaigns, to track the asset’s evolution over time.</p>
-</div>
-</article>
-<article class="lifecycle-card">
-<div>
-<div class="lifecycle-num">Phase 07</div>
-<h3>Decommissioning</h3>
-<p>Preparation of end-of-life campaigns from a clean, traceable and directly usable project history.</p>
-</div>
-</article>
-<article class="lifecycle-card">
-<div>
-<div class="lifecycle-num">Continuity</div>
-<h3>Industrial Lifecycle Data Lake</h3>
-<p>A common data thread linking decisions, deliverables, evidence, risks and lessons learned across the entire industrial lifecycle.</p>
-</div>
-</article>
-</div>
-<div class="lifecycle-note">
-<p>This roadmap complements the existing Survey modules: BRiDGE retains its field/Data Lake foundation while progressively extending its value to tendering, engineering, procurement, commissioning, asset management, operations and decommissioning teams.</p>
-</div>
-</div>
-<div class="extensions">
-<article class="extension-card">
-<h3>Automatic deliverables</h3>
-<p>DPR, as-built and QC reports generated by Data Lake aggregation, without re-entry.</p>
-</article>
-<article class="extension-card">
-<h3>BRiDGE DCC</h3>
-<p>Completeness and document consistency audit from the project Data Lake.</p>
-</article>
-<article class="extension-card">
-<h3>Advisory</h3>
-<p>Expert analysis fed by structured lessons learned from previous projects.</p>
-</article>
-<article class="extension-card">
-<h3>Life of Field &amp; Decom</h3>
-<p>Maintenance of an as-maintained data asset through to decommissioning phases.</p>
-</article>
-</div>
-</section>
-<section class="section compact">
-<div aria-label="BRiDGE pricing degression" class="discount-band">
-<div class="kicker">Modular degression</div>
-<h3>The more modules subscribed, the more competitive the consolidated pricing becomes.</h3>
-<p>BRiDGE favors multi-module commitments: the client benefits from a single project environment, a shared Data Lake and progressive degression on additional modules.</p>
-<div class="discount-grid">
-<article class="discount-card">
-<div class="card-meta">Project foundation</div>
-<h3>1 to 3 modules</h3>
-<p>Targeted activation, standard module pricing, suited to short campaigns or one-off needs.</p>
-</article>
-<article class="discount-card">
-<div class="card-meta">Optimized package</div>
-<h3>4 to 7 modules</h3>
-<p>Commercial consolidation in the quotation and mutualization of the Core / Data Lake / Data Management setup.</p>
-</article>
-<article class="discount-card strong">
-<div class="card-meta">Full BRiDGE</div>
-<h3>8 modules and more</h3>
-<p>Reinforced degression on additional modules, combinable with duration commitment depending on scope.</p>
-</article>
-</div>
-</div>
-</section>
-<section class="cta" id="contact">
-<h2>Your next mobilization can produce more than files.</h2>
-<p>Give us the mobilization date, project type and CRS. We configure the Core foundation, activate the project Data Lake and prepare the relevant Survey modules before mobilization.</p>
-<a class="btn" href="mailto:rmo@myexpertondemand.com?subject=BRiDGE%20-%20D%C3%A9monstration">Let’s take a moment together to assess your needs</a>
-</section>
-</main>
-<footer class="myeod-footer" role="contentinfo">
-<div class="myeod-footer-inner">
-<div class="myeod-footer-brand">
-<div class="myeod-footer-title">My Expert On Demand</div>
-<div class="myeod-footer-meta">
-<span>A brand represented by Ingénieurs Créatifs</span>
-<span class="myeod-footer-countries">France · Switzerland</span>
-</div>
-</div>
-<nav aria-label="Footer links" class="myeod-footer-links">
-<a href="services-en.html">Services</a>
-<a href="acces-client-en.html">Client access</a>
-<a href="acces-collaborateurs-en.html">Collaborator access</a>
-<a href="mentions-legales-impressum-en.html">Legal notice / Impressum</a>
-<a href="protection-donnees-en.html">Data protection</a>
-<a href="cookies-en.html#preferences">Cookies</a>
-<a href="conditions-generales-en.html">General terms and conditions</a>
-<a href="reclamation-mediation-en.html">Complaint / Mediation</a>
-<a href="contact-en.html">Contact</a>
-</nav>
-<div class="myeod-footer-bottom">
-<span>© 2026 MyEOD</span>
-<span>All rights reserved</span>
-</div>
-</div>
-</footer>
-<script>
-  function goBackToPreviousPage() {
-    window.location.href = 'services.html';
-  }
+  <!-- Header -->
+  <header class="myeod-header">
+    <a aria-label="Retour à l'accueil MyEOD" class="myeod-header-logo" href="index.html">
+      <svg id="Calque_1" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 262.15 96.47"><defs><style>.cls-1{fill:#1e1717;}</style></defs><path class="cls-1" d="M117.46,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM114.76,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M121.64,66l1.92,2.55h-.51l-1.65-2.22-1.08,1.44-.58.77h-.5l1.9-2.55-1.75-2.33h.51l1.48,2,.79-1.03.72-.97h.51l-1.77,2.33Z"/><path class="cls-1" d="M128.51,63.91c.37.21.66.51.87.89.21.38.31.82.31,1.31s-.1.92-.31,1.31-.5.68-.87.89c-.37.21-.8.32-1.27.32s-.89-.1-1.25-.31c-.37-.21-.64-.49-.83-.84v3.44h-.42v-7.26h.4v1.09c.18-.36.45-.64.83-.85.37-.21.8-.32,1.27-.32s.9.11,1.27.32ZM128.28,67.98c.31-.18.56-.43.73-.75.17-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.18-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75s-.26.7-.26,1.12.09.79.26,1.12c.18.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M134.61,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM131.91,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M140.28,63.89l-.19.36c-.24-.14-.52-.22-.82-.22s-.58.09-.84.27c-.25.18-.45.42-.6.73-.14.31-.22.65-.22,1.02v2.51h-.42v-4.89h.4v1.09c.17-.36.4-.63.7-.84.29-.2.62-.3.98-.3.39,0,.72.09,1,.27Z"/><path class="cls-1" d="M144.26,68.38c-.36.18-.69.27-1,.27-.49,0-.84-.13-1.04-.39s-.3-.65-.3-1.17v-3.04h-1.05v-.39h1.05v-1.44l.42-.04v1.48h1.69v.39h-1.69v3.04c0,.39.06.68.19.88s.37.3.73.3c.11,0,.25-.02.41-.07s.3-.1.44-.17l.16.35Z"/><path class="cls-1" d="M149.11,68.32c-.38-.22-.68-.52-.89-.9-.21-.39-.32-.82-.32-1.3s.11-.92.32-1.3c.21-.39.51-.69.89-.9s.81-.33,1.28-.33.91.11,1.29.33.68.52.89.9c.21.39.32.82.32,1.3s-.11.91-.32,1.3c-.21.39-.51.69-.89.9-.38.22-.81.33-1.29.33s-.9-.11-1.28-.33ZM151.46,67.97c.32-.18.57-.44.75-.77.18-.33.27-.69.27-1.09s-.09-.77-.27-1.09c-.18-.33-.43-.58-.75-.77-.32-.18-.67-.28-1.07-.28s-.75.09-1.07.28c-.32.18-.56.44-.74.77-.18.33-.27.69-.27,1.09s.09.77.27,1.09c.18.33.43.58.74.77s.67.28,1.07.28.75-.09,1.07-.28Z"/><path class="cls-1" d="M158.24,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"/><path class="cls-1" d="M168.02,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM166.61,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M173.27,63.88c.37.2.66.48.86.85.2.36.3.78.3,1.26,0,.13,0,.22,0,.29h-4.48c.05.61.25,1.1.62,1.45s.85.53,1.43.53c.36,0,.71-.07,1.04-.22s.58-.34.76-.57l.3.25c-.23.29-.53.52-.9.69s-.77.25-1.2.25c-.48,0-.9-.11-1.28-.33-.38-.22-.67-.52-.88-.91-.21-.39-.32-.82-.32-1.31s.1-.92.31-1.31c.21-.38.5-.68.87-.9.37-.22.8-.33,1.27-.33s.92.1,1.29.3ZM170.57,64.5c-.37.35-.58.82-.62,1.39h4.08c0-.38-.09-.71-.26-1s-.42-.52-.72-.68-.66-.24-1.06-.24c-.57,0-1.04.18-1.41.53Z"/><path class="cls-1" d="M182.93,64.16c.34.37.51.89.51,1.55v2.85h-.42v-2.83c0-.55-.13-.98-.4-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.85.24s-.45.37-.59.65c-.14.27-.21.58-.21.92v2.75h-.42v-2.83c0-.55-.13-.98-.39-1.28-.26-.3-.64-.45-1.13-.45-.31,0-.59.08-.84.24-.25.16-.45.37-.59.65-.14.27-.21.58-.21.92v2.75h-.42v-4.89h.4v.92c.18-.31.41-.55.71-.73s.62-.26.96-.26c.44,0,.82.1,1.12.31s.52.51.65.89c.17-.38.42-.67.74-.89.32-.21.68-.32,1.08-.32.6,0,1.07.19,1.41.56Z"/><path class="cls-1" d="M189.84,63.67v4.89h-.4v-1.09c-.19.36-.47.65-.85.85-.37.21-.79.31-1.26.31s-.9-.11-1.27-.32c-.37-.21-.66-.51-.86-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.86-.89.37-.21.79-.32,1.27-.32s.89.11,1.26.32c.37.21.65.5.84.86v-1.1h.41ZM188.43,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><path class="cls-1" d="M195.5,64.17c.37.38.55.9.55,1.57v2.82h-.42v-2.8c0-.57-.14-1-.44-1.31-.29-.3-.7-.46-1.24-.46-.36,0-.69.08-.97.24-.29.16-.51.38-.67.66s-.24.59-.24.93v2.72h-.42v-4.89h.4v.96c.19-.32.45-.57.79-.75s.71-.28,1.13-.28c.65,0,1.15.19,1.52.56Z"/><path class="cls-1" d="M202.44,61.63v6.92h-.4v-1.08c-.19.36-.47.64-.85.85-.37.21-.79.31-1.26.31s-.89-.11-1.26-.32c-.37-.21-.66-.51-.87-.89s-.31-.82-.31-1.31.1-.92.31-1.31c.21-.38.5-.68.87-.89.37-.21.79-.32,1.26-.32s.89.1,1.26.31c.37.2.65.48.83.84v-3.11h.42ZM201.03,67.98c.31-.18.56-.43.73-.75.18-.32.26-.7.26-1.12s-.09-.79-.26-1.12c-.17-.32-.42-.57-.73-.75-.31-.18-.67-.27-1.06-.27s-.76.09-1.07.27c-.31.18-.55.43-.73.75-.18.32-.26.7-.26,1.12s.09.79.26,1.12c.17.32.42.57.73.75.31.18.67.27,1.07.27s.75-.09,1.06-.27Z"/><polygon class="cls-1" points="72.23 42.73 72.11 42.9 72.03 43 71.95 42.9 71.83 42.73 61.05 27.8 59.71 27.8 59.71 52.29 60.79 52.29 60.79 29.98 60.79 29.5 60.79 29.21 60.96 29.45 61.23 29.83 71.98 44.65 72.12 44.65 82.86 29.8 83.14 29.41 83.31 29.18 83.31 29.47 83.31 29.94 83.31 52.29 84.35 52.29 84.35 27.8 83.01 27.8 72.23 42.73"/><polygon class="cls-1" points="111.97 27.8 102.01 50.45 101.87 50.78 101.78 50.98 101.69 50.78 101.56 50.45 99.23 44.91 91.91 27.8 90.81 27.8 101.19 52.04 101.22 52.1 101.23 52.14 101.22 52.17 101.19 52.23 94.12 68.67 95.22 68.67 113.07 27.8 111.97 27.8"/><polygon class="cls-1" points="42.39 28.9 41.61 28.05 28.25 39.6 28.25 40.35 41.61 51.97 42.39 51.11 29.97 40.31 29.58 39.97 29.97 39.63 42.39 28.9"/><polygon class="cls-1" points="220.54 28.05 219.76 28.9 232.18 39.7 232.57 40.04 232.18 40.38 219.76 51.11 220.54 51.97 233.9 40.41 233.9 39.66 220.54 28.05"/><path class="cls-1" d="M120.78,40.78c.22,2.98,1.23,5.34,3.03,7.07,1.79,1.73,4.12,2.6,6.97,2.6,1.76,0,3.44-.35,5.05-1.06,1.6-.7,2.84-1.63,3.7-2.79l1.44,1.2c-1.12,1.41-2.58,2.52-4.37,3.34-1.79.82-3.73,1.23-5.82,1.23-2.31,0-4.37-.53-6.2-1.59-1.83-1.06-3.25-2.52-4.28-4.4-1.03-1.87-1.54-4-1.54-6.37s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.32,4.23-4.37s3.87-1.59,6.18-1.59,4.46.49,6.27,1.47c1.81.98,3.2,2.35,4.18,4.11.98,1.76,1.47,3.8,1.47,6.1,0,.61-.02,1.07-.05,1.39h-17.93l.03-1.87h15.99c0-1.83-.43-3.44-1.27-4.85-.85-1.41-2.02-2.51-3.51-3.29-1.49-.78-3.21-1.18-5.17-1.18-2.79,0-5.08.86-6.87,2.57-1.79,1.71-2.8,3.97-3.03,6.75-.1.82,0,1.87,0,1.87Z"/><path class="cls-1" d="M154.04,50.72c-1.84-1.06-3.28-2.52-4.33-4.4-1.04-1.87-1.56-3.98-1.56-6.32s.52-4.45,1.56-6.32c1.04-1.87,2.48-3.34,4.33-4.4,1.84-1.06,3.92-1.59,6.22-1.59s4.43.53,6.27,1.59,3.28,2.52,4.33,4.4c1.04,1.87,1.56,3.98,1.56,6.32s-.52,4.45-1.56,6.32c-1.04,1.87-2.48,3.34-4.33,4.4s-3.93,1.59-6.27,1.59-4.38-.53-6.22-1.59ZM165.46,49.04c1.54-.9,2.75-2.14,3.63-3.73.88-1.59,1.32-3.36,1.32-5.31s-.44-3.72-1.32-5.31c-.88-1.59-2.09-2.83-3.63-3.73-1.54-.9-3.27-1.35-5.19-1.35s-3.65.45-5.19,1.35c-1.54.9-2.74,2.14-3.6,3.73-.86,1.59-1.3,3.36-1.3,5.31s.43,3.72,1.3,5.31c.86,1.59,2.07,2.83,3.6,3.73,1.54.9,3.27,1.35,5.19,1.35s3.65-.45,5.19-1.35Z"/><path class="cls-1" d="M202.44,18.23v33.64h-1.92l-.05-5.24c-.9,1.73-2.25,3.1-4.06,4.11-1.81,1.01-3.85,1.51-6.13,1.51s-4.32-.52-6.13-1.56c-1.81-1.04-3.22-2.49-4.23-4.35-1.01-1.86-1.51-3.97-1.51-6.34s.5-4.49,1.51-6.34c1.01-1.86,2.42-3.31,4.23-4.35,1.81-1.04,3.85-1.56,6.13-1.56s4.31.5,6.1,1.49c1.79.99,3.14,2.36,4.04,4.09v-15.09h2.02ZM195.59,49.09c1.52-.86,2.71-2.08,3.56-3.65.85-1.57,1.27-3.38,1.27-5.43s-.43-3.86-1.27-5.43c-.85-1.57-2.04-2.79-3.56-3.65-1.52-.87-3.24-1.3-5.17-1.3s-3.69.43-5.19,1.3c-1.51.86-2.68,2.08-3.53,3.65s-1.27,3.38-1.27,5.43.42,3.86,1.27,5.43c.85,1.57,2.03,2.79,3.53,3.65,1.51.87,3.24,1.3,5.19,1.3s3.64-.43,5.17-1.3Z"/></svg>
+    </a>
+    <div class="myeod-header-content">
+      <div class="myeod-header-content-label">BRiDGE</div>
+      <div class="myeod-header-content-sublabel">Structuration de la donnée survey</div>
+    </div>
+    <div class="myeod-header-right">
+      <button aria-label="Retour" class="btn-nav-back" onclick="goBackToPreviousPage()" type="button">←</button>
+      <button class="lang-switch" id="lang-btn" onclick="toggleLanguage()" type="button">
+        <span class="lang-active" id="lang-current">EN</span>
+        <span class="lang-sep">/</span>
+        <span id="lang-other">FR</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Fil d'Ariane -->
+
+  <main>
+    <!-- === HERO === -->
+    <section class="section hero" style="min-height:auto; padding:3rem 0;">
+      <div>
+        <div class="kicker">BRiDGE · Structuration de la donnée survey/projet</div>
+        <h1>Transform your survey operations into project data assets.</h1>
+        <p class="lead">BRiDGE structure la donnée survey/projet dès sa production terrain pour en faire un actif permanent, traçable et réutilisable pendant toute la durée de vie du projet.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#core">Découvrir le socle Core</a>
+          <a class="btn secondary" href="#survey">Voir les modules Survey</a>
+        </div>
+      </div>
+      <aside aria-label="Définition BRiDGE" class="hero-panel">
+        <div class="acronym">
+          <div class="acronym-title">BRiDGE</div>
+          <div class="acronym-line">Built-in Remote Intelligence<br/>for Data-Governed Expertise</div>
+        </div>
+        <p>Les modules Survey capturent. Le Data Lake mémorise. Le Data Management fiabilise. Les livrables, le QC, l'as-built, le Life of Field et le Decommissioning en découlent.</p>
+        <div class="hero-facts">
+          <div class="fact"><span class="fact-label">Cœur plateforme</span><span class="fact-value">Data Lake projet</span></div>
+          <div class="fact"><span class="fact-label">Déploiement</span><span class="fact-value">&lt; 15 min</span></div>
+          <div class="fact"><span class="fact-label">Footprint</span><span class="fact-value">Lecture seule</span></div>
+          <div class="fact"><span class="fact-label">Systèmes</span><span class="fact-value">Agnostique des outils</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- === POSITIONNEMENT === -->
+    <section class="section compact" id="positionnement">
+      <div class="intro-grid">
+        <div>
+          <div class="kicker">Recentrage stratégique</div>
+          <h2>La donnée survey est le capital.</h2>
+        </div>
+        <div>
+          <p class="quote-block">BRiDGE est une plateforme de structuration de la donnée survey/projet.</p>
+          <p style="margin-top:1.4rem;">La majorité des environnements offshore partent du document. BRiDGE part de la donnée brute survey. Chaque donnée capturée est horodatée, classifiée, versionnée, traçable et directement exploitable. Sans BRiDGE, les opérations produisent des fichiers. Avec BRiDGE, elles produisent un actif.</p>
+        </div>
+      </div>
+      <div aria-label="Chaîne de valeur BRiDGE" class="value-chain">
+        <article class="value-step">
+          <span class="step-num">01</span>
+          <h3>Survey Modules</h3>
+          <p>Capturent et qualifient la donnée opérationnelle en temps réel.</p>
+        </article>
+        <article class="value-step">
+          <span class="step-num">02</span>
+          <h3>Data Lake</h3>
+          <p>Structure, classifie, versionne et pérennise chaque donnée projet.</p>
+        </article>
+        <article class="value-step">
+          <span class="step-num">03</span>
+          <h3>Data Management</h3>
+          <p>Garantit nommage, intégrité, cohérence documentaire, audit trail et conformité projet.</p>
+        </article>
+        <article class="value-step">
+          <span class="step-num">04</span>
+          <h3>Exploitation</h3>
+          <p>DPR, as-built, QC, DCC, Advisory, Life of Field et Decommissioning sont alimentés par le Data Lake.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- === CORE === -->
+    <section class="core-band" id="core">
+      <div class="section">
+        <div class="kicker">Core · Data Lake · Data Management</div>
+        <h2>Core : l'activation du Data Lake, pas un simple abonnement.</h2>
+        <p class="lead">Le Core BRiDGE ouvre l'environnement projet. Il configure le Data Lake selon le CRS, les seuils QC et la taxonomie BRiDGE v2. Il active aussi le Data Management : nommage, intégrité des fichiers, structure documentaire et cohérence des répertoires selon les exigences client.</p>
+        <div class="core-grid">
+          <article class="core-card">
+            <span class="tag">Module 1</span>
+            <h3>Survey Modules</h3>
+            <p>Les modules Survey capturent la donnée là où elle naît : positionnement, LBL, USBL, calibrations, QC, SIMOPS et monitoring. Chaque opération terrain devient une donnée structurée, horodatée et qualifiée dès l'ingestion.</p>
+          </article>
+          <article class="core-card">
+            <span class="tag">Module 2</span>
+            <h3>Data Lake</h3>
+            <p>Le Data Lake BRiDGE archive et organise chaque donnée projet selon une structure définie. Versioning, classification, traçabilité complète et accès contrôlé : chaque donnée est pérenne et auditable.</p>
+          </article>
+          <article class="core-card">
+            <span class="tag">Module 3</span>
+            <h3>Data Management</h3>
+            <p>Assurance qualité documentaire, conformité nommage, cohérence des répertoires et audit trail complet. Le Data Management de BRiDGE garantit l'intégrité de votre patrimoine données.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- === CTA === -->
+    <section class="cta">
+      <h2>Structurer vos données survey en actif projet</h2>
+      <p>Contactez-nous pour une démonstration de BRiDGE et une évaluation de l'impact sur votre environnement projet.</p>
+      <button class="btn" onclick="document.getElementById('contact-modal').style.display='flex'" style="cursor:pointer;">Demander une démonstration</button>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="myeod-footer" role="contentinfo">
+    <div class="myeod-footer-inner">
+      <div class="myeod-footer-brand">
+        <div class="myeod-footer-title">My Expert On Demand</div>
+        <div class="myeod-footer-meta">
+          <span>Une marque représentée par Ingénieurs Créatifs</span>
+          <span class="myeod-footer-countries">France · Suisse</span>
+        </div>
+      </div>
+      <nav aria-label="Liens de pied de page" class="myeod-footer-links">
+        <a href="services.html">Services</a>
+        <a href="acces-client.html">Accès clients</a>
+        <a href="acces-collaborateurs.html">Accès collaborateurs</a>
+        <a href="legal.html#mentions-legales">Mentions légales</a>
+        <a href="legal.html#protection-donnees">Protection des données</a>
+        <a href="legal.html#cookies">Cookies</a>
+        <a href="legal.html#conditions">Conditions générales</a>
+        <a href="legal.html#reclamation">Réclamation / Médiation</a>
+        <a href="legal.html#contact">Contact</a>
+      </nav>
+      <div class="myeod-footer-bottom">
+        <span>© 2026 MyEOD</span>
+        <span>Tous droits réservés</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Contact Modal -->
+  <div id="contact-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,10,10,.55);backdrop-filter:blur(4px);overflow-y:auto;align-items:center;justify-content:center;">
+    <div style="background:#fff;max-width:640px;margin:5vh auto;padding:2.5rem 2rem;border-radius:2px;position:relative;font-family:'MazzardM',sans-serif;">
+      <button onclick="document.getElementById('contact-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#555;">&times;</button>
+      <h2 style="font-size:1rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;">Parlons de votre projet</h2>
+      <p style="font-size:.72rem;color:#888;margin-bottom:1.6rem;">Un expert MyEOD vous recontactera dès que possible.</p>
+      <form id="contact-form" style="display:grid;gap:1rem;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+          <input type="text" name="firstname" placeholder="Prénom" style="padding:.6rem;border:1px solid #ddd;font-family:var(--font);font-size:.9rem;" required/>
+          <input type="text" name="lastname" placeholder="Nom" style="padding:.6rem;border:1px solid #ddd;font-family:var(--font);font-size:.9rem;" required/>
+        </div>
+        <input type="email" name="email" placeholder="Email" style="padding:.6rem;border:1px solid #ddd;font-family:var(--font);font-size:.9rem;" required/>
+        <input type="text" name="company" placeholder="Entreprise" style="padding:.6rem;border:1px solid #ddd;font-family:var(--font);font-size:.9rem;"/>
+        <input type="tel" name="phone" placeholder="Téléphone" style="padding:.6rem;border:1px solid #ddd;font-family:var(--font);font-size:.9rem;"/>
+        <textarea name="need" placeholder="Votre besoin" rows="4" style="padding:.6rem;border:1px solid #ddd;font-family:var(--font);font-size:.9rem;resize:vertical;"></textarea>
+        <button type="submit" class="btn" style="margin-top:.5rem;">Envoyer ma demande</button>
+      </form>
+      <div id="contact-message" style="display:none;margin-top:1rem;padding:1rem;background:#f0f0f0;border-left:3px solid #0a0a0a;color:#555;font-size:.9rem;"></div>
+    </div>
+  </div>
+
+  <script>
+    function goBackToPreviousPage() {
+      var fallback = 'services.html';
+      try {
+        if (window.history.length > 1) {
+          window.history.back();
+          window.setTimeout(function() { window.location.href = fallback; }, 450);
+          return;
+        }
+      } catch(e) {}
+      window.location.href = fallback;
+    }
+
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const msg = document.getElementById('contact-message');
+      msg.style.display = 'block';
+      msg.textContent = '✓ Votre message a bien été envoyé. Nous reviendrons vers vous très prochainement.';
+      msg.style.background = '#e8f5e9';
+      msg.style.borderLeftColor = '#4caf50';
+      msg.style.color = '#2e7d32';
+      setTimeout(() => {
+        document.getElementById('contact-modal').style.display = 'none';
+        document.getElementById('contact-form').reset();
+        msg.style.display = 'none';
+      }, 3000);
+    });
   </script>
+  <script src="i18n.js"></script>
 </body>
 </html>

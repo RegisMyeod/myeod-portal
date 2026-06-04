@@ -1,0 +1,56 @@
+# ============================================================
+# MyEOD — myexpertondemand.com
+# .htaccess — Gestion bilingue FR/EN pour OVH (Apache)
+# ============================================================
+
+Options -Indexes
+RewriteEngine On
+
+# --- HTTPS forcé ---
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# --- www → non-www (canonical) ---
+RewriteCond %{HTTP_HOST} ^www\.myexpertondemand\.com [NC]
+RewriteRule ^ https://myexpertondemand.com%{REQUEST_URI} [R=301,L]
+
+# --- Détection langue navigateur sur la racine (sans paramètre ?lang=) ---
+# Si l'utilisateur arrive sur / sans ?lang=, on redirige selon Accept-Language
+RewriteCond %{REQUEST_URI} ^/?$
+RewriteCond %{QUERY_STRING} !lang=
+RewriteCond %{HTTP:Accept-Language} ^fr [NC]
+RewriteRule ^$ /?lang=fr [R=302,L]
+
+RewriteCond %{REQUEST_URI} ^/?$
+RewriteCond %{QUERY_STRING} !lang=
+RewriteCond %{HTTP:Accept-Language} !^fr [NC]
+RewriteRule ^$ /?lang=en [R=302,L]
+
+# --- Compression Gzip ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript
+  AddOutputFilterByType DEFLATE application/json image/svg+xml
+</IfModule>
+
+# --- Cache navigateur ---
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html             "access plus 1 hour"
+  ExpiresByType text/css              "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType font/woff2            "access plus 1 year"
+  ExpiresByType image/svg+xml         "access plus 1 month"
+  ExpiresByType image/png             "access plus 1 month"
+  ExpiresByType image/jpeg            "access plus 1 month"
+  ExpiresByType image/webp            "access plus 1 month"
+</IfModule>
+
+# --- Sécurité headers ---
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# --- Pages d'erreur personnalisées (optionnel) ---
+# ErrorDocument 404 /404.html

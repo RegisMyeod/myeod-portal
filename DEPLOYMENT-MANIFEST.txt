@@ -1,0 +1,116 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    🚀 DEPLOYMENT MANIFEST — MyEOD Portal                     ║
+║                                                                              ║
+║  Status: ✅ READY FOR PRODUCTION                                            ║
+║  Date: 2026-06-04                                                           ║
+║  Location: myexpertondemand.com/                                            ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📦 FICHIERS À TÉLÉCHARGER SUR OVH
+
+┌─ HTML PAGES (6 fichiers — 119 KB)
+│
+├─ services.html (25 KB)
+│  └─ Page vitrine — 5 services cliquables
+│
+├─ service-bridge.html (20 KB)
+│  └─ BRiDGE — Transformer opérations survey en actifs données
+│
+├─ service-visual-intelligence.html (19 KB)
+│  └─ Visual Intelligence — Drone, photogramétrie, IA
+│
+├─ service-staffing-augmente.html (18 KB)
+│  └─ Staffing Augmenté — Experts mobilisables < 48h
+│
+├─ service-marque-blanche.html (18 KB)
+│  └─ Marque Blanche — Solutions modulables
+│
+└─ service-medias-reportages.html (19 KB)
+   └─ Médias & Reportages — Photography, Videography, 3D
+
+┌─ CSS (1 fichier — 15 KB)
+│
+└─ styles-shared.css (15 KB) ✅ CHEMINS FONTS/ CONFIGURÉS
+   └─ CSS centralisé — 16 @font-face avec url('fonts/MazzardM-*.woff2')
+
+┌─ FONTS FOLDER (16 fichiers — 448 KB)
+│
+└─ fonts/ (à copier entièrement)
+   ├─ MazzardM-Thin.woff2
+   ├─ MazzardM-ExtraLight.woff2
+   ├─ MazzardM-ExtraLightItalic.woff2
+   ├─ MazzardM-Light.woff2
+   ├─ MazzardM-LightItalic.woff2
+   ├─ MazzardM-Regular.woff2
+   ├─ MazzardM-Italic.woff2
+   ├─ MazzardM-Medium.woff2
+   ├─ MazzardM-MediumItalic.woff2
+   ├─ MazzardM-SemiBold.woff2
+   ├─ MazzardM-SemiBoldItalic.woff2
+   ├─ MazzardM-BoldItalic.woff2
+   ├─ MazzardM-ExtraBold.woff2
+   ├─ MazzardM-ExtraBoldItalic.woff2
+   ├─ MazzardM-Black.woff2
+   └─ MazzardM-BlackItalic.woff2
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📋 CHECKLIST DÉPLOIEMENT
+
+□ Créer/vérifier dossier: myexpertondemand.com/
+□ Télécharger 6 fichiers .html
+□ Télécharger styles-shared.css
+□ Télécharger dossier fonts/ (entièrement)
+□ Vérifier permissions lecture sur fonts/*.woff2
+□ Tester: https://myexpertondemand.com/services.html
+□ DevTools (F12) → Network → Pas d'erreur 404
+□ Vérifier polices MazzardM affichées
+
+═══════════════════════════════════════════════════════════════════════════════
+
+✨ FEATURES INTÉGRÉS
+
+✅ Logo MyEOD complet (SVG inline)
+✅ Navigation fluide (5 services cliquables)
+✅ Fil d'Ariane (Services / Nom Service)
+✅ Boutons retour (+onclick="goBackToPreviousPage()")
+✅ Footer standardisé (toutes les pages)
+✅ Responsive design (mobile/tablet/desktop)
+✅ Polices Mazzard M (toutes variantes)
+✅ Styles harmonisés (CSS centralisé)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🔗 URLS POUR TESTER
+
+https://myexpertondemand.com/services.html
+https://myexpertondemand.com/service-bridge.html
+https://myexpertondemand.com/service-visual-intelligence.html
+https://myexpertondemand.com/service-staffing-augmente.html
+https://myexpertondemand.com/service-marque-blanche.html
+https://myexpertondemand.com/service-medias-reportages.html
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📊 STATS
+
+Total fichiers: 23 (6 HTML + 1 CSS + 16 fonts)
+Taille totale: ~600 KB
+Tailles optimales:
+  - HTML pages: 119 KB
+  - CSS: 15 KB
+  - Fonts: 448 KB
+
+Temps chargement estimé:
+  - Lite (< 2s): Oui (WOFF2 compressé)
+  - Mobile: Optimisé (responsive, lazy-load fonts)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ STATUS: PRÊT POUR PRODUCTION
+
+Tous les fichiers sont dans /mnt/user-data/outputs/
+Aucune modification supplémentaire requise.
+Télécharger et déployer directement sur OVH.
+
+═══════════════════════════════════════════════════════════════════════════════

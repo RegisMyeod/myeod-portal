@@ -83,12 +83,32 @@
 
   <!-- Collaborator access EN -->
   <url>
-    <loc>https://myexpertondemand.com/acces-collaborateurs.html?lang=en</loc>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://myexpertondemand.com/acces-collaborateurs.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://myexpertondemand.com/acces-collaborateurs.html?lang=en"/>
+    <loc>https://myexpertondemand.com/collaborator-access.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://myexpertondemand.com/acces-collaborateurs.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://myexpertondemand.com/collaborator-access.html"/>
     <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+
+  <!-- Pages légales FR -->
+  <url>
+    <loc>https://myexpertondemand.com/legal.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://myexpertondemand.com/legal.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://myexpertondemand.com/legal-en.html"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Legal pages EN -->
+  <url>
+    <loc>https://myexpertondemand.com/legal-en.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://myexpertondemand.com/legal.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://myexpertondemand.com/legal-en.html"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 
 </urlset>

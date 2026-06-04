@@ -131,18 +131,210 @@ async function redirectIfAlreadyLoggedIn(redirectTo = 'dashboard-collaborateurs.
 }
 
 /**
+ * Envoyer lien réinitialisation mot de passe
+ */
+async function sendPasswordResetEmail(email) {
+  try {
+    const { data, error } = await window.MyEODAuth.supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/reset-password.html'
+    });
+    
+    if (error) {
+      console.error('Erreur reset password:', error.message);
+      return { success: false, error: error.message };
+    }
+    
+    return { success: true, message: 'Email de réinitialisation envoyé' };
+  } catch (err) {
+    console.error('Erreur sendPasswordResetEmail:', err);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * Gérer la soumission du formulaire "Mot de passe oublié"
+ */
+async function handleForgotPasswordSubmit(event, lang = 'fr') {
+  event.preventDefault();
+  
+  const emailInput = document.getElementById('email');
+  const submitBtn = event.target.querySelector('button[type="submit"]');
+  const messageEl = document.getElementById('reset-message');
+  
+  if (!emailInput) {
+    console.error('Champ email non trouvé');
+    return;
+  }
+  
+  const email = emailInput.value.trim();
+  
+  if (!email) {
+    const msg = lang === 'fr' 
+      ? 'Veuillez entrer votre adresse email'
+      : 'Please enter your email address';
+    showLoginError(msg);
+    return;
+  }
+  
+  // Désactiver le bouton
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = lang === 'fr' ? 'Envoi en cours...' : 'Sending...';
+  }
+  
+  hideLoginError();
+  if (messageEl) messageEl.style.display = 'none';
+  
+  const result = await sendPasswordResetEmail(email);
+  
+  if (result.success) {
+    // Afficher message de succès
+    if (messageEl) {
+      messageEl.textContent = lang === 'fr'
+        ? 'Un email de réinitialisation a été envoyé à votre adresse email. Vérifiez votre boîte de réception.'
+        : 'A password reset email has been sent to your email address. Please check your inbox.';
+      messageEl.style.display = 'block';
+      messageEl.style.background = '#f0fdf4';
+      messageEl.style.borderColor = '#86efac';
+      messageEl.style.color = '#166534';
+    }
+    
+    // Vider le champ
+    emailInput.value = '';
+  } else {
+    showLoginError(result.error);
+  }
+  
+  // Réactiver le bouton
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = lang === 'fr' ? 'Envoyer le lien' : 'Send link';
+  }
+}
+
+/**
+ * Réinitialiser le mot de passe avec le token
+ */
+async function updatePassword(newPassword) {
+  try {
+    const { data, error } = await window.MyEODAuth.supabase.auth.updateUser({
+      password: newPassword
+    });
+    
+    if (error) {
+      console.error('Erreur update password:', error.message);
+      return { success: false, error: error.message };
+    }
+    
+    return { success: true };
+  } catch (err) {
+    console.error('Erreur updatePassword:', err);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * Gérer la soumission du formulaire "Nouveau mot de passe"
+ */
+async function handleResetPasswordSubmit(event, lang = 'fr') {
+  event.preventDefault();
+  
+  const passwordInput = document.getElementById('new-password');
+  const confirmInput = document.getElementById('confirm-password');
+  const submitBtn = event.target.querySelector('button[type="submit"]');
+  
+  if (!passwordInput || !confirmInput) {
+    console.error('Champs de mot de passe non trouvés');
+    return;
+  }
+  
+  const password = passwordInput.value;
+  const confirm = confirmInput.value;
+  
+  if (!password || !confirm) {
+    const msg = lang === 'fr'
+      ? 'Veuillez remplir tous les champs'
+      : 'Please fill in all fields';
+    showLoginError(msg);
+    return;
+  }
+  
+  if (password !== confirm) {
+    const msg = lang === 'fr'
+      ? 'Les mots de passe ne correspondent pas'
+      : 'Passwords do not match';
+    showLoginError(msg);
+    return;
+  }
+  
+  if (password.length < 8) {
+    const msg = lang === 'fr'
+      ? 'Le mot de passe doit contenir au moins 8 caractères'
+      : 'Password must be at least 8 characters long';
+    showLoginError(msg);
+    return;
+  }
+  
+  // Désactiver le bouton
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = lang === 'fr' ? 'Mise à jour...' : 'Updating...';
+  }
+  
+  hideLoginError();
+  
+  const result = await updatePassword(password);
+  
+  if (result.success) {
+    // Rediriger vers page de connexion
+    setTimeout(() => {
+      const redirectPage = lang === 'fr' 
+        ? 'acces-collaborateurs.html'
+        : 'collaborator-access.html';
+      window.location.href = redirectPage;
+    }, 1500);
+  } else {
+    showLoginError(result.error);
+    
+    // Réactiver le bouton
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = lang === 'fr' ? 'Mettre à jour le mot de passe' : 'Update password';
+    }
+  }
+}
+
+/**
  * Initialiser la page de login au chargement
  */
 document.addEventListener('DOMContentLoaded', async function() {
   // Vérifier si déjà authentifié
   await redirectIfAlreadyLoggedIn();
   
-  // Attacher l'événement du formulaire si présent
+  // Attacher l'événement du formulaire login si présent
   const loginForm = document.getElementById('login-form');
   if (loginForm) {
     loginForm.addEventListener('submit', function(e) {
       const lang = document.documentElement.lang || 'fr';
       handleLoginSubmit(e, lang);
+    });
+  }
+  
+  // Attacher l'événement du formulaire "mot de passe oublié" si présent
+  const forgotForm = document.getElementById('forgot-password-form');
+  if (forgotForm) {
+    forgotForm.addEventListener('submit', function(e) {
+      const lang = document.documentElement.lang || 'fr';
+      handleForgotPasswordSubmit(e, lang);
+    });
+  }
+  
+  // Attacher l'événement du formulaire "réinitialiser mot de passe" si présent
+  const resetForm = document.getElementById('reset-password-form');
+  if (resetForm) {
+    resetForm.addEventListener('submit', function(e) {
+      const lang = document.documentElement.lang || 'fr';
+      handleResetPasswordSubmit(e, lang);
     });
   }
 });
@@ -154,5 +346,9 @@ window.MyEODLogin = {
   showLoginError,
   hideLoginError,
   handleLoginSubmit,
-  redirectIfAlreadyLoggedIn
+  redirectIfAlreadyLoggedIn,
+  sendPasswordResetEmail,
+  handleForgotPasswordSubmit,
+  updatePassword,
+  handleResetPasswordSubmit
 };

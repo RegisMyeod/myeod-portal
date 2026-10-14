@@ -3,22 +3,39 @@
    ============================================ */
 
 /* === POLICES === */
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-Thin.woff2') format('woff2');font-weight:100;font-style:normal;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-ExtraLight.woff2') format('woff2');font-weight:200;font-style:normal;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-ExtraLightItalic.woff2') format('woff2');font-weight:200;font-style:italic;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-Light.woff2') format('woff2');font-weight:300;font-style:normal;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-LightItalic.woff2') format('woff2');font-weight:300;font-style:italic;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-Regular.woff2') format('woff2');font-weight:400;font-style:normal;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-Italic.woff2') format('woff2');font-weight:400;font-style:italic;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-Medium.woff2') format('woff2');font-weight:500;font-style:normal;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-MediumItalic.woff2') format('woff2');font-weight:500;font-style:italic;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-SemiBoldItalic.woff2') format('woff2');font-weight:600;font-style:italic;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-BoldItalic.woff2') format('woff2');font-weight:700;font-style:italic;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-ExtraBold.woff2') format('woff2');font-weight:800;font-style:normal;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-ExtraBoldItalic.woff2') format('woff2');font-weight:800;font-style:italic;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-Black.woff2') format('woff2');font-weight:900;font-style:normal;}
-@font-face{font-family:'MazzardM';src:url('fonts/MazzardM-BlackItalic.woff2') format('woff2');font-weight:900;font-style:italic;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-Thin.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-Thin.woff?v=myeod-v59-20261009') format('woff');font-weight:100;font-style:normal;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-ThinItalic.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-ThinItalic.woff?v=myeod-v59-20261009') format('woff');font-weight:100;font-style:italic;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-ExtraLight.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-ExtraLight.woff?v=myeod-v59-20261009') format('woff');font-weight:200;font-style:normal;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-ExtraLightItalic.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-ExtraLightItalic.woff?v=myeod-v59-20261009') format('woff');font-weight:200;font-style:italic;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-Light.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-Light.woff?v=myeod-v59-20261009') format('woff');font-weight:300;font-style:normal;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-LightItalic.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-LightItalic.woff?v=myeod-v59-20261009') format('woff');font-weight:300;font-style:italic;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-Regular.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-Regular.woff?v=myeod-v59-20261009') format('woff');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-Italic.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-Italic.woff?v=myeod-v59-20261009') format('woff');font-weight:400;font-style:italic;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-Medium.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-Medium.woff?v=myeod-v59-20261009') format('woff');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-MediumItalic.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-MediumItalic.woff?v=myeod-v59-20261009') format('woff');font-weight:500;font-style:italic;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-SemiBold.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-SemiBold.woff?v=myeod-v59-20261009') format('woff');font-weight:600;font-style:normal;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-SemiBoldItalic.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-SemiBoldItalic.woff?v=myeod-v59-20261009') format('woff');font-weight:600;font-style:italic;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-Bold.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-Bold.woff?v=myeod-v59-20261009') format('woff');font-weight:700;font-style:normal;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-BoldItalic.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-BoldItalic.woff?v=myeod-v59-20261009') format('woff');font-weight:700;font-style:italic;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-ExtraBold.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-ExtraBold.woff?v=myeod-v59-20261009') format('woff');font-weight:800;font-style:normal;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-ExtraBoldItalic.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-ExtraBoldItalic.woff?v=myeod-v59-20261009') format('woff');font-weight:800;font-style:italic;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-Black.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-Black.woff?v=myeod-v59-20261009') format('woff');font-weight:900;font-style:normal;font-display:swap;}
+@font-face{font-family:'MazzardH';src:url('fonts/MazzardH-BlackItalic.woff2?v=myeod-v59-20261009') format('woff2'),url('fonts/MazzardH-BlackItalic.woff?v=myeod-v59-20261009') format('woff');font-weight:900;font-style:italic;font-display:swap;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* === VARIABLES === */
 :root{
@@ -32,7 +49,7 @@
   --gray-500:#777777;
   --gray-600:#555555;
   --text:#1a1a1a;
-  --font:'MazzardM',sans-serif;
+  --font:'MazzardH',sans-serif;
   --radius:2px;
 }
 
@@ -56,7 +73,7 @@ a{color:inherit;text-decoration:none;}
   gap:1rem;
 }
 .myeod-header-logo{
-  height:72px;
+  height:108px;
   display:inline-flex;
   align-items:center;
   text-decoration:none;
@@ -71,7 +88,7 @@ a{color:inherit;text-decoration:none;}
   flex:1;
 }
 .myeod-header-content-label{
-  font-family:'MazzardM',sans-serif;
+  font-family:'MazzardH',sans-serif;
   font-size:0.7rem;
   font-weight:700;
   letter-spacing:0.18em;
@@ -79,7 +96,7 @@ a{color:inherit;text-decoration:none;}
   color:#1a1a1a;
 }
 .myeod-header-content-sublabel{
-  font-family:'MazzardM',sans-serif;
+  font-family:'MazzardH',sans-serif;
   font-size:0.55rem;
   font-weight:400;
   letter-spacing:0.14em;
@@ -621,7 +638,7 @@ main{overflow:hidden;}
 
 @media(max-width:640px){
   .myeod-header{padding:.9rem 1rem;}
-  .myeod-header-logo{height:54px;}
+  .myeod-header-logo{height:81px;}
   .myeod-header-content-label{font-size:0.65rem;}
   .myeod-header-content-sublabel{font-size:0.5rem;}
   .myeod-footer{padding:1.2rem 1rem 1.35rem;}

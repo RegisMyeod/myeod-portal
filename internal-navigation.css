@@ -1,0 +1,25 @@
+.internal-navigation{margin:1.5rem 0;padding:1.5rem;border:1px solid var(--gray-200);background:var(--white);}
+.internal-navigation h2{font-size:1.35rem;margin-bottom:1rem;}
+.internal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;}
+.internal-card{font-family:var(--font);font-size:1rem;font-weight:700;padding:1.1rem;text-align:left;background:var(--white);color:var(--black);border:1px solid var(--gray-200);cursor:pointer;}
+.internal-card:hover,.internal-card:focus-visible{background:var(--gray-50);border-color:var(--black);}
+.internal-card:disabled{opacity:.5;cursor:default;}
+.internal-navigation details{margin-top:1.5rem;}.internal-navigation summary{cursor:pointer;font-weight:700;}
+.internal-navigation fieldset{padding:1rem;margin:1rem 0;}.internal-navigation fieldset>div{display:flex;justify-content:space-between;padding:.4rem;gap:1rem;}
+.internal-navigation label input{margin-right:.5rem;}.internal-navigation select{max-width:100%;padding:.6rem;margin-top:.75rem;}
+.internal-view iframe{display:block;width:100%;height:1px;border:0;background:white;}
+.internal-section-links{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin:1rem 0;}
+[data-internal-message]{margin-top:.75rem;}
+@media(max-width:640px){.internal-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.internal-navigation{padding:1rem;}.internal-navigation fieldset>div{flex-wrap:wrap;}}
+
+#it-workspace,#projects-workspace{margin-top:1.5rem;}
+#it-workspace>.access-journal{margin-bottom:1rem;}
+#it-workspace>details{margin:1.5rem 0;border:1px solid var(--gray-200);padding:1rem;}
+.internal-grid .internal-card{min-height:130px;font-size:1.35rem;}
+.internal-grid .internal-card:disabled{opacity:.35;}
+@media(max-width:640px){.internal-grid .internal-card{min-height:100px;font-size:1.15rem;}}
+
+/* No enclosing banner in an open section; navigation stays in the header. */
+.internal-navigation[data-section-open]{border:0;padding:0;margin:0;background:transparent;}
+[data-internal-message]:empty{display:none;}
+.internal-section-links{flex-wrap:wrap;justify-content:flex-start;}

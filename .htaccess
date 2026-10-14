@@ -5,6 +5,25 @@
 
 Options -Indexes
 RewriteEngine On
+# V161 : dossiers techniques de livraison interdits sur le web
+RewriteRule ^(?:.*/)?(?:activation|sql)(?:/.*)?$ - [F,L,NC]
+# V119 : page Services remplacée par la landing
+RewriteRule ^services\.html$ /index.html [R=301,L]
+RewriteRule ^services-en\.html$ /index-en.html [R=301,L]
+# Offre MyEOD V101 : anciennes URL
+RewriteRule ^service-staffing-augmente\.html$ /service-ex-plus.html [R=301,L]
+RewriteRule ^service-staffing-augmente-en\.html$ /service-ex-plus-en.html [R=301,L]
+RewriteRule ^service-medias-reportages\.html$ /service-agence-communication.html [R=301,L]
+RewriteRule ^service-medias-reportages-en\.html$ /service-agence-communication-en.html [R=301,L]
+
+
+# BEGIN MYEOD LEGACY PROTECTION
+RewriteRule ^(?:(?:.*/)?Cadeler_CRM\.html|(?:.*/)?CoreMarine_CRM\.html|(?:.*/)?Formats_de_documents\.html|(?:.*/)?SBM_Offshore_CRM\.html|(?:.*/)?admin\.html|(?:.*/)?agenda\.html|(?:.*/)?bizdev\.html|(?:.*/)?briefing_cadeler\-260505\-120213\.html|(?:.*/)?briefing_cadeler\.html|(?:.*/)?documents\-lot\-partiel\.html|(?:.*/)?documents\-projets\.html|(?:.*/)?documents\-renouvellement\.html|(?:.*/)?documents\-revocation\-refresh\.html|(?:.*/)?documents\.html|(?:.*/)?finance\.html|(?:.*/)?it\.html|(?:.*/)?juridique\.html|(?:.*/)?operations\.html|(?:.*/)?planning\.html|(?:.*/)?projet_mozlng\-260505\-120213\.html|(?:.*/)?projet_mozlng\.html|(?:.*/)?projet_swissrenov\.html|(?:.*/)?projet_trion\-260505\-120213\.html|(?:.*/)?projet_trion\.html|(?:.*/)?recette\-expiration\-diagnostic\.html|(?:.*/)?recette\-recuperation\.html|(?:.*/)?recette\-validation\.html|(?:.*/)?recette\-widget\.html|(?:.*/)?rh\.html|(?:.*/)?structure_admin\.html|(?:.*/)?(?:_pending_review|serveur|functions|tests|tmp)(?:/.*)?|(?:.*/)?(?:autofix_v2|fix_footers)\.php)(?:/.*)?$ - [F,L,NC]
+<FilesMatch "(?i)\.(?:sql|log|bak|zip|env|ts)$">
+  Require all denied
+</FilesMatch>
+# END MYEOD LEGACY PROTECTION
+
 
 # --- HTTPS forcé ---
 RewriteCond %{HTTPS} off
@@ -51,6 +70,12 @@ RewriteRule ^$ /?lang=en [R=302,L]
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
-
 # --- Pages d'erreur personnalisées (optionnel) ---
 # ErrorDocument 404 /404.html
+# === MyEOD : i18n.js toujours à jour (au lieu du cache 30 jours) ===
+<IfModule mod_headers.c>
+  <FilesMatch "i18n\.js$">
+    Header set Cache-Control "no-cache, must-revalidate"
+    Header unset Expires
+  </FilesMatch>
+</IfModule>

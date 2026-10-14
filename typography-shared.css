@@ -1,0 +1,47 @@
+/* MyEOD - Ajustement demandé par Régis, 5 octobre 2026.
+   Espacement nul pour les grands titres auparavant resserrés.
+   Les textes et autres éléments retrouvent les valeurs de leurs styles. */
+h1, h2 { letter-spacing: 0 !important; }
+
+/* Titres d’en-tête : Mazzard, comme les titres des espaces. */
+.myeod-header .myeod-header-content-label {
+  font-family:var(--font);
+  font-size:1.5rem;
+  font-weight:800;
+  line-height:1.15;
+  letter-spacing:0;
+  text-transform:none;
+  max-width:none;
+  margin:0;
+  color:var(--black);
+}
+@media(max-width:640px) {
+  .myeod-header .myeod-header-content-label {font-size:1.2rem;}
+}
+
+/* Public mobile layouts: let navigation wrap and keep forms within the viewport. */
+@media(max-width:640px) {
+  .hero {grid-template-columns:minmax(0,1fr);}
+  .hero > div {min-width:0;max-width:100%;box-sizing:border-box;}
+  .myeod-header {flex-wrap:wrap;gap:.5rem;padding:1rem;}
+  .myeod-header > * {min-width:0;max-width:100%;}
+  .myeod-header .myeod-header-logo {height:56px;flex-shrink:0;}
+  .myeod-header .myeod-header-content {flex:1 1 120px;min-width:0;}
+  .myeod-header .myeod-header-content-label {overflow-wrap:anywhere;}
+  .myeod-header .myeod-header-right,
+  .myeod-header .header-right {flex-wrap:wrap;gap:.5rem;max-width:100%;}
+  .myeod-header .simple-nav {flex-wrap:wrap;flex-direction:row;gap:.5rem;min-width:0;}
+  .myeod-header a:not(.myeod-header-logo),
+  .myeod-header button {font-size:11px;min-height:44px;}
+  .myeod-footer-links a {font-size:12px;min-height:32px;display:inline-flex;align-items:center;}
+  main h1,main h2 {overflow-wrap:anywhere;}
+  form input:not([type="checkbox"]):not([type="radio"]),
+  form textarea,form select {font-size:16px !important;min-width:0;max-width:100%;}
+  #contact-modal > div {width:calc(100% - 2rem) !important;min-width:0;padding:1.25rem !important;max-height:calc(100dvh - 2rem);overflow:auto;}
+  #contact-form > div {grid-template-columns:minmax(0,1fr) !important;}
+  #contact-form button[type="submit"] {font-size:14px;min-height:44px;white-space:normal;}
+}
+
+/* V102 : police de titres explicite, indépendante de la variable de page. */
+h1,h2,h3,h4,h5,h6{font-family:"MazzardH",sans-serif!important}
+.service-definition{font-family:"MazzardH",sans-serif;font-size:1.2rem;line-height:1.6;color:#555;margin:1.25rem 0;max-width:760px}

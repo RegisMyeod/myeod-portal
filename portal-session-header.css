@@ -1,0 +1,25 @@
+/* Session controls shared by the authenticated portal and all its sections. */
+body[data-access-role] .myeod-header{flex-wrap:wrap;}
+body[data-access-role] .portal-session-actions{position:static;display:flex;flex-wrap:wrap;width:100%;box-sizing:border-box;justify-content:flex-end;gap:.65rem;margin:0;padding:.8rem clamp(16px,4vw,64px) 1rem;border-bottom:1px solid var(--gray-200);background:var(--white);font-family:'MazzardH',sans-serif;}
+.portal-session-actions .portal-session-identity{margin-right:auto;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:.2rem;overflow-wrap:anywhere;}
+.portal-session-actions #identity{min-width:0;font-weight:600;}
+.portal-session-actions #connected-role{font-size:.85rem;font-weight:400;}
+.portal-session-actions #connected-position{font-size:.8rem;}
+.portal-session-actions #context-notice{font-size:.85rem;font-weight:600;}
+#access-context-controls{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;}
+#access-context-controls[hidden]{display:none;}
+#access-context-controls select{max-width:100%;font:inherit;padding:.4rem;}
+#project-members-panel{margin:2rem 0;padding:1.5rem;border:1px solid #dedede;}
+#project-members-panel form{display:grid;grid-template-columns:minmax(10rem,1fr) minmax(12rem,2fr);gap:.7rem 1rem;align-items:center;}
+#project-members-panel input,#project-members-panel select{width:100%;min-width:0;padding:.65rem;font:inherit;box-sizing:border-box;border:1px solid #bdbdbd;}
+#project-members-panel button{padding:.65rem 1rem;font:inherit;background:white;border:1px solid #bdbdbd;cursor:pointer;}
+#project-members-panel button:disabled{opacity:.5;cursor:default;}
+#project-members-panel label{font-size:.9rem;}
+#project-members-panel form button{grid-column:2;justify-self:start;}
+#project-members-panel button:focus-visible,#project-members-panel input:focus-visible,#project-members-panel select:focus-visible{outline:3px solid #285c75;outline-offset:2px;}
+@media(max-width:640px){#project-members-panel form{grid-template-columns:1fr;}#project-members-panel form button{grid-column:1;}}
+.portal-session-actions button{border:1px solid #d0d0d0;border-radius:4px;background:white;color:#1a1a1a;padding:.55rem .8rem;font:inherit;line-height:1.3;cursor:pointer;}
+.portal-session-actions button:hover{background:#f3f3f3;}
+.portal-session-actions button:disabled{opacity:.55;cursor:default;}
+.portal-session-actions button:focus-visible{outline:3px solid #285c75;outline-offset:3px;}
+@media(max-width:640px){body[data-access-role] .portal-session-actions{justify-content:flex-start;gap:.5rem;}.portal-session-actions .portal-session-identity{flex:0 0 100%;}.portal-session-actions button{font-size:.85rem;padding:.5rem .6rem;}}

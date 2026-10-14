@@ -1,2 +1,2 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Preserve the bytes of the production files deployed by OVH.
+* -text

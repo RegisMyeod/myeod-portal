@@ -1,0 +1,5 @@
+MyEOD - GitHub to OVH automatic deployment check
+Check: V165-20261015
+Branch: main
+Reference release: V164
+This file contains no personal data or credentials.

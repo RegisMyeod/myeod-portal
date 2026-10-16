@@ -10,7 +10,8 @@
 .agency-universes-strip{position:relative;width:100%;height:clamp(220px,38.889vw,560px);overflow:hidden;background:#0b0b0b}
 .agency-universes-track{position:absolute;top:0;left:0;height:100%;display:flex;gap:4px;will-change:transform}
 .agency-universes-track img{height:100%;width:auto;max-width:none;flex:0 0 auto;display:block;user-select:none;-webkit-user-drag:none;object-fit:contain}
-.agency-page .agency-universes-track img{opacity:1!important;filter:none;transition:none}
+.agency-page .agency-universes-track img{opacity:1!important;filter:grayscale(1);transition:filter .6s ease}
+@media(hover:hover){.agency-page .agency-universes-track img:hover{filter:grayscale(0)}}
 .agency-universes-fallback{display:block;width:100%;height:auto}
 @media(max-width:639px){.agency-universes-controls{gap:18px}.agency-page .agency-universes select,.agency-page .agency-universes button{font-size:14px;padding:10px 12px}}
-@media(prefers-reduced-motion:reduce){.agency-universes-track{will-change:auto}}
+@media(prefers-reduced-motion:reduce){.agency-universes-track{will-change:auto}.agency-page .agency-universes-track img{transition:none}}

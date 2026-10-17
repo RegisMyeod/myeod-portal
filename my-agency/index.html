@@ -25,12 +25,12 @@ section[id]{scroll-margin-top:0}
 @media (max-width: 600px){.topnav .presente{display:none}}
 a{color:#f2efe9}a:hover{color:#ffffff}
 img{display:block;filter:grayscale(1);transition:filter .6s ease, opacity 1.4s ease}
-section img:not(.ld),header>img:not(.ld){opacity:0!important}
+section img:not(.ld),header>img:not(.ld),header>picture[data-agency-opening]>img:not(.ld){opacity:0!important}
 canvas.pano{filter:grayscale(1);transition:filter .6s ease, opacity 1.4s ease}
 canvas.pano:not(.ld){opacity:0}
 .pano-box:hover canvas.pano{filter:grayscale(0)}
 .pano-box:fullscreen canvas.pano{height:100vh!important}
-img:hover,header:hover>img,section:hover>img{filter:grayscale(0)}
+img:hover,header:hover>img,header:hover>picture[data-agency-opening]>img,section:hover>img{filter:grayscale(0)}
 nav img,img.logo{filter:none}
 img, canvas{-webkit-user-drag:none; user-drag:none; -webkit-user-select:none; user-select:none; -webkit-touch-callout:none}
 html.veil img, html.veil canvas{filter:blur(28px) grayscale(1) brightness(.35)!important; transition:none!important}

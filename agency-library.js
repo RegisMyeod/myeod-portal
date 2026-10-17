@@ -15,7 +15,7 @@ async function mount({client,user,container,error=()=>{}}){
  const status=element('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  const title=element('h2',t('My Agency · Photothèque privée','My Agency · Private image library'));
  const intro=element('p',t('Importez les volumes ZIP créés par « Exporter la photothèque complète ». Originaux, classements et cadrages sont conservés. Seul Régis a accès à cette bibliothèque.','Import ZIP volumes created by “Export entire image library”. Originals, classifications and crops are preserved. This library is accessible only to Régis.'));
- const note=element('p',t('Les imports ajoutent des lots privés. Ils ne remplacent pas les lots existants et ne publient aucune photo sur les pages du site.','Imports add private batches. They preserve existing batches and do not publish images on the website.'));
+ const note=element('p',t('Après réception de tous les volumes, les photos affectées à « Ouverture » alimentent l’accueil public My Agency avec leurs cadrages optimisés. Les originaux et les notes restent privés. Les autres sections ne sont pas reliées.','Once every volume has been received, images assigned to “Opening” supply the public My Agency opening with their optimized crops. Originals and notes remain private. Other sections are not connected.'));
  const input=element('input');input.type='file';input.accept='.zip,application/zip';input.multiple=true;input.id='agency-transfer-files';
  const label=element('label',t('Volumes à importer','Volumes to import'));label.htmlFor=input.id;
  const inspect=element('button',t('Vérifier les archives','Check archives'));inspect.type='button';

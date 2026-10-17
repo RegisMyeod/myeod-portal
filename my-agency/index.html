@@ -740,7 +740,7 @@ return p;
 }
 const P=pickAll();
 document.querySelectorAll('[data-pick]').forEach(el=>{const o=P[el.dataset.pick]; if(!o) return; const v=o[el.dataset.f]; if(el.tagName==='IMG'){ if(v) el.setAttribute('data-k',v); } else el.textContent=v||'';});
-document.querySelectorAll('img[data-k]').forEach(i=>{const s=IMG[i.dataset.k]; if(!s) return; const d=()=>i.classList.add('ld'); i.addEventListener('load',()=>requestAnimationFrame(()=>requestAnimationFrame(d)),{once:true}); i.addEventListener('error',d,{once:true}); i.src=s;});
+document.querySelectorAll('img[data-k]').forEach(i=>{const s=IMG[i.dataset.k]; if(!s) return; const d=()=>i.classList.add('ld'); i.addEventListener('load',()=>requestAnimationFrame(()=>requestAnimationFrame(d)),{once:true}); i.addEventListener('error',d,{once:true}); if(i.dataset.pick==='hero'){i.dataset.agencyFallback=s;return;} i.src=s;});
 const setLang=(l)=>{closeMenus(); document.querySelectorAll('.lang').forEach(d=>{d.hidden=d.dataset.lang!==l;}); document.documentElement.lang=l; document.querySelectorAll('.lg').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.set===l))); document.querySelectorAll('[data-tip-fr]').forEach(a=>a.title=a.getAttribute('data-tip-'+l)||''); onScroll();};
 document.querySelectorAll('.lg').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.set)));
 const onScroll=()=>{const s=window.scrollY>40; document.querySelectorAll('.topnav').forEach(n=>n.classList.toggle('scrolled',s));};
@@ -758,5 +758,6 @@ document.querySelectorAll('canvas.pano[data-pks]').forEach(c=>{const L=(c.datase
 setLang((new URLSearchParams(location.search).get('lang')==='en')?'en':'fr');
 setTimeout(()=>document.querySelectorAll('img').forEach(i=>i.classList.add('ld')),15000);
 </script>
+<script src="agency-opening-v202.js?v=202"></script>
 </body>
 </html>

@@ -30,7 +30,7 @@ canvas.pano{filter:grayscale(1);transition:filter .6s ease, opacity 1.4s ease}
 canvas.pano:not(.ld){opacity:0}
 .pano-box:hover canvas.pano{filter:grayscale(0)}
 .pano-box:fullscreen canvas.pano{height:100vh!important}
-img:hover,header:hover>img,header:hover>picture[data-agency-opening]>img,section:hover>img{filter:grayscale(0)}
+img:hover,header:hover>img,header:hover>picture[data-agency-opening]>img,section:hover>img,section:hover>picture[data-agency-area]>img{filter:grayscale(0)}
 nav img,img.logo{filter:none}
 img, canvas{-webkit-user-drag:none; user-drag:none; -webkit-user-select:none; user-select:none; -webkit-touch-callout:none}
 html.veil img, html.veil canvas{filter:blur(28px) grayscale(1) brightness(.35)!important; transition:none!important}
@@ -52,7 +52,7 @@ html.veil img, html.veil canvas{filter:blur(28px) grayscale(1) brightness(.35)!i
 <!-- /MyEOD favicon V169 -->
 <link rel="stylesheet" href="agency-design-v182.css?v=chapters-v183">
 <link rel="stylesheet" href="agency-universes-v188.css?v=universes-v198">
-<script src="agency-universes-v188.js?v=universes-v198" defer></script>
+<script src="agency-universes-v188.js?v=universes-v208" defer></script>
 </head>
 <body class="agency-page">
 <div class="lang" data-lang="fr" lang="fr"><span data-agency-top></span>
@@ -649,9 +649,10 @@ img.onerror = () => { cv.classList.add('ld'); if (cb) cb(); };
 img.src = u;
 };
 load(src);
-const list = (cv.getAttribute('data-srcs') || '').split('|').filter(Boolean);
+let list = (cv.getAttribute('data-srcs') || '').split('|').filter(Boolean);
+cv.addEventListener('myeod-pano-gallery',event=>{const urls=(event.detail?.urls||[]).filter(u=>typeof u==='string'&&u.startsWith('https://kewhxzitwdrnpsnzlihn.supabase.co/storage/v1/object/sign/myeod-agency-library/')&&!u.includes('/originals/'));if(!urls.length)return;list=urls;const button=cv.closest('.pano-box')?.querySelector('.pano-next');if(button)button.hidden=new Set(list).size<2;st.yaw=0;st.pitch=-.12;load(list[0]);});
 const next = () => {
-if (busy || list.length < 2) return; busy = true;
+if (busy || new Set(list).size < 2) return; busy = true;
 let u = cur; while (u === cur) u = list[Math.floor(Math.random() * list.length)];
 cv.classList.remove('ld');
 setTimeout(() => load(u, () => { st.yaw = Math.random() * 6.283; st.pitch = -0.12; st.fov = 75; st.auto = true; busy = false; }), 700);
@@ -758,6 +759,6 @@ document.querySelectorAll('canvas.pano[data-pks]').forEach(c=>{const L=(c.datase
 setLang((new URLSearchParams(location.search).get('lang')==='en')?'en':'fr');
 setTimeout(()=>document.querySelectorAll('img').forEach(i=>i.classList.add('ld')),15000);
 </script>
-<script src="agency-opening-v202.js?v=205"></script>
+<script src="../agency-areas.js?v=208"></script><script src="agency-illustrations-v208.js?v=208"></script>
 </body>
 </html>

@@ -90,6 +90,15 @@
       else { if (raf) cancelAnimationFrame(raf); raf = 0; prev = null; }
     }
     button.addEventListener('click', () => { paused = !paused; sync(); });
+    section.addEventListener('myeod-universe-gallery',event=>{
+      const device=innerWidth<=639?'mobile':'desktop';
+      const images=(event.detail?.photos||[]).map(p=>{
+        const files=(p.variants?.find(v=>v.device===device)?.files||[]).filter(f=>f.format==='JPEG'&&f.url?.startsWith('https://kewhxzitwdrnpsnzlihn.supabase.co/storage/v1/object/sign/myeod-agency-library/')&&!f.url.includes('/originals/')).sort((a,b)=>a.width-b.width);
+        const file=files.find(f=>f.width>=1120)||files.at(-1);return file?[file.url,Math.max(1,Math.round(file.width/file.height*560))]:null;
+      }).filter(Boolean);
+      if(!images.length)return;track.dataset.agencyArea='11';universe={base:'',images};queue=[];last=null;x=0;prev=null;
+      track.replaceChildren();track.style.transform='translate3d(0,0,0)';fill();sync();
+    });
     select.addEventListener('change', () => {
       if (!UNIVERSES[select.value]) return;
       universe = UNIVERSES[select.value]; queue = []; last = null; x = 0;

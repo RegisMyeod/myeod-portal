@@ -7,12 +7,13 @@
   const host = 'https://kewhxzitwdrnpsnzlihn.supabase.co';
   const valid = file => Number.isInteger(file.width) && file.width > 0 &&
     typeof file.url === 'string' && file.url.startsWith(host+'/storage/v1/object/sign/myeod-agency-library/') && !file.url.includes('/originals/');
-  try {
-    const response = await fetch(host+'/functions/v1/agency-opening',{headers:{apikey:'sb_publishable_owbl6MuPlOfMYAOPMxQ8Hg_deQuxLWi'},signal:AbortSignal.timeout(8000)});
-    if (!response.ok) throw Error('Opening unavailable');
-    const data = await response.json(), photo = data.photo;
+  function apply(data) {
+    const photo = data.photo;
     if (!photo || !['desktop','mobile'].every(device => photo.variants?.some(v => v.device === device && v.files.some(f => f.format === 'JPEG' && valid(f))))) throw Error('Opening unavailable');
     for (const img of images) {
+      if (img.parentElement.matches('picture[data-agency-opening]')) {
+        const previous=img.parentElement;previous.replaceWith(img);
+      }
       const picture = document.createElement('picture');picture.style.display='contents';picture.dataset.agencyOpening=photo.id;
       const sizes='100vw';
       for (const device of ['mobile','desktop']) for (const format of ['AVIF','WEBP','JPEG']) {
@@ -26,7 +27,21 @@
       img.parentNode.insertBefore(picture,img);picture.append(img);
       img.style.objectPosition='50% 50%';img.loading='eager';img.fetchPriority='high';img.decoding='async';
       img.dataset.agencyImage=photo.id;img.dataset.agencyExport=data.exportId;img.src=jpeg.find(f=>f.width>=1600)?.url||jpeg.at(-1).url;
-      img.addEventListener('error',()=>{picture.querySelectorAll('source').forEach(s=>s.remove());img.src=img.dataset.agencyFallback;},{once:true});
+      img.onerror=()=>{img.onerror=null;picture.querySelectorAll('source').forEach(s=>s.remove());img.src=img.dataset.agencyFallback;};
     }
+  }
+  // Same-origin backoffice preview: receives only the selected web derivatives, never an original.
+  if (new URLSearchParams(location.search).get('openingPreview')==='1' && parent!==window) {
+    addEventListener('message',event=>{
+      if(event.origin!==location.origin||event.source!==parent||event.data?.type!=='myeod-opening-preview')return;
+      try{apply(event.data);}catch(_){fallback();}
+    });
+    parent.postMessage({type:'myeod-opening-ready'},location.origin);
+    return;
+  }
+  try {
+    const response = await fetch(host+'/functions/v1/agency-opening',{headers:{apikey:'sb_publishable_owbl6MuPlOfMYAOPMxQ8Hg_deQuxLWi'},signal:AbortSignal.timeout(8000)});
+    if (!response.ok) throw Error('Opening unavailable');
+    apply(await response.json());
   } catch (_) { fallback(); }
 })();

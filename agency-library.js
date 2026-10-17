@@ -10,12 +10,15 @@ async function allowed(client,user){
 }
 async function mount({client,user,container,error=()=>{}}){
  if(!await allowed(client,user))throw Error(t('Accès réservé à Régis.','Access restricted to Régis.'));
- let disposed=false,busy=false,selected=[],imports=[];const urls=new Set();
+ let disposed=false,busy=false,selected=[],imports=[],managerDispose=null;const urls=new Set();
  const alive=()=>{if(disposed)throw Error(t('Rubrique fermée. Le transfert incomplet pourra être repris.','Section closed. The incomplete transfer can be resumed.'));};
  const status=element('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  const title=element('h2',t('My Agency · Photothèque privée','My Agency · Private image library'));
  const intro=element('p',t('Importez les volumes ZIP créés par « Exporter la photothèque complète ». Originaux, classements et cadrages sont conservés. Seul Régis a accès à cette bibliothèque.','Import ZIP volumes created by “Export entire image library”. Originals, classifications and crops are preserved. This library is accessible only to Régis.'));
  const note=element('p',t('Après réception de tous les volumes, les photos affectées à « Ouverture » alimentent l’accueil public My Agency avec leurs cadrages optimisés. Les originaux et les notes restent privés. Les autres sections ne sont pas reliées.','Once every volume has been received, images assigned to “Opening” supply the public My Agency opening with their optimized crops. Originals and notes remain private. Other sections are not connected.'));
+ const manage=element('button',t('Gérer les photos d’ouverture','Manage opening images'));manage.type='button';manage.setAttribute('aria-expanded','false');
+ const manager=element('section');manager.hidden=true;
+ manage.onclick=async()=>{manager.hidden=!manager.hidden;manage.setAttribute('aria-expanded',String(!manager.hidden));if(manager.hidden||managerDispose)return;manage.disabled=true;try{const dispose=await root.MyEODAgencyOpeningManager.mount({client,user,container:manager});if(disposed){dispose();return;}managerDispose=dispose;}catch(e){report(e);}finally{if(!disposed)manage.disabled=false;}};
  const input=element('input');input.type='file';input.accept='.zip,application/zip';input.multiple=true;input.id='agency-transfer-files';
  const label=element('label',t('Volumes à importer','Volumes to import'));label.htmlFor=input.id;
  const inspect=element('button',t('Vérifier les archives','Check archives'));inspect.type='button';
@@ -23,7 +26,7 @@ async function mount({client,user,container,error=()=>{}}){
  const refresh=element('button',t('Actualiser les lots','Refresh batches'));refresh.type='button';
  const actions=element('div');actions.className='agency-library-actions';actions.append(inspect,confirm,refresh);
  const summary=element('div'),list=element('div'),detail=element('div');list.className='agency-library-batches';detail.className='agency-library-detail';
- container.classList.add('agency-library-panel');container.append(title,intro,note,label,input,actions,status,summary,list,detail);
+ container.classList.add('agency-library-panel');container.append(title,intro,note,manage,manager,label,input,actions,status,summary,list,detail);
  function lock(value){busy=value;input.disabled=inspect.disabled=refresh.disabled=value;confirm.disabled=value||!selected.length;}
  function report(e){if(disposed)return;status.textContent=e.message||String(e);error(e);}
  async function rpc(name,args){alive();const r=await client.rpc(name,args);if(r.error)throw r.error;alive();return r.data;}
@@ -96,7 +99,7 @@ async function mount({client,user,container,error=()=>{}}){
   finally{if(!disposed)lock(false);}
  };
  refresh.onclick=()=>load().catch(report);await load();
- return ()=>{disposed=true;selected=[];for(const url of urls)URL.revokeObjectURL(url);urls.clear();container.replaceChildren();};
+ return ()=>{disposed=true;managerDispose?.();selected=[];for(const url of urls)URL.revokeObjectURL(url);urls.clear();container.replaceChildren();};
 }
 root.MyEODAgencyLibrary={allowed,mount};
 })(window);

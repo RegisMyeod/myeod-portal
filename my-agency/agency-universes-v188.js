@@ -3,9 +3,35 @@
   'use strict';
   const UNIVERSES = { boardsports: { base: 'assets/universes/boardsports/', images: [["glisse-001.jpg", 747], ["glisse-002.jpg", 373], ["glisse-003.jpg", 386], ["glisse-004.jpg", 747], ["glisse-005.jpg", 747], ["glisse-006.jpg", 420], ["glisse-007.jpg", 747], ["glisse-008.jpg", 747], ["glisse-009.jpg", 374], ["glisse-010.jpg", 373], ["glisse-011.jpg", 421], ["glisse-012.jpg", 841], ["glisse-013.jpg", 373], ["glisse-014.jpg", 373], ["glisse-015.jpg", 373], ["glisse-016.jpg", 878], ["glisse-017.jpg", 405], ["glisse-018.jpg", 747], ["glisse-019.jpg", 560], ["glisse-020.jpg", 750], ["glisse-021.jpg", 821], ["glisse-022.jpg", 1438], ["glisse-023.jpg", 560], ["glisse-024.jpg", 1259], ["glisse-025.jpg", 840], ["glisse-026.jpg", 840], ["glisse-027.jpg", 840], ["glisse-028.jpg", 840], ["glisse-029.jpg", 374], ["glisse-030.jpg", 840], ["glisse-031.jpg", 373], ["glisse-032.jpg", 840], ["glisse-033.jpg", 374], ["glisse-034.jpg", 374], ["glisse-035.jpg", 315], ["glisse-036.jpg", 995], ["glisse-037.jpg", 315], ["glisse-038.jpg", 995], ["glisse-039.jpg", 994], ["glisse-040.jpg", 994], ["glisse-041.jpg", 1244], ["glisse-042.jpg", 278], ["glisse-043.jpg", 996], ["glisse-044.jpg", 900], ["glisse-045.jpg", 1010], ["glisse-046.jpg", 427], ["glisse-047.jpg", 315], ["glisse-048.jpg", 995], ["glisse-049.jpg", 942], ["glisse-050.jpg", 559], ["glisse-051.jpg", 559], ["glisse-052.jpg", 563], ["glisse-053.jpg", 996], ["glisse-054.jpg", 995], ["glisse-055.jpg", 995], ["glisse-056.jpg", 648], ["glisse-057.jpg", 995], ["glisse-058.jpg", 995], ["glisse-059.jpg", 1064], ["glisse-060.jpg", 995], ["glisse-061.jpg", 840], ["glisse-062.jpg", 373], ["glisse-063.jpg", 374], ["glisse-064.jpg", 374], ["glisse-065.jpg", 1349], ["glisse-066.jpg", 1886], ["glisse-067.jpg", 374], ["glisse-068.jpg", 374], ["glisse-069.jpg", 1060], ["glisse-070.jpg", 575], ["glisse-071.jpg", 388], ["glisse-072.jpg", 561], ["glisse-073.jpg", 836], ["glisse-074.jpg", 996], ["glisse-075.jpg", 1153], ["glisse-076.jpg", 836], ["glisse-077.jpg", 560], ["glisse-078.jpg", 315]] } };
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  /* touch-color:start */
+  function bindTouchColor(track) {
+    let contact = null;
+    const moved = (e, start) => Math.hypot(e.clientX - start.x, e.clientY - start.y) > 12;
+    track.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
+      if (e.isPrimary === false) { contact = null; return; }
+      const image = e.target.closest('img');
+      contact = image && track.contains(image) ? { image, id: e.pointerId, x: e.clientX, y: e.clientY, time: e.timeStamp, scroll: window.scrollY } : null;
+    }, { passive: true });
+    track.addEventListener('pointermove', e => {
+      if (contact && e.pointerId === contact.id && moved(e, contact)) contact = null;
+    }, { passive: true });
+    track.addEventListener('pointercancel', () => { contact = null; }, { passive: true });
+    track.addEventListener('pointerup', e => {
+      if (!contact || e.pointerId !== contact.id) return;
+      const start = contact; contact = null;
+      if (moved(e, start) || e.timeStamp - start.time > 500 || Math.abs(window.scrollY - start.scroll) > 4) return;
+      if (!track.contains(start.image) || e.target.closest('img') !== start.image) return;
+      const wasColor = start.image.classList.contains('is-color');
+      track.querySelectorAll('img.is-color').forEach(img => img.classList.remove('is-color'));
+      if (!wasColor) start.image.classList.add('is-color');
+    }, { passive: true });
+  }
+  /* touch-color:end */
   document.querySelectorAll('.agency-universes').forEach(section => {
     const box = section.querySelector('.agency-universes-strip');
     const track = section.querySelector('.agency-universes-track');
+    bindTouchColor(track);
     const button = section.querySelector('button');
     const select = section.querySelector('select');
     const defaultUniverse = 'boardsports';

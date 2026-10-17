@@ -18,10 +18,16 @@ async function mount({client,user,container}){
  const save=el('button',t('Enregistrer la sélection','Save selection'));save.type='button';save.disabled=true;
  const cancel=el('button',t('Annuler les modifications','Discard changes'));cancel.type='button';cancel.disabled=true;
  const refresh=el('button',t('Actualiser la photothèque','Refresh library'));refresh.type='button';
- const deviceLabel=el('label',t('Aperçu : ','Preview: ')),device=el('select');device.setAttribute('aria-label',t('Écran de l’aperçu','Preview screen'));
+ const deviceLabel=el('label',t('Aperçu : ','Preview: ')),device=el('select');deviceLabel.className='agency-opening-device-choice';device.setAttribute('aria-label',t('Écran de l’aperçu','Preview screen'));
  for(const [value,label] of [['desktop',t('Ordinateur','Desktop')],['mobile',t('Mobile','Mobile')]]){const option=el('option',label);option.value=value;device.append(option);}deviceLabel.append(device);
  toolbar.append(save,cancel,refresh,deviceLabel);
- const previewName=el('p'),stage=el('div'),viewport=el('div'),frame=el('iframe');stage.className='agency-opening-stage';viewport.className='agency-opening-viewport';frame.title=t('Aperçu de la photo avec le texte My Agency','Image preview with My Agency text');frame.tabIndex=-1;frame.setAttribute('aria-hidden','true');viewport.append(frame);stage.append(viewport);
+ const previewName=el('p'),stage=el('div');stage.className='agency-opening-stage';stage.dataset.view=view;
+ const screens=['desktop','mobile'].map(device=>{
+  const card=el('section'),label=el('h4',device==='desktop'?t('Ordinateur','Desktop'):t('Mobile','Mobile')),viewport=el('div'),frame=el('iframe');
+  card.className='agency-opening-preview';card.dataset.device=device;viewport.className='agency-opening-viewport';
+  frame.title=device==='desktop'?t('Aperçu ordinateur avec le texte My Agency','Desktop preview with My Agency text'):t('Aperçu mobile avec le texte My Agency','Mobile preview with My Agency text');
+  frame.tabIndex=-1;frame.setAttribute('aria-hidden','true');viewport.append(frame);card.append(label,viewport);stage.append(card);return {device,viewport,frame};
+ });
  const searchLabel=el('label',t('Rechercher une photo','Find an image')),search=el('input');search.type='search';search.placeholder=t('Nom de la photo…','Image name…');searchLabel.append(search);
  const filterLabel=el('label',t('Afficher','Show')),filter=el('select');
  const names={favorite:t('Favorite','Favorite'),rotation:t('En rotation','In rotation'),excluded:t('Écartée','Excluded')};
@@ -36,13 +42,12 @@ async function mount({client,user,container}){
   save.disabled=cancel.disabled=busy||!dirty();device.disabled=busy;refresh.disabled=busy||dirty();search.disabled=busy;filter.disabled=busy;
   for(const card of cards){const state=draft[card.photo.id]||'rotation';card.select.disabled=busy;card.button.disabled=busy;card.node.hidden=!(filter.value==='all'||filter.value===state)||!card.photo.name.toLocaleLowerCase().includes(search.value.toLocaleLowerCase());card.node.dataset.state=state;card.button.setAttribute('aria-pressed',String(chosen===card.photo.id));}
  }
- function resize(){const width=view==='mobile'?360:1440,height=view==='mobile'?747:828;viewport.style.maxWidth=view==='mobile'?'360px':'100%';viewport.style.aspectRatio=width+'/'+height;frame.style.width=width+'px';frame.style.height=height+'px';frame.style.transform='scale('+(viewport.clientWidth/width)+')';}
- const observer=new ResizeObserver(resize);observer.observe(viewport);
- function sendPreview(){if(preview&&!disposed)frame.contentWindow?.postMessage({type:'myeod-opening-preview',photo:preview,exportId},location.origin);}
- function onMessage(event){if(event.origin===location.origin&&event.source===frame.contentWindow&&event.data?.type==='myeod-opening-ready')sendPreview();}
- addEventListener('message',onMessage);frame.onload=sendPreview;
- frame.src='my-agency/?openingPreview=1&lang='+(en()?'en':'fr')+'&version=205';
- device.onchange=()=>{view=device.value;resize();};search.oninput=update;filter.onchange=update;
+ function resize(){for(const {device,viewport,frame} of screens){const width=device==='mobile'?360:1440,height=device==='mobile'?747:828;viewport.style.aspectRatio=width+'/'+height;frame.style.width=width+'px';frame.style.height=height+'px';if(viewport.clientWidth)frame.style.transform='scale('+(viewport.clientWidth/width)+')';}}
+ const observer=new ResizeObserver(resize);for(const screen of screens)observer.observe(screen.viewport);
+ function sendPreview(){if(preview&&!disposed)for(const {frame} of screens)frame.contentWindow?.postMessage({type:'myeod-opening-preview',photo:preview,exportId},location.origin);}
+ function onMessage(event){if(event.origin===location.origin&&screens.some(s=>event.source===s.frame.contentWindow)&&event.data?.type==='myeod-opening-ready')sendPreview();}
+ addEventListener('message',onMessage);for(const {frame} of screens){frame.onload=sendPreview;frame.src='my-agency/?openingPreview=1&lang='+(en()?'en':'fr')+'&version=207';}
+ device.onchange=()=>{view=device.value;stage.dataset.view=view;resize();};search.oninput=update;filter.onchange=update;
  async function sign(paths){valid();const result=await client.storage.from(BUCKET).createSignedUrls(paths,3600);if(result.error)throw result.error;valid();const urls=new Map(result.data.filter(x=>!x.error&&x.signedUrl).map(x=>[x.path,x.signedUrl]));if(paths.some(p=>!urls.has(p)))throw Error(t('Un aperçu est indisponible. Actualisez la photothèque.','A preview is unavailable. Refresh the library.'));return urls;}
  async function choose(photo){
   const serial=++previewSerial;chosen=photo.id;previewName.textContent=t('Aperçu : ','Preview: ')+photo.name;status.textContent=t('Chargement de l’aperçu…','Loading preview…');update();
@@ -86,7 +91,7 @@ async function mount({client,user,container}){
  };
  cancel.onclick=()=>{draft={...preferences};for(const card of cards)card.select.value=draft[card.photo.id]||'rotation';status.textContent=t('Modifications annulées. La sélection publiée est conservée.','Changes discarded. The published selection is unchanged.');update();};
  refresh.onclick=()=>load();await load();
- return ()=>{disposed=true;previewSerial++;observer.disconnect();removeEventListener('message',onMessage);frame.src='about:blank';container.replaceChildren();};
+ return ()=>{disposed=true;previewSerial++;observer.disconnect();removeEventListener('message',onMessage);for(const {frame} of screens)frame.src='about:blank';container.replaceChildren();};
 }
 root.MyEODAgencyOpeningManager={mount};
 })(window);

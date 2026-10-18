@@ -10,7 +10,7 @@ async function allowed(client,user){
 }
 async function mount({client,user,container,error=()=>{}}){
  if(!await allowed(client,user))throw Error(t('Accès réservé à Régis.','Access restricted to Régis.'));
- let disposed=false,busy=false,selected=[],imports=[],managerDispose=null;const urls=new Set();
+ let disposed=false,busy=false,selected=[],imports=[],reviews=new Map(),managerDispose=null,showSerial=0;const urls=new Set();
  const alive=()=>{if(disposed)throw Error(t('Rubrique fermée. Le transfert incomplet pourra être repris.','Section closed. The incomplete transfer can be resumed.'));};
  const status=element('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  const title=element('h2',t('My Agency · Photothèque privée','My Agency · Private image library'));
@@ -31,13 +31,13 @@ async function mount({client,user,container,error=()=>{}}){
  function report(e){if(disposed)return;status.textContent=e.message||String(e);error(e);}
  async function rpc(name,args){alive();const r=await client.rpc(name,args);if(r.error)throw r.error;alive();return r.data;}
  async function load(){
-  alive();const r=await client.from('myeod_agency_imports').select('id,export_id,library_id,part,parts,status,created_at').order('created_at',{ascending:false}).limit(200);
+  alive();const [r,review]=await Promise.all([client.from('myeod_agency_imports').select('id,export_id,library_id,part,parts,status,created_at').order('created_at',{ascending:false}).limit(1000),client.from('myeod_agency_batch_review').select('import_id,processed')]);if(review.error)throw review.error;reviews=new Map(review.data.map(x=>[x.import_id,x.processed]));
   if(r.error)throw r.error;alive();imports=r.data;list.replaceChildren();
   list.append(element('h3',t('Lots reçus','Received batches')));
   if(!imports.length)list.append(element('p',t('Aucun lot importé.','No imported batches.')));
   for(const batch of imports){
    const button=element('button',`${batch.status==='complete'?'✓':t('À reprendre','Resume')} · ${t('Volume','Volume')} ${batch.part}/${batch.parts} · ${new Date(batch.created_at).toLocaleString(isEnglish()?'en-GB':'fr-FR')}`);
-   button.type='button';button.onclick=()=>show(batch).catch(report);list.append(button);
+   button.type='button';button.dataset.review=reviews.get(batch.id)?'processed':'pending';button.textContent=(reviews.get(batch.id)?t('Traité','Processed'):t('À traiter','To process'))+' · '+button.textContent;button.onclick=()=>show(batch).catch(report);list.append(button);
   }
  }
  async function download(batch,photo){
@@ -45,16 +45,37 @@ async function mount({client,user,container,error=()=>{}}){
   const r=await client.storage.from(BUCKET).download(batch.id+'/'+photo.original);if(r.error)throw r.error;alive();
   const url=URL.createObjectURL(r.data);urls.add(url);const link=element('a');link.href=url;link.download=photo.image.filename||'photo';link.click();setTimeout(()=>{URL.revokeObjectURL(url);urls.delete(url);},30000);
  }
+ async function askDelete(name){
+  const dialog=element('dialog'),title=element('h3',t('Supprimer définitivement cette photo ?','Permanently delete this image?')),message=element('p',name),notice=element('p',t('L’original en ligne, toutes ses déclinaisons et ses affectations seront effacés de tous les lots de cette photothèque. Cette action est irréversible. Les copies locales et archives déjà exportées restent sur votre ordinateur.','The online original, every derivative and its assignments will be erased from all batches in this library. This cannot be undone. Local copies and previously exported archives remain on your computer.')),cancel=element('button',t('Annuler','Cancel')),approve=element('button',t('Supprimer définitivement','Delete permanently'));
+  dialog.className='agency-photo-delete-dialog';dialog.setAttribute('aria-label',t('Confirmer la suppression définitive','Confirm permanent deletion'));cancel.type=approve.type='button';approve.className='agency-photo-delete';dialog.append(title,message,notice,cancel,approve);container.append(dialog);
+  return new Promise(resolve=>{const finish=value=>{dialog.close();dialog.remove();resolve(value);};cancel.onclick=()=>finish(false);approve.onclick=()=>finish(true);dialog.oncancel=e=>{e.preventDefault();finish(false);};dialog.showModal();cancel.focus();});
+ }
  async function show(batch){
-  if(busy)return;const r=await client.from('myeod_agency_imports').select('id,status,manifest').eq('id',batch.id).single();if(r.error)throw r.error;alive();
+  if(busy)return;const serial=++showSerial;
+  const r=await client.from('myeod_agency_imports').select('id,status,manifest').eq('id',batch.id).single();if(r.error)throw r.error;alive();if(serial!==showSerial)return;
   const manifest=r.data.manifest;detail.replaceChildren();detail.append(element('h3',`${manifest.images.length} ${t('photo(s)','image(s)')} · ${t('Volume','Volume')} ${manifest.part}/${manifest.parts}`));
-  const names=new Map(manifest.sections.map(x=>[x.id,x.label]));
+  const review=element('button',reviews.get(batch.id)?t('Remettre ce lot à traiter','Mark batch to process'):t('Marquer ce lot comme traité','Mark batch as processed'));review.type='button';review.disabled=batch.status!=='complete';review.className='agency-batch-review';
+  review.onclick=async()=>{if(busy)return;lock(true);try{await rpc('myeod_agency_review_batch',{target:batch.id,value:!reviews.get(batch.id)});await load();}catch(e){report(e);}finally{if(!disposed){lock(false);show(batch).catch(report);}}};detail.append(review);
+  const names=new Map(manifest.sections.map(x=>[x.id,x.label])),thumbs=[];
   for(const photo of manifest.images){
    const card=element('article');card.append(element('h4',photo.record.description||photo.image.filename));
-   card.append(element('p',`${photo.image.width} × ${photo.image.height} px · ${photo.record.sections.map(s=>names.get(s)||s).join(', ')||t('Sans affectation','Unassigned')} · ${Object.keys(photo.record.crops).length} ${t('cadrage(s)','crop(s)')}${photo.record.removed?' · '+t('Retirée de l’index','Removed from index'):''}`));
+   const zones=root.MyEODAgencyAreas.areas.filter(a=>root.MyEODAgencyAreas.candidates([{id:batch.id,manifest:{...manifest,images:[photo]}}],a).length).map(a=>isEnglish()?a.english:a.label);
+   card.append(element('p',`${photo.image.width} × ${photo.image.height} px · ${zones.join(', ')||photo.record.sections.map(s=>names.get(s)||s).join(', ')||t('Sans affectation','Unassigned')} · ${Object.keys(photo.record.crops).length} ${t('cadrage(s)','crop(s)')}${photo.record.removed?' · '+t('Retirée ou suppression à reprendre','Removed or deletion pending'):''}`));
    if(photo.record.notes)card.append(element('p',photo.record.notes));
-   const open=element('button',t('Télécharger l’original','Download original'));open.type='button';open.disabled=batch.status!=='complete';open.onclick=()=>download(batch,photo).catch(report);card.append(open);detail.append(card);
+   const row=element('div');row.className='agency-library-photo-actions';const image=element('img');image.className='agency-library-miniature';image.alt=photo.record.description||photo.image.filename;image.loading='lazy';image.decoding='async';
+   const declared=new Map(manifest.files.map(f=>[f.path,f]));const file=photo.web.flatMap(w=>w.files).filter(f=>f.format==='JPEG'&&declared.get(f.file)?.imageId===photo.image.id).sort((a,b)=>a.width-b.width)[0]?.file||photo.original;thumbs.push({image,path:batch.id+'/'+file});
+   const open=element('button',t('Télécharger l’original','Download original'));open.type='button';open.disabled=batch.status!=='complete';open.onclick=()=>download(batch,photo).catch(report);
+   const remove=element('button',t('Supprimer définitivement…','Delete permanently…'));remove.type='button';remove.className='agency-photo-delete';remove.disabled=batch.status!=='complete';remove.setAttribute('aria-label',t('Supprimer définitivement : ','Delete permanently: ')+image.alt);
+   remove.onclick=async()=>{
+    if(busy)return;
+    if(!await askDelete(image.alt))return;
+    lock(true);remove.disabled=true;open.disabled=true;status.textContent=t('Suppression de l’original et de ses déclinaisons…','Deleting original and derivatives…');
+    try{const result=await client.functions.invoke('agency-photo-delete',{body:{library:batch.library_id,image:photo.image.id}});if(result.error||result.data?.state!=='deleted')throw Error(result.data?.error||result.error?.message||t('Suppression interrompue ; réessayez.','Deletion interrupted; retry.'));alive();dispatchEvent(new Event('myeod-agency-library-changed'));await load();status.textContent=t('Photo, original et déclinaisons supprimés.','Photo, original and derivatives deleted.');}
+    catch(e){report(e);}finally{if(!disposed){lock(false);show(batch).catch(report);}}
+   };
+   row.append(image,open,remove);card.append(row);detail.append(card);
   }
+  for(let i=0;i<thumbs.length;i+=100){const group=thumbs.slice(i,i+100),signed=await client.storage.from(BUCKET).createSignedUrls(group.map(x=>x.path),3600);if(signed.error)throw signed.error;alive();if(serial!==showSerial)return;const urls=new Map(signed.data.filter(x=>x.signedUrl&&!x.error).map(x=>[x.path,x.signedUrl]));for(const x of group)if(urls.has(x.path))x.image.src=urls.get(x.path);}
  }
  input.onchange=()=>{selected=[];confirm.disabled=true;summary.replaceChildren();};
  inspect.onclick=async()=>{
@@ -94,7 +115,7 @@ async function mount({client,user,container,error=()=>{}}){
     }
     await rpc('myeod_agency_finish_transfer',{target:prepared.id});
    }
-   selected=[];input.value='';summary.replaceChildren();await load();status.textContent=t('Import terminé. Les lots sont disponibles dans votre bibliothèque privée My Agency.','Import complete. Batches are available in your private My Agency library.');
+   selected=[];input.value='';summary.replaceChildren();await load();dispatchEvent(new Event('myeod-agency-library-changed'));status.textContent=t('Import terminé. Les lots sont disponibles dans votre bibliothèque privée My Agency.','Import complete. Batches are available in your private My Agency library.');
   }catch(e){report(e);status.textContent+=' '+t('Le lot incomplet reste à reprendre : sélectionnez à nouveau la même archive.','You can resume the incomplete batch by selecting the same archive again.');}
   finally{if(!disposed)lock(false);}
  };

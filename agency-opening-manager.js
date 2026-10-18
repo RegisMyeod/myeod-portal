@@ -2,11 +2,7 @@
 const BUCKET='myeod-agency-library',REGIS='5e101491-fc2c-4081-9fdd-a513cb7e7404';
 const en=()=>document.documentElement.lang==='en',t=(fr,eng)=>en()?eng:fr;
 const el=(tag,text)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;return node;};
-function snapshot(rows){
- const groups=new Map();for(const row of rows){if(row.owner_id!==REGIS)continue;const group=groups.get(row.export_id)||[];group.push(row);groups.set(row.export_id,group);}
- return [...groups.values()].filter(g=>g.length===g[0].parts&&g.every(r=>r.status==='complete'&&r.parts===g[0].parts&&r.library_id===g[0].library_id)&&new Set(g.map(r=>r.part)).size===g.length)
- .sort((a,b)=>Math.max(...b.map(r=>Date.parse(r.created_at)))-Math.max(...a.map(r=>Date.parse(r.created_at))))[0]||[];
-}
+function snapshot(rows){return root.MyEODAgencyAreas.snapshots(rows);}
 async function mount({client,user,container}){
  if(user?.id!==REGIS)throw Error(t('Accès réservé à Régis.','Access restricted to Régis.'));
  let disposed=false,busy=false,photos=[],revision=0,preferences={},draft={},library='',exportId='',chosen='',preview=null,previewSerial=0,view='desktop',cards=[];
@@ -50,7 +46,7 @@ async function mount({client,user,container}){
  function sendPreview(){if(!disposed)for(const {frame} of screens)frame.contentWindow?.postMessage({type:'myeod-opening-preview',area:area.id,photo:preview,photos:preview?[preview]:[],exportId},location.origin);}
  function onMessage(event){if(event.origin===location.origin&&screens.some(s=>event.source===s.frame.contentWindow)&&event.data?.type==='myeod-opening-ready')sendPreview();}
  addEventListener('message',onMessage);for(const {frame} of screens){frame.onload=sendPreview;frame.src='my-agency/?openingPreview=1&lang='+(en()?'en':'fr')+'&area='+encodeURIComponent(area.id)+'&version=208';}
- areaSelect.onchange=()=>{area=root.MyEODAgencyAreas.areas.find(a=>a.id===areaSelect.value);previewSerial++;preview=null;chosen='';for(const {frame} of screens)frame.src='my-agency/?openingPreview=1&lang='+(en()?'en':'fr')+'&area='+encodeURIComponent(area.id)+'&version=208';load();};
+ areaSelect.onchange=()=>{if(busy||dirty())return;area=root.MyEODAgencyAreas.areas.find(a=>a.id===areaSelect.value);previewSerial++;preview=null;chosen='';for(const {frame} of screens)frame.src='my-agency/?openingPreview=1&lang='+(en()?'en':'fr')+'&area='+encodeURIComponent(area.id)+'&version=208';load();};
  device.onchange=()=>{view=device.value;stage.dataset.view=view;resize();};search.oninput=update;filter.onchange=update;
  async function sign(paths){valid();if(!paths.length)return new Map();const result=await client.storage.from(BUCKET).createSignedUrls(paths,3600);if(result.error)throw result.error;valid();const urls=new Map(result.data.filter(x=>!x.error&&x.signedUrl).map(x=>[x.path,x.signedUrl]));if(paths.some(p=>!urls.has(p)))throw Error(t('Un aperçu est indisponible. Actualisez la photothèque.','A preview is unavailable. Refresh the library.'));return urls;}
  async function choose(photo){
@@ -66,7 +62,7 @@ async function mount({client,user,container}){
    const result=await client.from('myeod_agency_imports').select('id,export_id,library_id,part,parts,status,owner_id,created_at').order('created_at',{ascending:false}).limit(1000);if(result.error)throw result.error;valid();
    const current=snapshot(result.data);if(!current.length)throw Error(t('Importez tous les volumes avant de gérer les illustrations.','Import every volume before managing illustrations.'));
    library=current[0].library_id;exportId=current[0].export_id;
-   const [volumes,selection]=await Promise.all([client.from('myeod_agency_imports').select('id,manifest').eq('export_id',exportId).eq('status','complete'),(area.id==='0'?client.from('myeod_agency_opening_selection').select('revision,preferences').eq('library_id',library):client.from('myeod_agency_area_selection').select('revision,preferences').eq('library_id',library).eq('area',area.id)).maybeSingle()]);
+   const [volumes,selection]=await Promise.all([client.from('myeod_agency_imports').select('id,created_at,manifest').in('id',current.map(r=>r.id)),(area.id==='0'?client.from('myeod_agency_opening_selection').select('revision,preferences').eq('library_id',library):client.from('myeod_agency_area_selection').select('revision,preferences').eq('library_id',library).eq('area',area.id)).maybeSingle()]);
    if(volumes.error||selection.error)throw volumes.error||selection.error;valid();revision=selection.data?.revision||0;preferences=selection.data?.preferences||{};draft={...preferences};photos=[];
    photos=root.MyEODAgencyAreas.candidates(volumes.data,area);
    for(const option of areaSelect.options){const a=root.MyEODAgencyAreas.areas.find(a=>a.id===option.value);option.textContent=(en()?a.english:a.label)+' · '+root.MyEODAgencyAreas.candidates(volumes.data,a).length+' photo(s)';}
@@ -90,8 +86,10 @@ async function mount({client,user,container}){
   }catch(e){if(!disposed)status.textContent=e.message;}finally{busy=false;if(!disposed)update();}
  };
  cancel.onclick=()=>{draft={...preferences};for(const card of cards)card.select.value=draft[card.photo.id]||'rotation';status.textContent=t('Modifications annulées. La sélection publiée est conservée.','Changes discarded. The published selection is unchanged.');update();};
+ function onLibraryChanged(){if(!busy&&!dirty())load();}
+ addEventListener('myeod-agency-library-changed',onLibraryChanged);
  refresh.onclick=()=>load();await load();
- return ()=>{disposed=true;previewSerial++;observer.disconnect();removeEventListener('message',onMessage);for(const {frame} of screens)frame.src='about:blank';container.replaceChildren();};
+ return ()=>{disposed=true;removeEventListener('myeod-agency-library-changed',onLibraryChanged);previewSerial++;observer.disconnect();removeEventListener('message',onMessage);for(const {frame} of screens)frame.src='about:blank';container.replaceChildren();};
 }
 root.MyEODAgencyOpeningManager={mount};
 })(window);

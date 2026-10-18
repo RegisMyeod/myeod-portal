@@ -16,3 +16,5 @@
 .agency-universes-fallback{display:block;width:100%;height:auto}
 @media(max-width:639px){.agency-universes-controls{gap:18px}.agency-page .agency-universes select,.agency-page .agency-universes button{font-size:14px;padding:10px 12px}}
 @media(prefers-reduced-motion:reduce){.agency-universes-track{will-change:auto}.agency-page .agency-universes-track img{transition:none}}
+
+.agency-universes-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;color:#bcb8b0;font:400 18px/1.5 MazzardH,sans-serif}.agency-universes-empty[hidden]{display:none}.agency-universes-pause:disabled{opacity:.5;cursor:default}

@@ -5,7 +5,7 @@
  add('0','Ouverture','Opening','img[data-pick="hero"]','agency-top');
  add('1','Regards','Perspectives','img[data-pick^="l"]','large',3);
  add('2','La Rencontre','The meeting','img[data-pick^="r"]','rencontre',3);
- add('3','La Glisse','Board sports','img[data-pick^="gl"]','regard',3);
+ add('3','Glisse','Board sports','img[data-pick^="gl"]','regard',3);
  add('4','041 — Ensemble','041 — Together','img[data-k="392cf66b92fb2b3ef309602f2ff41d95"]','equipe');
  add('4:portrait','042 — Portrait Alizé','042 — Alizé portrait','img[data-k="d11f517ee30e52417b8da043db259609"]','equipe',1,'portrait');
  add('4:portrait_regis','043 — Portrait Régis','043 — Régis portrait','img[data-k="bc58a3dd84484dcceb6fad5e359a88b1"]','equipe',1,'portrait_regis');
@@ -22,7 +22,15 @@
  add('9','Notre quête · L’équilibre','Our quest · Balance','img[data-pick="eq"]','equilibre');
  add('10','Notre promesse · Galerie','Our promise · Gallery','img[data-pick^="p"]','promesse',3);
  add('10:ccus','Notre promesse · Planches CCUS','Our promise · CCUS boards','img[data-pick^="cc"]','promesse',2,'ccus');
- add('11','Bandeau des univers · La glisse','Universe strip · Board sports','.agency-universes','agency-universes',32,'main',{strip:true});
+ add('111','Bandeau · Glisse','Strip · Board sports','.agency-universes','agency-universes',32,'main',{strip:true,universe:'boardsports'});
+ add('112','Bandeau · Onshore','Strip · Onshore','.agency-universes','agency-universes',32,'main',{strip:true,universe:'onshore'});
+ add('113','Bandeau · Offshore','Strip · Offshore','.agency-universes','agency-universes',32,'main',{strip:true,universe:'offshore'});
+ add('114','Bandeau · Maritime','Strip · Maritime','.agency-universes','agency-universes',32,'main',{strip:true,universe:'maritime'});
+ add('115','Bandeau · Voile','Strip · Sailing','.agency-universes','agency-universes',32,'main',{strip:true,universe:'sailing'});
+ add('116','Bandeau · Transports','Strip · Transport','.agency-universes','agency-universes',32,'main',{strip:true,universe:'transport'});
+ add('117','Bandeau · Villes','Strip · Cities','.agency-universes','agency-universes',32,'main',{strip:true,universe:'cities'});
+ add('118','Bandeau · Art','Strip · Art','.agency-universes','agency-universes',32,'main',{strip:true,universe:'art'});
+ add('119','Bandeau · Voyages','Strip · Travel','.agency-universes','agency-universes',32,'main',{strip:true,universe:'travel'});
  const team={'4':['041','main'],'4:portrait':['042','portrait'],'4:portrait_regis':['043','portrait_regis']};
  for(const a of areas)if(team[a.id]){a.section=team[a.id][0];a.variant='main';}
  function sources(photo,area){

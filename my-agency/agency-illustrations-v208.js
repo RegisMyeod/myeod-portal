@@ -12,9 +12,9 @@
   img.parentNode.insertBefore(wrapper,img);wrapper.append(img);img.dataset.agencyImage=photo.id;img.dataset.agencyArea=area.id;img.dataset.agencyFallback=fallback;img.style.objectPosition='50% 50%';img.decoding='async';img.loading=area.id==='0'?'eager':'lazy';if(area.id==='0')img.fetchPriority='high';
   img.onload=()=>img.classList.add('ld');img.onerror=()=>{img.onerror=null;wrapper.querySelectorAll('source').forEach(s=>s.remove());img.src=fallback;img.classList.add('ld');};img.src=jpeg(photo,'desktop').url;
  }
- function apply(area,photos){if(!photos?.length)return;
+ function apply(area,photos){if(!area.strip&&!photos?.length)return;
   for(const language of document.querySelectorAll('.lang')){
-   if(area.strip){for(const section of language.querySelectorAll(area.selector))section.dispatchEvent(new CustomEvent('myeod-universe-gallery',{detail:{photos}}));continue;}
+   if(area.strip){for(const section of language.querySelectorAll(area.selector))section.dispatchEvent(new CustomEvent('myeod-universe-gallery',{detail:{photos:photos||[],universe:area.universe,area:area.id,preview}}));continue;}
    if(area.panorama){const device=innerWidth<=639?'mobile':'desktop';const urls=photos.map(p=>jpeg(p,device)?.url).filter(Boolean);if(!urls.length)continue;
     for(const cv of language.querySelectorAll(area.selector)){cv.style.display='block';cv.dataset.agencyImage=photos[0].id;cv.dataset.agencyArea=area.id;const poster=cv.closest('.pano-box')?.querySelector('[data-area-static360]');if(poster)poster.style.display='none';cv.dispatchEvent(new CustomEvent('myeod-pano-gallery',{detail:{urls}}));}continue;
    }

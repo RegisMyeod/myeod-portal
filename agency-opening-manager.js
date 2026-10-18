@@ -45,8 +45,8 @@ async function mount({client,user,container}){
  const observer=new ResizeObserver(resize);for(const screen of screens)observer.observe(screen.viewport);
  function sendPreview(){if(!disposed)for(const {frame} of screens)frame.contentWindow?.postMessage({type:'myeod-opening-preview',area:area.id,photo:preview,photos:preview?[preview]:[],exportId},location.origin);}
  function onMessage(event){if(event.origin===location.origin&&screens.some(s=>event.source===s.frame.contentWindow)&&event.data?.type==='myeod-opening-ready')sendPreview();}
- addEventListener('message',onMessage);for(const {frame} of screens){frame.onload=sendPreview;frame.src='my-agency/?openingPreview=1&lang='+(en()?'en':'fr')+'&area='+encodeURIComponent(area.id)+'&version=214';}
- areaSelect.onchange=()=>{if(busy||dirty())return;area=root.MyEODAgencyAreas.areas.find(a=>a.id===areaSelect.value);previewSerial++;preview=null;chosen='';for(const {frame} of screens)frame.src='my-agency/?openingPreview=1&lang='+(en()?'en':'fr')+'&area='+encodeURIComponent(area.id)+'&version=214';load();};
+ addEventListener('message',onMessage);for(const {frame} of screens){frame.onload=sendPreview;frame.src='my-agency/?openingPreview=1&lang='+(en()?'en':'fr')+'&area='+encodeURIComponent(area.id)+'&version=215';}
+ areaSelect.onchange=()=>{if(busy||dirty())return;area=root.MyEODAgencyAreas.areas.find(a=>a.id===areaSelect.value);previewSerial++;preview=null;chosen='';for(const {frame} of screens)frame.src='my-agency/?openingPreview=1&lang='+(en()?'en':'fr')+'&area='+encodeURIComponent(area.id)+'&version=215';load();};
  device.onchange=()=>{view=device.value;stage.dataset.view=view;resize();sendPreview();};search.oninput=update;filter.onchange=update;
  async function sign(paths){valid();if(!paths.length)return new Map();const result=await client.storage.from(BUCKET).createSignedUrls(paths,3600);if(result.error)throw result.error;valid();const urls=new Map(result.data.filter(x=>!x.error&&x.signedUrl).map(x=>[x.path,x.signedUrl]));if(paths.some(p=>!urls.has(p)))throw Error(t('Un aperçu est indisponible. Actualisez la photothèque.','A preview is unavailable. Refresh the library.'));return urls;}
  async function choose(photo){
@@ -74,7 +74,7 @@ async function mount({client,user,container}){
     for(const [value,text] of Object.entries(names)){const option=el('option',text);option.value=value;select.append(option);}select.value=draft[photo.id]||'rotation';
     select.onchange=()=>{draft[photo.id]=select.value;status.textContent=t('Modifications non enregistrées.','Unsaved changes.');update();};label.append(select);card.append(button,title,label);gallery.append(card);cards.push({photo,node:card,button,select});
    }
-   if(photos.length){await choose(photos.find(p=>p.id===chosen)||photos[0]);}else {preview=null;sendPreview();previewName.textContent=en()?area.english:area.label;status.textContent=t('Aucune photo importée pour cette zone. Les illustrations actuelles du site sont conservées.','No images imported for this area. Current website illustrations are preserved.');}
+   if(photos.length){await choose(photos.find(p=>p.id===chosen)||photos[0]);}else {preview=null;sendPreview();previewName.textContent=en()?area.english:area.label;status.textContent=t('Aucune photo importée pour cette zone. Pour Glisse, le bandeau initial est conservé ; les autres bandeaux attendent vos affectations.','No images imported for this area. Current website illustrations are preserved.');}
   }catch(e){if(!disposed)status.textContent=e.message;}finally{busy=false;if(!disposed)update();}
  }
  save.onclick=async()=>{

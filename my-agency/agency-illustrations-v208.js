@@ -33,4 +33,5 @@
  const opening=[...document.querySelectorAll('img[data-pick="hero"]')];
  try{const r=await fetch(host+'/functions/v1/agency-opening?areas=all',{headers:{apikey:'sb_publishable_owbl6MuPlOfMYAOPMxQ8Hg_deQuxLWi'},signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('Unavailable');const data=await r.json();for(const result of data.areas||[]){const area=registry.areas.find(a=>a.id===result.area);if(area)apply(area,result.photos);}if(!data.areas?.some(a=>a.area==='0'))throw Error('No opening');}
  catch(_){for(const img of opening)if(!img.dataset.agencyImage&&img.dataset.agencyFallback)img.src=img.dataset.agencyFallback;}
+ finally{for(const section of document.querySelectorAll('.agency-universes'))section.dispatchEvent(new CustomEvent('myeod-universe-galleries-ready'));}
 })();

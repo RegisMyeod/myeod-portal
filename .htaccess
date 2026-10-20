@@ -5,6 +5,9 @@
 
 Options -Indexes
 RewriteEngine On
+# Fail closed if this recipe is accidentally placed on production.
+RewriteCond %{HTTP_HOST} ^(?:www\.)?myexpertondemand\.com(?::[0-9]+)?$ [NC]
+RewriteRule ^ - [F,L]
 # V161 : dossiers techniques de livraison interdits sur le web
 RewriteRule ^(?:.*/)?(?:activation|sql)(?:/.*)?$ - [F,L,NC]
 # V119 : page Services remplacée par la landing
@@ -30,8 +33,7 @@ RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
 # --- www → non-www (canonical) ---
-RewriteCond %{HTTP_HOST} ^www\.myexpertondemand\.com [NC]
-RewriteRule ^ https://myexpertondemand.com%{REQUEST_URI} [R=301,L]
+# Canonical production redirect omitted for isolated recipe.
 
 # --- Détection langue navigateur sur la racine (sans paramètre ?lang=) ---
 # Si l'utilisateur arrive sur / sans ?lang=, on redirige selon Accept-Language
@@ -78,4 +80,14 @@ RewriteRule ^$ /?lang=en [R=302,L]
     Header set Cache-Control "no-cache, must-revalidate"
     Header unset Expires
   </FilesMatch>
+</IfModule>
+
+# Recipe files must not be indexed or retained after an update.
+<IfModule mod_headers.c>
+ Header always set X-Robots-Tag "noindex, nofollow, noarchive"
+ Header always set Referrer-Policy "no-referrer"
+ <FilesMatch "\.(?:html|js)$">
+  Header always set Cache-Control "no-store"
+  Header unset Expires
+ </FilesMatch>
 </IfModule>

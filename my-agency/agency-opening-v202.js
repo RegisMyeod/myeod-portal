@@ -4,7 +4,7 @@
   const images = [...document.querySelectorAll('img[data-pick="hero"]')];
   if (!images.length) return;
   const fallback = () => images.forEach(img => { if (img.dataset.agencyFallback) img.src = img.dataset.agencyFallback; });
-  const host = 'https://kewhxzitwdrnpsnzlihn.supabase.co';
+  const host = 'https://hnsxwrarctqqasddtghq.supabase.co';
   const valid = file => Number.isInteger(file.width) && file.width > 0 &&
     typeof file.url === 'string' && file.url.startsWith(host+'/storage/v1/object/sign/myeod-agency-library/') && !file.url.includes('/originals/');
   function apply(data) {
@@ -40,7 +40,7 @@
     return;
   }
   try {
-    const response = await fetch(host+'/functions/v1/agency-opening',{headers:{apikey:'sb_publishable_owbl6MuPlOfMYAOPMxQ8Hg_deQuxLWi'},signal:AbortSignal.timeout(8000)});
+    const response = await fetch(host+'/functions/v1/agency-opening',{headers:{apikey:'sb_publishable_bPnkexoj2cGftGvUUbdFNQ_MHfg1z99'},signal:AbortSignal.timeout(8000)});
     if (!response.ok) throw Error('Opening unavailable');
     apply(await response.json());
   } catch (_) { fallback(); }

@@ -1,7 +1,7 @@
 (function(){
 'use strict';
-const en=document.documentElement.lang==='en',t=(fr,eng)=>en?eng:fr,$=id=>document.getElementById(id),host='kewhxzitwdrnpsnzlihn.supabase.co';
-const sb=window.supabase.createClient('https://'+host,'sb_publishable_owbl6MuPlOfMYAOPMxQ8Hg_deQuxLWi',{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'myeod-password-recovery'}});
+const en=document.documentElement.lang==='en',t=(fr,eng)=>en?eng:fr,$=id=>document.getElementById(id),host='hnsxwrarctqqasddtghq.supabase.co';
+const sb=window.supabase.createClient('https://'+host,'sb_publishable_bPnkexoj2cGftGvUUbdFNQ_MHfg1z99',{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'myeod-password-recovery'}});
 let busy=false,recoveryUser=null,recoveryEmail=null;
 const note=text=>{$('recovery-log').textContent+='\n'+text;};
 

@@ -1,0 +1,1 @@
+window.MyEODSSOConfig = Object.freeze({"enabled": false, "supabaseUrl": "https://hnsxwrarctqqasddtghq.supabase.co", "allowedOrigins": ["https://portal.myexpertondemand.com"], "allowedPaths": ["/client-login.html", "/client-login-en.html", "/acces-collaborateurs.html", "/acces-collaborateurs-en.html"]});

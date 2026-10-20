@@ -4,7 +4,7 @@
 let en=document.documentElement.lang==='en';
 const entryRole=document.body.dataset.accessRole;let expected=entryRole;let profileName='';
 const t=(fr,eng)=>en?eng:fr,$=id=>document.getElementById(id);
-const sb=window.supabase.createClient('https://kewhxzitwdrnpsnzlihn.supabase.co','sb_publishable_owbl6MuPlOfMYAOPMxQ8Hg_deQuxLWi',{auth:{persistSession:false,storageKey:'myeod-integrated-access'},global:{fetch:window.MyEODPrivateFetch}});
+const sb=window.supabase.createClient('https://hnsxwrarctqqasddtghq.supabase.co','sb_publishable_bPnkexoj2cGftGvUUbdFNQ_MHfg1z99',{auth:{persistSession:true,flowType:'pkce',detectSessionInUrl:false,storageKey:'myeod-recipe-auth',storage:window.MyEODSSO.createPKCEStorage({getItem:k=>sessionStorage.getItem(k),setItem:(k,v)=>sessionStorage.setItem(k,v),removeItem:k=>{try{sessionStorage.removeItem(k);}catch(_){}}},'myeod-recipe-auth')},global:{fetch:window.MyEODPrivateFetch}});
 let busy=false,revision=0,currentUser=null,cachedView=null;
 const scoped=window.MyEODAccessPolicyMode==='scoped-v48';let accessContext=null,accessView=null,returnChoice=null,actualProfileRole=null;
 const canManageDocuments=()=>scoped?accessView?.manageDocuments===true:expected==='fondateur';
@@ -220,4 +220,5 @@ const headerBack=document.querySelector('.btn-nav-back');
 if(headerBack)headerBack.onclick=()=>{if(busy)return;if(window.MyEODInternalPages?.route()){window.MyEODInternalPages.home();return;}window.location.href=en?'index-en.html':'index.html';};
 sessionLabel(null);
 sb.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT')clear();});
+window.MyEODSSOUI({client:sb,config:window.MyEODSSOConfig,load,clear,isBusy:()=>busy,setBusy:value=>{busy=value;}});
 })();

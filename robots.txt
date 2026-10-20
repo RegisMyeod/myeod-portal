@@ -1,4 +1,2 @@
 User-agent: *
-Allow: /
-
-Sitemap: https://myexpertondemand.com/sitemap.xml
+Disallow: /

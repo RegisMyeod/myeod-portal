@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="fr">
-<head>
+<head><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://hnsxwrarctqqasddtghq.supabase.co; font-src 'self' data:; connect-src 'self' https://hnsxwrarctqqasddtghq.supabase.co wss://hnsxwrarctqqasddtghq.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'"><meta name="referrer" content="no-referrer">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>My Agency — Deux regards, un équilibre juste. | MyEOD</title>
@@ -650,7 +650,7 @@ img.src = u;
 };
 load(src);
 let list = (cv.getAttribute('data-srcs') || '').split('|').filter(Boolean);
-cv.addEventListener('myeod-pano-gallery',event=>{const urls=(event.detail?.urls||[]).filter(u=>typeof u==='string'&&u.startsWith('https://kewhxzitwdrnpsnzlihn.supabase.co/storage/v1/object/sign/myeod-agency-library/')&&!u.includes('/originals/'));if(!urls.length)return;list=urls;const button=cv.closest('.pano-box')?.querySelector('.pano-next');if(button)button.hidden=new Set(list).size<2;st.yaw=0;st.pitch=-.12;load(list[0]);});
+cv.addEventListener('myeod-pano-gallery',event=>{const urls=(event.detail?.urls||[]).filter(u=>typeof u==='string'&&u.startsWith('https://hnsxwrarctqqasddtghq.supabase.co/storage/v1/object/sign/myeod-agency-library/')&&!u.includes('/originals/'));if(!urls.length)return;list=urls;const button=cv.closest('.pano-box')?.querySelector('.pano-next');if(button)button.hidden=new Set(list).size<2;st.yaw=0;st.pitch=-.12;load(list[0]);});
 const next = () => {
 if (busy || new Set(list).size < 2) return; busy = true;
 let u = cur; while (u === cur) u = list[Math.floor(Math.random() * list.length)];

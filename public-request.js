@@ -1,8 +1,8 @@
 /* Public MyEOD requests. No session or browser storage is used. */
 (function () {
   'use strict';
-  const endpoint = 'https://kewhxzitwdrnpsnzlihn.supabase.co/functions/v1/submit-portal-request';
-  const apiKey = 'sb_publishable_owbl6MuPlOfMYAOPMxQ8Hg_deQuxLWi';
+  const endpoint = 'https://hnsxwrarctqqasddtghq.supabase.co/functions/v1/submit-portal-request';
+  const apiKey = 'sb_publishable_bPnkexoj2cGftGvUUbdFNQ_MHfg1z99';
   const en = document.documentElement.lang.toLowerCase().startsWith('en');
   const text = en ? {
     busy: 'Sending your request…',

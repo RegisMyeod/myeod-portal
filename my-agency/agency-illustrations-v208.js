@@ -1,6 +1,6 @@
 /* Apply only assigned web derivatives. Empty galleries preserve the existing illustrations. */
 (async()=>{'use strict';
- const registry=window.MyEODAgencyAreas,host='https://kewhxzitwdrnpsnzlihn.supabase.co';if(!registry)return;
+ const registry=window.MyEODAgencyAreas,host='https://hnsxwrarctqqasddtghq.supabase.co';if(!registry)return;
  const valid=f=>Number.isInteger(f.width)&&f.width>0&&typeof f.url==='string'&&f.url.startsWith(host+'/storage/v1/object/sign/myeod-agency-library/')&&!f.url.includes('/originals/');
  function files(photo,device,format){return (photo.variants?.find(v=>v.device===device)?.files||[]).filter(f=>f.format===format&&valid(f)).sort((a,b)=>a.width-b.width);}
  function jpeg(photo,device){const a=files(photo,device,'JPEG');return a.find(f=>f.width>=1600)||a.at(-1);}
@@ -31,7 +31,7 @@
   parent.postMessage({type:'myeod-opening-ready'},location.origin);return;
  }
  const opening=[...document.querySelectorAll('img[data-pick="hero"]')];
- try{const r=await fetch(host+'/functions/v1/agency-opening?areas=all',{headers:{apikey:'sb_publishable_owbl6MuPlOfMYAOPMxQ8Hg_deQuxLWi'},signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('Unavailable');const data=await r.json();for(const result of data.areas||[]){const area=registry.areas.find(a=>a.id===result.area);if(area)apply(area,result.photos);}if(!data.areas?.some(a=>a.area==='0'))throw Error('No opening');}
+ try{const r=await fetch(host+'/functions/v1/agency-opening?areas=all',{headers:{apikey:'sb_publishable_bPnkexoj2cGftGvUUbdFNQ_MHfg1z99'},signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('Unavailable');const data=await r.json();for(const result of data.areas||[]){const area=registry.areas.find(a=>a.id===result.area);if(area)apply(area,result.photos);}if(!data.areas?.some(a=>a.area==='0'))throw Error('No opening');}
  catch(_){for(const img of opening)if(!img.dataset.agencyImage&&img.dataset.agencyFallback)img.src=img.dataset.agencyFallback;}
  finally{for(const section of document.querySelectorAll('.agency-universes'))section.dispatchEvent(new CustomEvent('myeod-universe-galleries-ready'));}
 })();

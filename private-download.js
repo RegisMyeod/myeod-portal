@@ -3,7 +3,7 @@ window.MyEODPrivateFetch = async function(input, init) {
  const source = input instanceof Request ? input.url : String(input);
  const url = new URL(source, window.location.href);
  const method = (init?.method || (input instanceof Request ? input.method : 'GET')).toUpperCase();
- const privateObject = url.origin === 'https://kewhxzitwdrnpsnzlihn.supabase.co' &&
+ const privateObject = url.origin === 'https://hnsxwrarctqqasddtghq.supabase.co' &&
   url.pathname.startsWith('/storage/v1/object/') &&
   !url.pathname.startsWith('/storage/v1/object/public/') &&
   !url.pathname.startsWith('/storage/v1/object/sign/');

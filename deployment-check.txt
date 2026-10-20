@@ -1,5 +1,5 @@
-MyEOD - GitHub to OVH automatic deployment check
-Check: V165-20261015
-Branch: main
-Reference release: V164
-This file contains no personal data or credentials.
+MyEOD SSO recipe candidate
+Branch: sso-authentik-recette (local preparation)
+SSO disabled; HTTPS host now serves the correct portal certificate as of 20 October 2026.
+This branch is prepared locally but has not been published to GitHub or deployed to OVH.
+Not a production release.

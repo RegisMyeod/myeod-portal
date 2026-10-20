@@ -103,7 +103,7 @@
       const key=event.detail?.universe;if(!Object.hasOwn(galleries,key))return;
       const device=innerWidth<=639?'mobile':'desktop';
       const images=(event.detail?.photos||[]).map(p=>{
-        const files=(p.variants?.find(v=>v.device===device)?.files||[]).filter(f=>f.format==='JPEG'&&f.url?.startsWith('https://kewhxzitwdrnpsnzlihn.supabase.co/storage/v1/object/sign/myeod-agency-library/')&&!f.url.includes('/originals/')).sort((a,b)=>a.width-b.width);
+        const files=(p.variants?.find(v=>v.device===device)?.files||[]).filter(f=>f.format==='JPEG'&&f.url?.startsWith('https://hnsxwrarctqqasddtghq.supabase.co/storage/v1/object/sign/myeod-agency-library/')&&!f.url.includes('/originals/')).sort((a,b)=>a.width-b.width);
         const file=files.find(f=>f.width>=1120)||files.at(-1);return file?[file.url,Math.max(1,Math.round(file.width/file.height*560))]:null;
       }).filter(Boolean);
       galleries[key]=images.length?{base:'',images}:UNIVERSES[key];

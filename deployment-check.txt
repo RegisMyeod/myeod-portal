@@ -1,5 +1,6 @@
 MyEOD SSO recipe candidate
-Branch: sso-authentik-recette (local preparation)
+Branch: sso-authentik-recette (GitHub recipe branch)
 SSO disabled; HTTPS host now serves the correct portal certificate as of 20 October 2026.
-This branch is prepared locally but has not been published to GitHub or deployed to OVH.
+This branch is published to GitHub and is deployed on OVH's isolated portal directory.
+The four recipe login pages load; a real Authentik login and authorization review remain pending.
 Not a production release.

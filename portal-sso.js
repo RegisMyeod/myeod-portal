@@ -54,14 +54,13 @@ function createSSO({client, config, storage, location, history, now = Date.now})
   }
   return {start, callback};
 }
-// Only the SDK's PKCE verifier survives navigation. Session tokens stay in memory.
+// Keep the recipe session through a page reload, but only for this browser tab.
 function createPKCEStorage(sessionStorage, storageKey) {
-  const memory = new Map();
-  const verifier = storageKey + '-code-verifier';
+  const allowed = key => key === storageKey || key.startsWith(storageKey + '-');
   return {
-    getItem: key => key === verifier ? sessionStorage.getItem(key) : memory.get(key) ?? null,
-    setItem: (key, value) => key === verifier ? sessionStorage.setItem(key, value) : memory.set(key, value),
-    removeItem: key => key === verifier ? sessionStorage.removeItem(key) : memory.delete(key)
+    getItem: key => allowed(key) ? sessionStorage.getItem(key) : null,
+    setItem: (key, value) => { if (allowed(key)) sessionStorage.setItem(key, value); },
+    removeItem: key => { if (allowed(key)) sessionStorage.removeItem(key); }
   };
 }
 if (typeof module !== 'undefined') module.exports = {createSSO, createPKCEStorage};

@@ -19,10 +19,13 @@ window.MyEODSSOUI = function({client,config,load,clear,isBusy,setBusy}) {
   toggle.type='button';toggle.id='password-login-toggle';toggle.className='password-login-toggle';
   toggle.setAttribute('aria-controls',form.id);toggle.setAttribute('aria-expanded','false');
   Object.assign(toggle.style,{display:'block',width:'100%',marginTop:'1rem',padding:'0.5rem',background:'none',border:'0',color:'inherit',textDecoration:'underline',textUnderlineOffset:'3px',cursor:'pointer',font:'inherit'});
-  form.hidden=true;
+  // The password-recovery footer belongs to the password form: fold it too.
+  const footer=form.parentElement&&typeof form.parentElement.querySelector==='function'?form.parentElement.querySelector('.login-footer'):null;
+  const fold=hide=>{form.hidden=hide;if(footer)footer.hidden=hide;};
+  fold(true);
   form.before(button,status,toggle);
   toggle.onclick=()=>{
-   const open=form.hidden;form.hidden=!open;toggle.setAttribute('aria-expanded',String(open));labels();
+   const open=form.hidden;fold(!open);toggle.setAttribute('aria-expanded',String(open));labels();
    if(open){const first=form.elements[0];if(first&&typeof first.focus==='function')first.focus();}
   };
  } else {

@@ -1,17 +1,23 @@
 'use strict';
-// Recipe-only controller. No client secret belongs in this module.
+// SSO controller for the MyEOD portal. No client secret belongs in this module.
+// Each Supabase project may only be used from its own portal origins.
 const RECIPE = 'https://hnsxwrarctqqasddtghq.supabase.co';
+const PRODUCTION = 'https://kewhxzitwdrnpsnzlihn.supabase.co';
+const ENVIRONMENTS = {
+  [RECIPE]: ['https://portal.myexpertondemand.com'],
+  [PRODUCTION]: ['https://www.myexpertondemand.com', 'https://myexpertondemand.com']
+};
 function createSSO({client, config, storage, location, history, now = Date.now}) {
   const key = 'myeod-recipe-sso-pending';
   let busy = false;
   const fail = () => new Error('SSO indisponible ou retour expiré. Recommencez la connexion.');
   function check() {
-    if (config.enabled !== true || config.supabaseUrl !== RECIPE ||
-        client.supabaseUrl.replace(/\/$/, '') !== RECIPE ||
+    const origins = Object.prototype.hasOwnProperty.call(ENVIRONMENTS, config.supabaseUrl) ? ENVIRONMENTS[config.supabaseUrl] : null;
+    if (config.enabled !== true || !origins ||
+        client.supabaseUrl.replace(/\/$/, '') !== config.supabaseUrl ||
         !Array.isArray(config.allowedOrigins) || !config.allowedOrigins.includes(location.origin) ||
-        location.protocol !== 'https:' || /(^|\.)myexpertondemand\.com$/i.test(location.hostname) &&
-        ['myexpertondemand.com','www.myexpertondemand.com'].includes(location.hostname) ||
-        !config.allowedPaths.includes(location.pathname)) throw fail();
+        !origins.includes(location.origin) || location.protocol !== 'https:' ||
+        !Array.isArray(config.allowedPaths) || !config.allowedPaths.includes(location.pathname)) throw fail();
   }
   function cleanURL() { history.replaceState(null, '', location.pathname); }
   async function start() {
@@ -23,7 +29,7 @@ function createSSO({client, config, storage, location, history, now = Date.now})
       }});
       if (error || !data?.url) throw fail();
       const url = new URL(data.url);
-      if (url.origin !== RECIPE || url.pathname !== '/auth/v1/authorize') throw fail();
+      if (url.origin !== config.supabaseUrl || url.pathname !== '/auth/v1/authorize') throw fail();
       location.assign(url.href);
     } catch (_) { storage.removeItem(key); throw fail(); }
     finally { busy = false; }
@@ -54,7 +60,7 @@ function createSSO({client, config, storage, location, history, now = Date.now})
   }
   return {start, callback};
 }
-// Keep the recipe session through a page reload, but only for this browser tab.
+// Keep the session through a page reload, but only for this browser tab.
 function createPKCEStorage(sessionStorage, storageKey) {
   const allowed = key => key === storageKey || key.startsWith(storageKey + '-');
   return {

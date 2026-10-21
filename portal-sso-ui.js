@@ -2,6 +2,8 @@
 'use strict';
 window.MyEODSSOUI = function({client,config,load,clear,isBusy,setBusy}) {
  const form=document.getElementById('login-form'), message=document.getElementById('message');
+ // SSO switched off: the login page stays exactly as before, with no SSO button.
+ if(config.enabled!==true){window.MyEODSSOAfterSignOut=()=>false;return;}
  const button=document.createElement('button'), status=document.createElement('p');
  button.type='button';button.id='sso-login';button.className='login-button';
  button.style.width='100%';
@@ -10,8 +12,7 @@ window.MyEODSSOUI = function({client,config,load,clear,isBusy,setBusy}) {
  const text=(fr,eng)=>en()?eng:fr;
  let working=false;
  const enabled=config.enabled===true;
- // SSO active: SSO button first, password form folded behind a toggle.
- // SSO inactive: unchanged password form, disabled SSO button below it.
+ // SSO button first, password form and recovery link folded behind a toggle.
  let toggle=null;
  if(enabled){
   if(!form.id)form.id='login-form';
@@ -28,9 +29,6 @@ window.MyEODSSOUI = function({client,config,load,clear,isBusy,setBusy}) {
    const open=form.hidden;fold(!open);toggle.setAttribute('aria-expanded',String(open));labels();
    if(open){const first=form.elements[0];if(first&&typeof first.focus==='function')first.focus();}
   };
- } else {
-  button.style.marginTop='0.5rem';
-  form.after(button,status);
  }
  function labels(){
   button.textContent=text('Se connecter avec MyEOD SSO','Sign in with MyEOD SSO');

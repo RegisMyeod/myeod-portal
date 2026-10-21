@@ -64,6 +64,17 @@ window.MyEODSSOUI = function({client,config,load,clear,isBusy,setBusy}) {
  labels();
  // Immediately prevent local submission until the callback has been handled.
  lock(true);
- controller.callback().then(async connected=>{if(connected)await load();}).catch(report).finally(()=>lock(false));
+ // Global logout: a session opened through SSO also closes the Authentik session on sign-out.
+ const SSO_FLAG='myeod-sso-session';
+ const endSession=typeof config.endSessionUrl==='string'&&/^https:\/\/auth\.myexpertondemand\.com\/application\/o\/[a-z0-9-]+\/end-session\/$/.test(config.endSessionUrl)?config.endSessionUrl:null;
+ function markSSO(on){try{if(on)storage().setItem(SSO_FLAG,'1');else storage().removeItem(SSO_FLAG);}catch(_){}}
+ form.addEventListener('submit',()=>markSSO(false));
+ window.MyEODSSOAfterSignOut=function(){
+  let sso=false;try{sso=storage().getItem(SSO_FLAG)==='1';}catch(_){}
+  markSSO(false);
+  if(!sso||!endSession)return false;
+  window.location.assign(endSession);return true;
+ };
+ controller.callback().then(async connected=>{if(connected){await load();markSSO(true);}}).catch(e=>{markSSO(false);return report(e);}).finally(()=>lock(false));
 };
 })();

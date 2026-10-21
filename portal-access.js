@@ -199,7 +199,7 @@ $('cancel-password').onclick=async()=>{if(busy)return;clear();const r=await sb.a
 $('change-password').onclick=async()=>{if(busy)return;busy=true;try{await identity();showPassword(false);}catch(e){if(e.code==='PASSWORD_REQUIRED')showPassword();else showError(e);}finally{busy=false;}};
 $('back-password').onclick=async()=>{if(busy)return;busy=true;try{$('password-form').reset();await load();}catch(e){if(e.code==='PASSWORD_REQUIRED')showPassword();else showError(e);}finally{busy=false;}};
 $('refresh').onclick=async()=>{if(busy)return;const b=$('refresh');b.disabled=true;try{await load();}catch(e){showError(e);}finally{b.disabled=false;}};
-$('logout').onclick=async()=>{if(busy)return;const b=$('logout');b.disabled=true;try{const r=await sb.auth.signOut();if(r.error)throw r.error;clear();$('email').value='';$('password').value='';$('message').textContent='';note(t('Déconnexion confirmée.','Signed out.'));}catch(e){showError(e);}finally{b.disabled=false;}};
+$('logout').onclick=async()=>{if(busy)return;const b=$('logout');b.disabled=true;try{const r=await sb.auth.signOut();if(r.error)throw r.error;clear();$('email').value='';$('password').value='';$('message').textContent='';note(t('Déconnexion confirmée.','Signed out.'));if(window.MyEODSSOAfterSignOut&&window.MyEODSSOAfterSignOut())return;}catch(e){showError(e);}finally{b.disabled=false;}};
 
 // Translate this document without navigating or transferring Auth tokens.
 if(window.MyEODPortalLanguage&&$('lang-btn')){

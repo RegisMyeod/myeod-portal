@@ -88,7 +88,7 @@ async function load(){
  if(scoped&&window.MyEODProjectMembers){await window.MyEODProjectMembers.load(sb,{projects,view:accessView,note,error:showError,lock:value=>{busy=value;lockActions(value);}});if(rev!==revision)return;}
  configureUpload(projects);renderCleanup();
  if($('admin-overview'))$('admin-overview').hidden=scoped?!(accessView?.globalAccounts||accessView?.manageProjects):expected!=='fondateur';
- sessionLabel(user);$('refresh').disabled=false;$('change-password').disabled=false;
+ sessionLabel(user);$('refresh').disabled=false;$('change-password').disabled=false;$('change-password').hidden=currentUser?.app_metadata?.myeod_sso_only===true;
  $('projects').textContent=t('Projets accessibles : ','Accessible projects: ')+(projects.map(p=>p.name).join(', ')||t('Aucun projet attribué.','No assigned project.'));
  const table=renderDocuments(projects,docs,user);
  $('password-area').hidden=true;$('documents').replaceChildren(table);$('workspace').hidden=false;$('login-area').hidden=true;$('message').textContent='';note(t('Lecture : ','Read: ')+projects.length+t(' projet(s), ',' project(s), ')+docs.length+t(' document(s).',' document(s).'));

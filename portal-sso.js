@@ -38,6 +38,11 @@ function createSSO({client, config, storage, location, history, now = Date.now})
     const params = new URLSearchParams(location.search);
     const implicit = /access_token=|refresh_token=/.test(location.hash);
     if (!params.has('code') && !params.has('error') && !implicit) return false;
+    // Supabase reports a refused account creation (e.g. email already used by another
+    // MyEOD account) as a database error; keep only that fact, never the raw text.
+    const hash = new URLSearchParams(String(location.hash || '').replace(/^#/, ''));
+    const description = params.get('error_description') || hash.get('error_description') || '';
+    const accountConflict = params.has('error') && /database error saving new user/i.test(description);
     cleanURL();
     if (busy) throw fail(); busy = true;
     try {
@@ -45,16 +50,18 @@ function createSSO({client, config, storage, location, history, now = Date.now})
       const raw = storage.getItem(key); storage.removeItem(key);
       const pending = raw && JSON.parse(raw);
       if (!pending || pending.path !== location.pathname || now() - pending.at > 600000 || now() < pending.at ||
-          !Number.isFinite(pending.at) || params.has('error') || params.getAll('code').length !== 1 || !params.get('code') ||
-          implicit) throw fail();
+          !Number.isFinite(pending.at)) throw fail();
+      if (accountConflict) { const e = fail(); e.code = 'SSO_ACCOUNT_CONFLICT'; throw e; }
+      if (params.has('error') || params.getAll('code').length !== 1 || !params.get('code') || implicit) throw fail();
       const result = await client.auth.exchangeCodeForSession(params.get('code'));
       if (result.error || !result.data?.session) throw fail();
       const verified = await client.auth.getUser();
       if (verified.error || !verified.data?.user?.id) throw fail();
       return true; // Caller must run existing load()/SQL authorization, not grant access here.
-    } catch (_) {
+    } catch (e) {
       storage.removeItem(key);
       try { await client.auth.signOut({scope:'local'}); } catch (_) {}
+      if (e && e.code === 'SSO_ACCOUNT_CONFLICT') throw e;
       throw fail();
     } finally { busy = false; }
   }

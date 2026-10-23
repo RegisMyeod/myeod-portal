@@ -55,6 +55,8 @@ window.MyEODSSOUI = function({client,config,load,clear,isBusy,setBusy}) {
   clear();try{await client.auth.signOut({scope:'local'});}catch(_){}
   message.textContent=error?.code==='PASSWORD_REQUIRED'
    ?text('Ce compte nécessite une intervention avant sa connexion SSO. Contactez votre administrateur.','This account needs attention before SSO sign-in. Contact your administrator.')
+   :error?.code==='SSO_ACCOUNT_CONFLICT'
+   ?text('Votre identité MyEOD SSO ne peut pas être associée à un compte du portail : adresse e-mail non vérifiée ou déjà utilisée. Contactez votre administrateur.','Your MyEOD SSO identity cannot be linked to a portal account: email address not verified or already in use. Contact your administrator.')
    :text('Connexion SSO indisponible ou expirée. Réessayez ou utilisez votre connexion habituelle.','SSO unavailable or expired. Try again or use your existing sign-in.');
   message.setAttribute('role','alert');
  }

@@ -37,6 +37,7 @@ function sessionLabel(user){
  $('identity').textContent=user?(profileName.trim()||t('Nom non renseigné','Name not provided')):'';
  if($('connected-position')){$('connected-position').textContent=user?accessView?.position||'':'';$('connected-position').hidden=!user||!accessView?.position;}
  if($('context-notice')){$('context-notice').textContent=user?accessView?.notice||'':'';$('context-notice').hidden=!user||!accessView?.notice;}
+ window.MyEODTools?.render(user?expected:null,en,accessView?.project_id);
  renderContextControls();
 
 }

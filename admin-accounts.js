@@ -101,7 +101,7 @@ async function createAccount(e){
  finally{body.password='';operationBusy=false;opts.lock?.(false);for(const el of $('create-account-form').querySelectorAll('input,select,button'))el.disabled=!ready;for(const el of $('account-form').querySelectorAll('input,select,button'))el.disabled=!ready||(selected===actorId&&data?.profiles.find(p=>p.id===selected)?.role==='fondateur');$('account-select').disabled=false;$('account-refresh').disabled=false;$('create-account-save').disabled=!ready;syncSso();}
 }
 $('create-account-form').addEventListener('submit',createAccount);
-function syncSso(){const box=$('create-sso-only'),pw=$('create-password');if(!box||!pw)return;pw.required=!box.checked;if(box.checked){pw.value='';pw.disabled=true;}else pw.disabled=!ready||operationBusy;}
+function syncSso(){const box=$('create-sso-only'),pw=$('create-password');if(!box||!pw)return;pw.required=!box.checked;if(box.checked){pw.value='';pw.disabled=true;}else pw.disabled=box.disabled||operationBusy;}
 $('create-sso-only')?.addEventListener('change',syncSso);$('create-account-form').addEventListener('reset',()=>setTimeout(syncSso));
 
 $('account-select').onchange=choose;$('account-form').addEventListener('submit',save);

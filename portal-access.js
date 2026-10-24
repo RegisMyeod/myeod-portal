@@ -4,7 +4,7 @@
 let en=document.documentElement.lang==='en';
 const entryRole=document.body.dataset.accessRole;let expected=entryRole;let profileName='';
 const t=(fr,eng)=>en?eng:fr,$=id=>document.getElementById(id);
-const sb=window.supabase.createClient('https://kewhxzitwdrnpsnzlihn.supabase.co','sb_publishable_owbl6MuPlOfMYAOPMxQ8Hg_deQuxLWi',{auth:{persistSession:false,storageKey:'myeod-integrated-access'},global:{fetch:window.MyEODPrivateFetch}});
+const sb=window.supabase.createClient('https://kewhxzitwdrnpsnzlihn.supabase.co','sb_publishable_owbl6MuPlOfMYAOPMxQ8Hg_deQuxLWi',{auth:(window.MyEODSSOConfig&&window.MyEODSSOConfig.enabled===true)?{persistSession:true,flowType:'pkce',detectSessionInUrl:false,storageKey:'myeod-integrated-access',storage:window.MyEODSSO.createPKCEStorage({getItem:k=>sessionStorage.getItem(k),setItem:(k,v)=>sessionStorage.setItem(k,v),removeItem:k=>{try{sessionStorage.removeItem(k);}catch(_){}}},'myeod-integrated-access')}:{persistSession:false,storageKey:'myeod-integrated-access'},global:{fetch:window.MyEODPrivateFetch}});
 let busy=false,revision=0,currentUser=null,cachedView=null;
 const scoped=window.MyEODAccessPolicyMode==='scoped-v48';let accessContext=null,accessView=null,returnChoice=null,actualProfileRole=null;
 const canManageDocuments=()=>scoped?accessView?.manageDocuments===true:expected==='fondateur';
@@ -37,6 +37,7 @@ function sessionLabel(user){
  $('identity').textContent=user?(profileName.trim()||t('Nom non renseigné','Name not provided')):'';
  if($('connected-position')){$('connected-position').textContent=user?accessView?.position||'':'';$('connected-position').hidden=!user||!accessView?.position;}
  if($('context-notice')){$('context-notice').textContent=user?accessView?.notice||'':'';$('context-notice').hidden=!user||!accessView?.notice;}
+ window.MyEODTools?.render(user?expected:null,en,accessView?.project_id);
  renderContextControls();
 
 }
@@ -87,7 +88,7 @@ async function load(){
  if(scoped&&window.MyEODProjectMembers){await window.MyEODProjectMembers.load(sb,{projects,view:accessView,note,error:showError,lock:value=>{busy=value;lockActions(value);}});if(rev!==revision)return;}
  configureUpload(projects);renderCleanup();
  if($('admin-overview'))$('admin-overview').hidden=scoped?!(accessView?.globalAccounts||accessView?.manageProjects):expected!=='fondateur';
- sessionLabel(user);$('refresh').disabled=false;$('change-password').disabled=false;
+ sessionLabel(user);$('refresh').disabled=false;$('change-password').disabled=false;$('change-password').hidden=currentUser?.app_metadata?.myeod_sso_only===true;
  $('projects').textContent=t('Projets accessibles : ','Accessible projects: ')+(projects.map(p=>p.name).join(', ')||t('Aucun projet attribué.','No assigned project.'));
  const table=renderDocuments(projects,docs,user);
  $('password-area').hidden=true;$('documents').replaceChildren(table);$('workspace').hidden=false;$('login-area').hidden=true;$('message').textContent='';note(t('Lecture : ','Read: ')+projects.length+t(' projet(s), ',' project(s), ')+docs.length+t(' document(s).',' document(s).'));
@@ -199,7 +200,7 @@ $('cancel-password').onclick=async()=>{if(busy)return;clear();const r=await sb.a
 $('change-password').onclick=async()=>{if(busy)return;busy=true;try{await identity();showPassword(false);}catch(e){if(e.code==='PASSWORD_REQUIRED')showPassword();else showError(e);}finally{busy=false;}};
 $('back-password').onclick=async()=>{if(busy)return;busy=true;try{$('password-form').reset();await load();}catch(e){if(e.code==='PASSWORD_REQUIRED')showPassword();else showError(e);}finally{busy=false;}};
 $('refresh').onclick=async()=>{if(busy)return;const b=$('refresh');b.disabled=true;try{await load();}catch(e){showError(e);}finally{b.disabled=false;}};
-$('logout').onclick=async()=>{if(busy)return;const b=$('logout');b.disabled=true;try{const r=await sb.auth.signOut();if(r.error)throw r.error;clear();$('email').value='';$('password').value='';$('message').textContent='';note(t('Déconnexion confirmée.','Signed out.'));}catch(e){showError(e);}finally{b.disabled=false;}};
+$('logout').onclick=async()=>{if(busy)return;const b=$('logout');b.disabled=true;try{const r=await sb.auth.signOut();if(r.error)throw r.error;clear();$('email').value='';$('password').value='';$('message').textContent='';note(t('Déconnexion confirmée.','Signed out.'));if(window.MyEODSSOAfterSignOut&&window.MyEODSSOAfterSignOut())return;}catch(e){showError(e);}finally{b.disabled=false;}};
 
 // Translate this document without navigating or transferring Auth tokens.
 if(window.MyEODPortalLanguage&&$('lang-btn')){
@@ -220,4 +221,5 @@ const headerBack=document.querySelector('.btn-nav-back');
 if(headerBack)headerBack.onclick=()=>{if(busy)return;if(window.MyEODInternalPages?.route()){window.MyEODInternalPages.home();return;}window.location.href=en?'index-en.html':'index.html';};
 sessionLabel(null);
 sb.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT')clear();});
+window.MyEODSSOUI({client:sb,config:window.MyEODSSOConfig,load,clear,isBusy:()=>busy,setBusy:value=>{busy=value;}});
 })();

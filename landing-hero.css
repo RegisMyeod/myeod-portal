@@ -22,3 +22,22 @@
 @media(max-width:1023px){
  .landing-hero-content{padding:0 20px 0 calc(var(--shell-gutter,20px) + var(--shell-logo,90px) * 19.14 / 105.35)}
 }
+
+/* Titre d'accueil calé sur la photo (2026-11-26, demande Régis) :
+   « tools and support » centré à la hauteur de la poupe du navire (extrémité gauche),
+   « for smarter projects. » en dessous. Poupe = y 1080 px sur 1350 dans alize-hero.jpg ;
+   avec background-size:cover et position 60 %, elle est à max(80vh, 60vh + 11.25vw).
+   Le décalage de 1,44 × taille = 1,5 ligne du titre (interligne 0,96) centre la 2e ligne sur ce point.
+   La poupe est à x = min(50vw - 11.33vh, 43.6vw) : sur les écrans moins larges que 16:9,
+   le titre est réduit (64 px max) pour rester à ~30 px à gauche du navire. */
+@media(min-width:1024px){
+ .landing-page .landing-hero{align-items:flex-start;--hero-title:min(64px, 5.49vw - 1.244vh - 13px, 4.79vw - 13px)}
+ .landing-page .landing-hero h1{font-size:var(--hero-title)!important}
+ .landing-hero-content{padding-top:calc(max(80vh, 60vh + 11.25vw) - 1.44 * var(--hero-title))}
+}
+/* Mobile/tablette : le navire passe derrière le titre, on le place dans la bande noire
+   entre les bateaux et le navire. */
+@media(max-width:1023px){
+ .landing-page .landing-hero{align-items:flex-start}
+ .landing-hero-content{padding-top:53svh}
+}

@@ -203,12 +203,12 @@ $('refresh').onclick=async()=>{if(busy)return;const b=$('refresh');b.disabled=tr
 $('logout').onclick=async()=>{if(busy)return;const b=$('logout');b.disabled=true;try{const r=await sb.auth.signOut();if(r.error)throw r.error;clear();$('email').value='';$('password').value='';$('message').textContent='';note(t('Déconnexion confirmée.','Signed out.'));if(window.MyEODSSOAfterSignOut&&window.MyEODSSOAfterSignOut())return;}catch(e){showError(e);}finally{b.disabled=false;}};
 
 // Translate this document without navigating or transferring Auth tokens.
-if(window.MyEODPortalLanguage&&$('lang-btn')){
- $('lang-btn').onclick=()=>{
+if(window.MyEODPortalLanguage){
+ window.myeodSwitchLanguage=()=>{
   if(busy)return;
   en=!en;window.MyEODPortalLanguage.apply(entryRole,en);window.MyEODAdminProjects?.setLanguage?.(en);window.MyEODAdminAccounts?.setLanguage?.(en);
   document.documentElement.lang=en?'en':'fr';window.MyEODProjectMembers?.setLanguage();if(scoped)accessView=accessContext?.view()||null;if(!scoped||['administration','collaborator'].includes(accessView?.mode))window.MyEODInternalPages?.setLanguage();sessionLabel(!$('login-area').hidden?null:currentUser);
-  $('lang-current').textContent=en?'EN':'FR';$('lang-other').textContent=en?'FR':'EN';
+  
   $('message').textContent=window.MyEODPortalLanguage.message($('message').textContent,en);
   if(cachedView&&!$('workspace').hidden){
    const {projects,docs,user}=cachedView;

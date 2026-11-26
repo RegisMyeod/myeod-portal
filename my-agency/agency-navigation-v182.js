@@ -33,7 +33,7 @@
     headers.forEach(header => {
       closeMenu(header);
       header.querySelector('.site-burger').setAttribute('aria-label', en ? 'Open menu' : 'Ouvrir le menu');
-      header.querySelector('.site-nav').setAttribute('aria-label', header.classList.contains('site-header-agency') ? (en ? 'My Agency chapters' : 'Chapitres My Agency') : (en ? 'Main navigation' : 'Navigation principale'));
+      header.querySelector('.site-nav').setAttribute('aria-label', header.classList.contains('site-header-agency') ? (en ? 'My agency chapters' : 'Chapitres My agency') : (en ? 'Main navigation' : 'Navigation principale'));
       header.querySelectorAll('.site-nav-link').forEach(link => {
         const url = new URL(link.href, location.href);
         if (!url.hash && url.pathname.replace(/\/$/, '/index.html') === location.pathname.replace(/\/$/, '/index.html')) link.setAttribute('aria-current', 'page');

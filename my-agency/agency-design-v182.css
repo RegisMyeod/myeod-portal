@@ -154,10 +154,10 @@ html { text-size-adjust: 100%; }
 /* Agency-specific hierarchy and interactions. */
 .agency-hero-copy{position:relative;padding:0 clamp(20px,5vw,72px) clamp(40px,7vh,88px);max-width:1100px}
 .agency-hero-eyebrow{font:500 14px/1.5 MazzardH,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#fff}
-.agency-page .agency-hero-title{margin:26px 0 0;font:600 clamp(30px,3.8vw,54px)/1.15 MazzardH,sans-serif;color:#fff;max-width:820px}
+.agency-page .agency-hero-title{margin:26px 0 0;font:700 clamp(30px,3.8vw,54px)/1.15 MazzardH,sans-serif;color:#fff;max-width:820px}
 .agency-page .agency-hero-sub{margin:16px 0 0;max-width:640px;font:300 16px/1.5 MazzardH,sans-serif;color:#ffffffd9;-webkit-font-smoothing:antialiased}
 .agency-hero-next{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;margin-top:32px;color:white}
-.agency-page section[id] h2{font:600 clamp(1.85rem,3.5vw,3.35rem)/1.02 MazzardH,sans-serif!important;font-synthesis:none;letter-spacing:0!important;text-align:left;max-width:820px;margin-top:0!important}
+.agency-page section[id] h2{font:700 clamp(1.85rem,3.5vw,3.35rem)/1.02 MazzardH,sans-serif!important;font-synthesis:none;letter-spacing:0!important;text-align:left;max-width:820px;margin-top:0!important}
 .agency-page .agency-eyebrow{margin-bottom:1.1rem;text-align:left}
 .agency-page a:hover,.agency-page a:focus-visible{text-decoration:none!important}
 .agency-page .site-header .site-nav a::after,.agency-page .site-header .site-nav a span::after{content:none!important;display:none!important}

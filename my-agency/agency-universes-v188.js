@@ -64,7 +64,7 @@
       while (width < box.clientWidth * 2 && track.children.length < 32) {
         const [file, originalWidth] = next();
         const img = new Image();
-        // My Agency hides section images without .ld; these local images have their own loader.
+        // My agency hides section images without .ld; these local images have their own loader.
         img.className = 'ld';
         img.alt = ''; img.decoding = 'async'; img.draggable = false;
         img.width = originalWidth; img.height = 560; img.dataset.width = originalWidth;
@@ -92,7 +92,7 @@
       // Display the default sequence even when paused or waiting for intersection.
       fill();
       empty.hidden=universe.images.length>0;button.disabled=!universe.images.length;
-      const label=select.selectedOptions[0]?.textContent||select.value;box.setAttribute('aria-label',label+' — My Agency');box.dataset.universe=select.value;track.dataset.universe=select.value;
+      const label=select.selectedOptions[0]?.textContent||select.value;box.setAttribute('aria-label',label+' — My agency');box.dataset.universe=select.value;track.dataset.universe=select.value;
       empty.textContent=section.dataset.universeLang==='en'?'The '+label+' gallery is being prepared.':'Le bandeau '+label+' est en préparation.';
       button.textContent = paused ? button.dataset.resume : button.dataset.pause;
       if (canPlay()) { fill(); if (!raf) raf = requestAnimationFrame(frame); }

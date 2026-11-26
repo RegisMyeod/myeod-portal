@@ -7,13 +7,13 @@
 .public-menu-panel{position:absolute;right:0;top:calc(100% + 10px);width:300px;max-width:calc(100vw - 32px);background:#fff;border:1px solid #ddd;box-shadow:0 12px 36px #00000014;padding:12px;z-index:200}
 .public-menu-panel a{display:block;padding:12px 14px;font-size:15px;text-transform:none;letter-spacing:0;border-radius:2px;color:#171717;text-decoration:none}.public-menu-panel a:hover{background:#f2f2ee}.public-menu-panel hr{border:0;border-top:1px solid #ddd;margin:8px 0}
 .public-menu summary:focus-visible,.public-menu-panel a:focus-visible{outline:2px solid #967024;outline-offset:3px}.myeod-header-content-label{font-size:14px!important}.myeod-header-content{flex:1}.public-navigation .lang-switch{font-size:12px!important;letter-spacing:.05em!important;padding:10px!important}
-.home-v100{max-width:1200px;margin:auto;padding:clamp(40px,7vw,100px) 24px}.home-intro{max-width:820px;margin-bottom:72px}.home-kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#80652b;margin-bottom:20px}.home-v100 h1{font-size:clamp(36px,5.3vw,68px);line-height:1.08;font-weight:500;letter-spacing:-.035em;margin-bottom:24px}.home-lead{font-size:20px;line-height:1.6;max-width:640px;color:#555}.home-primary{display:inline-flex;margin-top:30px;padding:14px 24px;background:#151515;color:#fff;border:1px solid #151515;font-size:15px}.home-primary:hover{background:#333}.home-primary:focus-visible{outline:3px solid #b08a2a;outline-offset:4px}.home-offers{border-top:1px solid #ddd;padding-top:32px}.home-offers h2{font-size:28px;font-weight:500;margin-bottom:24px}.home-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0 32px}.home-offer{padding:24px 0;border-bottom:1px solid #ddd;display:block}.home-offer h3{font-size:21px;font-weight:500;margin-bottom:8px}.home-offer p{color:#666;font-size:15px;max-width:460px}.home-offer span{display:block;margin-top:14px;color:#80652b}.home-offer:hover h3{text-decoration:underline}.home-offer:focus-visible{outline:2px solid #b08a2a;outline-offset:4px}.home-end{margin-top:48px;display:flex;align-items:center;justify-content:space-between;gap:24px}.home-end p{font-size:20px}
+.home-v100{max-width:1200px;margin:auto;padding:clamp(40px,7vw,100px) 24px}.home-intro{max-width:820px;margin-bottom:72px}.home-kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#80652b;margin-bottom:20px}.home-v100 h1{font-size:clamp(36px,5.3vw,68px);line-height:1.08;font-weight:500;letter-spacing:-.035em;margin-bottom:24px}.home-lead{font-size:20px;line-height:1.6;max-width:640px;color:#555}.home-primary{display:inline-flex;margin-top:30px;padding:14px 24px;background:#151515;color:#fff;border:1px solid #151515;font-size:15px}.home-primary:hover{background:#333}.home-primary:focus-visible{outline:3px solid #b08a2a;outline-offset:4px}.home-offers{border-top:1px solid #ddd;padding-top:32px}.home-offers h2{font-size:28px;font-weight:500;margin-bottom:24px}.home-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0 32px}.home-offer{padding:24px 0;border-bottom:1px solid #ddd;display:block}.home-offer h3{font-size:21px;font-weight:500;margin-bottom:8px}.home-offer p{color:#666;font-size:15px;max-width:460px}.home-offer span{display:block;margin-top:14px;color:#80652b}.home-offer:hover h3{text-decoration:none}.home-offer:focus-visible{outline:2px solid #b08a2a;outline-offset:4px}.home-end{margin-top:48px;display:flex;align-items:center;justify-content:space-between;gap:24px}.home-end p{font-size:20px}
 @media(max-width:600px){.myeod-header-logo{height:48px!important}.myeod-header{min-height:72px;gap:8px!important}.public-navigation{gap:8px}.public-menu summary{padding:10px 12px;gap:12px}.home-grid{grid-template-columns:1fr}.home-intro{margin-bottom:40px}.home-end{align-items:start;flex-direction:column}.myeod-header-content{display:none}}
 @media(max-width:600px){.public-menu-panel{position:fixed;left:16px;right:16px;top:76px;width:auto;max-width:none}}
 
 .public-menu summary:after{display:none!important}.public-menu summary{padding:10px;border:0}.public-menu-panel{width:350px;max-height:calc(100dvh - 110px);overflow:auto}.public-menu-panel a{padding:10px 14px}.public-menu-panel small{display:none;font-size:12px;line-height:1.45;color:#666;letter-spacing:0;margin-top:4px}.public-menu-panel a:hover small,.public-menu-panel a:focus-visible small{display:block}@media(hover:none){.public-menu-panel small{display:block}}
 
-/* V103 : FR / EN explicites comme My Agency. */
+/* V103 : FR / EN explicites comme My agency. */
 .public-language{display:flex;align-items:center;gap:6px;flex:none;font-family:MazzardH,sans-serif;font-size:12px;font-weight:700;letter-spacing:.18em}
 .public-language .lg{background:none;border:0;padding:10px 4px;font:inherit;letter-spacing:inherit;cursor:pointer;color:#8f8a80;text-decoration:none;min-height:44px}
 .public-language .lg[aria-pressed="true"]{color:#111;text-decoration:underline;text-underline-offset:6px}
@@ -23,18 +23,18 @@
 @media(max-width:600px){.public-menu-panel{position:fixed;left:16px;right:16px;top:var(--public-header-bottom,100px);width:auto;max-height:calc(100dvh - var(--public-header-bottom,100px) - 16px)}}
 
 /* V104 : même style de fonte que .acronym-line, référence Survey/GIS/DCC. */
-.myeod-header .myeod-header-content-label{font-family:MazzardH,sans-serif!important;font-weight:800!important;font-size:1.34rem!important;line-height:1.25!important;letter-spacing:-.02em!important}
+.myeod-header .myeod-header-content-label{font-family:MazzardH,sans-serif!important;font-weight:700!important;font-size:1.34rem!important;line-height:1.25!important;letter-spacing:-.02em!important}
 /* Titre Home : même typographie que le h2 de positionnement EX+. */
-.home-v100 .home-intro h1{font-family:MazzardH,sans-serif!important;font-weight:800!important;font-size:clamp(1.85rem,3.5vw,3.35rem)!important;line-height:1.02!important;letter-spacing:0!important;max-width:820px;margin-bottom:1.25rem}
+.home-v100 .home-intro h1{font-family:MazzardH,sans-serif!important;font-weight:700!important;font-size:clamp(1.85rem,3.5vw,3.35rem)!important;line-height:1.02!important;letter-spacing:0!important;max-width:820px;margin-bottom:1.25rem}
 
 /* V105 : titres introductifs alignés sur EXpert. */
-.service-intro-title{font-family:MazzardH,sans-serif!important;font-weight:800!important;font-size:clamp(1.85rem,3.5vw,3.35rem)!important;line-height:1.02!important;letter-spacing:0!important;margin:0 0 20px!important}
+.service-intro-title{font-family:MazzardH,sans-serif!important;font-weight:700!important;font-size:clamp(1.85rem,3.5vw,3.35rem)!important;line-height:1.02!important;letter-spacing:0!important;margin:0 0 20px!important}
 
 /* V108 : conclusion EXpert et contact centré. */
 .home-v100 .expert-plus-link{text-decoration:underline;text-underline-offset:3px}.home-v100 .expert-plus-link:focus-visible{outline:2px solid #967024;outline-offset:3px}.home-v100 .expert-contact{justify-content:center;align-items:center}.home-v100 .expert-contact .home-primary{margin-top:0}
 
 /* V109 : même structure et composants que EX+, BRiDGE et VI. */
-.unified-public .hero-panel{background:#f7f6f2}.unified-public .hero-panel p{line-height:1.7}.unified-public .home-offer h3{font-weight:800}.unified-public .home-offer p{font-size:1rem;line-height:1.7}.unified-public .home-offer .btn{display:inline-flex;margin-top:1rem;color:#111}.unified-public .expert-plus-link{text-decoration:underline;text-underline-offset:3px}.unified-public .expert-contact{justify-content:center;align-items:center}.unified-public .home-end p{line-height:1.7}@media(max-width:1100px){.unified-public .hero-panel{margin-left:0}}
+.unified-public .hero-panel{background:#f7f6f2}.unified-public .hero-panel p{line-height:1.7}.unified-public .home-offer h3{font-weight:700}.unified-public .home-offer p{font-size:1rem;line-height:1.7}.unified-public .home-offer .btn{display:inline-flex;margin-top:1rem;color:#111}.unified-public .expert-plus-link{text-decoration:underline;text-underline-offset:3px}.unified-public .expert-contact{justify-content:center;align-items:center}.unified-public .home-end p{line-height:1.7}@media(max-width:1100px){.unified-public .hero-panel{margin-left:0}}
 
 .unified-public .hero{
   min-height:calc(100vh - 76px);
@@ -63,7 +63,7 @@
 }
 .unified-public .acronym-title{
   font-size:.72rem;
-  font-weight:800;
+  font-weight:700;
   letter-spacing:.18em;
   text-transform:uppercase;
   color:var(--gray-500);
@@ -74,7 +74,7 @@
   line-height:1.25;
   letter-spacing:-.02em;
   color:var(--black);
-  font-weight:800;
+  font-weight:700;
 }
 .unified-public .hero-facts{
   display:grid;
@@ -98,7 +98,7 @@
 }
 .unified-public .fact-value{
   color:var(--black);
-  font-weight:800;
+  font-weight:700;
   text-align:right;
 }
 .unified-public .lead{margin-top:1.45rem;max-width:730px;font-size:1.18rem;line-height:1.75;color:var(--gray-600);}
@@ -131,7 +131,7 @@
   border-color:var(--black);
   box-shadow:none;
 }
-.unified-public .hero-panel{background:#f7f6f2}.unified-public .home-offers h2{font-weight:800;font-size:clamp(1.85rem,3.5vw,3.35rem);line-height:1.02}@media(max-width:1100px){.unified-public .hero{grid-template-columns:1fr;gap:2.5rem;align-items:start}.unified-public .hero-panel{margin-left:0;max-width:720px}}
+.unified-public .hero-panel{background:#f7f6f2}.unified-public .home-offers h2{font-weight:700;font-size:clamp(1.85rem,3.5vw,3.35rem);line-height:1.02}@media(max-width:1100px){.unified-public .hero{grid-template-columns:1fr;gap:2.5rem;align-items:start}.unified-public .hero-panel{margin-left:0;max-width:720px}}
 
 /* V110 : alternance blanc/noir/blanc EXpert et conclusion au style du titre. */
 .unified-public .expert-profiles-band .home-offers{border:0}.unified-public .expert-profiles-band .home-offer{border-color:rgba(255,255,255,.18)}.unified-public .expert-profiles-band h3{color:#fff}.unified-public .expert-profiles-band .home-offer p{color:rgba(255,255,255,.72)}.unified-public .expert-conclusion{margin-top:0}.unified-public .expert-conclusion .service-intro-title{font-size:clamp(1.85rem,3.5vw,3.35rem)!important;line-height:1.02!important;color:#0a0a0a}.unified-public .expert-conclusion a{font:inherit;color:inherit}.unified-public .expert-contact{margin-top:0}

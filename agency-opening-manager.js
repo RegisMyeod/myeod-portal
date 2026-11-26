@@ -8,7 +8,7 @@ async function mount({client,user,container}){
  let disposed=false,busy=false,photos=[],revision=0,preferences={},draft={},library='',exportId='',chosen='',preview=null,previewSerial=0,view='desktop',cards=[];
  let area=root.MyEODAgencyAreas.areas[0];
  const valid=()=>{if(disposed)throw Error('Closed');};
- const heading=el('h3',t('Gérer les illustrations My Agency','Manage My Agency illustrations'));
+ const heading=el('h3',t('Gérer les illustrations My agency','Manage My agency illustrations'));
  const intro=el('p',t('Vérifiez la composition avec le texte réel du site. Une favorite apparaît quatre fois plus souvent qu’une photo en rotation. Écarter une photo la retire uniquement de la zone sélectionnée ; elle reste dans la photothèque.','Check the composition with the actual website text. A favorite appears four times as often as a rotation image. Excluding an image only removes it from the selected area; it remains in the library.'));
  const status=el('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  const toolbar=el('div');toolbar.className='agency-opening-toolbar';
@@ -24,7 +24,7 @@ async function mount({client,user,container}){
  const screens=['desktop','mobile'].map(device=>{
   const card=el('section'),label=el('h4',device==='desktop'?t('Ordinateur','Desktop'):t('Mobile','Mobile')),viewport=el('div'),frame=el('iframe');
   card.className='agency-opening-preview';card.dataset.device=device;viewport.className='agency-opening-viewport';
-  frame.title=device==='desktop'?t('Aperçu ordinateur avec le texte My Agency','Desktop preview with My Agency text'):t('Aperçu mobile avec le texte My Agency','Mobile preview with My Agency text');
+  frame.title=device==='desktop'?t('Aperçu ordinateur avec le texte My agency','Desktop preview with My agency text'):t('Aperçu mobile avec le texte My agency','Mobile preview with My agency text');
   frame.tabIndex=-1;frame.setAttribute('aria-hidden','true');viewport.append(frame);card.append(label,viewport);stage.append(card);return {device,viewport,frame};
  });
  const searchLabel=el('label',t('Rechercher une photo','Find an image')),search=el('input');search.type='search';search.placeholder=t('Nom de la photo…','Image name…');searchLabel.append(search);

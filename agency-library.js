@@ -13,10 +13,10 @@ async function mount({client,user,container,error=()=>{}}){
  let disposed=false,busy=false,selected=[],imports=[],reviews=new Map(),managerDispose=null,showSerial=0;const urls=new Set();
  const alive=()=>{if(disposed)throw Error(t('Rubrique fermée. Le transfert incomplet pourra être repris.','Section closed. The incomplete transfer can be resumed.'));};
  const status=element('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
- const title=element('h2',t('My Agency · Photothèque privée','My Agency · Private image library'));
+ const title=element('h2',t('My agency · Photothèque privée','My agency · Private image library'));
  const intro=element('p',t('Importez les volumes ZIP créés par « Exporter la photothèque complète ». Originaux, classements et cadrages sont conservés. Seul Régis a accès à cette bibliothèque.','Import ZIP volumes created by “Export entire image library”. Originals, classifications and crops are preserved. This library is accessible only to Régis.'));
- const note=element('p',t('Après réception de tous les volumes, les photos affectées aux zones My Agency alimentent les illustrations correspondantes avec leurs cadrages optimisés. Les originaux et les notes restent privés. Les zones sans galerie importée conservent leurs illustrations actuelles.','Once every volume has been received, images assigned to My Agency areas supply their corresponding illustrations with optimized crops. Originals and notes remain private. Areas without an imported gallery retain their current illustrations.'));
- const manage=element('button',t('Gérer les illustrations My Agency','Manage My Agency illustrations'));manage.type='button';manage.setAttribute('aria-expanded','false');
+ const note=element('p',t('Après réception de tous les volumes, les photos affectées aux zones My agency alimentent les illustrations correspondantes avec leurs cadrages optimisés. Les originaux et les notes restent privés. Les zones sans galerie importée conservent leurs illustrations actuelles.','Once every volume has been received, images assigned to My agency areas supply their corresponding illustrations with optimized crops. Originals and notes remain private. Areas without an imported gallery retain their current illustrations.'));
+ const manage=element('button',t('Gérer les illustrations My agency','Manage My agency illustrations'));manage.type='button';manage.setAttribute('aria-expanded','false');
  const manager=element('section');manager.hidden=true;
  manage.onclick=async()=>{manager.hidden=!manager.hidden;manage.setAttribute('aria-expanded',String(!manager.hidden));if(manager.hidden||managerDispose)return;manage.disabled=true;try{const dispose=await root.MyEODAgencyOpeningManager.mount({client,user,container:manager});if(disposed){dispose();return;}managerDispose=dispose;}catch(e){report(e);}finally{if(!disposed)manage.disabled=false;}};
  const input=element('input');input.type='file';input.accept='.zip,application/zip';input.multiple=true;input.id='agency-transfer-files';
@@ -115,7 +115,7 @@ async function mount({client,user,container,error=()=>{}}){
     }
     await rpc('myeod_agency_finish_transfer',{target:prepared.id});
    }
-   selected=[];input.value='';summary.replaceChildren();await load();dispatchEvent(new Event('myeod-agency-library-changed'));status.textContent=t('Import terminé. Les lots sont disponibles dans votre bibliothèque privée My Agency.','Import complete. Batches are available in your private My Agency library.');
+   selected=[];input.value='';summary.replaceChildren();await load();dispatchEvent(new Event('myeod-agency-library-changed'));status.textContent=t('Import terminé. Les lots sont disponibles dans votre bibliothèque privée My agency.','Import complete. Batches are available in your private My agency library.');
   }catch(e){report(e);status.textContent+=' '+t('Le lot incomplet reste à reprendre : sélectionnez à nouveau la même archive.','You can resume the incomplete batch by selecting the same archive again.');}
   finally{if(!disposed)lock(false);}
  };

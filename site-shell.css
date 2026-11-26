@@ -40,7 +40,7 @@ html{scroll-padding-top:130px}
 .site-header a:focus-visible,.site-header button:focus-visible,.site-footer a:focus-visible{outline:2px solid currentColor;outline-offset:5px}
 .site-page-heading{display:flex;align-items:center;gap:20px;padding:12px var(--shell-gutter) 24px}
 .site-header .site-page-heading .myeod-header-content{display:block;margin:0;flex:1;min-width:0}
-.site-header .site-page-heading .myeod-header-content-label{font-family:'MazzardH',sans-serif;font-size:clamp(20px,2.5vw,30px);font-weight:800;line-height:1.2;margin:0;color:var(--shell-ink);text-align:left}
+.site-header .site-page-heading .myeod-header-content-label{font-family:'MazzardH',sans-serif;font-size:clamp(20px,2.5vw,30px);font-weight:700;line-height:1.2;margin:0;color:var(--shell-ink);text-align:left}
 .site-page-heading .btn-nav-back{margin-left:auto;position:static}
 /* Agency stays within its story: chapters, language and an explicit return link. */
 .site-header.site-header-agency.topnav{padding:0!important;height:0}
@@ -134,3 +134,11 @@ html{scroll-padding-top:130px}
  .site-footer-brand{grid-row:4}
 }
 @media(prefers-reduced-motion:reduce){.site-header *,.site-header-bar,.site-nav-link::after{transition:none!important}html{scroll-behavior:auto!important}}
+
+/* Charte 2026-11-26 (corrections Alizé) */
+/* C : sur-titre en majuscules au-dessus du titre principal (réf. My agency « 02. THE ENCOUNTER ») */
+.page-kicker,.site-header .site-page-heading .myeod-header-content-label.page-kicker{font-family:'MazzardH',sans-serif!important;font-size:14px!important;line-height:22px!important;letter-spacing:2.99px!important;font-weight:600!important;text-transform:uppercase!important;color:#000!important;margin:0 0 12px!important;text-align:left}
+/* 7 : mot anglais conservé en italique dans le texte français uniquement */
+html[lang="en"] .fr-foreign{font-style:normal}
+/* 11 : pas de soulignement du titre des cartes « Nos services » au survol */
+.home-offer h3,.home-offer:hover h3,.home-offer:focus-visible h3,.home-offer h3:hover{text-decoration:none!important}

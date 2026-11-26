@@ -42,7 +42,7 @@ async function load(client,config){
  const scopeNotice=element('p',t('Périmètre actuel : les modules Survey avancés et les fiches opérationnelles complètes restent reportés. Les fiches historiques sont consultables ; leur contenu doit être vérifié avant utilisation. Les services d’IA externe ne sont pas disponibles dans ce portail.','Current scope: advanced Survey modules and complete operational project sheets remain deferred. Historical sheets can be consulted; their content must be checked before use. External AI services are not available in this portal.'),'internal-scope-notice');scopeNotice.dataset.hubHome='';rootPanel.append(scopeNotice);
  if(await root.MyEODAgencyLibrary?.allowed(sb,user)){
   if(rev!==generation)return;
-  const agency=action('My Agency',openAgency);agency.dataset.hubRoute='agency';grid.append(agency);
+  const agency=action('My agency',openAgency);agency.dataset.hubRoute='agency';grid.append(agency);
  }
  rootPanel.append(grid);const message=element('p');message.dataset.internalMessage='';message.setAttribute('role','status');rootPanel.append(message);
  document.getElementById('workspace').prepend(rootPanel);
@@ -74,7 +74,7 @@ async function openAgency(){
  agencyPanel=element('section');rootPanel.append(agencyPanel);const panel=agencyPanel;
  const dispose=await root.MyEODAgencyLibrary.mount({client:sb,user,container:panel,error:report});
  if(rev!==generation||agencyPanel!==panel){dispose();return;}agencyDispose=dispose;
- const header=document.querySelector('.myeod-header-content-label');if(header)header.textContent='My Agency';panel.scrollIntoView({behavior:'smooth'});
+ const header=document.querySelector('.myeod-header-content-label');if(header)header.textContent='My agency';panel.scrollIntoView({behavior:'smooth'});
 }
 async function navigate(url){
  const parsed=new URL(url,location.href),name=parsed.pathname.split('/').pop().replace(/\.html$/,'');

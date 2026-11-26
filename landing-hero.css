@@ -15,3 +15,11 @@
  .landing-page .landing-hero h1{font-size:clamp(31px,8.4vw,56px)!important;line-height:1!important}
  .landing-hero-explore{left:20px;right:auto;bottom:32px;font-size:11px}
 }
+
+/* Charte 2026-11-26, n° 9 : titre centré verticalement dans le bloc d'ouverture,
+   bord gauche aligné sur le carré du logo (décalage interne du SVG = 19.14/105.35 de sa hauteur). */
+.landing-page .landing-hero{align-items:center}
+.landing-hero-content{padding:0 clamp(32px,4.45vw,64px) 0 calc(var(--shell-gutter,clamp(24px,4.45vw,64px)) + var(--shell-logo,140px) * 19.14 / 105.35)}
+@media(max-width:1023px){
+ .landing-hero-content{padding:0 20px 0 calc(var(--shell-gutter,20px) + var(--shell-logo,90px) * 19.14 / 105.35)}
+}

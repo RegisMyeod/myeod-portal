@@ -29,34 +29,8 @@
 
 
   <main>
-    <!-- === HERO === -->
-    <section class="section hero" style="min-height:auto; padding:28px 0 3rem;align-items:start">
-      <div>
-
-        <h1 class="service-intro-title">Intégrer nos outils métier</h1>
-        <p class="service-definition">Les niveaux d’intégration des modules de nos différentes boîtes à outils métier, du FEED au décommissioning.</p>
-        <p class="lead">BRiDGE structure la donnée survey/projet dès sa production terrain pour en faire un actif permanent, traçable et réutilisable pendant toute la durée de vie du projet.</p>
-        <div class="hero-actions">
-          <a class="btn" href="#core">Découvrir le socle Core</a>
-          <a class="btn secondary" href="#survey">Voir les modules Survey</a>
-        </div>
-      </div>
-      <aside aria-label="Définition BRiDGE" class="hero-panel">
-        <div class="acronym">
-          <div class="acronym-line">Built-in Remote Intelligence<br/>for Data-Governed Expertise</div>
-        </div>
-        <p>Les modules Survey capturent. Le Data Lake mémorise. Le Data Management fiabilise. Les livrables, le QC, l'as-built, le Life of Field et le Decommissioning en découlent.</p>
-        <div class="hero-facts">
-          <div class="fact"><span class="fact-label">Cœur plateforme</span><span class="fact-value">Data Lake projet</span></div>
-          <div class="fact"><span class="fact-label">Déploiement</span><span class="fact-value">&lt; 15 min</span></div>
-          <div class="fact"><span class="fact-label">Footprint</span><span class="fact-value">Lecture seule</span></div>
-          <div class="fact"><span class="fact-label">Systèmes</span><span class="fact-value">Agnostique des outils</span></div>
-        </div>
-      </aside>
-    </section>
-
-<!-- === ANIMATION BRiDGE === -->
-    <section class="section compact bridge-anim-section" aria-label="BRiDGE">
+    <!-- === ANIMATION BRiDGE === -->
+    <section class="section compact bridge-anim-section" aria-label="BRiDGE" style="padding:28px 0 1rem">
       <style>.bridge-anim{max-width:620px;margin:0 auto;color:#0a0a0a}
 .bridge-anim svg{display:block;width:100%;height:auto;color:#0a0a0a}
 .bridge-anim .bd-lab,.bridge-anim .bd-top{opacity:0}
@@ -95,6 +69,31 @@ if(!('IntersectionObserver' in window)){go();return}
 var o=new IntersectionObserver(function(e){if(e[0].isIntersecting){go();o.disconnect()}},{threshold:.6});o.observe(f)})();</script>
     </section>
 
+    <!-- === HERO === -->
+    <section class="section hero" style="min-height:auto; padding:28px 0 3rem;align-items:start">
+      <div>
+
+        <h1 class="service-intro-title">Intégrer nos outils métier</h1>
+        <p class="service-definition">Les niveaux d’intégration des modules de nos différentes boîtes à outils métier, du FEED au décommissioning.</p>
+        <p class="lead">BRiDGE structure la donnée survey/projet dès sa production terrain pour en faire un actif permanent, traçable et réutilisable pendant toute la durée de vie du projet.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#core">Découvrir le socle Core</a>
+          <a class="btn secondary" href="#survey">Voir les modules Survey</a>
+        </div>
+      </div>
+      <aside aria-label="Définition BRiDGE" class="hero-panel">
+        <div class="acronym">
+          <div class="acronym-line">Built-in Remote Intelligence<br/>for Data-Governed Expertise</div>
+        </div>
+        <p>Les modules Survey capturent. Le Data Lake mémorise. Le Data Management fiabilise. Les livrables, le QC, l'as-built, le Life of Field et le Decommissioning en découlent.</p>
+        <div class="hero-facts">
+          <div class="fact"><span class="fact-label">Cœur plateforme</span><span class="fact-value">Data Lake projet</span></div>
+          <div class="fact"><span class="fact-label">Déploiement</span><span class="fact-value">&lt; 15 min</span></div>
+          <div class="fact"><span class="fact-label">Footprint</span><span class="fact-value">Lecture seule</span></div>
+          <div class="fact"><span class="fact-label">Systèmes</span><span class="fact-value">Agnostique des outils</span></div>
+        </div>
+      </aside>
+    </section>
 
     <!-- === POSITIONNEMENT === -->
     <section class="section compact" id="positionnement">

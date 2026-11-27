@@ -30,11 +30,11 @@
 
   <main>
     <!-- === ANIMATION BRiDGE === -->
-    <div class="bridge-anim-wrap" style="overflow:hidden">
+    <div class="bridge-anim-wrap" style="position:relative;overflow:hidden">
     <section class="section compact bridge-anim-section" aria-label="BRiDGE" style="padding:28px 0 1rem">
-      <style>.bridge-anim{position:relative;max-width:620px;margin:0 auto;color:#0a0a0a}
+      <style>.bridge-anim{max-width:620px;margin:0 auto;color:#0a0a0a}
 .bridge-anim > svg:not(.bd-watermark){position:relative;z-index:1}
-.bridge-anim .bd-watermark{position:absolute;left:50%;top:50%;width:var(--bd-w,100vw);max-width:none;height:clamp(100px,17vw,340px);transform:translate(-50%,-50%);z-index:0;pointer-events:none;opacity:0;animation:bd-wm 1.5s 6s ease-out both}
+.bridge-anim .bd-watermark{position:absolute;left:0;top:50%;width:100%;max-width:none;height:clamp(100px,17vw,340px);transform:translateY(-50%);z-index:0;pointer-events:none;opacity:0;animation:bd-wm 1.5s 6s ease-out both}
 .bridge-anim svg{display:block;width:100%;height:auto;color:#0a0a0a}
 .bridge-anim .bd-lab,.bridge-anim .bd-top{opacity:0}
 .bridge-anim .bd-low{animation:bd-fadeout .9s ease-out both}
@@ -47,7 +47,7 @@
 @keyframes bd-grow{to{transform:scale(6)}}
 @keyframes bd-flip{to{transform:rotate(-90deg)}}
 @keyframes bd-slide{to{transform:translate(-50px,15.73px)}}
-@keyframes bd-wm{from{opacity:0;transform:translate(-50%,-46%)}to{opacity:1;transform:translate(-50%,-50%)}}
+@keyframes bd-wm{from{opacity:0;transform:translateY(-46%)}to{opacity:1;transform:translateY(-50%)}}
 @keyframes bd-appear{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
 .bridge-anim .bd-low,.bridge-anim .bd-ring,.bridge-anim .bd-rot,.bridge-anim .bd-shift,.bridge-anim .bd-lab,.bridge-anim .bd-top,.bridge-anim .bd-watermark{animation-play-state:paused}
 .bridge-anim.is-playing .bd-low,.bridge-anim.is-playing .bd-ring,.bridge-anim.is-playing .bd-rot,.bridge-anim.is-playing .bd-shift,.bridge-anim.is-playing .bd-lab,.bridge-anim.is-playing .bd-top,.bridge-anim.is-playing .bd-watermark{animation-play-state:running}
@@ -69,8 +69,6 @@
       </figure>
       <noscript><style>.bridge-anim .bd-low,.bridge-anim .bd-ring,.bridge-anim .bd-rot,.bridge-anim .bd-shift,.bridge-anim .bd-lab,.bridge-anim .bd-top,.bridge-anim .bd-watermark{animation-play-state:running}</style></noscript>
       <script>(function(){var f=document.querySelector('.bridge-anim');if(!f)return;
-function sz(){f.style.setProperty('--bd-w',document.documentElement.clientWidth+'px')}
-sz();window.addEventListener('resize',sz);
 function go(){f.classList.add('is-playing')}
 if(!('IntersectionObserver' in window)){go();return}
 var o=new IntersectionObserver(function(e){if(e[0].isIntersecting){go();o.disconnect()}},{threshold:.6});o.observe(f)})();</script>

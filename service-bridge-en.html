@@ -30,8 +30,11 @@
 
   <main>
     <!-- === ANIMATION BRiDGE === -->
+    <div class="bridge-anim-wrap" style="overflow:hidden">
     <section class="section compact bridge-anim-section" aria-label="BRiDGE" style="padding:28px 0 1rem">
-      <style>.bridge-anim{max-width:620px;margin:0 auto;color:#0a0a0a}
+      <style>.bridge-anim{position:relative;max-width:620px;margin:0 auto;color:#0a0a0a}
+.bridge-anim > svg:not(.bd-watermark){position:relative;z-index:1}
+.bridge-anim .bd-watermark{position:absolute;left:50%;top:50%;width:var(--bd-w,100vw);max-width:none;height:clamp(100px,17vw,340px);transform:translate(-50%,-50%);z-index:0;pointer-events:none;opacity:0;animation:bd-wm 1.5s 6s ease-out both}
 .bridge-anim svg{display:block;width:100%;height:auto;color:#0a0a0a}
 .bridge-anim .bd-lab,.bridge-anim .bd-top{opacity:0}
 .bridge-anim .bd-low{animation:bd-fadeout .9s ease-out both}
@@ -44,16 +47,18 @@
 @keyframes bd-grow{to{transform:scale(6)}}
 @keyframes bd-flip{to{transform:rotate(-90deg)}}
 @keyframes bd-slide{to{transform:translate(-50px,15.73px)}}
+@keyframes bd-wm{from{opacity:0;transform:translate(-50%,-46%)}to{opacity:1;transform:translate(-50%,-50%)}}
 @keyframes bd-appear{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
-.bridge-anim .bd-low,.bridge-anim .bd-ring,.bridge-anim .bd-rot,.bridge-anim .bd-shift,.bridge-anim .bd-lab,.bridge-anim .bd-top{animation-play-state:paused}
-.bridge-anim.is-playing .bd-low,.bridge-anim.is-playing .bd-ring,.bridge-anim.is-playing .bd-rot,.bridge-anim.is-playing .bd-shift,.bridge-anim.is-playing .bd-lab,.bridge-anim.is-playing .bd-top{animation-play-state:running}
+.bridge-anim .bd-low,.bridge-anim .bd-ring,.bridge-anim .bd-rot,.bridge-anim .bd-shift,.bridge-anim .bd-lab,.bridge-anim .bd-top,.bridge-anim .bd-watermark{animation-play-state:paused}
+.bridge-anim.is-playing .bd-low,.bridge-anim.is-playing .bd-ring,.bridge-anim.is-playing .bd-rot,.bridge-anim.is-playing .bd-shift,.bridge-anim.is-playing .bd-lab,.bridge-anim.is-playing .bd-top,.bridge-anim.is-playing .bd-watermark{animation-play-state:running}
 @media (prefers-reduced-motion:reduce){
 .bridge-anim .bd-low,.bridge-anim .bd-ring{animation:none;opacity:0}
 .bridge-anim .bd-rot{animation:none;transform:rotate(-90deg)}
 .bridge-anim .bd-shift{animation:none;transform:translate(-50px,15.73px)}
-.bridge-anim .bd-lab,.bridge-anim .bd-top{animation:none;opacity:1}
+.bridge-anim .bd-lab,.bridge-anim .bd-top,.bridge-anim .bd-watermark{animation:none;opacity:1}
 }</style>
       <figure class="bridge-anim" role="img" aria-label="The 7 life-cycle stages covered by BRiDGE, from Tendering to Decommissioning: Tendering, Engineering, Operation, Quality, Delivery, Life extension, Decommissioning." style="margin:0 auto">
+        <svg class="bd-watermark" viewBox="8 136 364 62" preserveAspectRatio="none" aria-hidden="true" focusable="false"><g fill="none" stroke="#0a0a0a" stroke-opacity=".07" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path vector-effect="non-scaling-stroke" d="M10 195Q190 85 370 195"/><path vector-effect="non-scaling-stroke" d="M55 188.4A27 27 0 0 1 100 174.7"/><path vector-effect="non-scaling-stroke" d="M100 174.7A27 27 0 0 1 145 164.4"/><path vector-effect="non-scaling-stroke" d="M145 164.4A27 27 0 0 1 190 160.9"/><path vector-effect="non-scaling-stroke" d="M190 160.9A27 27 0 0 1 235 164.4"/><path vector-effect="non-scaling-stroke" d="M235 164.4A27 27 0 0 1 280 174.7"/><path vector-effect="non-scaling-stroke" d="M280 174.7A27 27 0 0 1 325 188.4"/><line vector-effect="non-scaling-stroke" x1="55" y1="188.4" x2="55" y2="195"/><line vector-effect="non-scaling-stroke" x1="100" y1="174.7" x2="100" y2="195"/><line vector-effect="non-scaling-stroke" x1="145" y1="164.4" x2="145" y2="195"/><line vector-effect="non-scaling-stroke" x1="190" y1="160.9" x2="190" y2="195"/><line vector-effect="non-scaling-stroke" x1="235" y1="164.4" x2="235" y2="195"/><line vector-effect="non-scaling-stroke" x1="280" y1="174.7" x2="280" y2="195"/><line vector-effect="non-scaling-stroke" x1="325" y1="188.4" x2="325" y2="195"/></g></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 20 380 220" aria-hidden="true" focusable="false">
 <g transform="translate(190 130)"><circle class="bd-ring" r="70" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></g>
 <g class="bd-low"><text x="148.29" y="155.64" text-anchor="start" font-family="MazzardH, 'Helvetica Neue', Arial, sans-serif" font-size="22.1" font-weight="600" letter-spacing="0" fill="currentColor">BRiDGE</text></g>
@@ -62,12 +67,15 @@
 <g class="bd-top"><text x="136.02" y="50" text-anchor="start" font-family="MazzardH, 'Helvetica Neue', Arial, sans-serif" font-size="28.6" font-weight="600" letter-spacing="0" fill="currentColor">BRiDGE</text></g>
         </svg>
       </figure>
-      <noscript><style>.bridge-anim .bd-low,.bridge-anim .bd-ring,.bridge-anim .bd-rot,.bridge-anim .bd-shift,.bridge-anim .bd-lab,.bridge-anim .bd-top{animation-play-state:running}</style></noscript>
+      <noscript><style>.bridge-anim .bd-low,.bridge-anim .bd-ring,.bridge-anim .bd-rot,.bridge-anim .bd-shift,.bridge-anim .bd-lab,.bridge-anim .bd-top,.bridge-anim .bd-watermark{animation-play-state:running}</style></noscript>
       <script>(function(){var f=document.querySelector('.bridge-anim');if(!f)return;
+function sz(){f.style.setProperty('--bd-w',document.documentElement.clientWidth+'px')}
+sz();window.addEventListener('resize',sz);
 function go(){f.classList.add('is-playing')}
 if(!('IntersectionObserver' in window)){go();return}
 var o=new IntersectionObserver(function(e){if(e[0].isIntersecting){go();o.disconnect()}},{threshold:.6});o.observe(f)})();</script>
     </section>
+    </div>
 
     <!-- === HERO === -->
     <section class="section hero" style="min-height:auto; padding:28px 0 3rem;align-items:start">

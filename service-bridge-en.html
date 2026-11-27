@@ -55,6 +55,47 @@
       </aside>
     </section>
 
+<!-- === ANIMATION BRiDGE === -->
+    <section class="section compact bridge-anim-section" aria-label="BRiDGE">
+      <style>.bridge-anim{max-width:620px;margin:0 auto;color:#0a0a0a}
+.bridge-anim svg{display:block;width:100%;height:auto;color:#0a0a0a}
+.bridge-anim .bd-lab,.bridge-anim .bd-top{opacity:0}
+.bridge-anim .bd-low{animation:bd-fadeout .9s ease-out both}
+.bridge-anim .bd-ring{animation:bd-grow 2.1s .3s cubic-bezier(.55,0,.9,.5) both}
+.bridge-anim .bd-rot{animation:bd-flip 1.2s 2.4s cubic-bezier(.65,0,.35,1) both}
+.bridge-anim .bd-shift{animation:bd-slide 1.2s 2.4s cubic-bezier(.65,0,.35,1) both}
+.bridge-anim .bd-lab{animation:bd-appear .66s ease-out both}
+.bridge-anim .bd-top{animation:bd-appear .9s 5.1s ease-out both}
+@keyframes bd-fadeout{to{opacity:0}}
+@keyframes bd-grow{to{transform:scale(6)}}
+@keyframes bd-flip{to{transform:rotate(-90deg)}}
+@keyframes bd-slide{to{transform:translate(-50px,15.73px)}}
+@keyframes bd-appear{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+.bridge-anim .bd-low,.bridge-anim .bd-ring,.bridge-anim .bd-rot,.bridge-anim .bd-shift,.bridge-anim .bd-lab,.bridge-anim .bd-top{animation-play-state:paused}
+.bridge-anim.is-playing .bd-low,.bridge-anim.is-playing .bd-ring,.bridge-anim.is-playing .bd-rot,.bridge-anim.is-playing .bd-shift,.bridge-anim.is-playing .bd-lab,.bridge-anim.is-playing .bd-top{animation-play-state:running}
+@media (prefers-reduced-motion:reduce){
+.bridge-anim .bd-low,.bridge-anim .bd-ring{animation:none;opacity:0}
+.bridge-anim .bd-rot{animation:none;transform:rotate(-90deg)}
+.bridge-anim .bd-shift{animation:none;transform:translate(-50px,15.73px)}
+.bridge-anim .bd-lab,.bridge-anim .bd-top{animation:none;opacity:1}
+}</style>
+      <figure class="bridge-anim" role="img" aria-label="The 7 life-cycle stages covered by BRiDGE, from Tendering to Decommissioning: Tendering, Engineering, Operation, Quality, Delivery, Life extension, Decommissioning." style="margin:0 auto">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 20 380 220" aria-hidden="true" focusable="false">
+<g transform="translate(190 130)"><circle class="bd-ring" r="70" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></g>
+<g class="bd-low"><text x="148.29" y="155.64" text-anchor="start" font-family="MazzardH, 'Helvetica Neue', Arial, sans-serif" font-size="22.1" font-weight="600" letter-spacing="0" fill="currentColor">BRiDGE</text></g>
+<g class="bd-shift"><g transform="translate(190 114.27)"><g class="bd-rot"><g transform="scale(.36) translate(-190 -167.5)"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 195Q190 85 370 195"/><path d="M55 188.4A27 27 0 0 1 100 174.7"/><path d="M100 174.7A27 27 0 0 1 145 164.4"/><path d="M145 164.4A27 27 0 0 1 190 160.9"/><path d="M190 160.9A27 27 0 0 1 235 164.4"/><path d="M235 164.4A27 27 0 0 1 280 174.7"/><path d="M280 174.7A27 27 0 0 1 325 188.4"/><line x1="55" y1="188.4" x2="55" y2="195"/><line x1="100" y1="174.7" x2="100" y2="195"/><line x1="145" y1="164.4" x2="145" y2="195"/><line x1="190" y1="160.9" x2="190" y2="195"/><line x1="235" y1="164.4" x2="235" y2="195"/><line x1="280" y1="174.7" x2="280" y2="195"/><line x1="325" y1="188.4" x2="325" y2="195"/></g></g></g></g></g>
+<text class="bd-lab" x="161.9" y="81.4" dominant-baseline="central" font-family="MazzardH, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" letter-spacing="1" fill="currentColor" style="animation-delay:3.60s">Tendering</text><text class="bd-lab" x="161.9" y="97.6" dominant-baseline="central" font-family="MazzardH, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" letter-spacing="1" fill="currentColor" style="animation-delay:3.81s">Engineering</text><text class="bd-lab" x="161.9" y="113.8" dominant-baseline="central" font-family="MazzardH, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" letter-spacing="1" fill="currentColor" style="animation-delay:4.02s">Operation</text><text class="bd-lab" x="161.9" y="130.0" dominant-baseline="central" font-family="MazzardH, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" letter-spacing="1" fill="currentColor" style="animation-delay:4.23s">Quality</text><text class="bd-lab" x="161.9" y="146.2" dominant-baseline="central" font-family="MazzardH, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" letter-spacing="1" fill="currentColor" style="animation-delay:4.44s">Delivery</text><text class="bd-lab" x="161.9" y="162.4" dominant-baseline="central" font-family="MazzardH, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" letter-spacing="1" fill="currentColor" style="animation-delay:4.65s">Life extension</text><text class="bd-lab" x="161.9" y="178.6" dominant-baseline="central" font-family="MazzardH, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" letter-spacing="1" fill="currentColor" style="animation-delay:4.86s">Decommissioning</text>
+<g class="bd-top"><text x="136.02" y="50" text-anchor="start" font-family="MazzardH, 'Helvetica Neue', Arial, sans-serif" font-size="28.6" font-weight="600" letter-spacing="0" fill="currentColor">BRiDGE</text></g>
+        </svg>
+      </figure>
+      <noscript><style>.bridge-anim .bd-low,.bridge-anim .bd-ring,.bridge-anim .bd-rot,.bridge-anim .bd-shift,.bridge-anim .bd-lab,.bridge-anim .bd-top{animation-play-state:running}</style></noscript>
+      <script>(function(){var f=document.querySelector('.bridge-anim');if(!f)return;
+function go(){f.classList.add('is-playing')}
+if(!('IntersectionObserver' in window)){go();return}
+var o=new IntersectionObserver(function(e){if(e[0].isIntersecting){go();o.disconnect()}},{threshold:.6});o.observe(f)})();</script>
+    </section>
+
+
     <!-- === POSITIONNEMENT === -->
     <section class="section compact" id="positionnement">
       <div class="intro-grid">

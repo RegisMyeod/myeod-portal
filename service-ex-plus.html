@@ -25,6 +25,56 @@
 
 
   <main>
+    <!-- === ANIMATION LOGO EX+ === -->
+    <section class="section compact logo-anim-section" aria-label="EX+" style="padding:28px 0 1rem">
+      <style>.logo-anim{position:relative;max-width:620px;margin:0 auto;color:#0a0a0a}
+.logo-anim svg{display:block;width:100%;height:auto;color:#0a0a0a}
+.logo-anim .la-low,.logo-anim .la-top,.logo-anim .la-lab,.logo-anim .la-cp{opacity:0}
+.logo-anim .la-low{opacity:1;animation:la-fadeout .9s ease-out both}
+.logo-anim .la-ring{animation:la-grow 2.1s .3s cubic-bezier(.55,0,.9,.5) both}
+.logo-anim .la-rot{animation:la-flip 1.2s 2.4s cubic-bezier(.65,0,.35,1) both}
+.logo-anim .la-cp{animation:la-split .7s ease-out both}
+.logo-anim .la-lab{animation:la-appear .66s ease-out both}
+.logo-anim .la-top{animation:la-appear .9s 5.1s ease-out both}
+.logo-anim .la-wm{opacity:0;animation:la-wmin 1.5s 6s ease-out both}
+@keyframes la-fadeout{to{opacity:0}}
+@keyframes la-grow{to{transform:scale(6)}}
+@keyframes la-flip{to{transform:translate(-71px,-48px) rotate(-90deg) scale(0.55)}}
+@keyframes la-split{from{opacity:0;transform:translateY(var(--dy))}to{opacity:1;transform:none}}
+@keyframes la-appear{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+@keyframes la-wmin{to{opacity:1}}
+.logo-anim .la-low,.logo-anim .la-ring,.logo-anim .la-rot,.logo-anim .la-cp,.logo-anim .la-lab,.logo-anim .la-top,.logo-anim .la-wm{animation-play-state:paused}
+.logo-anim.is-playing .la-low,.logo-anim.is-playing .la-ring,.logo-anim.is-playing .la-rot,.logo-anim.is-playing .la-cp,.logo-anim.is-playing .la-lab,.logo-anim.is-playing .la-top,.logo-anim.is-playing .la-wm{animation-play-state:running}
+@media (prefers-reduced-motion:reduce){
+.logo-anim .la-low,.logo-anim .la-ring{animation:none;opacity:0}
+.logo-anim .la-rot{animation:none;transform:translate(-71px,-48px) rotate(-90deg) scale(0.55)}
+.logo-anim .la-cp,.logo-anim .la-lab,.logo-anim .la-top,.logo-anim .la-wm{animation:none;opacity:1;transform:none}
+}</style>
+      <figure class="logo-anim" role="img" aria-label="EX+ : les quatre étapes, Cadrage, Mobilisation, Production, Transmission." style="margin:0 auto">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 20 380 220" aria-hidden="true" focusable="false">
+<g font-family="MazzardH, 'Helvetica Neue', Arial, sans-serif" fill="currentColor">
+<g class="la-wm"><path transform="translate(115.0 57.0) scale(1.5)" d="M36 0H64V36H100V64H64V100H36V64H0V36H36Z" fill="none" stroke="currentColor" stroke-opacity=".07" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></g>
+<g transform="translate(190 130)"><circle class="la-ring" r="70" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></g>
+<g class="la-low"><text x="141.23" y="141.9" text-anchor="start" font-size="34" font-weight="700" letter-spacing="0">EX</text></g>
+<g transform="translate(215.42 130)"><g class="la-rot"><g fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round"><line x1="-19" y1="0" x2="19" y2="0"/><line x1="0" y1="-19" x2="0" y2="19"/></g></g></g>
+<g transform="translate(144.42 114)"><g class="la-cp" style="--dy:-32px;animation-delay:3.6s"><g transform="scale(0.55)"><g fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round"><line x1="-19" y1="0" x2="19" y2="0"/><line x1="0" y1="-19" x2="0" y2="19"/></g></g></g></g>
+<g transform="translate(144.42 146)"><g class="la-cp" style="--dy:-64px;animation-delay:3.8s"><g transform="scale(0.55)"><g fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round"><line x1="-19" y1="0" x2="19" y2="0"/><line x1="0" y1="-19" x2="0" y2="19"/></g></g></g></g>
+<g transform="translate(144.42 178)"><g class="la-cp" style="--dy:-96px;animation-delay:4.0s"><g transform="scale(0.55)"><g fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round"><line x1="-19" y1="0" x2="19" y2="0"/><line x1="0" y1="-19" x2="0" y2="19"/></g></g></g></g>
+<text class="la-lab" x="168.38" y="82" dominant-baseline="central" font-size="11" font-weight="400" letter-spacing="1" style="animation-delay:3.9s">Cadrage</text>
+<text class="la-lab" x="168.38" y="114" dominant-baseline="central" font-size="11" font-weight="400" letter-spacing="1" style="animation-delay:4.2s">Mobilisation</text>
+<text class="la-lab" x="168.38" y="146" dominant-baseline="central" font-size="11" font-weight="400" letter-spacing="1" style="animation-delay:4.5s">Production</text>
+<text class="la-lab" x="168.38" y="178" dominant-baseline="central" font-size="11" font-weight="400" letter-spacing="1" style="animation-delay:4.8s">Transmission</text>
+<g class="la-top"><text x="156.84" y="50" text-anchor="start" font-size="28.6" font-weight="700" letter-spacing="0">EX</text><g transform="translate(211.02 39.99)"><g fill="none" stroke="currentColor" stroke-width="4.4" stroke-linecap="round"><line x1="-8.6" y1="0" x2="8.6" y2="0"/><line x1="0" y1="-8.6" x2="0" y2="8.6"/></g></g></g>
+</g>
+        </svg>
+      </figure>
+      <noscript><style>.logo-anim .la-low,.logo-anim .la-ring,.logo-anim .la-rot,.logo-anim .la-cp,.logo-anim .la-lab,.logo-anim .la-top,.logo-anim .la-wm{animation-play-state:running}</style></noscript>
+      <script>(function(){var f=document.querySelector('.logo-anim');if(!f)return;
+function go(){f.classList.add('is-playing')}
+if(!('IntersectionObserver' in window)){go();return}
+var o=new IntersectionObserver(function(e){if(e[0].isIntersecting){go();o.disconnect()}},{threshold:.6});o.observe(f)})();</script>
+    </section>
+
     <section class="section hero" style="min-height:auto; padding:28px 0 3rem;align-items:start">
       <div>
 
